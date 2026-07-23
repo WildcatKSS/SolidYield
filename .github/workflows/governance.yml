@@ -1,0 +1,19 @@
+name: Governance
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  governance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Run governance checks
+        env:
+          BASE_REF: origin/${{ github.base_ref || 'main' }}
+        run: bash scripts/check-governance.sh

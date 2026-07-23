@@ -1,0 +1,34 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  template-check:
+    name: Template Structure Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Verify required governance files
+        run: |
+          test -f CLAUDE.md
+          test -f docs/project-status.md
+          test -f docs/scope-control.md
+          test -f docs/unit-economics.md
+          test -f docs/product/mvp-gate.md
+          test -f docs/context/current-state.md
+          test -f docs/context/next-session.md
+          test -d docs/prompts
+          test -d docs/adrs
+          echo "Required governance files exist."
+
+      - name: Stack-specific checks placeholder
+        run: |
+          echo "After stack selection, replace or extend this workflow with:"
+          echo "- dependency install"
+          echo "- lint"
+          echo "- typecheck"
+          echo "- tests"
+          echo "- build"

@@ -1,0 +1,9 @@
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+  # Add the package ecosystem (e.g. npm) after the tech-stack ADR is
+  # accepted and a manifest exists; a configured ecosystem without a
+  # manifest produces Dependabot config warnings.

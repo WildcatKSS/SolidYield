@@ -1,0 +1,20 @@
+name: Release
+
+on:
+  workflow_dispatch:
+
+jobs:
+  release-readiness:
+    name: Release Readiness Placeholder
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Verify release documentation exists
+        run: |
+          test -f docs/deployment-strategy.md
+          test -f docs/operational-runbook.md
+          test -f docs/templates/release-template.md
+          echo "Release docs exist."
+      - name: Deployment placeholder
+        run: |
+          echo "Add deployment steps after platform selection ADR is accepted."
