@@ -2,8 +2,6 @@
 
 | ADR | Decision | Status | Date |
 |---|---|---|---|
-| ADR-001 | Governance simplification and template cleanup | Accepted | 2026-07-22 |
-| ADR-002 | Security baseline and MVP Gate enforcement fix | Accepted | 2026-07-22 |
 
 ## Pending Decisions
 
