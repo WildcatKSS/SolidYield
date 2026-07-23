@@ -48,7 +48,6 @@ Review after:
 
 | Date | Trigger | Outcome |
 |---|---|---|
-| 2026-07-22 | Governance cleanup (ADR-001) removed the empty billing ADR stub | Reviewed; no unit economics impact |
 
 ## Cost Governance
 
