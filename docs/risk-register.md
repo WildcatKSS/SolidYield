@@ -9,3 +9,5 @@
 | R-005 | Security flaws | Medium | High | Security checklist + CI | Open |
 | R-006 | Weak distribution | High | High | Launch/sales validation before build | Open |
 | R-007 | Overly generic product | Medium | High | Niche selection criteria | Open |
+| R-008 | Regulatory: no lawful route to attract funds (Wft/MiFID/AIFMD) for SolidYield | High | High | Criterion A; qualified legal confirmation in Phase 2 before any build | Open |
+| R-009 | Yield (Mintos) fails to cover the guaranteed rate under stress; SolidYield absorbs the shortfall | High | High | Criterion B; stressed yield model + diversification in Phase 2 | Open |
