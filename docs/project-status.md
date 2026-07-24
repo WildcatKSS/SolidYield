@@ -1,14 +1,20 @@
-Last Updated: 2026-07-23
+Last Updated: 2026-07-24
 
 # Project Status
 
 ## Current Phase
 
-Phase 0 – Repository Governance Foundation
+Phase 0 – Repository Governance Foundation (complete, founder-approved 2026-07-24)
+
+## Approvals
+
+- Phase 0 gate approved by founder (@WildcatKSS) on 2026-07-24, after review of the
+  governance, context-memory, ADR, security, GitHub-template and workflow deliverables.
 
 ## Current Objective
 
-Prepare the product-neutral template for product selection.
+Phase 0 is approved. Phase 1 (Market Discovery) is unblocked and is the next step.
+No product code until the MVP Gate is approved.
 
 ## Completed
 
@@ -38,8 +44,8 @@ See docs/risk-register.md.
 
 ## Next Milestone
 
-Phase 1 – Market Discovery
+Phase 1 – Market Discovery (approved to start)
 
 ## Next Session Instruction
 
-Read CLAUDE.md and docs/prompts/phase-1-market-discovery.md. Do not write product code.
+Read CLAUDE.md and docs/prompts/phase-1-market-discovery.md. Start Phase 1. Do not write product code.
