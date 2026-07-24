@@ -229,17 +229,19 @@ Direct competitors, grouped under the two categories the customer weighs SolidYi
 | Other fixed-yield fintechs / crowdlending (local players) | Also promise fixed/high returns | Direct positioning competitor; some operate in legal grey areas — category-wide reputational risk |
 
 **Positioning:** the middle between saving and investing, with the core promise being
-**simplicity / less complexity** and a **rate above regular savings options**.
+**simplicity / less complexity** and a **high rate, letting the rate percentage speak for
+itself (no "highest" claim)**.
 
 **Competitive insights (assumptions):**
 
 - **Simplicity is the strongest, most defensible edge:** SolidYield removes the complexity of
   investing (e.g. Mintos) and repackages it as one simple fixed rate — a real, explainable
   advantage.
-- **The "highest rate" promise is the biggest vulnerability:** it attracts customers but
-  increases pressure on criterion B (margin/risk) and on the regulatory/consumer-protection
-  profile in criterion A. The higher the rate is set to win, the thinner the margin and the
-  more risk SolidYield guarantees.
+- **The rate promise is the biggest vulnerability:** a high rate attracts customers but
+  increases pressure on criterion B (margin/risk); the rate must stay both high and
+  deliverable. Positioning it as a high rate that lets the number speak — rather than a
+  "highest" claim — reduces the too-good-to-be-true and ad-policy/regulatory friction, but
+  does not reduce the B burden.
 - **Mintos is both source and competitor:** "simplicity" is the key counter to "why not
   invest directly?".
 
@@ -251,7 +253,8 @@ strength of simplicity plus a rate it must still be able to deliver.
 
 **Core challenge:** people do not quickly entrust *savings* to an unknown party. Here
 distribution is not mainly about reach but about **building trust** — which sits in tension
-with a "highest rate" promise (that tends to trigger suspicion rather than trust).
+with a high-rate promise (a "highest"-style claim would trigger suspicion rather than trust,
+which is why the positioning lets the number speak instead).
 
 **Chosen initial channels (founder preference):** community / word-of-mouth and
 influencers / finfluencers. Ad platforms and comparison sites are recognised as a likely
@@ -282,5 +285,42 @@ blockade (see below) and are therefore not the primary early route.
 ("highest savings rate" is actively searched), but the key paid and comparison channels are
 constrained by the product type, and the chosen trust-first channels take time to compound.
 
-<!-- Sections still to be built with founder review:
-     Willingness to pay/adopt; Scoring; Verdict. -->
+## Willingness to pay / adopt
+
+**What "paying" means here:** the customer deposits real money and locks it for 3–60 months.
+The conversion barrier is therefore **trust + parting with money**, not "checking out with a
+card".
+
+**In favour of adoption (assumptions):**
+
+- Demonstrable demand for a better-than-savings return exists — people actively search for
+  the best savings rate and switch for fractions of a percent.
+- The proposition (simplicity + a fixed, high rate) matches a real frustration.
+
+**Against adoption (assumptions):**
+
+- **Trust barrier is high and asymmetric:** for savings, "could I lose my money?" outweighs
+  "do I get a bit more interest?". One doubt = no deposit.
+- **No DGS guarantee** while the established alternatives have one — the first question a
+  cautious customer asks.
+- **"Too good to be true" effect:** a *highest*-rate claim can create distrust in exactly the
+  cautious saver being targeted. **Mitigation (founder decision): position as a *high* rate
+  and let the rate percentage speak for itself, without a "highest" claim.**
+- **Regulatory uncertainty (A)** can block adoption before it starts (no comparison sites,
+  limited ads, critical communities).
+
+**Key insight (assumption):** willingness is likely **polarised** — a small group of
+yield-seekers enters early (higher risk tolerance), while the broad, cautious target group
+only follows after proven trust (track record, possibly a guarantee/licence construction).
+So: first customers are achievable; scaling to the mass hinges on A and on earned trust.
+
+**Suggested Phase 2 tests to measure willingness without yet taking money:** a landing page
+showing the proposition and the concrete rate with a "reserve a spot / notify me" call to
+action; an intent survey in target communities; non-binding indications of the amount people
+would deposit. (No product code; validation only.)
+
+**Willingness/adoption score (assumption): Medium** — the underlying demand is real, but the
+deposit barrier, the absence of a guarantee, and the trust profile make broad adoption slow
+and dependent on trust that must still be built.
+
+<!-- Section still to be built with founder review: Scoring; Verdict. -->
