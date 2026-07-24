@@ -62,6 +62,31 @@ switch to a new platform. No evidence collected yet.
 first is not decided here; it is an explicit question to validate in Phase 2 rather than
 assume now.
 
+## Market and alternatives
+
+What SolidYield competes with, seen from the customer's point of view:
+
+| Alternative | What it offers | Weakness SolidYield targets |
+|---|---|---|
+| Savings account (major bank) | Instant access, safe (deposit guarantee up to €100k) | Low rate, often lags inflation |
+| Savings/deposits via savings platforms (e.g. Raisin) | Higher rate via foreign banks, fixed terms | Feels cumbersome/unfamiliar; fixed rate only at longer terms |
+| Term deposit at own bank | Fixed, predictable rate | Dated UX, little flexibility in terms |
+| Bonds / bond funds | Interest income, tradable | Market risk, complexity, knowledge needed |
+| Broker / investing (e.g. Trade Republic, DEGIRO) | Potentially higher return; some pay interest on cash | Market risk, choice stress, no fixed outcome |
+| P2P lending / crowdfunding (e.g. Mintos) | High rate | Higher risk, less transparent/regulated, defaults |
+| Doing nothing / current account | Full flexibility | 0% rate, loss of purchasing power |
+
+**Positioning (assumption):** SolidYield sits in the gap between "safe but low" (saving) and
+"high but risky/complex" (investing), with its promised differentiators being a fixed,
+pre-known rate + monthly payout + transparent terms + a modern digital UX, without the
+customer having to invest.
+
+**Key caveat (assumption; feeds criteria A and B):** the safe alternatives above are safe
+because they fall under deposit guarantees or strict regulation. SolidYield promises a
+*fixed* rate but carries the return risk itself — so the "safe feeling" the target group
+wants must be delivered without the guarantees banks do have. That is exactly what criteria
+A and B must examine.
+
 <!-- Sections still to be built with founder review:
-     Market & alternatives; A) Regulatory viability; B) Yield / unit-economics feasibility;
+     A) Regulatory viability; B) Yield / unit-economics feasibility;
      Competition; Distribution; Willingness to pay/adopt; Scoring; Verdict. -->
