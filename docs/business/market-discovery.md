@@ -207,5 +207,45 @@ falls on a return that reliably exceeds the promised rate *after* risk, cost and
 needs. As with A, this is not a "no" but a **"prove first"** — specifically, prove the actual
 (stressed) return, not the advertised one.
 
+## Competition
+
+Direct competitors, grouped under the two categories the customer weighs SolidYield against:
+**regular saving** and **investing**.
+
+**Regular saving (safe, guaranteed, low rate):**
+
+| Competitor | What the customer gets there | SolidYield's answer |
+|---|---|---|
+| Major-bank savings account | Safe (DGS-covered), instant access, low rate | Higher rate + simplicity — but without the state guarantee saving has |
+| Savings/deposit platforms (e.g. Raisin) | Fixed rate via regulated foreign banks, multiple terms, DGS-covered | They already hold the trust/guarantee SolidYield must still build |
+| Neobanks with interest (Trade Republic, Bunq, Revolut) | Interest on balance, modern UX, licensed, large reach | Closest to SolidYield's "modern UX + rate" promise, but licensed and branded |
+
+**Investing (higher potential return, but risk + complexity):**
+
+| Competitor | What the customer gets there | SolidYield's answer |
+|---|---|---|
+| Brokers / bond & deposit funds (e.g. DEGIRO, bond funds) | Predictable-ish income or growth, tradable | Simplicity + a fixed outcome; the customer does not invest themselves |
+| Mintos direct | Returns on P2P loans directly; now licensed (investment firm + "Notes") | The starting yield source is also a competitor; "why not go direct?" is answered by simplicity / less complexity |
+| Other fixed-yield fintechs / crowdlending (local players) | Also promise fixed/high returns | Direct positioning competitor; some operate in legal grey areas — category-wide reputational risk |
+
+**Positioning:** the middle between saving and investing, with the core promise being
+**simplicity / less complexity** and a **rate above regular savings options**.
+
+**Competitive insights (assumptions):**
+
+- **Simplicity is the strongest, most defensible edge:** SolidYield removes the complexity of
+  investing (e.g. Mintos) and repackages it as one simple fixed rate — a real, explainable
+  advantage.
+- **The "highest rate" promise is the biggest vulnerability:** it attracts customers but
+  increases pressure on criterion B (margin/risk) and on the regulatory/consumer-protection
+  profile in criterion A. The higher the rate is set to win, the thinner the margin and the
+  more risk SolidYield guarantees.
+- **Mintos is both source and competitor:** "simplicity" is the key counter to "why not
+  invest directly?".
+
+**Competitive pressure (assumption): Medium-high** — regular saving holds the guarantee
+SolidYield lacks; investing holds the return potential; SolidYield claims the middle on the
+strength of simplicity plus a rate it must still be able to deliver.
+
 <!-- Sections still to be built with founder review:
-     Competition; Distribution; Willingness to pay/adopt; Scoring; Verdict. -->
+     Distribution; Willingness to pay/adopt; Scoring; Verdict. -->
