@@ -4,7 +4,7 @@ Last Updated: 2026-07-24
 
 ## Current Phase
 
-Phase 0 – Repository Governance Foundation (complete, founder-approved 2026-07-24)
+Phase 1 – Market Discovery (in progress). Phase 0 complete and founder-approved 2026-07-24.
 
 ## Approvals
 
@@ -13,8 +13,10 @@ Phase 0 – Repository Governance Foundation (complete, founder-approved 2026-07
 
 ## Current Objective
 
-Phase 0 is approved. Phase 1 (Market Discovery) is unblocked and is the next step.
-No product code until the MVP Gate is approved.
+Run Phase 1 as a focused validation of the founder-provided product direction
+(SolidYield — platform for saving/locking funds at a fixed rate), built step by step
+with founder review. Substantive risks (regulatory viability, yield/margin feasibility)
+are assessed within Phase 1. No product code until the MVP Gate is approved.
 
 ## Completed
 
