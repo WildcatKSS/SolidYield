@@ -87,6 +87,71 @@ because they fall under deposit guarantees or strict regulation. SolidYield prom
 wants must be delivered without the guarantees banks do have. That is exactly what criteria
 A and B must examine.
 
+## A) Regulatory viability
+
+**Not legal advice.** This section names the regulatory question as a gate-determining
+unknown. Everything here is an assumption to be confirmed by a qualified financial-law
+adviser (counsel) in Phase 2.
+
+**Core question:** may this be offered in the EU/NL, and if so, under which licence or
+structure?
+
+**Why this is the determining question (assumptions, to be confirmed by counsel):**
+
+- **Attracting repayable funds from the public.** Taking money from consumers with a
+  promise to repay it (with interest) closely resembles *attracting repayable funds*
+  (opvorderbare gelden), which in NL is in principle prohibited without a banking licence
+  (Wft), supervised by DNB. This is historically the primary red flag for regulators.
+- **Dropping the separated structure increases this.** In the original plan the separation
+  (e-money institution + a separate investment entity) served precisely to operate
+  *without* a licence. With it removed, the activity is more likely to fall fully within
+  licensed territory.
+- **Promising interest while generating the return yourself.** Depending on how the return
+  is generated, this can touch investment services (MiFID), management of an investment
+  fund (AIFMD), or an offer of securities with a prospectus obligation.
+- **Structural risk (feeds criterion B).** If monthly interest payouts and principal
+  returns were to come (partly) from new deposits rather than from a genuinely earned
+  return, the structure becomes the kind regulators scrutinise most heavily. Viability
+  hangs entirely on a real, safe return — that is criterion B.
+
+**Two €100,000 thresholds — do not conflate them:**
+
+- **Deposit guarantee (DGS): €100k.** A *protection* amount (per person, per licensed
+  bank). It does not change whether a licence is required; the prohibition on attracting
+  repayable funds applies regardless of amount.
+- **Exemption threshold: €100k.** Attracting repayable funds (and offering without a
+  prospectus) is often exempt when aimed solely at professional/qualified parties, or in
+  denominations/amounts of at least €100,000 per participant. Above that per-participant
+  threshold the retail-protection rationale falls away and a lighter regime may apply.
+
+**Two scenarios to validate legally in Phase 2:**
+
+- **Scenario Retail** — open to everyone, low minimum deposit. Serves the target groups
+  defined above (savers, families, zzp'ers). Carries the **heaviest** licensing question;
+  likely requires a licence or operating under an existing licence holder.
+- **Scenario ≥ €100k / professional** — minimum deposit of €100,000 per participant, or
+  restricted to professional/qualified parties. May fall under a **lighter** regime, but
+  narrows the audience to high-net-worth individuals / professional parties and largely
+  excludes the current retail target group. **Kept open as a serious strategic option**,
+  not merely a legal check.
+
+  The two scenarios are a genuine strategic fork: the €100k route may be *legally* easier
+  but is *commercially* narrower (away from mass retail). This is a trade-off, not a free
+  fix. Exact conditions (per-participant vs aggregate, interaction with MiFID/AIFMD/e-money,
+  ongoing conduct rules) determine whether it actually helps — counsel must confirm.
+
+**Possible compliant directions to research in Phase 2 (assumptions, non-exhaustive):**
+
+- Operate *under* an existing licence holder (bank/investment firm) as an intermediary /
+  technology layer, rather than attracting the funds yourself.
+- Reintroduce a legally confirmed separated structure (back toward the original plan).
+- The ≥ €100k / professional scenario above.
+
+**Preliminary verdict on A:** **gate-determining and uncertain.** Without confirmation from
+a qualified financial-law adviser that a legal route exists, the idea cannot proceed to
+build. This is not a "no" but a **"confirm legally first"**, with two routes to test: the
+Retail scenario and the ≥ €100k / professional scenario.
+
 <!-- Sections still to be built with founder review:
-     A) Regulatory viability; B) Yield / unit-economics feasibility;
+     B) Yield / unit-economics feasibility;
      Competition; Distribution; Willingness to pay/adopt; Scoring; Verdict. -->
