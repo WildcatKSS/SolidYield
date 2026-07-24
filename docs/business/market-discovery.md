@@ -152,6 +152,60 @@ a qualified financial-law adviser that a legal route exists, the idea cannot pro
 build. This is not a "no" but a **"confirm legally first"**, with two routes to test: the
 Retail scenario and the ≥ €100k / professional scenario.
 
+## B) Yield / unit-economics feasibility
+
+**Core question:** is there a real, sufficiently safe return that sits **structurally above**
+the interest promised to users plus all costs? If not, the margin is negative or the risk is
+shifted onto the customer.
+
+**The equation that must hold (assumption):**
+
+```
+internal return earned
+  −  interest paid to the user (European base rate + increasing markup)
+  −  operating costs (platform, KYC/AML, support, compliance)
+  −  defaults/losses on the investments
+  −  liquidity buffer for monthly payouts + interim withdrawals
+  =  margin (must be positive)
+```
+
+**Starting yield source: Mintos only (founder input).** At the start the internal return is
+intended to come solely from Mintos, a P2P lending marketplace (returns from consumer/business
+loans via loan originators), with the intention to diversify later. Figures below are
+assumptions to be substantiated with current data in Phase 2.
+
+**On paper there is margin (assumption):** Mintos has historically advertised gross returns
+well above savings-rate levels (high single to low double digits), which would exceed the
+promised customer rate. But three hard mismatches with the product promise remain:
+
+1. **Risk mismatch.** Mintos returns are variable and not guaranteed; capital can be lost
+   (loan-originator defaults, e.g. funds stuck in recovery in 2020). SolidYield promises a
+   *fixed* rate, so it absorbs the entire downside: in a bad year it still owes fixed monthly
+   interest + principal while the source underperforms.
+2. **Liquidity mismatch.** SolidYield promises *monthly* payouts and principal back at term
+   end. Mintos can become illiquid under stress (its secondary market can dry up). Meeting
+   fixed obligations while the source is frozen means, in effect, paying from new deposits —
+   exactly the structure regulators scrutinise most heavily (ties back to criterion A).
+3. **Concentration risk.** A single platform as the sole source is a single point of failure,
+   most dangerous in the fragile early stage where it is "Mintos only".
+
+**Coupling with A.** Routing customer money into Mintos loans strengthens the
+MiFID/AIFMD/collective-investment question: the product repackages a risky, variable
+investment as a "fixed, safe rate", and that repackaging is the core of the regulatory risk.
+
+**What Phase 2 must prove (assumptions, no evidence yet):**
+
+- The actual net return from Mintos after risk and costs, using current data (not advertised
+  headline rates).
+- Whether a positive margin remains after the promised customer rate for each term length.
+- A **stressed** scenario: what happens to margin and liquidity in a Mintos default/freeze
+  year, given fixed monthly obligations.
+- A concrete diversification path away from a single source, and the timeline for it.
+
+**Preliminary verdict on B:** **unproven and determining.** The whole proposition stands or
+falls on a return that reliably exceeds the promised rate *after* risk, cost and liquidity
+needs. As with A, this is not a "no" but a **"prove first"** — specifically, prove the actual
+(stressed) return, not the advertised one.
+
 <!-- Sections still to be built with founder review:
-     B) Yield / unit-economics feasibility;
      Competition; Distribution; Willingness to pay/adopt; Scoring; Verdict. -->
