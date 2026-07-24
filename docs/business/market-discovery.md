@@ -323,4 +323,52 @@ would deposit. (No product code; validation only.)
 deposit barrier, the absence of a guarantee, and the trust profile make broad adoption slow
 and dependent on trust that must still be built.
 
-<!-- Section still to be built with founder review: Scoring; Verdict. -->
+## Scoring
+
+Scored on the six Phase 1 criteria (1–10 each, max 60; shortlist threshold 50/60). These
+criteria are designed for fast, simple SaaS; SolidYield is a capital/margin business with a
+heavy regulatory load, so it scores structurally low on this scale. All scores are
+assumptions and deliberately conservative while criteria A and B are unproven.
+
+| Criterion | Score | Rationale (brief) |
+|---|---:|---|
+| Payment willingness | 5 | Real demand, but the deposit barrier + no DGS guarantee + trust gap ("Medium" in Willingness) |
+| Urgency | 4 | Low savings rates are a chronic, tolerated frustration — not acute urgency |
+| Time to first customer | 3 | Gate-determining criterion A: without a legal route, funds cannot lawfully be taken → long lead time |
+| Build simplicity | 3 | Wallet + terms + payouts + KYC/AML + compliance + treasury/investing = not a 60-day, one-dev build |
+| MRR potential | 5 | Margin on deposited capital can be significant at scale — but fully dependent on B (real return above the promised rate) |
+| Organic distribution | 4 | "Low-medium" from Distribution: trust is the bottleneck; ads/comparators partly blocked |
+| **Total** | **24 / 60** | Well below the 50/60 shortlist threshold |
+
+This is **not** a judgement that the idea is bad. It is an honest reflection that SolidYield
+is a **high-barrier, licence-sensitive capital product** that scores low on fast-SaaS
+criteria and stands or falls on criteria A and B.
+
+## Verdict
+
+**Score:** 24/60 — below the 50/60 shortlist threshold.
+
+**Two gate-determining unknowns remain "prove first":**
+
+- **A — Regulatory viability.** No build until a qualified financial-law adviser confirms a
+  viable legal route (Retail vs ≥ €100k/professional scenario).
+- **B — Yield feasibility.** No build until a real, *stressed* return above the promised rate
+  (after risk, cost and liquidity) is demonstrated — Mintos as the sole starting source
+  concentrates risk and must be diversified.
+
+**Recommendation: do not proceed to build.** Before reconsidering, Phase 2 must:
+
+1. Obtain qualified legal confirmation of a viable route (criterion A), testing both the
+   Retail and the ≥ €100k / professional scenarios.
+2. Prove a real, stressed yield above the promised rate (criterion B), including a
+   diversification path beyond Mintos.
+3. Test willingness to deposit without yet taking money (landing page / waitlist / intent
+   survey).
+
+If A and B are cleared with evidence, re-score and reconsider at that point. The single-idea
+Phase 1 focus (Founder Override) is revisited at the MVP Gate per open issue **O-006**. No
+product code until the MVP Gate is approved.
+
+**Note on method:** this verdict rests on desk research and founder input only. No customer
+or legal evidence has been collected yet; all scores and claims above are assumptions, not
+validated facts.
