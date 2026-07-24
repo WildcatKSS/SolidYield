@@ -4,19 +4,22 @@ Last Updated: 2026-07-24
 
 ## Current Phase
 
-Phase 1 – Market Discovery (deliverable complete, awaiting founder review). Phase 0 complete and founder-approved 2026-07-24.
+Phase 2 – Business Validation (in progress). Phase 1 complete; Phase 0 founder-approved 2026-07-24.
 
 ## Approvals
 
 - Phase 0 gate approved by founder (@WildcatKSS) on 2026-07-24, after review of the
   governance, context-memory, ADR, security, GitHub-template and workflow deliverables.
+- Phase 2 entry approved by founder (@WildcatKSS) on 2026-07-24. Phase 2 delivers validation
+  plans and frameworks; the founder gathers the external evidence for criteria A and B.
 
 ## Current Objective
 
-Phase 1 is complete as a focused validation of the founder-provided direction (SolidYield).
-Outcome: scored 24/60, verdict "do not build until criteria A (regulatory) and B (yield) are
-proven". Awaiting founder decision to enter Phase 2. No product code until the MVP Gate is
-approved.
+Run Phase 2 business validation for SolidYield, front-loading the two prove-first gates:
+criterion A (regulatory route, via a counsel brief) and criterion B (stressed yield model),
+then the commercial validation (interviews, pricing, willingness, competitors, unit
+economics, first-10 plan). Deliverables are plans/frameworks; the founder gathers the
+external A/B evidence. No product code until the MVP Gate is approved.
 
 ## Completed
 
@@ -48,11 +51,10 @@ See docs/risk-register.md.
 
 ## Next Milestone
 
-Phase 2 – Business Validation (requires explicit founder approval to enter): confirm
-criterion A (legal route), prove criterion B (stressed yield), and test willingness without
-taking money.
+Phase 2 completion → re-score SolidYield against evidence. MVP Gate only if criteria A and B
+clear; otherwise return to Phase 1 per the Phase 2 rule.
 
 ## Next Session Instruction
 
-Read CLAUDE.md and docs/business/market-discovery.md. If Phase 2 is approved, follow
-docs/prompts/phase-2-business-validation.md focusing on criteria A and B. Do not write product code.
+Read CLAUDE.md, docs/business/market-discovery.md and docs/compliance/regulatory-validation-brief.md.
+Continue Phase 2 per docs/prompts/phase-2-business-validation.md. Do not write product code.
