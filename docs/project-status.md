@@ -4,7 +4,7 @@ Last Updated: 2026-07-24
 
 ## Current Phase
 
-Phase 1 – Market Discovery (in progress). Phase 0 complete and founder-approved 2026-07-24.
+Phase 1 – Market Discovery (deliverable complete, awaiting founder review). Phase 0 complete and founder-approved 2026-07-24.
 
 ## Approvals
 
@@ -13,10 +13,10 @@ Phase 1 – Market Discovery (in progress). Phase 0 complete and founder-approve
 
 ## Current Objective
 
-Run Phase 1 as a focused validation of the founder-provided product direction
-(SolidYield — platform for saving/locking funds at a fixed rate), built step by step
-with founder review. Substantive risks (regulatory viability, yield/margin feasibility)
-are assessed within Phase 1. No product code until the MVP Gate is approved.
+Phase 1 is complete as a focused validation of the founder-provided direction (SolidYield).
+Outcome: scored 24/60, verdict "do not build until criteria A (regulatory) and B (yield) are
+proven". Awaiting founder decision to enter Phase 2. No product code until the MVP Gate is
+approved.
 
 ## Completed
 
@@ -29,6 +29,8 @@ are assessed within Phase 1. No product code until the MVP Gate is approved.
 - Commercial validation kit
 - Compliance/security templates
 - GitHub templates and workflow skeletons
+- Phase 1 market discovery: focused validation of SolidYield (docs/business/market-discovery.md),
+  scored 24/60, gated on criteria A (regulatory) and B (yield); verdict: do not build until proven
 
 ## Open Decisions
 
@@ -46,8 +48,11 @@ See docs/risk-register.md.
 
 ## Next Milestone
 
-Phase 1 – Market Discovery (approved to start)
+Phase 2 – Business Validation (requires explicit founder approval to enter): confirm
+criterion A (legal route), prove criterion B (stressed yield), and test willingness without
+taking money.
 
 ## Next Session Instruction
 
-Read CLAUDE.md and docs/prompts/phase-1-market-discovery.md. Start Phase 1. Do not write product code.
+Read CLAUDE.md and docs/business/market-discovery.md. If Phase 2 is approved, follow
+docs/prompts/phase-2-business-validation.md focusing on criteria A and B. Do not write product code.
