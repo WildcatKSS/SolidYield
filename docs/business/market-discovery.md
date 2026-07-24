@@ -247,5 +247,40 @@ Direct competitors, grouped under the two categories the customer weighs SolidYi
 SolidYield lacks; investing holds the return potential; SolidYield claims the middle on the
 strength of simplicity plus a rate it must still be able to deliver.
 
+## Distribution
+
+**Core challenge:** people do not quickly entrust *savings* to an unknown party. Here
+distribution is not mainly about reach but about **building trust** — which sits in tension
+with a "highest rate" promise (that tends to trigger suspicion rather than trust).
+
+**Chosen initial channels (founder preference):** community / word-of-mouth and
+influencers / finfluencers. Ad platforms and comparison sites are recognised as a likely
+blockade (see below) and are therefore not the primary early route.
+
+| Channel | Strong for | Weak / risk |
+|---|---|---|
+| **Community / word-of-mouth** *(chosen)* | High trust when it lands; low cost | Cold-start: needs a first core of satisfied users; critical savings/FIRE communities probe the guarantee & licensing questions immediately |
+| **Influencers / finfluencers** *(chosen)* | Reach + borrowed trust | Reputation and compliance risk; supervision of finfluencing on financial products is increasing, and "guaranteed/high rate" is sensitive |
+| SEO / content ("highest rate", "savings alternative") | Buying-intent traffic, low cost per lead | Slow; competes with established comparison sites |
+| Comparison sites (savings-rate comparators) | Direct buying intent | Often admit only regulated/guaranteed products — SolidYield may be refused (ties to A) |
+| Paid ads (Google/Meta) | Fast, scalable | Financial products with "guaranteed return" are often restricted or refused by ad policy |
+| Partnerships (under a licence holder) | Rides on existing trust/licence | Dependency; shares margin (ties to A and B) |
+
+**Distribution insights (assumptions):**
+
+- **Trust is the bottleneck, not reach.** Without a DGS guarantee, every channel must bridge
+  the trust gap.
+- **The proposition collides with ad policy.** "Guaranteed/high rate" is exactly what
+  Google/Meta and comparison sites tend to restrict — the fastest paid channels are partly
+  closed off. The founder recognises this.
+- **The chosen channels fit a trust-first, low-budget start**, but carry a cold-start
+  (community) and a compliance/reputation risk (finfluencers) that must be managed.
+- **The compliant path (partnering under a licence holder) is also a distribution asset** —
+  it addresses trust and part of A, at the cost of margin.
+
+**Organic distribution score (assumption): Low-medium** — strong buying intent exists
+("highest savings rate" is actively searched), but the key paid and comparison channels are
+constrained by the product type, and the chosen trust-first channels take time to compound.
+
 <!-- Sections still to be built with founder review:
-     Distribution; Willingness to pay/adopt; Scoring; Verdict. -->
+     Willingness to pay/adopt; Scoring; Verdict. -->
