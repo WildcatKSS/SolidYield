@@ -19,6 +19,19 @@ security-impact worden expliciet gemarkeerd.
 
 ## [Unreleased]
 
+### Toegevoegd
+- Productvisie ingevuld voor SolidYield: doelgroep, probleem, productdoel en
+  marktafbakening (Nederland, NL, EUR) (#1)
+- Productdoel PD-1 vastgelegd, met meetwaarden en PD-0 (validatie) als voorliggend
+  doel (#1)
+- **Compliance:** RD-15 en RD-16 toegevoegd aan het register van regulatoire
+  besluiten — presentatie als product zonder beleggingsrisico, en de constructie
+  onder het rendement (#1)
+
+### Gewijzigd
+- **Compliance:** RD-01 aangescherpt naar de concrete productvorm; het regulatoire
+  regime blijft open en blokkeert elke externe propositie (#1)
+
 <!--
 Voorbeeld van een ingevulde release. Verwijder dit commentaar zodra je eigen releases
 hier staan.
