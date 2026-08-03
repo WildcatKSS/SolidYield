@@ -1,0 +1,551 @@
+# Release — valideert een releasekandidaat, en rolt uit naar staging en productie
+# alleen wanneer aan strikte, expliciete voorwaarden is voldaan.
+#
+# Drie duidelijk gescheiden fasen:
+#   1. VALIDATIE van een releasekandidaat — build, tests, coverage, toegankelijkheid,
+#      securityscans, SBOM en releasenotes. Draait altijd, ook handmatig.
+#   2. DEPLOYMENT NAAR STAGING — alleen bij een tag-push, nooit bij workflow_dispatch.
+#   3. DEPLOYMENT NAAR PRODUCTIE — alleen bij een tag-push van een stabiele SemVer-versie
+#      op een toegestaan productiekanaal, én na goedkeuring in de environment.
+#
+# Een handmatige uitvoering (workflow_dispatch) is een DROOGRUN: die valideert wel, maar
+# rolt niets uit. Dat is bewust fail-closed — met de hand een deployment kunnen starten
+# omzeilt de tag, de versiehistorie en het releasebewijs.
+#
+# Voorwaarden voor productie (alle vier vereist, anders wordt de job overgeslagen):
+#   * github.event_name == 'push' met een tag onder refs/tags/v...
+#   * versie voldoet aan SemVer en is GEEN prerelease (rc/alpha/beta)
+#   * releasekanaal staat in de productie-allowlist (limited-production,
+#     general-availability) — internal-prototype, test-group en beta nooit
+#   * repository-variabele PRODUCTION_DEPLOY_ENABLED == 'true'
+#
+# Eenmalig in te richten:
+#   * Environments 'staging' en 'production', met required reviewers op production
+#     (zie GOVERNANCE.md). Die goedkeuring blijft altijd verplicht.
+#   * Deploymentcredentials als environment secrets, bij voorkeur via OIDC
+#     (permissions: id-token: write) in plaats van langlevende sleutels.
+#   * Repository-variabelen: STAGING_DEPLOY_ENABLED, PRODUCTION_DEPLOY_ENABLED en
+#     RELEASE_CHANNEL. Ontbreken ze, dan gebeurt er niets — zie docs/operations/deployment.md §6.
+#   * De echte deploystappen (nu placeholders) invullen voor [CLOUD] vóórdat je de
+#     variabelen aanzet. Staan ze aan terwijl de placeholders er nog zijn, dan faalt de job.
+name: Release
+
+on:
+  push:
+    tags: ["v*.*.*"]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Versie in SemVer-formaat, bijv. v1.4.0. DROOGRUN: er wordt niets uitgerold."
+        required: true
+        type: string
+      channel:
+        description: "Releasekanaal (alleen informatief bij een droogrun)"
+        required: true
+        type: choice
+        default: "test-group"
+        options:
+          - internal-prototype
+          - test-group
+          - beta
+          - limited-production
+          - general-availability
+
+permissions:
+  contents: read
+
+env:
+  TEMPLATE_STRICT: ${{ vars.TEMPLATE_STRICT || 'false' }}
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # 1. Releasekandidaat: metadata bepalen, valideren, bouwen en controleren
+  #
+  # Dit is de enige plek waar wordt vastgesteld óf er uitgerold mag worden. De uitkomst
+  # staat in job-outputs, zodat de deployjobs een eenvoudige, controleerbare voorwaarde
+  # hebben. Alles wat niet expliciet is toegestaan, is verboden (fail-closed).
+  # ---------------------------------------------------------------------------
+  release-candidate:
+    name: release-candidate
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    outputs:
+      version: ${{ steps.meta.outputs.version }}
+      prerelease: ${{ steps.meta.outputs.prerelease }}
+      channel: ${{ steps.meta.outputs.channel }}
+      staging_allowed: ${{ steps.meta.outputs.staging_allowed }}
+      production_allowed: ${{ steps.meta.outputs.production_allowed }}
+      dry_run: ${{ steps.meta.outputs.dry_run }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+      - id: meta
+        name: Versie valideren en deploymentvoorwaarden bepalen
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          GIT_REF: ${{ github.ref }}
+          REF_NAME: ${{ github.ref_name }}
+          INPUT_VERSION: ${{ inputs.version }}
+          INPUT_CHANNEL: ${{ inputs.channel }}
+          REPO_CHANNEL: ${{ vars.RELEASE_CHANNEL }}
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+        run: |
+          set -euo pipefail
+
+          # --- 1. Versie bepalen en valideren ---------------------------------
+          if [ "${EVENT_NAME}" = "workflow_dispatch" ]; then
+            version="${INPUT_VERSION:-}"
+          else
+            version="${REF_NAME:-}"
+          fi
+          if [ -z "${version}" ]; then
+            echo "::error::Geen versie bepaald. Bij een handmatige run is de invoer 'version' verplicht."
+            exit 1
+          fi
+
+          # SemVer met verplichte v-prefix: v1.2.3, v1.2.3-rc.1, v1.2.3+build.5
+          semver='^v(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(-[0-9A-Za-z.-]+)?(\+[0-9A-Za-z.-]+)?$'
+          if ! printf '%s' "${version}" | grep -Eq "${semver}"; then
+            echo "::error::'${version}' is geen geldige SemVer-versie. Verwacht: v1.4.0, v1.4.0-rc.1 of v1.4.0+build.5."
+            exit 1
+          fi
+          echo "version=${version}" >> "$GITHUB_OUTPUT"
+
+          # --- 2. Prerelease ---------------------------------------------------
+          if printf '%s' "${version}" | grep -Eq '^v[0-9]+\.[0-9]+\.[0-9]+-'; then
+            prerelease=true
+          else
+            prerelease=false
+          fi
+          echo "prerelease=${prerelease}" >> "$GITHUB_OUTPUT"
+
+          # --- 3. Kanaal --------------------------------------------------------
+          # Bij een tag-push komt het kanaal uit repository-variabele RELEASE_CHANNEL.
+          # Ontbreekt die, dan geldt het veiligste kanaal: test-group (nooit productie).
+          if [ "${EVENT_NAME}" = "workflow_dispatch" ]; then
+            channel="${INPUT_CHANNEL:-test-group}"
+          else
+            channel="${REPO_CHANNEL:-test-group}"
+          fi
+          case "${channel}" in
+            internal-prototype|test-group|beta|limited-production|general-availability) ;;
+            *)
+              echo "::error::Onbekend releasekanaal '${channel}'. Toegestaan: internal-prototype, test-group, beta, limited-production, general-availability."
+              exit 1
+              ;;
+          esac
+          echo "channel=${channel}" >> "$GITHUB_OUTPUT"
+
+          # --- 4. Droogrun en tag-event ----------------------------------------
+          if [ "${EVENT_NAME}" = "workflow_dispatch" ]; then
+            dry_run=true
+          else
+            dry_run=false
+          fi
+          echo "dry_run=${dry_run}" >> "$GITHUB_OUTPUT"
+
+          tag_event=false
+          if [ "${EVENT_NAME}" = "push" ] && printf '%s' "${GIT_REF}" | grep -q '^refs/tags/v'; then
+            tag_event=true
+          fi
+
+          # --- 5. Tag hoort bij de hoofdbranch ---------------------------------
+          on_default_branch=false
+          if [ "${tag_event}" = "true" ]; then
+            git fetch --quiet origin "${DEFAULT_BRANCH}" || true
+            if git merge-base --is-ancestor "${GITHUB_SHA}" "origin/${DEFAULT_BRANCH}" 2>/dev/null; then
+              on_default_branch=true
+            else
+              echo "::warning::De getagde commit is niet bereikbaar vanaf origin/${DEFAULT_BRANCH}. Deployments zijn geblokkeerd; tag een commit die op de hoofdbranch staat."
+            fi
+          fi
+
+          # --- 6. Deploymentvoorwaarden ----------------------------------------
+          staging_allowed=false
+          if [ "${tag_event}" = "true" ] && [ "${on_default_branch}" = "true" ]; then
+            staging_allowed=true
+          fi
+          echo "staging_allowed=${staging_allowed}" >> "$GITHUB_OUTPUT"
+
+          case "${channel}" in
+            limited-production|general-availability) production_channel=true ;;
+            *) production_channel=false ;;
+          esac
+          production_allowed=false
+          if [ "${staging_allowed}" = "true" ] && [ "${prerelease}" = "false" ] && [ "${production_channel}" = "true" ]; then
+            production_allowed=true
+          fi
+          echo "production_allowed=${production_allowed}" >> "$GITHUB_OUTPUT"
+
+          # --- 7. Samenvatting --------------------------------------------------
+          {
+            echo "### Releasekandidaat ${version}"
+            echo ""
+            echo "| Eigenschap | Waarde |"
+            echo "|---|---|"
+            echo "| Event | ${EVENT_NAME} |"
+            echo "| Droogrun (rolt niets uit) | ${dry_run} |"
+            echo "| Prerelease | ${prerelease} |"
+            echo "| Kanaal | ${channel} |"
+            echo "| Getagde commit op ${DEFAULT_BRANCH} | ${on_default_branch} |"
+            echo "| Staging toegestaan | ${staging_allowed} |"
+            echo "| Productie toegestaan | ${production_allowed} |"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          if [ "${dry_run}" = "true" ]; then
+            echo "::notice::Handmatige droogrun: build, tests, scans, SBOM en releasenotes draaien wel, maar er wordt niets uitgerold naar staging of productie."
+          fi
+      - uses: ./.github/actions/setup-stack
+      - name: Build
+        run: ./scripts/ci/build.sh
+      - name: Regressietests (unit, integratie, end-to-end)
+        run: |
+          ./scripts/ci/test-unit.sh
+          ./scripts/ci/test-integration.sh
+          ./scripts/ci/test-e2e.sh
+      - name: Dekkingsdrempel
+        run: ./scripts/ci/coverage-check.sh
+        env:
+          COVERAGE_MIN: ${{ vars.COVERAGE_MIN || '70' }}
+      - name: Toegankelijkheidscontrole
+        run: ./scripts/ci/test-accessibility.sh
+      - name: Artifact bewaren
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: release-artifact-${{ steps.meta.outputs.version }}
+          path: |
+            dist/
+            build/
+            out/
+            target/*.jar
+          if-no-files-found: ignore
+          retention-days: 90
+
+  # ---------------------------------------------------------------------------
+  # 2. Security-, privacy- en compliancecheck vóór uitrol
+  # ---------------------------------------------------------------------------
+  release-checks:
+    name: release-checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    needs: release-candidate
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Securitytests
+        run: ./scripts/ci/test-security.sh
+      - name: Kwetsbaarhedenscan (blokkerend bij kritiek/hoog)
+        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
+        with:
+          scan-type: fs
+          scan-ref: .
+          scanners: vuln,secret
+          severity: CRITICAL,HIGH
+          ignore-unfixed: true
+          exit-code: "1"
+      # upload-release-assets staat bewust uit. Bij een tag-push probeert deze action de
+      # SBOM zelf aan de GitHub Release te koppelen, en dat vereist contents: write op
+      # deze job. Die rechten wil je hier niet: dit is een securityjob die leest en
+      # scant, niet schrijft. De SBOM wordt hieronder expliciet bewaard als
+      # releasebewijs, met een eigen naam en bewaartermijn.
+      - name: SBOM genereren
+        uses: anchore/sbom-action@e22c389904149dbc22b58101806040fa8d37a610 # v0.24.0
+        with:
+          format: cyclonedx-json
+          output-file: sbom.cyclonedx.json
+          upload-release-assets: false
+          # Ook de eigen artifact-upload van deze action uit: de stap hieronder bewaart
+          # de SBOM al onder een voorspelbare naam. Anders krijg je twee artifacts met
+          # dezelfde inhoud en verschillende namen, en is niet duidelijk welke het bewijs is.
+          upload-artifact: false
+      - name: Licentiecontrole
+        run: ./scripts/ci/license-check.sh
+      # LET OP — bewaartermijn: GitHub kapt artifactretentie af op het repositorymaximum,
+      # zonder waarschuwing. Voor publieke repositories is dat 90 dagen; voor private tot
+      # 400. Een hogere waarde hier vragen levert dus stil minder op dan je denkt. Daarom
+      # staat hier 90: wat de workflow belooft, is ook wat je krijgt.
+      # Moet het bewijs langer bewaard blijven — en bij een gereguleerde dienst is dat
+      # doorgaans zo — dan is een Actions-artifact niet de juiste opslag. Zie
+      # docs/compliance/audit-evidence.md §5.
+      - name: SBOM bewaren als releasebewijs
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: sbom-${{ needs.release-candidate.outputs.version }}
+          path: sbom.cyclonedx.json
+          if-no-files-found: warn
+          retention-days: 90
+      - name: Handmatige goedkeuringen herinneren
+        run: |
+          {
+            echo "### Vereiste goedkeuringen vóór productie"
+            echo ""
+            echo "- [ ] Product Owner — functionele acceptatie"
+            echo "- [ ] Security — geen openstaande kritieke of hoge bevindingen"
+            echo "- [ ] Privacy/Compliance — verwerkingen, bewaartermijnen en bewijs bijgewerkt"
+            echo ""
+            echo "Volledige lijst: \`docs/releases/release-checklist.md\`."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  # ---------------------------------------------------------------------------
+  # 3. Releasenotes en GitHub Release
+  # ---------------------------------------------------------------------------
+  release-notes:
+    name: release-notes
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs: [release-candidate, release-checks]
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+      - name: Releasenotes samenstellen
+        run: ./scripts/release/prepare-release-notes.sh "${{ needs.release-candidate.outputs.version }}" > RELEASE_NOTES.md
+      - name: Notes tonen in de samenvatting
+        run: cat RELEASE_NOTES.md >> "$GITHUB_STEP_SUMMARY"
+      - name: GitHub Release aanmaken
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@3d0d9888cb7fd7b750713d6e236d1fcb99157228 # v3.0.2
+        with:
+          name: ${{ needs.release-candidate.outputs.version }}
+          body_path: RELEASE_NOTES.md
+          prerelease: ${{ needs.release-candidate.outputs.prerelease == 'true' }}
+          draft: true # bewust concept: de PO publiceert pas na akkoord
+          # Bewust géén `files:` met RELEASE_NOTES.md. De notes staan al in de body van
+          # de release; ze daarnaast als bijlage aanhangen voegt niets toe. Bovendien
+          # faalt zo'n upload zodra de release al gepubliceerd is — bij immutable
+          # releases staat GitHub geen assets meer toe na publicatie.
+
+  # ---------------------------------------------------------------------------
+  # 4. Deployment naar de testomgeving
+  #
+  # Draait alleen wanneer ALLE voorwaarden waar zijn:
+  #   * staging_allowed == 'true'  → tag-push op de hoofdbranch, geen droogrun;
+  #   * STAGING_DEPLOY_ENABLED == 'true' → het team heeft deployment bewust aangezet.
+  # Een handmatige droogrun komt hier dus nooit. De deploystappen zijn placeholders
+  # zolang [CLOUD] niet is gekozen; een job die niets uitrolt en tóch groen afsluit met
+  # "deploy vastgelegd als bewijs" levert vals bewijs voor een control die niet draaide.
+  # ---------------------------------------------------------------------------
+  deploy-staging:
+    name: deploy-staging
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    needs: [release-candidate, release-checks]
+    if: >-
+      needs.release-candidate.outputs.staging_allowed == 'true' &&
+      vars.STAGING_DEPLOY_ENABLED == 'true'
+    environment:
+      name: staging
+      url: ${{ vars.STAGING_URL || 'https://staging.example.invalid' }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      # Tweede slot op dezelfde deur: de job-level `if` kan bij een wijziging sneuvelen,
+      # deze stap niet. Fail-closed bij elke onverwachte invoer.
+      - name: Deploymentvoorwaarden opnieuw controleren
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          GIT_REF: ${{ github.ref }}
+          STAGING_ALLOWED: ${{ needs.release-candidate.outputs.staging_allowed }}
+          DRY_RUN: ${{ needs.release-candidate.outputs.dry_run }}
+        run: |
+          set -euo pipefail
+          fail=false
+          [ "${EVENT_NAME}" = "push" ] || { echo "::error::Deployment alleen bij een push-event, niet bij '${EVENT_NAME}'."; fail=true; }
+          case "${GIT_REF}" in refs/tags/v*) ;; *) echo "::error::Deployment alleen vanaf een tag onder refs/tags/v, niet vanaf '${GIT_REF}'."; fail=true ;; esac
+          [ "${STAGING_ALLOWED}" = "true" ] || { echo "::error::staging_allowed is niet 'true'."; fail=true; }
+          [ "${DRY_RUN}" = "false" ] || { echo "::error::Een droogrun mag niet deployen."; fail=true; }
+          [ "${fail}" = "false" ] || exit 1
+          echo "Voorwaarden voor staging-deployment zijn voldaan."
+      # Geen continue-on-error: is STAGING_DEPLOY_ENABLED gezet, dan hoort er een
+      # artifact te zijn. Ontbreekt het, dan is er niets om uit te rollen en moet de
+      # job falen in plaats van een lege deploy te suggereren.
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: release-artifact-${{ needs.release-candidate.outputs.version }}
+
+      # ⬇️ VERVANG DEZE STAP door de echte uitrol voor [CLOUD]. Zolang dat niet is
+      # gebeurd, faalt de job bewust: STAGING_DEPLOY_ENABLED=true betekent "hier wordt
+      # echt uitgerold", en die belofte moet waar zijn.
+      #   AWS   : aws-actions/configure-aws-credentials (OIDC) + aws ecs update-service / aws s3 sync
+      #   Azure : azure/login (OIDC) + azure/webapps-deploy
+      #   GCP   : google-github-actions/auth (workload identity) + gcloud run deploy
+      #   K8s   : kubectl set image / helm upgrade --install
+      # Gebruik OIDC in plaats van langlevende sleutels; zie docs/security/access-control.md.
+      - name: Deployen naar staging
+        run: |
+          echo "::error::Er is nog geen deploystap ingericht voor [CLOUD], terwijl STAGING_DEPLOY_ENABLED op 'true' staat. Vervang deze stap in .github/workflows/release.yml door de echte uitrol, of zet de variabele uit. Er is niets uitgerold."
+          exit 1
+
+      # ⬇️ VERVANG DEZE STAP door een echte rooktest, bijvoorbeeld:
+      #   curl -fsS "${STAGING_URL}/health"
+      - name: Rooktest na deploy
+        run: |
+          echo "::error::Er is nog geen rooktest ingericht. Zonder verificatie is een deploy niet aantoonbaar geslaagd."
+          exit 1
+
+      # Deze stap draait alleen wanneer alle voorgaande stappen zijn geslaagd — dus
+      # nooit zonder daadwerkelijke uitrol en geslaagde rooktest.
+      - name: Deploy vastleggen als bewijs
+        run: |
+          {
+            echo "### Staging-deploy"
+            echo "- Versie: ${{ needs.release-candidate.outputs.version }}"
+            echo "- Kanaal: ${{ needs.release-candidate.outputs.channel }}"
+            echo "- Commit: ${{ github.sha }}"
+            echo "- Tijd: $(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+            echo ""
+            echo "Neem deze gegevens op in \`docs/compliance/audit-evidence.md\`."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  # ---------------------------------------------------------------------------
+  # 5. Productie — alleen na handmatige goedkeuring in de environment
+  #
+  # Vier voorwaarden, alle vier vereist:
+  #   * production_allowed == 'true' → tag-push op de hoofdbranch, stabiele SemVer,
+  #     en een kanaal uit de productie-allowlist (limited-production,
+  #     general-availability). internal-prototype, test-group en beta komen hier nooit;
+  #   * PRODUCTION_DEPLOY_ENABLED == 'true';
+  #   * goedkeuring door de required reviewers op de environment 'production';
+  #   * de deploystappen zijn daadwerkelijk ingevuld.
+  # ---------------------------------------------------------------------------
+  deploy-production:
+    name: deploy-production
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    needs: [release-candidate, release-checks, deploy-staging]
+    if: >-
+      needs.release-candidate.outputs.production_allowed == 'true' &&
+      vars.PRODUCTION_DEPLOY_ENABLED == 'true'
+    # De environment 'production' moet required reviewers hebben ingesteld.
+    # Zonder goedkeuring blijft deze job wachten en gebeurt er niets.
+    environment:
+      name: production
+      url: ${{ vars.PRODUCTION_URL || 'https://example.invalid' }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      # Tweede slot op dezelfde deur — fail-closed bij elke onverwachte invoer.
+      - name: Deploymentvoorwaarden opnieuw controleren
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          GIT_REF: ${{ github.ref }}
+          PRODUCTION_ALLOWED: ${{ needs.release-candidate.outputs.production_allowed }}
+          PRERELEASE: ${{ needs.release-candidate.outputs.prerelease }}
+          CHANNEL: ${{ needs.release-candidate.outputs.channel }}
+          DRY_RUN: ${{ needs.release-candidate.outputs.dry_run }}
+        run: |
+          set -euo pipefail
+          fail=false
+          [ "${EVENT_NAME}" = "push" ] || { echo "::error::Productiedeployment alleen bij een push-event, niet bij '${EVENT_NAME}'. Een handmatige run is een droogrun."; fail=true; }
+          case "${GIT_REF}" in refs/tags/v*) ;; *) echo "::error::Productiedeployment alleen vanaf een tag onder refs/tags/v, niet vanaf '${GIT_REF}'."; fail=true ;; esac
+          [ "${PRODUCTION_ALLOWED}" = "true" ] || { echo "::error::production_allowed is niet 'true'."; fail=true; }
+          [ "${PRERELEASE}" = "false" ] || { echo "::error::Een prerelease (rc/alpha/beta) gaat niet naar productie."; fail=true; }
+          [ "${DRY_RUN}" = "false" ] || { echo "::error::Een droogrun mag niet deployen."; fail=true; }
+          case "${CHANNEL}" in
+            limited-production|general-availability) ;;
+            *) echo "::error::Kanaal '${CHANNEL}' mag niet naar productie. Toegestaan: limited-production, general-availability."; fail=true ;;
+          esac
+          [ "${fail}" = "false" ] || exit 1
+          echo "Voorwaarden voor productiedeployment zijn voldaan (kanaal: ${CHANNEL})."
+      # Geen continue-on-error: zonder artifact is er niets uit te rollen.
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: release-artifact-${{ needs.release-candidate.outputs.version }}
+
+      # ⬇️ VERVANG DEZE STAP door de echte, gefaseerde uitrol voor [CLOUD].
+      # Advies: canary 5% → 25% → 100% met automatische terugval bij een stijgende
+      # foutratio. Zie docs/operations/deployment.md.
+      - name: Gecontroleerde uitrol
+        run: |
+          echo "::error::Er is nog geen productie-uitrol ingericht voor [CLOUD], terwijl PRODUCTION_DEPLOY_ENABLED op 'true' staat. Vervang deze stap in .github/workflows/release.yml door de echte uitrol, of zet de variabele uit. Er is niets uitgerold."
+          exit 1
+
+      # ⬇️ VERVANG DEZE STAP door echte verificatie na uitrol: bewaak minimaal 30
+      # minuten foutratio, latency, mislukte inlogpogingen, mislukte transacties en
+      # auditlogvolume. Zie docs/operations/monitoring.md en
+      # docs/operations/service-level-objectives.md.
+      - name: Monitoring na uitrol
+        run: |
+          echo "::error::Er is nog geen verificatie na uitrol ingericht. Een uitrol zonder waarneming is geen gecontroleerde uitrol."
+          exit 1
+
+      - name: Rollback beschikbaar houden
+        run: |
+          echo "::notice::Rollback: herdeploy van de vorige tag of uitschakelen van de feature flag."
+          echo "Vastgelegd rollbackplan staat in de pull request en in docs/releases/release-process.md."
+
+      # Draait alleen na een geslaagde uitrol én geslaagde verificatie.
+      - name: Releasebewijs
+        run: |
+          {
+            echo "### Productie-uitrol"
+            echo "- Versie: ${{ needs.release-candidate.outputs.version }}"
+            echo "- Goedgekeurd via environment 'production'"
+            echo "- Commit: ${{ github.sha }}"
+            echo "- Tijd: $(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+            echo ""
+            echo "Leg dit vast in \`docs/compliance/audit-evidence.md\` en plan de evaluatie na release."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  # ---------------------------------------------------------------------------
+  # 6. Zichtbaar maken wat er niet is gebeurd
+  #
+  # Een overgeslagen job is grijs en valt makkelijk weg. Deze job maakt expliciet dat er
+  # geen deployment heeft plaatsgevonden en waarom, zodat niemand de release als uitgerold
+  # beschouwt. Hij schrijft nooit deploymentbewijs.
+  # ---------------------------------------------------------------------------
+  deployment-status:
+    name: deployment-status
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    needs: [release-candidate, release-checks, deploy-staging, deploy-production]
+    if: always() && needs.release-checks.result == 'success'
+    steps:
+      - name: Deploymentstatus samenvatten
+        env:
+          STAGING_RESULT: ${{ needs.deploy-staging.result }}
+          PRODUCTION_RESULT: ${{ needs.deploy-production.result }}
+          STAGING_ENABLED: ${{ vars.STAGING_DEPLOY_ENABLED }}
+          PRODUCTION_ENABLED: ${{ vars.PRODUCTION_DEPLOY_ENABLED }}
+          STAGING_ALLOWED: ${{ needs.release-candidate.outputs.staging_allowed }}
+          PRODUCTION_ALLOWED: ${{ needs.release-candidate.outputs.production_allowed }}
+          DRY_RUN: ${{ needs.release-candidate.outputs.dry_run }}
+          CHANNEL: ${{ needs.release-candidate.outputs.channel }}
+          PRERELEASE: ${{ needs.release-candidate.outputs.prerelease }}
+        run: |
+          {
+            echo "### Deploymentstatus"
+            echo ""
+            echo "| Omgeving | Toegestaan door event/kanaal | Ingeschakeld | Resultaat |"
+            echo "|---|---|---|---|"
+            echo "| staging | ${STAGING_ALLOWED} | ${STAGING_ENABLED:-niet gezet} | ${STAGING_RESULT} |"
+            echo "| production | ${PRODUCTION_ALLOWED} | ${PRODUCTION_ENABLED:-niet gezet} | ${PRODUCTION_RESULT} |"
+            echo ""
+            echo "Kanaal: \`${CHANNEL}\` · prerelease: \`${PRERELEASE}\` · droogrun: \`${DRY_RUN}\`"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          if [ "${STAGING_RESULT}" != "success" ] || [ "${PRODUCTION_RESULT}" != "success" ]; then
+            if [ "${DRY_RUN}" = "true" ]; then
+              reason="dit is een handmatige droogrun; die rolt per definitie niets uit"
+            elif [ "${STAGING_ALLOWED}" != "true" ]; then
+              reason="het event is geen tag-push op de hoofdbranch"
+            elif [ "${STAGING_ENABLED}" != "true" ] || [ "${PRODUCTION_ENABLED}" != "true" ]; then
+              reason="STAGING_DEPLOY_ENABLED of PRODUCTION_DEPLOY_ENABLED staat niet op 'true'"
+            elif [ "${PRODUCTION_ALLOWED}" != "true" ]; then
+              reason="het kanaal '${CHANNEL}' of de prereleasestatus staat productie niet toe"
+            else
+              reason="een deploymentjob is niet geslaagd; zie de joblogs"
+            fi
+            echo "::warning::Er heeft geen (volledige) deployment plaatsgevonden: ${reason}. Een overgeslagen of gefaalde deploymentjob is géén geslaagde deployment — er is niets uitgerold en er is geen deploymentbewijs vastgelegd. Zie docs/operations/deployment.md."
+            {
+              echo ""
+              echo "> ⚠️ **Er is niet (volledig) uitgerold**, omdat ${reason}."
+              echo "> Er is dan ook **geen deploymentbewijs** vastgelegd; deze release telt niet als"
+              echo "> uitgerold. Zie \`docs/operations/deployment.md\` §6."
+            } >> "$GITHUB_STEP_SUMMARY"
+          fi

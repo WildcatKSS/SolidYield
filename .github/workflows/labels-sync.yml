@@ -1,0 +1,29 @@
+# Synchroniseert de labels uit .github/labels.yml met de repository.
+# Handmatig te starten (of automatisch bij wijziging van het labelbestand).
+# 'prune: false' laat handmatig toegevoegde labels staan; zet op true om de repository
+# exact gelijk te trekken met het bestand.
+name: Labels sync
+
+on:
+  push:
+    branches: ["main"]
+    paths: [".github/labels.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  sync:
+    name: sync-labels
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: micnncim/action-label-syncer@3abd5ab72fda571e69fffd97bd4e0033dd5f495c # v1.3.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          manifest: .github/labels.yml
+          prune: false

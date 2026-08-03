@@ -1,0 +1,103 @@
+name: "🔍 Research spike"
+description: "Tijdgebonden onderzoek om onzekerheid weg te nemen: technisch, gebruikersonderzoek of haalbaarheid."
+title: "[Spike] "
+labels:
+  - "type:research"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Een spike levert **kennis** op, geen productiecode. Timebox is verplicht:
+        loopt de tijd af, dan bespreekt het team de uitkomst — ook als die onvolledig is.
+
+  - type: dropdown
+    id: kind
+    attributes:
+      label: "Soort onderzoek"
+      options:
+        - "Technische spike (haalbaarheid, ontwerpkeuze, leveranciersvergelijking)"
+        - "Gebruikersonderzoek (interviews, usability, desk research)"
+        - "Data-analyse"
+        - "Security-/privacyonderzoek"
+        - "Regulatoire verkenning (uitkomst is advies, geen conclusie)"
+    validations:
+      required: true
+
+  - type: textarea
+    id: question
+    attributes:
+      label: "Onderzoeksvraag"
+      description: "Eén concrete vraag. Wat weten we straks dat we nu niet weten?"
+      placeholder: "Kunnen we transacties betrouwbaar categoriseren zonder gegevens buiten de EU te verwerken?"
+    validations:
+      required: true
+
+  - type: textarea
+    id: why
+    attributes:
+      label: "Waarom nu?"
+      description: "Welke beslissing wacht op deze uitkomst? Wat is het risico van niet weten?"
+    validations:
+      required: true
+
+  - type: input
+    id: timebox
+    attributes:
+      label: "Timebox"
+      placeholder: "2 dagen / 8 uur"
+    validations:
+      required: true
+
+  - type: textarea
+    id: hypothesis
+    attributes:
+      label: "Hypothese (indien van toepassing)"
+      placeholder: "Wij verwachten dat … omdat …"
+    validations:
+      required: false
+
+  - type: textarea
+    id: method
+    attributes:
+      label: "Aanpak"
+      placeholder: "Prototype bouwen, 3 leveranciers vergelijken, 5 gebruikers interviewen, dataset analyseren."
+    validations:
+      required: true
+
+  - type: textarea
+    id: deliverable
+    attributes:
+      label: "Op te leveren resultaat"
+      value: |
+        - [ ] Antwoord op de onderzoeksvraag met onderbouwing
+        - [ ] Advies of aanbevolen optie (met afgewogen alternatieven)
+        - [ ] Vastgelegd in: (ADR / docs/research/… / feedback-log)
+        - [ ] Vervolgacties als backlogitems aangemaakt
+    validations:
+      required: true
+
+  - type: textarea
+    id: participants
+    attributes:
+      label: "Deelnemers of bronnen (bij gebruikersonderzoek)"
+      description: "Aantal en profiel — geen namen of contactgegevens in dit issue."
+      placeholder: "5 deelnemers uit de testgroep, profiel: [DOELGROEP]."
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: research-ethics
+    attributes:
+      label: "Bij onderzoek met deelnemers"
+      options:
+        - label: "Toestemming wordt vooraf vastgelegd (docs/research/consent-and-privacy-check.md)"
+        - label: "Er worden uitsluitend synthetische testgegevens gebruikt"
+        - label: "Bevindingen worden geanonimiseerd vastgelegd (P1, P2, …)"
+
+  - type: checkboxes
+    id: hygiene
+    attributes:
+      label: "Controle vooraf"
+      options:
+        - label: "Dit issue bevat geen persoonsgegevens van deelnemers"
+          required: true

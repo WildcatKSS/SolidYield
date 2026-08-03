@@ -1,0 +1,62 @@
+# --- Secrets & lokale configuratie (NOOIT committen) ---
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.keystore
+secrets/
+credentials*.json
+service-account*.json
+
+# --- Afhankelijkheden ---
+node_modules/
+vendor/
+.venv/
+venv/
+__pycache__/
+*.pyc
+target/
+.gradle/
+.m2/
+
+# --- Build- en artifactoutput ---
+dist/
+build/
+out/
+coverage/
+.coverage
+htmlcov/
+*.log
+sbom/
+artifacts/
+
+# --- Tooling & caches ---
+.cache/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.tox/
+.eslintcache
+.turbo/
+.next/
+.terraform/
+*.tfstate
+*.tfstate.*
+
+# --- IDE / OS ---
+.idea/
+.vscode/*
+!.vscode/extensions.json
+.DS_Store
+Thumbs.db
+
+# --- Test- en onderzoeksdata ---
+# Onderzoeksdata met (pseudo)persoonsgegevens hoort NIET in deze repository.
+# Zie docs/privacy/data-classification.md
+research-data/
+recordings/
+*.mp4
+*.wav

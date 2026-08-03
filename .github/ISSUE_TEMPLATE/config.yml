@@ -1,0 +1,17 @@
+blank_issues_enabled: false
+contact_links:
+  - name: "🔐 Beveiligingskwetsbaarheid melden (niet via issues)"
+    url: "https://github.com/[ORGANISATIE]/[REPOSITORY]/security/advisories/new"
+    about: "Meld kwetsbaarheden vertrouwelijk via private vulnerability reporting. Zie SECURITY.md."
+  - name: "🛟 Vraag of hulp nodig"
+    url: "https://github.com/[ORGANISATIE]/[REPOSITORY]/blob/main/SUPPORT.md"
+    about: "Weet je niet welke route je moet kiezen? Begin hier."
+  - name: "💬 Discussie of idee zonder concrete story"
+    url: "https://github.com/[ORGANISATIE]/[REPOSITORY]/discussions"
+    about: "Bespreek eerst; de Product Owner zet het om in backlogitems (Discussions moet aanstaan)."
+  - name: "🔒 Privacyvraag of vermoeden van datalek"
+    url: "mailto:[PRIVACY-CONTACT-EMAIL]"
+    about: "Neem direct contact op met de privacyverantwoordelijke. Niet via een publiek issue."
+  - name: "📖 Werkwijze, board en Definition of Ready/Done"
+    url: "https://github.com/[ORGANISATIE]/[REPOSITORY]/tree/main/docs/scrum"
+    about: "Hoe wij werken, welke statussen het board heeft en wanneer iets Ready of Done is."

@@ -1,0 +1,113 @@
+name: "⚖️ Compliance- of privacytaak"
+description: "Werk rond privacy, gegevensbescherming, controls, bewijsvoering of regulatoire vragen."
+title: "[Compliance] "
+labels:
+  - "type:compliance"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        > Juridische en regulatoire conclusies worden **niet** in dit issue vastgesteld.
+        > Ze worden gemarkeerd als **“te valideren door een bevoegde specialist”** en
+        > geregistreerd in [`docs/compliance/regulatory-decisions.md`](../blob/main/docs/compliance/regulatory-decisions.md).
+
+  - type: dropdown
+    id: domain
+    attributes:
+      label: "Onderwerp"
+      multiple: true
+      options:
+        - "Gegevensminimalisatie"
+        - "Doelbinding"
+        - "Grondslag / toestemming"
+        - "Bewaartermijnen"
+        - "Rechten van betrokkenen (inzage, correctie, verwijdering, dataportabiliteit)"
+        - "Gegevensclassificatie"
+        - "Verwerkers en leveranciers"
+        - "Internationale gegevensdoorgifte"
+        - "Audit trail / logging"
+        - "Toegangscontrole en autorisatiebeheer"
+        - "Risicobeoordeling / DPIA"
+        - "Wijzigingsbeheer"
+        - "Bewijsvoering voor controles"
+        - "Mogelijke vergunning of regulatoir regime"
+        - "Overig"
+    validations:
+      required: true
+
+  - type: textarea
+    id: question
+    attributes:
+      label: "Vraag of taak"
+      description: "Wat moet worden uitgezocht, vastgelegd of aangepast?"
+    validations:
+      required: true
+
+  - type: textarea
+    id: trigger
+    attributes:
+      label: "Aanleiding"
+      placeholder: "Nieuwe feature #123 verwerkt transactiegegevens van derden."
+    validations:
+      required: true
+
+  - type: dropdown
+    id: nature
+    attributes:
+      label: "Aard van het item"
+      options:
+        - "Uitzoeken / advies inwinnen"
+        - "Documentatie of register bijwerken"
+        - "Control implementeren of aanscherpen"
+        - "Bewijs verzamelen voor audit"
+        - "Beslissing laten nemen door bevoegde specialist"
+    validations:
+      required: true
+
+  - type: input
+    id: owner
+    attributes:
+      label: "Eigenaar"
+      placeholder: "@[ORG]/privacy of naam van de complianceverantwoordelijke"
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: "Acceptatiecriteria"
+      value: |
+        - [ ] Uitkomst vastgelegd in docs/compliance/compliance-register.md (regel: …)
+        - [ ] Control gekoppeld in docs/compliance/control-mapping.md
+        - [ ] Bewijs opgenomen in docs/compliance/audit-evidence.md
+        - [ ] Waar nodig gemarkeerd als "te valideren door een bevoegde specialist"
+        - [ ] Datum laatste beoordeling en goedkeurder vastgelegd
+    validations:
+      required: true
+
+  - type: dropdown
+    id: blocking
+    attributes:
+      label: "Blokkeert dit een release?"
+      options:
+        - "Nee"
+        - "Ja — release kan niet door zonder afronding"
+        - "Nog te bepalen"
+    validations:
+      required: true
+
+  - type: input
+    id: due-date
+    attributes:
+      label: "Uiterste datum"
+      placeholder: "JJJJ-MM-DD"
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: hygiene
+    attributes:
+      label: "Controle vooraf"
+      options:
+        - label: "Dit issue bevat geen echte persoonsgegevens of vertrouwelijke leveranciersinformatie"
+          required: true

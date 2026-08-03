@@ -1,0 +1,95 @@
+# Dependency review — beoordeelt nieuwe of gewijzigde afhankelijkheden in een pull request
+# op bekende kwetsbaarheden en op licenties, vóórdat ze in de hoofdbranch belanden.
+#
+# Let op: dependency-review-action vereist dat de Dependency graph aanstaat
+# (Settings → Code security and analysis → Dependency graph). Voor private repositories
+# is daar GitHub Advanced Security voor nodig.
+#
+# Deze workflow controleert eerst zélf of de functie beschikbaar is:
+#   * beschikbaar     → de review draait en is blokkerend bij hoge/kritieke bevindingen;
+#   * niet beschikbaar → de review wordt overgeslagen met een zichtbare waarschuwing,
+#     zodat elke pull request niet permanent rood staat om een repository-instelling.
+# In dat laatste geval blijven scripts/ci/license-check.sh (licenties) en de Trivy-scan
+# in security-scan.yml (kwetsbaarheden) van kracht. Zet de functie aan zodra dat kan —
+# zie control CM-05 in docs/compliance/control-mapping.md.
+name: Dependency review
+
+on:
+  pull_request:
+    branches: ["main", "develop", "release/**"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  dependency-review:
+    name: dependency-review
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Is de Dependency graph beschikbaar?
+        id: capability
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          code="$(curl -sS -o /dev/null -w '%{http_code}' \
+            -H "Authorization: Bearer ${GH_TOKEN}" \
+            -H "Accept: application/vnd.github+json" \
+            "${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/dependency-graph/sbom")"
+          if [ "${code}" = "200" ]; then
+            echo "available=true" >> "$GITHUB_OUTPUT"
+            echo "Dependency graph is beschikbaar; de review is blokkerend."
+          else
+            echo "available=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::Dependency graph staat uit voor deze repository (HTTP ${code}). De dependency review is overgeslagen. Zet de functie aan via Settings → Code security and analysis; tot die tijd dekken license-check.sh en de Trivy-scan een deel van deze control af (CM-05)."
+            {
+              echo "### Dependency review overgeslagen"
+              echo ""
+              echo "De Dependency graph is niet beschikbaar voor deze repository (HTTP \`${code}\`)."
+              echo "Deze control is daarmee **niet actief**. Zet de functie aan via"
+              echo "*Settings → Code security and analysis* en registreer dit als openstaande"
+              echo "actie bij control CM-05 in \`docs/compliance/control-mapping.md\`."
+            } >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Nieuwe afhankelijkheden beoordelen
+        if: steps.capability.outputs.available == 'true'
+        uses: actions/dependency-review-action@a1d282b36b6f3519aa1f3fc636f609c47dddb294 # v5.0.0
+        with:
+          # Geen enkele nieuwe afhankelijkheid met een bekende hoge of kritieke kwetsbaarheid.
+          fail-on-severity: high
+          # Licentiebeleid — AANNAME, te bevestigen door [LEGAL/COMPLIANCE].
+          # Sterke copyleft is uitgesloten omdat de dienst als gehoste applicatie wordt
+          # aangeboden; een AGPL-component kan brononthullingsverplichtingen meebrengen.
+          #
+          # Let op: de actie merkt `deny-licenses` aan als verouderd en kan de optie in
+          # een volgende major verwijderen. Herzie dit bij de volgende major-upgrade
+          # (het alternatief is een allowlist, maar die markeert ook alle GitHub Actions
+          # zonder gepubliceerde licentie als bevinding). Deze afweging hoort in een ADR
+          # zodra de organisatie een definitief licentiebeleid heeft vastgesteld.
+          deny-licenses: AGPL-3.0, AGPL-3.0-only, AGPL-3.0-or-later, SSPL-1.0
+          comment-summary-in-pr: on-failure
+          warn-only: false
+
+      - name: Toelichting bij falen
+        if: failure() && steps.capability.outputs.available == 'true'
+        run: |
+          echo "::error::Nieuwe afhankelijkheid met een hoge/kritieke kwetsbaarheid of een niet-toegestane licentie. Kies een alternatief, wacht op een gepatchte versie, of leg een expliciete risicoacceptatie vast volgens GOVERNANCE.md."
+
+  license-check:
+    name: license-check
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: ./.github/actions/setup-stack
+      - name: Licentiecontrole op de volledige afhankelijkhedenboom
+        run: ./scripts/ci/license-check.sh
+        env:
+          TEMPLATE_STRICT: ${{ vars.TEMPLATE_STRICT || 'false' }}

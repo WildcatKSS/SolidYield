@@ -1,0 +1,103 @@
+name: "🏔️ Epic"
+description: "Grote samenhangende brok waarde onder een productdoel. Bevat features."
+title: "[Epic] "
+labels:
+  - "type:epic"
+body:
+  - type: input
+    id: product-goal
+    attributes:
+      label: "Bijbehorend productdoel"
+      description: "Zie docs/product/product-goals.md."
+      placeholder: "PD-1: [PRODUCTDOEL]"
+    validations:
+      required: true
+
+  - type: textarea
+    id: outcome
+    attributes:
+      label: "Beoogd resultaat"
+      description: "Welk gebruikers- of bedrijfsresultaat levert deze epic? Geen oplossingsbeschrijving."
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: "Probleem en bewijs"
+      description: "Waarom denken we dat dit een echt probleem is? Bron van bewijs."
+    validations:
+      required: true
+
+  - type: textarea
+    id: success
+    attributes:
+      label: "Succescriteria (meetbaar)"
+      placeholder: "80% van de testgroep vindt binnen 1 minuut het maandoverzicht; taaksucces ≥ 80%."
+    validations:
+      required: true
+
+  - type: textarea
+    id: features
+    attributes:
+      label: "Features in deze epic"
+      value: |
+        - [ ] #
+        - [ ] #
+    validations:
+      required: false
+
+  - type: textarea
+    id: out-of-scope
+    attributes:
+      label: "Buiten scope"
+    validations:
+      required: true
+
+  - type: textarea
+    id: risks
+    attributes:
+      label: "Risico's en aannames"
+      value: |
+        - Aanname:
+        - Risico (security/privacy/compliance/technisch):
+        - Grootste onzekerheid die we eerst willen valideren:
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: threat-checklist
+    attributes:
+      label: "Threat modelling"
+      description: >-
+        Loop bij de start van deze epic de epic-threatchecklist door
+        (docs/architecture/epic-threat-checklist.md, ± 45 minuten). Raakt de epic geen
+        gegevens, geld, toegang of externe koppeling, vink dan het tweede vakje aan en
+        licht dat toe in de risico's hierboven.
+      options:
+        - label: "Epic-threatchecklist doorlopen; uitkomsten verwerkt in acceptatiecriteria of eigen issues"
+        - label: "Niet van toepassing — toegelicht bij Risico's en aannames"
+
+  - type: dropdown
+    id: impact
+    attributes:
+      label: "Security-, privacy- en compliance-impact (eerste inschatting)"
+      multiple: true
+      options:
+        - "Security: hoog"
+        - "Security: middel of laag"
+        - "Privacy: verwerkt persoonsgegevens"
+        - "Privacy: geen persoonsgegevens"
+        - "Compliance: raakt mogelijk een verplichting — te valideren door bevoegde specialist"
+        - "Compliance: geen"
+        - "Nog te beoordelen"
+    validations:
+      required: true
+
+  - type: input
+    id: target-release
+    attributes:
+      label: "Beoogde release"
+      placeholder: "MVP / bèta / v1.2 / n.t.b."
+    validations:
+      required: false

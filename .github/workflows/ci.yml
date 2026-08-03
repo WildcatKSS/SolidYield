@@ -1,0 +1,199 @@
+# Continuous Integration — build, lint, tests, coverage, toegankelijkheid.
+#
+# Deze workflow roept uitsluitend scripts uit scripts/ci/ aan. Die scripts detecteren de
+# technologiestack zelf. Zolang [TECH STACK] niet is gekozen, waarschuwen ze en slagen ze.
+# Zet de repository-variabele TEMPLATE_STRICT=true (Settings → Secrets and variables →
+# Actions → Variables) zodra de stack er is: ontbrekende controles worden dan fouten.
+#
+# De jobnamen hieronder zijn bedoeld als *required status checks* in branch protection:
+#   build, lint, unit-tests, integration-tests, coverage, e2e-tests, accessibility
+name: CI
+
+on:
+  push:
+    branches: ["main", "develop", "release/**"]
+  pull_request:
+    branches: ["main", "develop", "release/**"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  TEMPLATE_STRICT: ${{ vars.TEMPLATE_STRICT || 'false' }}
+  COVERAGE_MIN: ${{ vars.COVERAGE_MIN || '70' }}
+  APP_ENV: test
+  # Externe financiële koppelingen draaien in CI altijd als mock/sandbox — nooit live.
+  PROVIDER_MODE: mock
+
+jobs:
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    outputs:
+      stack: ${{ steps.setup.outputs.stack }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - id: setup
+        uses: ./.github/actions/setup-stack
+      - name: Build
+        run: ./scripts/ci/build.sh
+      - name: Artifact uploaden
+        if: steps.setup.outputs.stack != 'none'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: build-output
+          path: |
+            dist/
+            build/
+            target/*.jar
+            out/
+          if-no-files-found: ignore
+          retention-days: 7
+
+  lint:
+    name: lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: ./.github/actions/setup-stack
+      - name: Shellcheck installeren
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq shellcheck
+      - name: Lint en formatteercontrole
+        run: ./scripts/ci/lint.sh
+
+  unit-tests:
+    name: unit-tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    needs: build
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: ./.github/actions/setup-stack
+      - name: Afhankelijkheden installeren
+        run: ./scripts/ci/build.sh
+      - name: Unit tests
+        run: ./scripts/ci/test-unit.sh
+      - name: Coveragerapport bewaren
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: coverage-report
+          path: |
+            coverage/
+            coverage.xml
+            coverage.out
+          if-no-files-found: ignore
+          retention-days: 7
+
+  integration-tests:
+    name: integration-tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    needs: build
+    # Voorbeeldservices. Haal uit commentaar zodra de stack een database of cache gebruikt.
+    # services:
+    #   postgres:
+    #     image: postgres:16-alpine
+    #     env:
+    #       POSTGRES_USER: app
+    #       POSTGRES_PASSWORD: ci-only-not-a-real-secret
+    #       POSTGRES_DB: app_test
+    #     ports: ["5432:5432"]
+    #     options: >-
+    #       --health-cmd pg_isready --health-interval 10s
+    #       --health-timeout 5s --health-retries 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: ./.github/actions/setup-stack
+      - name: Afhankelijkheden installeren
+        run: ./scripts/ci/build.sh
+      - name: Integratietests
+        run: ./scripts/ci/test-integration.sh
+        env:
+          # Uitsluitend synthetische testdata; nooit een productieverbinding.
+          DATABASE_URL: postgresql://app:ci-only-not-a-real-secret@localhost:5432/app_test
+
+  coverage:
+    name: coverage
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs: unit-tests
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: coverage-report
+        continue-on-error: true
+      - name: Dekkingsdrempel controleren
+        run: ./scripts/ci/coverage-check.sh
+
+  e2e-tests:
+    name: e2e-tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    needs: build
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: ./.github/actions/setup-stack
+      - name: Afhankelijkheden installeren
+        run: ./scripts/ci/build.sh
+      - name: End-to-endtests
+        run: ./scripts/ci/test-e2e.sh
+      - name: Testrapport bewaren
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: e2e-report
+          path: |
+            playwright-report/
+            test-results/
+          if-no-files-found: ignore
+          retention-days: 7
+
+  accessibility:
+    name: accessibility
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    needs: build
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: ./.github/actions/setup-stack
+      - name: Afhankelijkheden installeren
+        run: ./scripts/ci/build.sh
+      - name: Toegankelijkheidscontrole (WCAG 2.2 AA)
+        run: ./scripts/ci/test-accessibility.sh
+      - name: Herinnering handmatige controle
+        run: |
+          echo "::notice::Geautomatiseerde controles vinden ~1/3 van de toegankelijkheidsproblemen. Handmatige toetsenbord- en schermlezercontrole blijft onderdeel van de Definition of Done."
+
+  ci-status:
+    name: ci-status
+    runs-on: ubuntu-latest
+    needs: [build, lint, unit-tests, integration-tests, coverage, e2e-tests, accessibility]
+    if: always()
+    steps:
+      - name: Resultaat samenvatten
+        run: |
+          {
+            echo "### CI-resultaat"
+            echo "| Job | Status |"
+            echo "|---|---|"
+            echo "| build | ${{ needs.build.result }} |"
+            echo "| lint | ${{ needs.lint.result }} |"
+            echo "| unit-tests | ${{ needs.unit-tests.result }} |"
+            echo "| integration-tests | ${{ needs.integration-tests.result }} |"
+            echo "| coverage | ${{ needs.coverage.result }} |"
+            echo "| e2e-tests | ${{ needs.e2e-tests.result }} |"
+            echo "| accessibility | ${{ needs.accessibility.result }} |"
+          } >> "$GITHUB_STEP_SUMMARY"
+      - name: Falen wanneer een verplichte job niet is geslaagd
+        if: contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')
+        run: |
+          echo "::error::Een of meer verplichte CI-controles zijn niet geslaagd. Merge is geblokkeerd."
+          exit 1

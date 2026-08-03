@@ -1,0 +1,85 @@
+name: "🧩 Feature"
+description: "Samenhangende functionaliteit binnen een epic. Bevat user stories."
+title: "[Feature] "
+labels:
+  - "type:feature"
+body:
+  - type: input
+    id: epic
+    attributes:
+      label: "Bijbehorende epic"
+      placeholder: "#12"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: "Wat houdt deze feature in?"
+    validations:
+      required: true
+
+  - type: textarea
+    id: value
+    attributes:
+      label: "Gebruikers- en businesswaarde"
+    validations:
+      required: true
+
+  - type: textarea
+    id: stories
+    attributes:
+      label: "User stories"
+      value: |
+        - [ ] #
+        - [ ] #
+    validations:
+      required: false
+
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: "Acceptatiecriteria op featureniveau"
+      value: |
+        - [ ] Given … When … Then …
+    validations:
+      required: true
+
+  - type: textarea
+    id: out-of-scope
+    attributes:
+      label: "Buiten scope"
+    validations:
+      required: true
+
+  - type: textarea
+    id: impact
+    attributes:
+      label: "Security-, privacy- en compliance-impact"
+      value: |
+        - Security:
+        - Privacy:
+        - Compliance:
+    validations:
+      required: true
+
+  - type: textarea
+    id: validation
+    attributes:
+      label: "Validatie met de testgroep"
+      placeholder: "Welke hypothese toetsen we, met welke methode, in welke sprint?"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: moscow
+    attributes:
+      label: "MoSCoW-prioriteit voor de MVP"
+      options:
+        - "Must have"
+        - "Should have"
+        - "Could have"
+        - "Won't have (deze release)"
+        - "Nog te bepalen"
+    validations:
+      required: true

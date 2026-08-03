@@ -1,0 +1,68 @@
+name: "Setup stack"
+description: >-
+  Detecteert de technologiestack aan de hand van manifestbestanden en installeert de
+  bijbehorende toolchain. Zolang [TECH STACK] niet is gekozen, doet deze actie niets en
+  meldt zij dat via de output 'stack=none'.
+inputs:
+  node-version:
+    description: "Node.js-versie (LTS aanbevolen)"
+    required: false
+    default: "22"
+  python-version:
+    description: "Python-versie"
+    required: false
+    default: "3.12"
+  go-version:
+    description: "Go-versie"
+    required: false
+    default: "1.23"
+  java-version:
+    description: "Java-versie"
+    required: false
+    default: "21"
+outputs:
+  stack:
+    description: "Gedetecteerde stack: node | python | go | java-maven | java-gradle | dotnet | rust | none"
+    value: ${{ steps.detect.outputs.stack }}
+runs:
+  using: "composite"
+  steps:
+    - id: detect
+      shell: bash
+      run: |
+        source ./scripts/ci/common.sh
+        stack="$(detect_stack)"
+        echo "stack=${stack}" >> "$GITHUB_OUTPUT"
+        echo "Gedetecteerde stack: ${stack}"
+        if [ "${stack}" = "none" ]; then
+          echo "::notice::Nog geen technologiestack in de repository. Vul [TECH STACK] in; de controles draaien dan automatisch mee."
+        fi
+
+    - if: steps.detect.outputs.stack == 'node'
+      uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+      with:
+        node-version: ${{ inputs.node-version }}
+        cache: npm
+
+    - if: steps.detect.outputs.stack == 'python'
+      uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+      with:
+        python-version: ${{ inputs.python-version }}
+        cache: pip
+
+    - if: steps.detect.outputs.stack == 'go'
+      uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5.6.0
+      with:
+        go-version: ${{ inputs.go-version }}
+
+    - if: steps.detect.outputs.stack == 'java-maven' || steps.detect.outputs.stack == 'java-gradle'
+      uses: actions/setup-java@c1e323688fd81a25caa38c78aa6df2d33d3e20d9 # v4.8.0
+      with:
+        distribution: temurin
+        java-version: ${{ inputs.java-version }}
+        cache: maven
+
+    - if: steps.detect.outputs.stack == 'dotnet'
+      uses: actions/setup-dotnet@67a3573c9a986a3f9c594539f4ab511d57bb3ce9 # v4.3.1
+      with:
+        dotnet-version: "8.0.x"

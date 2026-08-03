@@ -1,0 +1,136 @@
+name: "🧪 Testgroepfeedback"
+description: "Observatie, signaal of citaat uit een sessie met de testgroep. Eén item per bevinding."
+title: "[Feedback] "
+labels:
+  - "feedback:test-group"
+  - "needs:refinement"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        > **Geen namen, contactgegevens, opnames of screenshots met echte gegevens.**
+        > Gebruik deelnemerscodes (P1, P2, …). Zie
+        > [`docs/research/consent-and-privacy-check.md`](../blob/main/docs/research/consent-and-privacy-check.md).
+        >
+        > Feedback wordt **niet automatisch gebouwd**. Elk item wordt getoetst aan visie,
+        > frequentie, impact, risico, haalbaarheid, strategische waarde en bewijssterkte —
+        > zie [`docs/research/feedback-log.md`](../blob/main/docs/research/feedback-log.md).
+
+  - type: input
+    id: session
+    attributes:
+      label: "Sessie / ronde"
+      placeholder: "Sprint 3 — usabilitytest ronde 2, 2026-03-11"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: method
+    attributes:
+      label: "Methode"
+      options:
+        - "Usabilitytest"
+        - "Interview"
+        - "Sprint Review met testgroep"
+        - "Feedbackformulier"
+        - "Analytics / meting"
+        - "Ongevraagde melding van een deelnemer"
+    validations:
+      required: true
+
+  - type: textarea
+    id: observation
+    attributes:
+      label: "Observatie"
+      description: "Wat gebeurde er feitelijk? Beschrijf gedrag, niet je interpretatie."
+      placeholder: "P4 zocht 45 seconden naar het maandoverzicht en klikte driemaal op 'Instellingen'."
+    validations:
+      required: true
+
+  - type: textarea
+    id: quote
+    attributes:
+      label: "Citaat (geanonimiseerd)"
+      placeholder: "\"Ik verwacht dit gewoon op het startscherm te zien.\" — P4"
+    validations:
+      required: false
+
+  - type: dropdown
+    id: classification
+    attributes:
+      label: "Classificatie"
+      options:
+        - "Kritiek probleem — gebruiker kan de taak niet afronden, of geld/gegevens lopen risico"
+        - "Gebruiksprobleem — taak lukt, maar met moeite"
+        - "Ontbrekende behoefte — functionaliteit die er niet is"
+        - "Verbetering — werkt, kan beter"
+        - "Compliment — bevestigt dat iets werkt"
+        - "Nieuwe hypothese — vraagt om vervolgonderzoek"
+        - "Buiten scope — past niet bij de huidige productvisie"
+    validations:
+      required: true
+
+  - type: input
+    id: frequency
+    attributes:
+      label: "Frequentie"
+      description: "Bij hoeveel deelnemers zagen we dit?"
+      placeholder: "4 van 8 deelnemers"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: impact
+    attributes:
+      label: "Impact op de gebruiker"
+      options:
+        - "Blokkerend"
+        - "Groot"
+        - "Matig"
+        - "Klein"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: evidence
+    attributes:
+      label: "Bewijssterkte"
+      options:
+        - "Sterk — waargenomen gedrag bij meerdere deelnemers, ondersteund door data"
+        - "Middel — waargenomen bij enkele deelnemers"
+        - "Zwak — mening of wens van één deelnemer"
+    validations:
+      required: true
+
+  - type: textarea
+    id: hypothesis
+    attributes:
+      label: "Voorgestelde hypothese of vervolgstap"
+      placeholder: "Wij denken dat het tonen van het maandoverzicht op het startscherm de vindtijd onder 10 seconden brengt."
+    validations:
+      required: false
+
+  - type: dropdown
+    id: risk-flags
+    attributes:
+      label: "Signalen die directe aandacht vragen"
+      multiple: true
+      options:
+        - "Geen"
+        - "Mogelijk securityrisico (meld ook via SECURITY.md)"
+        - "Mogelijk privacyrisico"
+        - "Mogelijk misleidende of onduidelijke financiële informatie"
+        - "Toegankelijkheidsprobleem"
+        - "Deelnemer raakte in verwarring over geld of kosten"
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: hygiene
+    attributes:
+      label: "Controle vooraf"
+      options:
+        - label: "Geen namen, contactgegevens of herleidbare gegevens van deelnemers opgenomen"
+          required: true
+        - label: "Deelnemer heeft toestemming gegeven voor het gebruik van deze feedback"
+          required: true

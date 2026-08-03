@@ -1,0 +1,139 @@
+name: "🐞 Bug report"
+description: "Iets werkt niet zoals bedoeld."
+title: "[Bug] "
+labels:
+  - "type:bug"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        > **Is dit een beveiligingskwetsbaarheid?** Meld die dan **niet** hier, maar via
+        > [SECURITY.md](../blob/main/SECURITY.md) (private vulnerability reporting).
+        > **Gebruik geen echte persoonsgegevens, bedragen, rekeningnummers of screenshots
+        > met echte data.** Maskeer waar nodig.
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: "Wat gaat er mis?"
+      placeholder: "Het saldo op het dashboard wijkt af van het transactieoverzicht."
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: "Reproductiestappen"
+      value: |
+        1.
+        2.
+        3.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: "Verwacht resultaat"
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: "Werkelijk resultaat"
+      description: "Voeg foutmeldingen of (gemaskeerde) logregels toe."
+    validations:
+      required: true
+
+  - type: dropdown
+    id: environment
+    attributes:
+      label: "Omgeving"
+      options:
+        - "Lokaal (development)"
+        - "Test"
+        - "Staging"
+        - "Testgroepomgeving"
+        - "Productie"
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: "Versie / commit"
+      placeholder: "v1.2.3 of commit abc1234"
+    validations:
+      required: true
+
+  - type: input
+    id: client
+    attributes:
+      label: "Apparaat, besturingssysteem en browser/app"
+      placeholder: "iPhone 14, iOS 18.3, Safari"
+    validations:
+      required: false
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: "Ernst"
+      options:
+        - "Kritiek — geldstroom, dataverlies, beveiliging of volledige uitval"
+        - "Hoog — kernfunctie onbruikbaar, geen workaround"
+        - "Middel — hinderlijk, workaround beschikbaar"
+        - "Laag — cosmetisch"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: frequency
+    attributes:
+      label: "Hoe vaak treedt het op?"
+      options:
+        - "Altijd"
+        - "Vaak"
+        - "Soms"
+        - "Eenmalig / niet reproduceerbaar"
+    validations:
+      required: true
+
+  - type: textarea
+    id: impact
+    attributes:
+      label: "Impact op gebruikers en op geld/gegevens"
+      description: "Hoeveel gebruikers, welke schade, en is er sprake van onjuiste bedragen of gegevenslekkage?"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: data-impact
+    attributes:
+      label: "Raakt dit persoonsgegevens of financiële gegevens?"
+      options:
+        - "Nee"
+        - "Ja — gegevens worden onjuist getoond of berekend"
+        - "Ja — mogelijk zichtbaar voor de verkeerde gebruiker (direct melden bij security en privacy)"
+        - "Onbekend"
+    validations:
+      required: true
+
+  - type: textarea
+    id: workaround
+    attributes:
+      label: "Workaround"
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: hygiene
+    attributes:
+      label: "Controle vooraf"
+      options:
+        - label: "Ik heb gezocht of dit issue al bestaat"
+          required: true
+        - label: "Dit issue bevat geen echte persoonsgegevens, betaalgegevens of inloggegevens"
+          required: true
+        - label: "Dit is geen beveiligingskwetsbaarheid (anders: zie SECURITY.md)"
+          required: true

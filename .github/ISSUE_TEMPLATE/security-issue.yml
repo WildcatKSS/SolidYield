@@ -1,0 +1,129 @@
+name: "🔐 Securitytaak (niet-gevoelig)"
+description: "Securitywerk dat openbaar besproken mag worden: hardening, controls, securitytests, opvolging van scanbevindingen."
+title: "[Security] "
+labels:
+  - "type:security"
+  - "risk:medium"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        > ## ⛔ Stop als dit een kwetsbaarheid is
+        > Meld **onbekende of nog niet verholpen kwetsbaarheden** nooit via een publiek issue.
+        > Gebruik private vulnerability reporting of `[SECURITY-CONTACT-EMAIL]` — zie
+        > [SECURITY.md](../blob/main/SECURITY.md).
+        >
+        > Dit formulier is uitsluitend bedoeld voor **niet-gevoelig** securitywerk:
+        > verbeteringen, controls, securitytests en het opvolgen van reeds afgeschermde bevindingen.
+        > Verwijs naar interne bevindingen met een referentie (bijv. `SEC-2026-014`),
+        > niet met exploitdetails.
+
+  - type: checkboxes
+    id: gate
+    attributes:
+      label: "Bevestiging"
+      options:
+        - label: "Dit issue bevat geen onbekende kwetsbaarheid, exploitdetails, payloads of gevoelige gegevens"
+          required: true
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: "Categorie"
+      options:
+        - "Authenticatie / MFA"
+        - "Sessiebeheer"
+        - "Autorisatie / rollen en rechten"
+        - "Encryptie in transport of opslag"
+        - "Secrets management"
+        - "Invoervalidatie / uitvoercodering"
+        - "Rate limiting / misbruikbescherming"
+        - "Fraudepreventie / transactielimieten"
+        - "Audit logging en monitoring"
+        - "Afhankelijkheden en supply chain"
+        - "Configuratie en hardening van omgevingen"
+        - "Back-up en herstel"
+        - "Securitytest of pentestopvolging"
+        - "Overig"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: "Wat moet er gebeuren?"
+      description: "Beschrijf het gewenste eindresultaat, niet de aanvalstechniek."
+    validations:
+      required: true
+
+  - type: textarea
+    id: rationale
+    attributes:
+      label: "Waarom is dit nodig?"
+      description: "Welk risico wordt verkleind? Verwijs naar het threat model, een control of een auditbevinding."
+      placeholder: "Threat model T-07 (docs/architecture/threat-model.md); control SEC-04."
+    validations:
+      required: true
+
+  - type: dropdown
+    id: risk-level
+    attributes:
+      label: "Risiconiveau (huidige situatie)"
+      options:
+        - "Kritiek"
+        - "Hoog"
+        - "Middel"
+        - "Laag"
+        - "Nog te bepalen"
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: "Acceptatiecriteria"
+      value: |
+        - [ ] Given … When … Then …
+        - [ ] Er is een geautomatiseerde test die de maatregel bewaakt (tests/security/)
+        - [ ] Bewijs vastgelegd in docs/compliance/audit-evidence.md
+    validations:
+      required: true
+
+  - type: textarea
+    id: verification
+    attributes:
+      label: "Hoe wordt dit geverifieerd?"
+      placeholder: "Geautomatiseerde test, scanregel, handmatige verificatie door @[ORG]/security, hertest na fix."
+    validations:
+      required: true
+
+  - type: dropdown
+    id: privacy-impact
+    attributes:
+      label: "Privacy-impact"
+      options:
+        - "Geen"
+        - "Raakt persoonsgegevens (bijv. logging of toegang)"
+        - "Nog te beoordelen"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: compliance-impact
+    attributes:
+      label: "Compliance-impact"
+      options:
+        - "Geen"
+        - "Raakt een control uit docs/compliance/control-mapping.md"
+        - "Nog te beoordelen"
+    validations:
+      required: true
+
+  - type: input
+    id: deadline
+    attributes:
+      label: "Uiterste datum (indien van toepassing)"
+      description: "Volg de SLA's uit docs/security/vulnerability-management.md."
+      placeholder: "JJJJ-MM-DD"
+    validations:
+      required: false

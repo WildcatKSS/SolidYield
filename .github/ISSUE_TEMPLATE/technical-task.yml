@@ -1,0 +1,121 @@
+name: "🔧 Technische taak"
+description: "Technisch werk zonder directe gebruikerswaarde: refactor, infrastructuur, tooling, techniek onder een story."
+title: "[Tech] "
+labels:
+  - "type:technical-task"
+body:
+  - type: textarea
+    id: goal
+    attributes:
+      label: "Doel"
+      description: "Wat moet er technisch gebeuren en waarom nu?"
+    validations:
+      required: true
+
+  - type: input
+    id: parent
+    attributes:
+      label: "Hoort bij"
+      description: "User story, feature of epic waar dit onder valt."
+      placeholder: "#123"
+    validations:
+      required: false
+
+  - type: textarea
+    id: rationale
+    attributes:
+      label: "Onderbouwing"
+      description: "Welk risico, welke schuld of welke belemmering lost dit op? Wat gebeurt er als we het niet doen?"
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: "Acceptatiecriteria"
+      value: |
+        - [ ] Given … When … Then …
+        - [ ] Geen functionele regressie (aangetoond met tests)
+        - [ ] Documentatie/ADR bijgewerkt waar nodig
+    validations:
+      required: true
+
+  - type: dropdown
+    id: change-type
+    attributes:
+      label: "Soort wijziging"
+      multiple: true
+      options:
+        - "Refactor"
+        - "Infrastructuur / cloud"
+        - "CI/CD-pipeline"
+        - "Afhankelijkheden / supply chain"
+        - "Performance"
+        - "Observability (logging, metrics, tracing)"
+        - "Datamodel of migratie"
+        - "Tooling / developer experience"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: security-impact
+    attributes:
+      label: "Security-impact"
+      options:
+        - "Geen"
+        - "Laag"
+        - "Middel"
+        - "Hoog — raakt authenticatie, autorisatie, sleutels, geldstromen of de pipeline"
+        - "Nog te beoordelen"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: privacy-impact
+    attributes:
+      label: "Privacy-impact"
+      options:
+        - "Geen persoonsgegevens"
+        - "Raakt opslag, doorgifte of toegang tot persoonsgegevens"
+        - "Nog te beoordelen"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: compliance-impact
+    attributes:
+      label: "Compliance-impact"
+      options:
+        - "Geen"
+        - "Raakt een control of bewijsvoering"
+        - "Nog te beoordelen"
+    validations:
+      required: true
+
+  - type: textarea
+    id: risk-rollback
+    attributes:
+      label: "Risico's en rollback"
+      value: |
+        - Risico's:
+        - Migratie nodig: ja/nee
+        - Rollbackplan:
+        - Benodigde afstemming (omgevingen, leveranciers, downtime):
+    validations:
+      required: true
+
+  - type: textarea
+    id: test-approach
+    attributes:
+      label: "Testaanpak"
+      placeholder: "Welke geautomatiseerde tests tonen aan dat dit werkt en niets breekt?"
+    validations:
+      required: true
+
+  - type: input
+    id: estimate
+    attributes:
+      label: "Schatting (story points)"
+      placeholder: "3"
+    validations:
+      required: false

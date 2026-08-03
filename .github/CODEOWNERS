@@ -1,0 +1,47 @@
+# CODEOWNERS — verplichte reviewers per pad.
+# Werkt alleen als de genoemde teams/gebruikers schrijfrechten hebben op de repository.
+# Zet in branch protection "Require review from Code Owners" aan.
+# Laatste match wint; wees dus specifiek onderaan.
+
+# --- Standaard ---
+*                                   @[ORG]/tech-leads
+
+# --- Product & Scrum ---
+/docs/product/                      @[ORG]/product-owners @[ORG]/ux
+/docs/scrum/                        @[ORG]/scrum-masters @[ORG]/product-owners
+/docs/research/                     @[ORG]/ux @[ORG]/privacy
+
+# --- Architectuur & besluitvorming ---
+/docs/architecture/                 @[ORG]/tech-leads
+/docs/architecture/threat-model.md  @[ORG]/tech-leads @[ORG]/security
+/docs/architecture/adr/             @[ORG]/tech-leads @[ORG]/security
+
+# --- Security, privacy, compliance ---
+/SECURITY.md                        @[ORG]/security
+/docs/security/                     @[ORG]/security
+/docs/privacy/                      @[ORG]/privacy
+/docs/compliance/                   @[ORG]/compliance @[ORG]/privacy
+/GOVERNANCE.md                      @[ORG]/product-owners @[ORG]/compliance
+
+# --- Pipeline en supply chain (vier-ogenprincipe) ---
+/.github/                           @[ORG]/tech-leads @[ORG]/security
+/.github/workflows/                 @[ORG]/tech-leads @[ORG]/security
+/.github/CODEOWNERS                 @[ORG]/tech-leads @[ORG]/security
+/scripts/                           @[ORG]/tech-leads @[ORG]/security
+/.env.example                       @[ORG]/tech-leads @[ORG]/security
+
+# --- Gevoelige applicatiepaden: pas aan zodra [TECH STACK] bekend is ---
+# Voorbeelden; de paden bestaan pas als de code er is.
+/src/auth/                          @[ORG]/security @[ORG]/tech-leads
+/src/payments/                      @[ORG]/security @[ORG]/tech-leads @[ORG]/compliance
+/src/transactions/                  @[ORG]/security @[ORG]/tech-leads
+/src/crypto/                        @[ORG]/security
+/src/**/migrations/                 @[ORG]/tech-leads @[ORG]/privacy
+
+# --- Tests ---
+/tests/security/                    @[ORG]/security
+/tests/accessibility/               @[ORG]/ux
+
+# --- Releases ---
+/CHANGELOG.md                       @[ORG]/product-owners
+/docs/releases/                     @[ORG]/product-owners @[ORG]/security @[ORG]/compliance

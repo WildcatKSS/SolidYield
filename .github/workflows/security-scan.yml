@@ -1,0 +1,311 @@
+# Securityscans — secret scanning, statische analyse (SAST), kwetsbaarheden in
+# afhankelijkheden, containerscan, infrastructuurscan en SBOM.
+#
+# Deze workflow blokkeert een pull request bij kritieke of hoge bevindingen (job
+# security-gate). Die poort is **fail-closed**: iedere verplichte securityjob moet exact
+# 'success' zijn. Een gecancelde, overgeslagen of ontbrekende controle blokkeert net zo
+# goed als een gefaalde — een niet-uitgevoerde controle is geen geslaagde controle.
+# Zie docs/security/vulnerability-management.md voor de SLA's.
+#
+# Voorwaarden in de repository:
+#   * Code scanning (GitHub Advanced Security of publieke repo) voor SARIF-upload;
+#     zonder die functie falen de upload-stappen niet, maar zijn de resultaten alleen
+#     zichtbaar in de joblogs (continue-on-error).
+#   * Secret scanning en push protection staan bij voorkeur óók aan in
+#     Settings → Code security and analysis.
+name: Security scan
+
+on:
+  push:
+    branches: ["main", "develop", "release/**"]
+  pull_request:
+    branches: ["main", "develop", "release/**"]
+  schedule:
+    # Wekelijks opnieuw scannen: nieuwe CVE's raken ook ongewijzigde code.
+    - cron: "0 5 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: security-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  TEMPLATE_STRICT: ${{ vars.TEMPLATE_STRICT || 'false' }}
+
+jobs:
+  secret-scan:
+    name: secret-scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0 # volledige historie: secrets worden ook in oude commits gezocht
+      # Gitleaks (MIT) is de blokkerende secret scanner. Bewust géén TruffleHog als
+      # tweede controle: die actie staat onder AGPL-3.0 en botst daarmee met het
+      # licentiebeleid in dependency-review.yml. Een uitzondering maken op het eigen
+      # beleid voor het eigen gemak is precies wat een control waardeloos maakt.
+      # Aanvullende dekking komt van GitHub secret scanning + push protection
+      # (Settings → Code security and analysis) — zie SECURITY.md.
+      - name: Gitleaks
+        uses: gitleaks/gitleaks-action@e0c47f4f8be36e29cdc102c57e68cb5cbf0e8d1e # v3.0.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # GITLEAKS_LICENSE is vereist voor organisatierepositories; voor persoonlijke
+          # repositories is de actie gratis. Ontbreekt de licentie in een organisatie,
+          # dan faalt deze stap met een duidelijke melding — dat is bewust: een
+          # stilzwijgend overgeslagen secret scan is gevaarlijker dan een rode build.
+          GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE }}
+      - name: Toelichting
+        if: failure()
+        run: |
+          echo "::error::Mogelijk secret aangetroffen. Roteer het secret onmiddellijk (het is gelekt zodra het gepusht is), verwijder het uit de historie en meld dit volgens docs/security/incident-response.md."
+
+  sast:
+    name: sast
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      # Semgrep is stack-agnostisch en draait ook zonder gekozen [TECH STACK]: regels
+      # voor talen die niet in de repository voorkomen leveren simpelweg geen treffers.
+      # Deze stap is bewust blokkerend — de documentatie belooft dat de security-gate
+      # merges tegenhoudt bij securityproblemen, en dat kan alleen als de scan zelf mag
+      # falen. Een terechte bevinding los je op; een onterechte onderdruk je expliciet
+      # met een regel in .semgrepignore of een `nosemgrep`-annotatie, met onderbouwing
+      # en houdbaarheidsdatum in docs/compliance/audit-evidence.md (§4).
+      - name: Semgrep
+        uses: semgrep/semgrep-action@713efdd345f3035192eaa63f56867b88e63e4e5d # v1 (= v0.58.0)
+        with:
+          config: >-
+            p/default
+            p/security-audit
+            p/secrets
+            p/owasp-top-ten
+          generateSarif: "true"
+
+      # Alleen de upload blijft best effort: die vereist Code scanning, en het ontbreken
+      # daarvan mag de scan zelf niet ongedaan maken. De bevindingen staan dan in de log.
+      - name: Semgrep-resultaten uploaden
+        uses: github/codeql-action/upload-sarif@f205ea1c3313d32999d8d6a48b4f6530d4437b38 # v4.37.4
+        if: always() && hashFiles('semgrep.sarif') != ''
+        with:
+          sarif_file: semgrep.sarif
+          category: semgrep
+        continue-on-error: true
+
+      # CodeQL geeft diepere analyse. Zet de repository-variabele CODEQL_LANGUAGES
+      # (bijv. "javascript-typescript" of "python,java") zodra [TECH STACK] bekend is.
+      - name: CodeQL initialiseren
+        if: vars.CODEQL_LANGUAGES != ''
+        uses: github/codeql-action/init@f205ea1c3313d32999d8d6a48b4f6530d4437b38 # v4.37.4
+        with:
+          languages: ${{ vars.CODEQL_LANGUAGES }}
+          queries: security-extended
+      - name: CodeQL autobuild
+        if: vars.CODEQL_LANGUAGES != ''
+        uses: github/codeql-action/autobuild@f205ea1c3313d32999d8d6a48b4f6530d4437b38 # v4.37.4
+      - name: CodeQL analyse
+        if: vars.CODEQL_LANGUAGES != ''
+        uses: github/codeql-action/analyze@f205ea1c3313d32999d8d6a48b4f6530d4437b38 # v4.37.4
+
+  dependency-vulnerabilities:
+    name: dependency-vulnerabilities
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Trivy filesystem scan
+        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
+        with:
+          scan-type: fs
+          scan-ref: .
+          scanners: vuln,secret,misconfig
+          severity: CRITICAL,HIGH
+          format: sarif
+          output: trivy-fs.sarif
+          exit-code: "0" # de gate-job beslist; hier alleen rapporteren
+      - name: Resultaten uploaden
+        uses: github/codeql-action/upload-sarif@f205ea1c3313d32999d8d6a48b4f6530d4437b38 # v4.37.4
+        if: always() && hashFiles('trivy-fs.sarif') != ''
+        with:
+          sarif_file: trivy-fs.sarif
+          category: trivy-fs
+        continue-on-error: true
+      - name: Kritieke en hoge bevindingen tellen
+        id: count
+        run: |
+          count=0
+          if [ -f trivy-fs.sarif ]; then
+            count="$(grep -c '"level": *"error"' trivy-fs.sarif || true)"
+          fi
+          echo "findings=${count}" >> "$GITHUB_OUTPUT"
+          echo "Kritieke/hoge bevindingen: ${count}"
+      - name: Blokkeren bij kritieke of hoge bevindingen
+        if: steps.count.outputs.findings != '0'
+        run: |
+          echo "::error::Er zijn kritieke of hoge kwetsbaarheden in afhankelijkheden gevonden. De Definition of Done staat dit niet toe. Zie docs/security/vulnerability-management.md."
+          exit 1
+
+  container-scan:
+    name: container-scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Aanwezigheid Dockerfile bepalen
+        id: check
+        run: |
+          if [ -f Dockerfile ] || [ -f docker/Dockerfile ]; then
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "present=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::Geen Dockerfile gevonden; containerscan overgeslagen. Deze job wordt automatisch actief zodra er containers worden gebruikt."
+          fi
+      - name: Image bouwen
+        if: steps.check.outputs.present == 'true'
+        run: docker build -t local/scan-target:${{ github.sha }} .
+      - name: Trivy image scan
+        if: steps.check.outputs.present == 'true'
+        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
+        with:
+          scan-type: image
+          image-ref: local/scan-target:${{ github.sha }}
+          severity: CRITICAL,HIGH
+          ignore-unfixed: true
+          format: sarif
+          output: trivy-image.sarif
+          exit-code: "1"
+      - name: Resultaten uploaden
+        if: always() && hashFiles('trivy-image.sarif') != ''
+        uses: github/codeql-action/upload-sarif@f205ea1c3313d32999d8d6a48b4f6530d4437b38 # v4.37.4
+        with:
+          sarif_file: trivy-image.sarif
+          category: trivy-image
+        continue-on-error: true
+
+  iac-scan:
+    name: iac-scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Infrastructuurcode aanwezig?
+        id: check
+        run: |
+          if find . -name '*.tf' -o -name '*.bicep' -o -path '*k8s*' -name '*.yaml' | grep -q .; then
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "present=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::Geen infrastructure as code gevonden; scan overgeslagen. Wordt actief zodra [CLOUD] is gekozen en /infra bestaat."
+          fi
+      - name: Trivy config scan
+        if: steps.check.outputs.present == 'true'
+        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
+        with:
+          scan-type: config
+          scan-ref: .
+          severity: CRITICAL,HIGH
+          exit-code: "1"
+
+  sbom:
+    name: sbom
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: SBOM genereren (CycloneDX)
+        uses: anchore/sbom-action@e22c389904149dbc22b58101806040fa8d37a610 # v0.24.0
+        with:
+          format: cyclonedx-json
+          artifact-name: sbom.cyclonedx.json
+          output-file: sbom.cyclonedx.json
+      - name: SBOM bewaren
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: sbom
+          path: sbom.cyclonedx.json
+          if-no-files-found: warn
+          retention-days: 90
+
+  # ---------------------------------------------------------------------------
+  # Centrale poort — fail-closed.
+  #
+  # Iedere verplichte securityjob moet exact 'success' zijn. Niet "niet gefaald":
+  # een gecancelde, overgeslagen of ontbrekende controle is géén geslaagde controle.
+  # Daarom heeft geen enkele verplichte job een job-level `if` — jobs die niet van
+  # toepassing zijn (geen Dockerfile, geen infrastructuurcode) ronden intern succesvol
+  # af met een duidelijke notice, zodat deze poort geen 'skipped' hoeft te tolereren.
+  # ---------------------------------------------------------------------------
+  security-gate:
+    name: security-gate
+    runs-on: ubuntu-latest
+    needs: [secret-scan, sast, dependency-vulnerabilities, container-scan, iac-scan, sbom]
+    if: always()
+    steps:
+      - name: Resultaten controleren (elke verplichte job moet 'success' zijn)
+        env:
+          SECRET_SCAN: ${{ needs.secret-scan.result }}
+          SAST: ${{ needs.sast.result }}
+          DEPENDENCIES: ${{ needs.dependency-vulnerabilities.result }}
+          CONTAINER: ${{ needs.container-scan.result }}
+          IAC: ${{ needs.iac-scan.result }}
+          SBOM: ${{ needs.sbom.result }}
+        run: |
+          set -uo pipefail
+
+          required="secret-scan:${SECRET_SCAN} sast:${SAST} dependency-vulnerabilities:${DEPENDENCIES} container-scan:${CONTAINER} iac-scan:${IAC} sbom:${SBOM}"
+
+          {
+            echo "### Securitycontroles"
+            echo ""
+            echo "| Controle | Resultaat | Poort |"
+            echo "|---|---|---|"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          blocked=false
+          for entry in ${required}; do
+            name="${entry%%:*}"
+            result="${entry#*:}"
+            if [ "${result}" = "success" ]; then
+              verdict="✅ geslaagd"
+            else
+              # Ook 'cancelled', 'skipped' en een lege waarde blokkeren.
+              verdict="⛔ blokkeert"
+              blocked=true
+              if [ -z "${result}" ]; then
+                echo "::error::Securitycontrole '${name}' leverde geen resultaat op. Een ontbrekende controle telt niet als geslaagd."
+              else
+                echo "::error::Securitycontrole '${name}' eindigde met '${result}' in plaats van 'success'. Een niet-uitgevoerde controle is geen geslaagde controle."
+              fi
+            fi
+            echo "| ${name} | ${result:-onbekend} | ${verdict} |" >> "$GITHUB_STEP_SUMMARY"
+          done
+
+          if [ "${blocked}" = "true" ]; then
+            {
+              echo ""
+              echo "> ⛔ **De security-gate blokkeert.** Merge en release gaan niet door tot elke"
+              echo "> verplichte controle op \`success\` staat. Is een bevinding onterecht, onderdruk die"
+              echo "> dan expliciet met onderbouwing, beoordelaar en houdbaarheidsdatum in"
+              echo "> \`docs/compliance/audit-evidence.md\` §4. Een risicoacceptatie volgens"
+              echo "> \`GOVERNANCE.md\` verandert niets aan het feit dat de controle niet is uitgevoerd."
+            } >> "$GITHUB_STEP_SUMMARY"
+            exit 1
+          fi
+
+          echo "Alle verplichte securitycontroles zijn geslaagd."

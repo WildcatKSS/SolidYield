@@ -1,0 +1,316 @@
+name: "📗 User story"
+description: "Waarde vanuit gebruikersperspectief. Gebruik dit voor alles wat een gebruiker merkt."
+title: "[Story] "
+labels:
+  - "type:user-story"
+  - "needs:refinement"
+projects: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Voordat je begint
+        * **Meld beveiligingskwetsbaarheden niet hier** — volg [SECURITY.md](../blob/main/SECURITY.md).
+        * Gebruik **geen echte** persoonsgegevens, betaalgegevens of inloggegevens in dit issue.
+        * Een story hoeft nog niet compleet te zijn; hij moet vóór de sprint voldoen aan de
+          [Definition of Ready](../blob/main/docs/scrum/definition-of-ready.md).
+
+  - type: input
+    id: title-summary
+    attributes:
+      label: "Korte titel"
+      description: "Eén zin, in gebruikerstaal. Geen oplossing, wel resultaat."
+      placeholder: "Maandoverzicht per uitgavencategorie bekijken"
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: "Probleem of gebruikersbehoefte"
+      description: "Welk probleem lost dit op? Waar blijkt dat uit (onderzoek, support, data)?"
+      placeholder: |
+        Gebruikers weten aan het einde van de maand niet waar hun geld heen ging.
+        Bron: interviews P3, P5, P7 (docs/research/feedback-log.md, FB-012).
+    validations:
+      required: true
+
+  - type: dropdown
+    id: persona
+    attributes:
+      label: "Persona"
+      description: "Zie docs/product/personas.md. Meerdere mag."
+      multiple: true
+      options:
+        - "Persona A — [PERSONA-A]"
+        - "Persona B — [PERSONA-B]"
+        - "Persona C — [PERSONA-C]"
+        - "Interne gebruiker (support/beheer)"
+        - "Nog te bepalen"
+    validations:
+      required: true
+
+  - type: textarea
+    id: user-story
+    attributes:
+      label: "User story"
+      description: "Formaat: Als … wil ik … zodat …"
+      value: |
+        Als [type gebruiker]
+        wil ik [wat]
+        zodat [waarom / welk resultaat].
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: "Context"
+      description: "Achtergrond, bestaande situatie, relevante besluiten, ADR's of epics."
+      placeholder: "Onderdeel van epic #12. Bouwt voort op ADR-0004 (categorisatie)."
+    validations:
+      required: true
+
+  - type: textarea
+    id: user-value
+    attributes:
+      label: "Verwachte gebruikerswaarde"
+      description: "Wat wordt er meetbaar beter voor de gebruiker of voor het productdoel?"
+      placeholder: |
+        Gebruiker ziet binnen 10 seconden na inloggen waar het geld heen ging.
+        Draagt bij aan productdoel: [PRODUCTDOEL].
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: "Acceptatiecriteria (Given/When/Then)"
+      description: "Controleerbaar, testbaar en zonder implementatiekeuzes. Neem ook foutpaden op."
+      value: |
+        - [ ] Given een ingelogde gebruiker met minimaal één transactie
+              When de gebruiker het dashboard opent
+              Then ziet de gebruiker de uitgaven van de huidige maand per categorie
+
+        - [ ] Given een gebruiker zonder transacties
+              When de gebruiker het dashboard opent
+              Then ziet de gebruiker een lege staat met uitleg en geen foutmelding
+
+        - [ ] Given een niet-ingelogde bezoeker
+              When deze de pagina rechtstreeks opvraagt
+              Then volgt een redirect naar inloggen en worden geen gegevens getoond
+    validations:
+      required: true
+
+  - type: textarea
+    id: out-of-scope
+    attributes:
+      label: "Buiten scope"
+      description: "Wat doen we bewust níét in deze story? Voorkomt scope creep."
+      placeholder: "Exporteren naar PDF. Vergelijking met vorige maanden. Handmatig categoriseren."
+    validations:
+      required: true
+
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: "Afhankelijkheden"
+      description: "Andere issues, teams, leveranciers, API's, data of besluiten."
+      placeholder: |
+        - Blocked by #45 (categorisatieservice)
+        - Vereist besluit over [DATA-LEVERANCIER]
+        - Nodig: sandbox-koppeling van [PROVIDER]
+    validations:
+      required: false
+
+  - type: textarea
+    id: design
+    attributes:
+      label: "Designs of prototypes"
+      description: "Link naar design, prototype of wireframe. Nog geen design? Beschrijf de functionele uitgangspunten."
+      placeholder: "Figma: [LINK] (frame 'Dashboard v3'). Copy: [LINK]."
+    validations:
+      required: false
+
+  - type: textarea
+    id: analytics
+    attributes:
+      label: "Analytics- of meetplan"
+      description: "Welke gebeurtenissen meten we, welke succesmaat hoort erbij, en hoe blijft dat privacyvriendelijk?"
+      value: |
+        - Te meten gebeurtenis(sen):
+        - Succesmaat / drempelwaarde:
+        - Waar zichtbaar (dashboard):
+        - Bevat de meting persoonsgegevens? ja/nee — zo ja: grondslag en minimalisatie
+    validations:
+      required: true
+
+  - type: dropdown
+    id: security-impact
+    attributes:
+      label: "Security-impact"
+      options:
+        - "Geen — geen authenticatie, autorisatie, geld of gevoelige data geraakt"
+        - "Laag"
+        - "Middel"
+        - "Hoog — raakt authenticatie, autorisatie, geld, sleutels of gevoelige data"
+        - "Nog te beoordelen"
+    validations:
+      required: true
+
+  - type: textarea
+    id: security-notes
+    attributes:
+      label: "Toelichting security"
+      description: "Welke misbruikscenario's zijn denkbaar? Welke maatregelen horen bij deze story? Geen exploitdetails."
+      placeholder: |
+        - Autorisatie: gebruiker mag uitsluitend eigen transacties zien (IDOR-risico).
+        - Rate limiting op het endpoint.
+        - Bedragen en rekeningnummers niet in logs.
+    validations:
+      required: false
+
+  - type: dropdown
+    id: privacy-impact
+    attributes:
+      label: "Privacy-impact"
+      options:
+        - "Geen persoonsgegevens"
+        - "Bestaande persoonsgegevens, bestaand doel"
+        - "Nieuwe gegevens of nieuw doel — beoordeling privacy nodig"
+        - "Bijzondere of financiële gegevens op grote schaal — DPIA-toets nodig"
+        - "Nog te beoordelen"
+    validations:
+      required: true
+
+  - type: textarea
+    id: privacy-notes
+    attributes:
+      label: "Toelichting privacy"
+      description: "Welke gegevens, welk doel, hoe lang, wie heeft toegang, welke minimalisatie?"
+      placeholder: |
+        - Gegevens: transactiebedrag, datum, categorie (geen tegenrekeninghouder tonen).
+        - Doel: financieel inzicht geven aan de gebruiker zelf.
+        - Bewaartermijn: volgt docs/privacy/data-retention.md.
+    validations:
+      required: false
+
+  - type: dropdown
+    id: compliance-impact
+    attributes:
+      label: "Compliance-impact"
+      options:
+        - "Geen"
+        - "Raakt een bestaande control (zie docs/compliance/control-mapping.md)"
+        - "Mogelijk nieuwe verplichting — te valideren door bevoegde specialist"
+        - "Nog te beoordelen"
+    validations:
+      required: true
+
+  - type: textarea
+    id: accessibility
+    attributes:
+      label: "Toegankelijkheid"
+      description: "Welke WCAG-eisen zijn relevant? Streefniveau is WCAG 2.2 AA."
+      value: |
+        - [ ] Volledig bedienbaar met toetsenbord
+        - [ ] Zichtbare focusindicator
+        - [ ] Contrast minimaal 4.5:1 (tekst) / 3:1 (grote tekst en UI-elementen)
+        - [ ] Betekenis niet uitsluitend via kleur (belangrijk bij bedragen en waarschuwingen)
+        - [ ] Correcte labels, koppen en foutmeldingen voor schermlezers
+        - [ ] Begrijpelijke taal (streefniveau B1)
+    validations:
+      required: true
+
+  - type: textarea
+    id: test-approach
+    attributes:
+      label: "Testaanpak"
+      description: "Welke tests op welk niveau, en welke testdata (uitsluitend synthetisch)?"
+      value: |
+        - Unit:
+        - Integratie:
+        - End-to-end:
+        - Security (bijv. autorisatie op objectniveau):
+        - Toegankelijkheid:
+        - Handmatig / exploratory:
+        - Benodigde synthetische testdata:
+    validations:
+      required: true
+
+  - type: textarea
+    id: test-group-validation
+    attributes:
+      label: "Validatie met de testgroep"
+      description: "Hoe toetsen we bij echte gebruikers of dit werkt? Zie docs/research/test-group-plan.md."
+      value: |
+        - Hypothese: wij denken dat [verandering] leidt tot [effect] voor [persona].
+        - Methode: ⬜ usabilitytest ⬜ interview ⬜ prototype ⬜ meting in testomgeving ⬜ n.v.t.
+        - Succescriterium:
+        - Gepland in sprint:
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: definition-of-ready
+    attributes:
+      label: "Definition of Ready"
+      description: "Volledig: docs/scrum/definition-of-ready.md. Alle vinkjes vóór Sprint Planning."
+      options:
+        - label: "Probleem en gebruikerswaarde zijn duidelijk"
+        - label: "Acceptatiecriteria zijn controleerbaar"
+        - label: "Afhankelijkheden zijn bekend en vastgelegd"
+        - label: "Designs of functionele uitgangspunten zijn beschikbaar"
+        - label: "Security-, privacy- en compliance-impact zijn voorlopig beoordeeld"
+        - label: "Testaanpak is duidelijk"
+        - label: "Item past binnen één sprint"
+        - label: "Het team begrijpt het item (refinement gedaan, geschat)"
+        - label: "Openstaande blokkades zijn zichtbaar"
+
+  - type: checkboxes
+    id: definition-of-done-universeel
+    attributes:
+      label: "Definition of Done — universele criteria"
+      description: >-
+        Gelden altijd. Af te vinken tijdens de uitvoering; de pull request herhaalt ze.
+        Ontbreekt er één, dan is het item niet Done — er is geen uitzonderingsprocedure
+        (docs/scrum/definition-of-done.md §4).
+      options:
+        - label: "U1 — acceptatiecriteria aantoonbaar behaald"
+        - label: "U2 — review uitgevoerd door iemand anders dan de maker"
+        - label: "U3 — verplichte CI-controles geslaagd"
+        - label: "U4 — geen blokkerende bevindingen open (security-gate groen)"
+        - label: "U5 — geen secrets, echte persoonsgegevens of productiedata toegevoegd"
+        - label: "U6 — documentatie bijgewerkt waar nodig"
+        - label: "U7 — traceerbaar: issue ↔ pull request ↔ commit"
+        - label: "U8 — samengevoegd in de hoofdbranch, CI groen"
+
+  - type: checkboxes
+    id: definition-of-done-conditioneel
+    attributes:
+      label: "Definition of Done — conditionele criteria"
+      description: >-
+        Vink alleen aan wat dit item raakt. Wat je niet aanvinkt maar wél verwacht mocht
+        worden, licht je in één regel toe in de pull request. Volledige lijst:
+        docs/scrum/definition-of-done.md sectie B.
+      options:
+        - label: "C1 — applicatiecode: passende tests toegevoegd, dekking blijft boven de drempel"
+        - label: "C2 — UI: toegankelijkheid gecontroleerd (WCAG 2.2 AA op de kernreis)"
+        - label: "C3 — authenticatie/autorisatie: negatieve tests aanwezig"
+        - label: "C4 — geldstromen: tests op afronding, randgevallen en idempotentie"
+        - label: "C5 — datamodel/migratie: getest en terugdraaibaar, rollbackplan in de PR"
+        - label: "C6 — persoonsgegevens: doel, grondslag, minimalisatie en bewaartermijn geregeld"
+        - label: "C7 — control geraakt: bewijs vastgelegd in docs/compliance/audit-evidence.md"
+        - label: "C8 — gebruikersaanname: validatie met gebruikers uitgevoerd of ingepland, uitkomst vastgelegd"
+        - label: "C9 — operationeel: logging, metrics of alerts toegevoegd, runbook bijgewerkt"
+        - label: "C10 — securitygevoelig pad: review door de code owners"
+        - label: "C11 — geverifieerd in een representatieve testomgeving met synthetische data"
+        - label: "C12 — release-impact: regel toegevoegd onder Unreleased in CHANGELOG.md"
+
+  - type: checkboxes
+    id: data-hygiene
+    attributes:
+      label: "Datahygiëne"
+      options:
+        - label: "Dit issue bevat geen echte persoonsgegevens, betaalgegevens of inloggegevens"
+          required: true

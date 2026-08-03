@@ -1,0 +1,83 @@
+# Dependabot — supply-chainonderhoud.
+#
+# Actief is alleen "github-actions": dat ecosysteem bestaat in deze template al.
+# De overige ecosystemen staan bewust uitgecommentarieerd; Dependabot geeft een fout
+# wanneer een directory of manifest niet bestaat. Haal het juiste blok uit commentaar
+# zodra [TECH STACK] is gekozen en het manifest in de repository staat.
+#
+# Documentatie: https://docs.github.com/code-security/dependabot
+version: 2
+
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+      timezone: "Europe/Amsterdam"
+    open-pull-requests-limit: 5
+    labels:
+      - "type:technical-task"
+      - "type:security"
+      - "priority:medium"
+    commit-message:
+      prefix: "ci"
+      include: "scope"
+    # reviewers:
+    #   - "[ORG]/security"
+
+  # --- Node.js — activeer zodra package.json bestaat ---
+  # - package-ecosystem: "npm"
+  #   directory: "/"
+  #   schedule:
+  #     interval: "weekly"
+  #     day: "monday"
+  #     time: "06:00"
+  #     timezone: "Europe/Amsterdam"
+  #   open-pull-requests-limit: 10
+  #   versioning-strategy: "increase"
+  #   labels:
+  #     - "type:technical-task"
+  #     - "type:security"
+  #   commit-message:
+  #     prefix: "build"
+  #     include: "scope"
+  #   groups:
+  #     dev-dependencies:
+  #       dependency-type: "development"
+  #       update-types: ["minor", "patch"]
+  #     production-patches:
+  #       dependency-type: "production"
+  #       update-types: ["patch"]
+  #   ignore:
+  #     # Major upgrades vragen om een bewuste beslissing en een eigen backlogitem.
+  #     - dependency-name: "*"
+  #       update-types: ["version-update:semver-major"]
+
+  # --- Python — activeer zodra requirements.txt / pyproject.toml bestaat ---
+  # - package-ecosystem: "pip"
+  #   directory: "/"
+  #   schedule:
+  #     interval: "weekly"
+  #   labels: ["type:technical-task", "type:security"]
+  #   commit-message:
+  #     prefix: "build"
+
+  # --- Containers — activeer zodra er een Dockerfile is ---
+  # - package-ecosystem: "docker"
+  #   directory: "/"
+  #   schedule:
+  #     interval: "weekly"
+  #   labels: ["type:technical-task", "type:security"]
+  #   commit-message:
+  #     prefix: "build"
+
+  # --- Terraform — activeer zodra /infra bestaat ---
+  # - package-ecosystem: "terraform"
+  #   directory: "/infra"
+  #   schedule:
+  #     interval: "monthly"
+  #   labels: ["type:technical-task"]
+  #   commit-message:
+  #     prefix: "build"

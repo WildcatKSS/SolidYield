@@ -1,0 +1,100 @@
+# Kwaliteitscontroles die losstaan van de applicatiestack: consistentie van de template,
+# statische analyse van de repository zelf, en hygiëne rond documentatie en pipeline.
+name: Code quality
+
+on:
+  push:
+    branches: ["main", "develop", "release/**"]
+  pull_request:
+    branches: ["main", "develop", "release/**"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: quality-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  template-consistency:
+    name: template-consistency
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: PyYAML installeren
+        run: python3 -m pip install --quiet pyyaml
+      - name: Template controleren (bestanden, YAML, scriptverwijzingen)
+        run: ./scripts/verify-template.sh
+
+  workflow-lint:
+    name: workflow-lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: actionlint
+        run: |
+          bash <(curl -sSf https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash)
+          ./actionlint -color
+        continue-on-error: true
+
+  shell-lint:
+    name: shell-lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: shellcheck
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq shellcheck
+          shellcheck -S warning scripts/*.sh scripts/ci/*.sh scripts/release/*.sh
+
+  code-quality:
+    name: code-quality
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0 # nodig voor analyse over de historie (bijv. SonarQube)
+      - uses: ./.github/actions/setup-stack
+      - name: Lint en formatteercontrole
+        run: ./scripts/ci/lint.sh
+        env:
+          TEMPLATE_STRICT: ${{ vars.TEMPLATE_STRICT || 'false' }}
+      # --- Optioneel: kwaliteitsplatform ---
+      # Vul SONAR_TOKEN en SONAR_HOST_URL in als het team SonarQube/SonarCloud gebruikt.
+      # - name: SonarQube
+      #   if: env.SONAR_TOKEN != ''
+      #   uses: SonarSource/sonarqube-scan-action@fd88b7d7ccbaefd23d8f36f73b59db7a3d246602 # v6.0.0
+      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      #     SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+
+  docs-hygiene:
+    name: docs-hygiene
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Openstaande placeholders tellen
+        run: |
+          count="$(grep -rIo '\[[A-Z][A-Z0-9 _/-]\{2,\}\]' --include='*.md' --include='*.yml' . | wc -l | tr -d ' ')"
+          echo "Aantal placeholderverwijzingen: ${count}"
+          {
+            echo "### Openstaande placeholders"
+            echo ""
+            echo "Nog **${count}** placeholderverwijzingen in de repository."
+            echo "Zie \`docs/placeholders.md\`. Deze horen ingevuld te zijn vóór de eerste"
+            echo "release naar de testgroep."
+          } >> "$GITHUB_STEP_SUMMARY"
+      - name: Controleren op TODO's zonder issueverwijzing
+        run: |
+          # Een TODO hoort te verwijzen naar een issue (#123), anders raakt het werk zoek.
+          if grep -rIn 'TODO' --include='*.md' --include='*.sh' --include='*.yml' . \
+              | grep -v 'code-quality.yml' \
+              | grep -vE '#[0-9]+'; then
+            echo "::warning::Er staan TODO's zonder issueverwijzing in de repository. Maak er backlogitems van."
+          fi
+        continue-on-error: true
