@@ -31,6 +31,9 @@ security-impact worden expliciet gemarkeerd.
 ### Gewijzigd
 - **Compliance:** RD-01 aangescherpt naar de concrete productvorm; het regulatoire
   regime blijft open en blokkeert elke externe propositie (#1)
+- Productdoel PD-1 uitkomstgericht geherformuleerd: een inleg die binnen vijftien
+  minuten zelfstandig af te ronden is, en die de gebruiker daarna aantoonbaar
+  begrijpt (uitkering én risico). Meetwaarde voor doorlooptijd toegevoegd (#1)
 
 <!--
 Voorbeeld van een ingevulde release. Verwijder dit commentaar zodra je eigen releases

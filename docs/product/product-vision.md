@@ -41,18 +41,16 @@
 
 ## 3. Belangrijkste productdoel
 
-Een betrouwbare digitale omgeving realiseren waarin een Nederlandse particuliere of
-zakelijke gebruiker zelfstandig een account kan openen, identificatie kan doorlopen, geld
-kan storten, een bedrag en looptijd kan kiezen, en continu inzicht heeft in het afgesproken
-rendement, de einddatum en de verwachte uitkering.
+Een gebruiker uit de doelgroep kan binnen vijftien minuten zelfstandig een inleg afronden,
+en kan daarna in eigen woorden correct benoemen welk bedrag er wanneer wordt uitgekeerd en
+welk risico eraan verbonden is.
 
 Uitwerking en meetwaarden: [`product-goals.md`](product-goals.md).
 
-> Dit doel is in deze vorm deels **outputgericht** (een omgeving realiseren) in plaats van
-> gericht op gebruikersgedrag of -uitkomst. Het is als PD-1 overgenomen om de richting vast
-> te leggen; de meetbare herformulering staat in
-> [`product-goals.md`](product-goals.md) en wordt bij de eerste Sprint Review
-> aangescherpt. Zie risico V-3 in §9.
+> Het doel is bewust in twee helften geknipt. De eerste helft meet of het product
+> **werkt**; de tweede of het **eerlijk** is. Een gebruiker die vlot een inleg afrondt maar
+> achteraf niet kan benoemen welk risico daaraan vastzit, telt niet als succes — dat is
+> principe 5 ("nooit misleidend") in meetbare vorm.
 
 ## 4. Doelgroep
 
@@ -143,7 +141,8 @@ Persona's: [`personas.md`](personas.md).
 |---|---|---|
 | V-1 | De doelgroep is geworven op "geen beleggingsrisico", terwijl de constructie mogelijk wél kapitaalrisico kent | zorgplicht- en toezichtrisico; raakt principe 5. Beslispunt vóór elke externe propositie |
 | V-2 | De kernbelofte "vast rendement" kan een garantiesuggestie wekken die niet waargemaakt kan worden; een toegezegd vast rendement kent bovendien eigen informatieverplichtingen | herformulering van de belofte kan nodig zijn na juridisch advies |
-| V-3 | Het productdoel is outputgericht geformuleerd en stuurt op opleveren in plaats van op gebruikersuitkomst | risico op bouwen zonder validatie; herformulering bij eerste Sprint Review |
+| V-3 | ~~Het productdoel is outputgericht geformuleerd en stuurt op opleveren in plaats van op gebruikersuitkomst~~ | **vervallen 2026-08-03** — PD-1 is uitkomstgericht geherformuleerd |
+| V-4 | De begripstoets in PD-1 is pas volledig uitvoerbaar als RD-16 beantwoord is: zolang de constructie onbekend is, staat niet vast welk risico de gebruiker moet kunnen benoemen | PD-1 is tot die tijd slechts gedeeltelijk meetbaar |
 
 ## 10. Herziening
 
@@ -153,3 +152,4 @@ kwartaal, en direct wanneer onderzoek een kernaanname weerlegt.
 | Datum | Wijziging | Door |
 |---|---|---|
 | 2026-08-03 | eerste versie — productnaam, doelgroep, probleem en productdoel vastgesteld; type dienst en regulatoir regime expliciet opengelaten | Product Owner |
+| 2026-08-03 | §3 productdoel uitkomstgericht geherformuleerd; risico V-3 vervallen, V-4 toegevoegd | Product Owner |
