@@ -4,11 +4,13 @@
 
 > **Status:** in opzet. Productnaam, doelgroep, probleem en productdoel zijn vastgesteld
 > (besluit 1 in §10); de [productvisie](docs/product/product-vision.md) is daarop
-> ingevuld. De overige waarden tussen vierkante haken (`[TYPE DIENST]`, `[TECH STACK]`,
-> `[ORG]`, …) zijn nog **niet** ingevuld — zie [`docs/placeholders.md`](docs/placeholders.md).
+> ingevuld. Ook het type financiële dienst is vastgesteld (besluit 2). De overige waarden
+> tussen vierkante haken (`[TECH STACK]`, `[ORG]`, …) zijn nog **niet** ingevuld — zie
+> [`docs/placeholders.md`](docs/placeholders.md).
 >
-> **Blokkerend:** onder welk regulatoir regime SolidYield mag worden aangeboden is nog
-> niet vastgesteld (besluit 2 en 4 in §10, RD-01). Dat blokkeert geen onderzoek of
+> **Blokkerend:** het product is beschreven, maar nog niet juridisch gekwalificeerd.
+> Onder welk regulatoir regime SolidYield mag worden aangeboden staat niet vast
+> (besluit 4 in §10; RD-01, RD-17, RD-18, RD-19). Dat blokkeert geen onderzoek of
 > ontwerp, wél elke externe propositie en elke geldstroom van echte gebruikers.
 
 > [!IMPORTANT]
@@ -77,7 +79,7 @@ privacyprincipes.
 | Onderwerp | Waarde | Consequentie |
 |---|---|---|
 | Productnaam · doelgroep · probleem · productdoel | **SolidYield** · Nederlandse particuliere spaarders · de keuze tussen laagrentend sparen en complex beleggen · een inleg die binnen vijftien minuten zelfstandig af te ronden is, en die de gebruiker daarna aantoonbaar begrijpt — uitkering én risico | zie [productvisie](docs/product/product-vision.md) |
-| Type financiële dienst | `[TYPE DIENST]` — **nog niet vastgesteld** | **bepaalt het regulatoire regime** |
+| Type financiële dienst | **digitaal contractueel rendementproduct** | het bijbehorende **regulatoire regime** is nog **niet** vastgesteld |
 | Landen/regio's | **Nederland** (dataresidency nog te bepalen) | bepaalt toezichthouder en dataresidency |
 | Technologiestack · cloud | `[TECH STACK]` · `[CLOUD]` | vastleggen als [ADR](docs/architecture/adr/) |
 | Sprintduur · testgroep | `[SPRINTDUUR]` · `[TESTGROEP]` | zie [Scrum](docs/scrum/scrum-guide.md) en [testgroepplan](docs/research/test-group-plan.md) |
@@ -205,9 +207,9 @@ Niet besloten — behandel deze niet als feit:
 | # | Onderwerp | Type | Eigenaar |
 |---|---|---|---|
 | 1 | Productnaam, doelgroep, probleem, productdoel | ✅ **besloten 2026-08-03** — [productvisie](docs/product/product-vision.md) | Product Owner |
-| 2 | Type financiële dienst (bepaalt het regulatoire regime) | open besluit — **blokkeert 4** | PO + Compliance |
+| 2 | Type financiële dienst | ✅ **besloten 2026-08-03** — digitaal contractueel rendementproduct; het **regulatoire regime** is daarmee níét bepaald, zie 4 | PO + Compliance |
 | 3 | Landen/regio's, dataresidency, taal | deels besloten: markt **Nederland**, taal **Nederlands**, valuta **EUR**; dataresidency open | PO + Compliance |
-| 4 | Vergunningplicht en rol in de keten | **te valideren door bevoegde specialist** | Compliance |
+| 4 | Vergunningplicht en rol in de keten (RD-01, RD-17, RD-18, RD-19) | **te valideren door bevoegde specialist** — blokkeert elke externe propositie en elke geldstroom van echte gebruikers | Compliance |
 | 5 | Technologiestack en cloudprovider | open besluit | Tech lead |
 | 6 | Sprintduur (aanname: 2 weken) | aanname | Scrum Master |
 | 7 | Samenstelling testgroep (aanname: 8–12 deelnemers) | aanname | UX-expertise |

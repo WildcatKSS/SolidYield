@@ -29,8 +29,13 @@ security-impact worden expliciet gemarkeerd.
   onder het rendement (#1)
 
 ### Gewijzigd
-- **Compliance:** RD-01 aangescherpt naar de concrete productvorm; het regulatoire
-  regime blijft open en blokkeert elke externe propositie (#1)
+- Type financiële dienst vastgesteld: digitaal contractueel rendementproduct. De
+  werking is beschreven in de productvisie §6; het regulatoire regime is
+  uitdrukkelijk niet vastgesteld (#1)
+- **Compliance:** RD-17 t/m RD-19 toegevoegd (betaaldienst-kwalificatie,
+  beleggerskwalificatie, kapitaalvereisten); RD-16 deels beantwoord; RD-01
+  aangescherpt op de vastgestelde productvorm. Het regulatoire regime blijft open
+  en blokkeert elke externe propositie (#1)
 - Productdoel PD-1 uitkomstgericht geherformuleerd: een inleg die binnen vijftien
   minuten zelfstandig af te ronden is, en die de gebruiker daarna aantoonbaar
   begrijpt (uitkering én risico). Meetwaarde voor doorlooptijd toegevoegd (#1)

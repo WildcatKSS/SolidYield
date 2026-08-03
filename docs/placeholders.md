@@ -14,7 +14,7 @@ De workflow `code-quality.yml` telt bij elke run hoeveel er nog openstaan.
 | `[DOELGROEP]` | primaire doelgroep | PO | ✅ **ingevuld 2026-08-03** |
 | `[PROBLEEM]` | kernprobleem | PO | ✅ **ingevuld 2026-08-03** |
 | `[PRODUCTDOEL]` | belangrijkste productdoel | PO | ✅ **ingevuld 2026-08-03** |
-| `[TYPE DIENST]` | budgetteren, betalen, lenen, investeren, financieel inzicht | PO + Compliance | **open — blokkeert RD-01** |
+| `[TYPE DIENST]` | type financiële dienst | PO + Compliance | ✅ **ingevuld 2026-08-03** — digitaal contractueel rendementproduct. Het regulatoire regime blijft open (RD-01) |
 | `[LANDEN/REGIO]`, `[REGIO]` | markt en dataresidency | PO + Compliance | markt ✅ Nederland; `[REGIO]` (dataresidency) nog open |
 | `[TALEN]`, `[VALUTA]` | taal- en valutaondersteuning | PO | ✅ Nederlands, EUR |
 | `[ORGANISATIE]`, `[ORG]` | organisatie- en GitHub-organisatienaam | eigenaar repo | direct |

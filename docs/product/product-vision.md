@@ -1,17 +1,17 @@
 # Productvisie
 
 > **Status:** vastgesteld door de Product Owner op 2026-08-03 voor productnaam, doelgroep,
-> probleem en productdoel (besluit 1 in
-> [`../../README.md`](../../README.md#10-openstaande-beslissingen-en-placeholders)).
-> Waarden die nog tussen `[ ]` staan zijn **nog niet besloten** — met name het type
-> financiële dienst en het regulatoire regime.
+> probleem, productdoel (besluit 1) en het type financiële dienst (besluit 2), zie
+> [`../../README.md`](../../README.md#10-openstaande-beslissingen-en-placeholders).
+> Waarden die nog tussen `[ ]` staan zijn **nog niet besloten**. Het **regulatoire regime**
+> is uitdrukkelijk **niet** vastgesteld: het product is beschreven, niet gekwalificeerd.
 
 ## 1. Visiestatement
 
 > Voor **Nederlandse particuliere spaarders die meer rendement zoeken dan traditioneel
 > sparen, zonder de volatiliteit en complexiteit van beleggen**
 > die **de keuze tussen laagrentend sparen en complex, risicovol beleggen** ervaart,
-> is **SolidYield** een **[TYPE FINANCIËLE DIENST — nog niet vastgesteld, zie §6]**
+> is **SolidYield** een **digitaal contractueel rendementproduct**
 > die **geld voor een vooraf gekozen looptijd laat renderen tegen een vooraf vastgesteld
 > rendement, met continu digitaal inzicht**.
 > Anders dan **een spaarrekening of een beleggingsrekening**
@@ -68,11 +68,16 @@ Uitwerking en meetwaarden: [`product-goals.md`](product-goals.md).
   beperking, en mensen die geld inleggen dat zij op korte termijn nodig hebben.
 
 > ⚠️ **Spanning in de doelgroepdefinitie.** De primaire doelgroep is gedefinieerd als
-> mensen die *geen beleggingsrisico willen*. Of SolidYield een product zonder
-> kapitaalrisico kán zijn, hangt volledig af van de nog te kiezen constructie (§6). Kent
-> die constructie wél kapitaalrisico, dan werven wij een doelgroep op een eigenschap die
-> het product niet heeft. Dat is geen marketingdetail maar een zorgplichtvraag, en het
-> raakt principe 5. Zie risico V-1 in §9.
+> mensen die *geen beleggingsrisico willen*. Met de constructie van 2026-08-03 (§6) klopt
+> dat voor **marktrisico**: de gebruiker maakt geen beleggingskeuzes en het rendement
+> beweegt niet mee met de markt. Maar het risico is niet verdwenen, het is **verplaatst**:
+> de gebruiker heeft een vordering op SolidYield en draagt daarmee **debiteurenrisico**.
+> Kan SolidYield niet terugbetalen, dan raakt de gebruiker zijn inleg alsnog kwijt.
+>
+> Wij werven dus een doelgroep die "geen risico" zoekt, op een product dat een ander soort
+> risico kent. Dat is geen marketingdetail maar een zorgplichtvraag, en het raakt principe
+> 5. Communiceren wij alleen "geen beleggingsrisico", dan is de voorstelling onvolledig.
+> Zie risico V-1 en V-5 in §9.
 
 Persona's: [`personas.md`](personas.md).
 
@@ -93,15 +98,31 @@ Persona's: [`personas.md`](personas.md).
 | Talen | Nederlands | bepaalt contentwerk en toegankelijkheid |
 | Valuta | EUR | bepaalt afronding, weergave en boekhoudlogica |
 | Distributiekanaal | `[WEB / IOS / ANDROID / API]` | bepaalt tech en teststrategie |
-| Type financiële dienst | **`[TYPE DIENST]` — nog niet vastgesteld** | **bepaalt het regulatoire regime** |
+| Type financiële dienst | **digitaal contractueel rendementproduct** (productbeschrijving, vastgesteld 2026-08-03) | het **regulatoire regime** dat hierbij hoort is nog **niet** vastgesteld |
 
-> **Te valideren door een bevoegde specialist.** Het aantrekken van gelden van het publiek
-> die op een afgesproken moment moeten worden terugbetaald, tegen een vooraf vastgestelde
-> vergoeding, raakt in Nederland aan het verbod op het aantrekken van opvorderbare gelden
-> (Wft art. 3:5) en mogelijk aan prospectus- en informatieverplichtingen. Welk regime van
-> toepassing is, en of een vergunning, registratie of ontheffing nodig is, is **geen
-> conclusie die dit team neemt**. Registratie van vraag en antwoord:
-> [`../compliance/regulatory-decisions.md`](../compliance/regulatory-decisions.md) (RD-01).
+### Hoe het product werkt
+
+Vastgesteld door de Product Owner op 2026-08-03, als **feitelijke beschrijving**:
+
+1. De gebruiker brengt een bedrag vanuit de digitale wallet onder in het product, voor een
+   vooraf gekozen looptijd.
+2. Gedurende de looptijd ontvangt de gebruiker een vooraf overeengekomen **maandelijks
+   rendement**.
+3. Na afloop van de looptijd wordt de **oorspronkelijke inleg volledig terugbetaald**.
+4. Gedurende de looptijd beheert en investeert SolidYield het bedrag **voor eigen rekening
+   en risico**.
+5. De wallet is een hulpmiddel binnen het product, geen zelfstandige dienst.
+
+> **Te valideren door een bevoegde specialist.** De beschrijving hierboven is wat het
+> product *doet*; zij zegt niets over hoe het product juridisch *kwalificeert*. Punt 3 en 4
+> samen betekenen een onvoorwaardelijke terugbetalingsverplichting: SolidYield moet de
+> inleg terugbetalen ongeacht het resultaat van de eigen investeringen. Dat raakt in
+> Nederland rechtstreeks aan het verbod op het aantrekken van opvorderbare gelden van het
+> publiek (Wft art. 3:5), en mogelijk aan prospectus- en informatieverplichtingen. Of een
+> vergunning, registratie of vrijstelling van toepassing is, is **geen conclusie die dit
+> team neemt**. Registratie van vraag en antwoord:
+> [`../compliance/regulatory-decisions.md`](../compliance/regulatory-decisions.md)
+> (RD-01, RD-17, RD-18).
 >
 > Dit blokkeert onderzoek en ontwerp niet, maar wel elke externe propositie, elke
 > geldstroom van echte gebruikers en elke uitspraak over rendement.
@@ -139,10 +160,11 @@ Persona's: [`personas.md`](personas.md).
 
 | # | Risico op visieniveau | Impact |
 |---|---|---|
-| V-1 | De doelgroep is geworven op "geen beleggingsrisico", terwijl de constructie mogelijk wél kapitaalrisico kent | zorgplicht- en toezichtrisico; raakt principe 5. Beslispunt vóór elke externe propositie |
+| V-1 | De doelgroep is geworven op "geen beleggingsrisico". Met de constructie van 2026-08-03 klopt dat voor *markt*risico, maar de gebruiker draagt wél **debiteurenrisico op SolidYield**: de terugbetaling van de inleg hangt af van onze solvabiliteit, niet van de markt. Communiceren wij alleen het eerste, dan is de voorstelling onvolledig | zorgplicht- en toezichtrisico; raakt principe 5. Beslispunt vóór elke externe propositie |
 | V-2 | De kernbelofte "vast rendement" kan een garantiesuggestie wekken die niet waargemaakt kan worden; een toegezegd vast rendement kent bovendien eigen informatieverplichtingen | herformulering van de belofte kan nodig zijn na juridisch advies |
 | V-3 | ~~Het productdoel is outputgericht geformuleerd en stuurt op opleveren in plaats van op gebruikersuitkomst~~ | **vervallen 2026-08-03** — PD-1 is uitkomstgericht geherformuleerd |
-| V-4 | De begripstoets in PD-1 is pas volledig uitvoerbaar als RD-16 beantwoord is: zolang de constructie onbekend is, staat niet vast welk risico de gebruiker moet kunnen benoemen | PD-1 is tot die tijd slechts gedeeltelijk meetbaar |
+| V-4 | De begripstoets in PD-1 eist dat de gebruiker het risico kan benoemen. Sinds 2026-08-03 is bekend welk risico dat is — debiteurenrisico op SolidYield — maar niet hoe groot het is; dat hangt aan onze kapitaalpositie (RD-16) | PD-1 is meetbaar zodra de risicotekst vaststaat; de omvang van het risico blijft open |
+| V-5 | Het businessmodel draagt het volledige markt- en kredietrisico op de eigen balans: wij beloven een vast maandelijks rendement plus volledige terugbetaling, terwijl het beleggingsresultaat variabel is. Bij tegenvallend resultaat moet het verschil uit eigen vermogen komen | solvabiliteitsrisico; bepaalt kapitaalbehoefte, en daarmee of het product überhaupt houdbaar is. Vóór elke geldstroom van echte gebruikers door te rekenen |
 
 ## 10. Herziening
 
@@ -153,3 +175,4 @@ kwartaal, en direct wanneer onderzoek een kernaanname weerlegt.
 |---|---|---|
 | 2026-08-03 | eerste versie — productnaam, doelgroep, probleem en productdoel vastgesteld; type dienst en regulatoir regime expliciet opengelaten | Product Owner |
 | 2026-08-03 | §3 productdoel uitkomstgericht geherformuleerd; risico V-3 vervallen, V-4 toegevoegd | Product Owner |
+| 2026-08-03 | type dienst vastgesteld als digitaal contractueel rendementproduct; werking beschreven in §6; V-1 aangescherpt en V-5 toegevoegd. Juridische kwalificaties uit het besluit zijn als voorlopige aanname in het register gezet, niet als vastgesteld feit | Product Owner |
