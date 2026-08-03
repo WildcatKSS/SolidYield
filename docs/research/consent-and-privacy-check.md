@@ -22,7 +22,7 @@ toestemming = geen sessie.
 
 ## 2. Toestemmingsformulier (sjabloon)
 
-> **Onderzoek naar `[ONDERWERP]` — `[PRODUCTNAAM]`**
+> **Onderzoek naar `[ONDERWERP]` — SolidYield**
 >
 > **Wat gaan we doen?** Je gebruikt een product in ontwikkeling en we stellen je daar
 > vragen over. Dat duurt ongeveer `[45]` minuten.

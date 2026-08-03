@@ -1,6 +1,6 @@
 # Bijdragen
 
-Dank voor je bijdrage aan `[PRODUCTNAAM]`. Dit is een financiële dienst: kwaliteit,
+Dank voor je bijdrage aan SolidYield. Dit is een financiële dienst: kwaliteit,
 security, privacy en traceerbaarheid wegen zwaarder dan snelheid.
 
 ## 1. Voordat je begint

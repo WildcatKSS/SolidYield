@@ -1,6 +1,6 @@
 # Architectuuroverzicht
 
-Beschrijft de hoofdcomponenten van `[PRODUCTNAAM]` en hoe zij samenwerken (C4 niveau 2).
+Beschrijft de hoofdcomponenten van SolidYield en hoe zij samenwerken (C4 niveau 2).
 
 > **Status:** sjabloon met een bewust eenvoudige startarchitectuur. Kies pas complexere
 > patronen wanneer een concreet probleem daarom vraagt, en leg dat vast in een ADR.

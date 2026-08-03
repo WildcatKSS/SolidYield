@@ -1,10 +1,15 @@
-# [PRODUCTNAAM] — Scrum-template voor een online financiële dienst
+# SolidYield — een online financiële dienst
 
 > ### 👉 Nieuw hier? Begin bij **[START-HERE.md](START-HERE.md)** — 8 minuten lezen, dan weet je waar te beginnen.
 
-> **Status:** herbruikbare **GitHub-template**. Alle waarden tussen vierkante haken
-> (`[PRODUCTNAAM]`, `[DOELGROEP]`, `[TECH STACK]`, …) zijn nog niet ingevuld —
-> zie [`docs/placeholders.md`](docs/placeholders.md).
+> **Status:** in opzet. Productnaam, doelgroep, probleem en productdoel zijn vastgesteld
+> (besluit 1 in §10); de [productvisie](docs/product/product-vision.md) is daarop
+> ingevuld. De overige waarden tussen vierkante haken (`[TYPE DIENST]`, `[TECH STACK]`,
+> `[ORG]`, …) zijn nog **niet** ingevuld — zie [`docs/placeholders.md`](docs/placeholders.md).
+>
+> **Blokkerend:** onder welk regulatoir regime SolidYield mag worden aangeboden is nog
+> niet vastgesteld (besluit 2 en 4 in §10, RD-01). Dat blokkeert geen onderzoek of
+> ontwerp, wél elke externe propositie en elke geldstroom van echte gebruikers.
 
 > [!IMPORTANT]
 > Deze template levert **proces, structuur en controlemomenten**. Zij levert géén
@@ -71,9 +76,9 @@ privacyprincipes.
 
 | Onderwerp | Waarde | Consequentie |
 |---|---|---|
-| Productnaam · doelgroep · probleem · productdoel | `[PRODUCTNAAM]` · `[DOELGROEP]` · `[PROBLEEM]` · `[PRODUCTDOEL]` | zie [productvisie](docs/product/product-vision.md) |
-| Type financiële dienst | `[TYPE DIENST]` | **bepaalt het regulatoire regime** |
-| Landen/regio's | `[LANDEN/REGIO]` | bepaalt toezichthouder en dataresidency |
+| Productnaam · doelgroep · probleem · productdoel | **SolidYield** · Nederlandse particuliere spaarders · de keuze tussen laagrentend sparen en complex beleggen · een betrouwbare digitale omgeving voor inleg met vaste rente en looptijd | zie [productvisie](docs/product/product-vision.md) |
+| Type financiële dienst | `[TYPE DIENST]` — **nog niet vastgesteld** | **bepaalt het regulatoire regime** |
+| Landen/regio's | **Nederland** (dataresidency nog te bepalen) | bepaalt toezichthouder en dataresidency |
 | Technologiestack · cloud | `[TECH STACK]` · `[CLOUD]` | vastleggen als [ADR](docs/architecture/adr/) |
 | Sprintduur · testgroep | `[SPRINTDUUR]` · `[TESTGROEP]` | zie [Scrum](docs/scrum/scrum-guide.md) en [testgroepplan](docs/research/test-group-plan.md) |
 
@@ -199,9 +204,9 @@ Niet besloten — behandel deze niet als feit:
 
 | # | Onderwerp | Type | Eigenaar |
 |---|---|---|---|
-| 1 | Productnaam, doelgroep, probleem, productdoel | open besluit | Product Owner |
-| 2 | Type financiële dienst (bepaalt het regulatoire regime) | open besluit | PO + Compliance |
-| 3 | Landen/regio's, dataresidency, taal | open besluit | PO + Compliance |
+| 1 | Productnaam, doelgroep, probleem, productdoel | ✅ **besloten 2026-08-03** — [productvisie](docs/product/product-vision.md) | Product Owner |
+| 2 | Type financiële dienst (bepaalt het regulatoire regime) | open besluit — **blokkeert 4** | PO + Compliance |
+| 3 | Landen/regio's, dataresidency, taal | deels besloten: markt **Nederland**, taal **Nederlands**, valuta **EUR**; dataresidency open | PO + Compliance |
 | 4 | Vergunningplicht en rol in de keten | **te valideren door bevoegde specialist** | Compliance |
 | 5 | Technologiestack en cloudprovider | open besluit | Tech lead |
 | 6 | Sprintduur (aanname: 2 weken) | aanname | Scrum Master |

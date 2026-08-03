@@ -15,7 +15,7 @@ minimaal één developer, en bij gegevens de privacyverantwoordelijke.
 
 | Onderwerp | Invulling |
 |---|---|
-| Systeem | `[PRODUCTNAAM]`, zie [`system-context.md`](system-context.md) |
+| Systeem | SolidYield, zie [`system-context.md`](system-context.md) |
 | Vertrouwensgrenzen | TB-1 t/m TB-5 uit de systeemcontext |
 | Belangrijkste bezittingen | gebruikersgegevens, financiële gegevens, geld(stromen), authenticatiemiddelen, auditlog, sleutels, broncode en pipeline |
 | Buiten scope | fysieke beveiliging van `[CLOUD]`, interne systemen van `[PROVIDER]` |

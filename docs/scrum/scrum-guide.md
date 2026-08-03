@@ -1,4 +1,4 @@
-# Zo werken wij: Scrum bij `[PRODUCTNAAM]`
+# Zo werken wij: Scrum bij SolidYield
 
 > **Doel:** vastleggen hoe dit team Scrum toepast.
 > **Wanneer gebruiken:** bij onboarding en bij twijfel over de werkwijze.

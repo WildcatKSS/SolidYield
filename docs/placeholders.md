@@ -10,13 +10,13 @@ De workflow `code-quality.yml` telt bij elke run hoeveel er nog openstaan.
 
 | Placeholder | Betekenis | Eigenaar | Nodig vóór |
 |---|---|---|---|
-| `[PRODUCTNAAM]` | naam van de dienst | PO | sprint 1 |
-| `[DOELGROEP]` | primaire doelgroep | PO | sprint 1 |
-| `[PROBLEEM]` | kernprobleem | PO | sprint 1 |
-| `[PRODUCTDOEL]` | belangrijkste productdoel | PO | sprint 1 |
-| `[TYPE DIENST]` | budgetteren, betalen, lenen, investeren, financieel inzicht | PO + Compliance | sprint 1 |
-| `[LANDEN/REGIO]`, `[REGIO]` | markt en dataresidency | PO + Compliance | sprint 1 |
-| `[TALEN]`, `[VALUTA]` | taal- en valutaondersteuning | PO | sprint 2 |
+| `[PRODUCTNAAM]` | naam van de dienst | PO | ✅ **ingevuld 2026-08-03** — SolidYield |
+| `[DOELGROEP]` | primaire doelgroep | PO | ✅ **ingevuld 2026-08-03** |
+| `[PROBLEEM]` | kernprobleem | PO | ✅ **ingevuld 2026-08-03** |
+| `[PRODUCTDOEL]` | belangrijkste productdoel | PO | ✅ **ingevuld 2026-08-03** |
+| `[TYPE DIENST]` | budgetteren, betalen, lenen, investeren, financieel inzicht | PO + Compliance | **open — blokkeert RD-01** |
+| `[LANDEN/REGIO]`, `[REGIO]` | markt en dataresidency | PO + Compliance | markt ✅ Nederland; `[REGIO]` (dataresidency) nog open |
+| `[TALEN]`, `[VALUTA]` | taal- en valutaondersteuning | PO | ✅ Nederlands, EUR |
 | `[ORGANISATIE]`, `[ORG]` | organisatie- en GitHub-organisatienaam | eigenaar repo | direct |
 | `[REPOSITORY]` | repositorynaam | eigenaar repo | direct |
 | `[JAAR]` | copyrightjaar in LICENSE | eigenaar repo | direct |

@@ -9,19 +9,19 @@
 
 ## 1. Doelgroep van de MVP
 
-* Primair: `[DOELGROEP]`
+* Primair: Nederlandse particuliere spaarders zonder financiële expertise
 * Beperking voor de MVP: `[BIJV. alleen [LAND], alleen web, alleen één rekeningtype]`
 * Aantal beoogde gebruikers in de eerste ronde: `[AANTAL]` (testgroep, zie
   [`../research/test-group-plan.md`](../research/test-group-plan.md))
 
 ## 2. Kernprobleem
 
-`[PROBLEEM]` — één probleem, niet drie. Alles wat niet aan dit probleem bijdraagt, valt
+De doelgroep moet kiezen tussen laagrentend sparen en complex, volatiel beleggen, met onvoldoende transparantie over kosten, voorwaarden, risico's en hoe het rendement tot stand komt. Voor de MVP wordt hiervan **één** deelprobleem gekozen, niet alle drie. Alles wat niet aan dit probleem bijdraagt, valt
 buiten de MVP.
 
 ## 3. Waardepropositie
 
-> Met `[PRODUCTNAAM]` kan `[DOELGROEP]` binnen `[TIJD]` `[RESULTAAT]`, zonder
+> Met SolidYield kan Nederlandse particuliere spaarders binnen `[TIJD]` `[RESULTAAT]`, zonder
 > `[HUIDIGE MOEITE]`.
 
 ## 4. Belangrijkste gebruikersreis
@@ -73,11 +73,11 @@ synthetische data in niet-productieomgevingen.
 
 | # | Aanname | Type | Consequentie als deze onjuist is | Toetsen via |
 |---|---|---|---|---|
-| A1 | `[DOELGROEP]` ervaart `[PROBLEEM]` als urgent genoeg | probleem | product heeft geen bestaansrecht | interviews (sprint 1–2) |
+| A1 | Nederlandse particuliere spaarders ervaart de keuze tussen laagrentend sparen en complex beleggen als urgent genoeg | probleem | product heeft geen bestaansrecht | interviews (sprint 1–2) |
 | A2 | Gebruikers vertrouwen ons met financiële gegevens | vertrouwen | registratie loopt leeg | usabilitytest + interviews |
 | A3 | Het kerninzicht M6 is begrijpelijk zonder uitleg | oplossing | inzicht wordt niet gebruikt | usabilitytest sprint 3 |
 | A4 | Gegevens zijn technisch betrouwbaar beschikbaar te maken | techniek | fundament ontbreekt | spike sprint 1 |
-| A5 | Wij mogen `[TYPE DIENST]` aanbieden in `[LANDEN/REGIO]` | regulatoir | lancering onmogelijk | **juridisch advies** |
+| A5 | Wij mogen SolidYield aanbieden in Nederland (RD-01) | regulatoir | lancering onmogelijk | **juridisch advies** |
 | A6 | MFA is acceptabel voor de doelgroep | adoptie | drempel te hoog | usabilitytest |
 | A7 | Sprintduur van 2 weken past bij het team | proces | ritme klopt niet | retrospective |
 
@@ -97,7 +97,7 @@ synthetische data in niet-productieomgevingen.
 
 | # | Hypothese | Methode | Meting | Succescriterium | Sprint |
 |---|---|---|---|---|---|
-| E1 | `[DOELGROEP]` herkent `[PROBLEEM]` | 8 interviews | % dat het probleem spontaan noemt | ≥ 6 van 8 | 1–2 |
+| E1 | De doelgroep herkent het probleem spontaan | 8 interviews | % dat het probleem spontaan noemt | ≥ 6 van 8 | 1–2 |
 | E2 | Gebruikers voltooien registratie met MFA zonder hulp | usabilitytest, 6 deelnemers | taaksucces | ≥ 5 van 6 | 3 |
 | E3 | Het kerninzicht is binnen 60 seconden begrijpelijk | usabilitytest | tijd + hardop-denken | ≥ 80% correct uitgelegd | 4 |
 | E4 | Gebruikers komen binnen een week terug | meting in testomgeving | terugkeer binnen 7 dagen | ≥ 50% | 5–6 |

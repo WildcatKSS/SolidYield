@@ -36,7 +36,7 @@ eenmaal vastgestelde verplichting borgen, staat in
 
 | # | Vraag | Waarom relevant | Blokkeert | Status | Voorlopige aanname (**geen besluit**) | Gevalideerd door | Datum | Herbeoordeling |
 |---|---|---|---|---|---|---|---|---|
-| RD-01 | Is voor `[TYPE DIENST]` in `[LANDEN/REGIO]` een vergunning of registratie vereist? | bepaalt of we mogen lanceren | bèta en productie | **Voorgelegd** | wij nemen géén standpunt in | | | |
+| RD-01 | Is voor SolidYield in Nederland een vergunning, registratie of ontheffing vereist? Concreet: gebruikers zetten geld voor een vooraf gekozen looptijd vast tegen een vooraf vastgestelde rente, gestort in een walletomgeving en na afloop uitgekeerd. Raakt dit het verbod op het aantrekken van opvorderbare gelden van het publiek (Wft art. 3:5), en/of prospectus- of informatieverplichtingen? | bepaalt of we mogen lanceren, en in welke vorm | bèta, productie, en elke externe propositie | **Open** — vraag aangescherpt 2026-08-03, nog niet voorgelegd | wij nemen géén standpunt in | | | |
 | RD-02 | Zijn wij verwerkingsverantwoordelijke, verwerker of beide? | bepaalt verplichtingen en contracten | DPA's | Open | waarschijnlijk verantwoordelijk voor eigen verwerkingen; vaststelling door een bevoegde specialist, de DPO adviseert | | | |
 | RD-03 | Welke grondslag geldt per verwerking? | bepaalt of toestemming nodig is | ontwerp toestemmingsflow | In onderzoek | zie `../architecture/data-flow.md` (voorlopig) | | | |
 | RD-04 | Welke wettelijke bewaartermijnen gelden voor financiële gegevens? | bepaalt verwijderroutines | verwijderfunctionaliteit | Open | `[7 jaar]` als werkhypothese | | | |
@@ -50,6 +50,8 @@ eenmaal vastgestelde verplichting borgen, staat in
 | RD-12 | Zijn er eisen aan het bewaren en beschikbaar stellen van audit trails? | bepaalt logbewaartermijn | auditlog | Open | `[1–7 jaar]` als werkhypothese | | | |
 | RD-13 | Gelden er regels voor communicatie over rendement, risico of kosten? | bepaalt teksten en weergave | UI-teksten | Open | geen beloften, geen advies | | | |
 | RD-14 | Mag de testgroep met een niet-vergunde dienst werken? | bepaalt de testopzet | testgroepsessies | **Voorgelegd** | wij testen met synthetische data en zonder echte geldstromen | | | |
+| RD-15 | Mag SolidYield worden gepresenteerd als product **zonder beleggingsrisico**, en mag "vaste rente" als belofte worden gebruikt? Hangt af van de constructie waarmee het rendement wordt gerealiseerd. | bepaalt propositie, doelgroepbenadering en zorgplicht | marketing, UI-teksten, onboarding | **Open** — geregistreerd 2026-08-03 | wij nemen géén standpunt in; zie risico V-1 en V-2 in [`../product/product-vision.md`](../product/product-vision.md) | | | |
+| RD-16 | Welke constructie ligt onder het rendement (eigen balans, doorplaatsing in leningen, externe partij), en welke rol nemen wij in die keten? | bepaalt RD-01, RD-15 en het volledige risicoprofiel | RD-01, RD-15, architectuur | **Open** — geregistreerd 2026-08-03 | nog niet gekozen; dit is een productbesluit, geen technische keuze | | | |
 
 ## 3. Werkwijze
 

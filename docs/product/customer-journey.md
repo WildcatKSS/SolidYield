@@ -1,6 +1,6 @@
 # Customer journey
 
-Beschrijft de reis van de gebruiker door `[PRODUCTNAAM]`. Per fase leggen we vast wat de
+Beschrijft de reis van de gebruiker door SolidYield. Per fase leggen we vast wat de
 gebruiker doet, denkt en voelt, waar het misgaat, en welke security-, privacy- en
 compliancemomenten er spelen.
 

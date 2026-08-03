@@ -6,7 +6,7 @@ werkvloer. Alles wat we maken heeft een issue — dat is tegelijk onze traceerba
 ## 1. Board aanmaken
 
 1. Ga naar de organisatie of repository → **Projects** → **New project** → **Board**.
-2. Naam: `[PRODUCTNAAM] — Product Backlog`.
+2. Naam: `SolidYield — Product Backlog`.
 3. Koppel de repository (*Settings → Manage access / linked repositories*).
 4. Maak de statussen aan (§2) en de velden (§3).
 5. Zet workflows aan (§5).

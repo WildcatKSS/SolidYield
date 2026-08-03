@@ -1,6 +1,6 @@
 # Systeemcontext
 
-Beschrijft wat `[PRODUCTNAAM]` is, wie het gebruikt en met welke externe partijen het
+Beschrijft wat SolidYield is, wie het gebruikt en met welke externe partijen het
 communiceert. Dit is het hoogste abstractieniveau (C4 niveau 1).
 
 > **Status:** sjabloon. Vul in zodra `[TECH STACK]` en `[CLOUD]` zijn gekozen; leg de
@@ -11,7 +11,7 @@ communiceert. Dit is het hoogste abstractieniveau (C4 niveau 1).
 ```mermaid
 graph TB
     subgraph external["Buiten onze grens"]
-        U["Gebruiker<br/>[DOELGROEP]"]
+        U["Gebruiker<br/>particuliere spaarder"]
         S["Supportmedewerker"]
         A["Beheerder"]
         IDP["Identiteitsprovider<br/>[IDP]"]
@@ -21,7 +21,7 @@ graph TB
     end
 
     subgraph trust["Onze vertrouwensgrens — [CLOUD], regio [REGIO]"]
-        APP["[PRODUCTNAAM]<br/>webapplicatie + API"]
+        APP["SolidYield<br/>webapplicatie + API"]
         DB[("Gegevensopslag<br/>versleuteld")]
         AUDIT[("Auditlog<br/>append-only")]
     end
@@ -41,7 +41,7 @@ graph TB
 
 | Actor | Type | Doel | Toegang | Aandachtspunt |
 |---|---|---|---|---|
-| Gebruiker (`[DOELGROEP]`) | mens | eigen financieel inzicht/handelingen | eigen gegevens, na MFA | autorisatie op objectniveau |
+| Gebruiker (Nederlandse particuliere spaarders) | mens | eigen financieel inzicht/handelingen | eigen gegevens, na MFA | autorisatie op objectniveau |
 | Supportmedewerker | mens | gebruiker helpen | minimale rechten, tijdelijk, altijd geaudit | inzage alleen met aanleiding |
 | Beheerder | mens | configuratie en beheer | verhoogde rechten, MFA, vier-ogen | geen toegang tot klantgegevens zonder noodzaak |
 | Auditor | mens | controles verifiëren | alleen-lezen op bewijs | geen productiedata |
