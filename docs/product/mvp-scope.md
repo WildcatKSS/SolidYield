@@ -21,7 +21,7 @@ buiten de MVP.
 
 ## 3. Waardepropositie
 
-> Met SolidYield kan Nederlandse particuliere spaarders binnen `[TIJD]` `[RESULTAAT]`, zonder
+> Met SolidYield kan een Nederlandse particuliere spaarder binnen `[TIJD]` `[RESULTAAT]`, zonder
 > `[HUIDIGE MOEITE]`.
 
 ## 4. Belangrijkste gebruikersreis
@@ -73,7 +73,7 @@ synthetische data in niet-productieomgevingen.
 
 | # | Aanname | Type | Consequentie als deze onjuist is | Toetsen via |
 |---|---|---|---|---|
-| A1 | Nederlandse particuliere spaarders ervaart de keuze tussen laagrentend sparen en complex beleggen als urgent genoeg | probleem | product heeft geen bestaansrecht | interviews (sprint 1–2) |
+| A1 | Nederlandse particuliere spaarders ervaren de keuze tussen laagrentend sparen en complex beleggen als urgent genoeg | probleem | product heeft geen bestaansrecht | interviews (sprint 1–2) |
 | A2 | Gebruikers vertrouwen ons met financiële gegevens | vertrouwen | registratie loopt leeg | usabilitytest + interviews |
 | A3 | Het kerninzicht M6 is begrijpelijk zonder uitleg | oplossing | inzicht wordt niet gebruikt | usabilitytest sprint 3 |
 | A4 | Gegevens zijn technisch betrouwbaar beschikbaar te maken | techniek | fundament ontbreekt | spike sprint 1 |

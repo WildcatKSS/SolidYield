@@ -41,7 +41,7 @@ graph TB
 
 | Actor | Type | Doel | Toegang | Aandachtspunt |
 |---|---|---|---|---|
-| Gebruiker (Nederlandse particuliere spaarders) | mens | eigen financieel inzicht/handelingen | eigen gegevens, na MFA | autorisatie op objectniveau |
+| Gebruiker (Nederlandse particuliere spaarder) | mens | eigen financieel inzicht/handelingen | eigen gegevens, na MFA | autorisatie op objectniveau |
 | Supportmedewerker | mens | gebruiker helpen | minimale rechten, tijdelijk, altijd geaudit | inzage alleen met aanleiding |
 | Beheerder | mens | configuratie en beheer | verhoogde rechten, MFA, vier-ogen | geen toegang tot klantgegevens zonder noodzaak |
 | Auditor | mens | controles verifiëren | alleen-lezen op bewijs | geen productiedata |
