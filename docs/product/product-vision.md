@@ -12,13 +12,13 @@
 > sparen, zonder de volatiliteit en complexiteit van beleggen**
 > die **de keuze tussen laagrentend sparen en complex, risicovol beleggen** ervaart,
 > is **SolidYield** een **[TYPE FINANCIËLE DIENST — nog niet vastgesteld, zie §6]**
-> die **geld voor een vooraf gekozen looptijd laat renderen tegen een vooraf vastgestelde
-> rente, met continu digitaal inzicht**.
+> die **geld voor een vooraf gekozen looptijd laat renderen tegen een vooraf vastgesteld
+> rendement, met continu digitaal inzicht**.
 > Anders dan **een spaarrekening of een beleggingsrekening**
-> biedt ons product **een vaste looptijd, een vooraf bekende rente en heldere voorwaarden,
+> biedt ons product **een vaste looptijd, een vooraf bekend rendement en heldere voorwaarden,
 > zonder dat de gebruiker zelf keuzes over samenstelling of timing hoeft te maken**.
 
-**Kernbelofte:** vaste rente. Heldere voorwaarden. Volledige controle.
+**Kernbelofte:** vast rendement. Heldere voorwaarden. Volledige controle.
 
 > ⚠️ De kernbelofte bevat het woord *vast*. Of die belofte gedaan mag worden — en onder
 > welke voorwaarden en risicowaarschuwingen — hangt af van de constructie achter het
@@ -43,8 +43,8 @@
 
 Een betrouwbare digitale omgeving realiseren waarin een Nederlandse particuliere of
 zakelijke gebruiker zelfstandig een account kan openen, identificatie kan doorlopen, geld
-kan storten, een bedrag en looptijd kan kiezen, en continu inzicht heeft in de afgesproken
-rente, de einddatum en de verwachte uitkering.
+kan storten, een bedrag en looptijd kan kiezen, en continu inzicht heeft in het afgesproken
+rendement, de einddatum en de verwachte uitkering.
 
 Uitwerking en meetwaarden: [`product-goals.md`](product-goals.md).
 
@@ -82,9 +82,9 @@ Persona's: [`personas.md`](personas.md).
 
 | Voor de gebruiker | Voor de organisatie |
 |---|---|
-| Vooraf bekende rente en einddatum — geen dagelijkse keuzes, geen markt volgen | Voorspelbare inleg met bekende looptijden |
+| Vooraf bekend rendement en einddatum — geen dagelijkse keuzes, geen markt volgen | Voorspelbare inleg met bekende looptijden |
 | Eén beslissing: bedrag en looptijd | Eenvoudig productaanbod, beperkte variantenlast |
-| Continu digitaal inzicht in rente, einddatum en verwachte uitkering | Minder supportvragen doordat verwachtingen vooraf helder zijn |
+| Continu digitaal inzicht in rendement, einddatum en verwachte uitkering | Minder supportvragen doordat verwachtingen vooraf helder zijn |
 | Heldere voorwaarden zonder verborgen kosten | Vertrouwen als onderscheidend vermogen in een markt met lage transparantie |
 
 ## 6. Marktafbakening en regio
@@ -122,8 +122,8 @@ Persona's: [`personas.md`](personas.md).
 
 ## 8. Wat we bewust (nog) niet doen
 
-* Geen variabele of marktafhankelijke rendementen — één productvorm, vaste rente, vaste
-  looptijd.
+* Geen variabele of marktafhankelijke rendementen — één productvorm, één vast rendement,
+  één vaste looptijd.
 * Geen keuzes over samenstelling, spreiding of timing bij de gebruiker leggen.
 * Geen uitbreiding buiten Nederland vóór het regulatoire regime in de eerste markt
   vaststaat.
@@ -142,7 +142,7 @@ Persona's: [`personas.md`](personas.md).
 | # | Risico op visieniveau | Impact |
 |---|---|---|
 | V-1 | De doelgroep is geworven op "geen beleggingsrisico", terwijl de constructie mogelijk wél kapitaalrisico kent | zorgplicht- en toezichtrisico; raakt principe 5. Beslispunt vóór elke externe propositie |
-| V-2 | De kernbelofte "vaste rente" kan een garantiesuggestie wekken die niet waargemaakt kan worden | herformulering van de belofte kan nodig zijn na juridisch advies |
+| V-2 | De kernbelofte "vast rendement" kan een garantiesuggestie wekken die niet waargemaakt kan worden; een toegezegd vast rendement kent bovendien eigen informatieverplichtingen | herformulering van de belofte kan nodig zijn na juridisch advies |
 | V-3 | Het productdoel is outputgericht geformuleerd en stuurt op opleveren in plaats van op gebruikersuitkomst | risico op bouwen zonder validatie; herformulering bij eerste Sprint Review |
 
 ## 10. Herziening

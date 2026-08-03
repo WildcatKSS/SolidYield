@@ -18,7 +18,7 @@ Productdoel  → waar werken we de komende maanden naartoe
 | Veld | Waarde |
 |---|---|
 | ID | PD-1 |
-| Doel | Een betrouwbare digitale omgeving realiseren waarin een Nederlandse particuliere of zakelijke gebruiker zelfstandig een account kan openen, identificatie kan doorlopen, geld kan storten, een bedrag en looptijd kan kiezen, en continu inzicht heeft in de afgesproken rente, de einddatum en de verwachte uitkering. |
+| Doel | Een betrouwbare digitale omgeving realiseren waarin een Nederlandse particuliere of zakelijke gebruiker zelfstandig een account kan openen, identificatie kan doorlopen, geld kan storten, een bedrag en looptijd kan kiezen, en continu inzicht heeft in het afgesproken rendement, de einddatum en de verwachte uitkering. |
 | Waarom nu | De doelgroep staat voor een keuze tussen laagrentend sparen en complex, volatiel beleggen. SolidYield mikt op de middenweg. Vóór er gebouwd wordt, moet blijken dat dat probleem urgent genoeg is (A1) en dat wij dit product mogen aanbieden (A4/RD-01). |
 | Doelgroep | Particuliere spaarders in Nederland zonder financiële expertise; secundair ondernemers en zzp'ers met tijdelijk overtollige liquiditeit |
 | Streefdatum | `[JJJJ-MM-DD]` — richtinggevend, geen deadline. Niet vast te stellen zolang RD-01 open is |

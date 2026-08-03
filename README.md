@@ -76,7 +76,7 @@ privacyprincipes.
 
 | Onderwerp | Waarde | Consequentie |
 |---|---|---|
-| Productnaam · doelgroep · probleem · productdoel | **SolidYield** · Nederlandse particuliere spaarders · de keuze tussen laagrentend sparen en complex beleggen · een betrouwbare digitale omgeving voor inleg met vaste rente en looptijd | zie [productvisie](docs/product/product-vision.md) |
+| Productnaam · doelgroep · probleem · productdoel | **SolidYield** · Nederlandse particuliere spaarders · de keuze tussen laagrentend sparen en complex beleggen · een betrouwbare digitale omgeving voor inleg met vast rendement en vaste looptijd | zie [productvisie](docs/product/product-vision.md) |
 | Type financiële dienst | `[TYPE DIENST]` — **nog niet vastgesteld** | **bepaalt het regulatoire regime** |
 | Landen/regio's | **Nederland** (dataresidency nog te bepalen) | bepaalt toezichthouder en dataresidency |
 | Technologiestack · cloud | `[TECH STACK]` · `[CLOUD]` | vastleggen als [ADR](docs/architecture/adr/) |
