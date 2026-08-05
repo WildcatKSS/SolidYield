@@ -21,10 +21,22 @@ security-impact worden expliciet gemarkeerd.
 
 ### Toegevoegd
 - **ADR-0007** (Vergunningplicht en rol in de keten) en **ADR-0008** (Geld- en
-  contractstroom, met sequencediagrammen) toegevoegd. Beide status **Voorgesteld**:
-  zij beschrijven de inrichting, niet de juridische kwalificatie. Besluit 4 blijft
-  open en wacht op validatie door Compliance en een gespecialiseerde
-  financieel-regulatoire jurist (#1)
+  contractstroom, met sequencediagrammen) toegevoegd, beide **Geaccepteerd** (#1)
+- **Besluit 4 genomen:** het bedrijfs- en ketenmodel is vastgesteld. SolidYield is
+  contractspartij, houdt de wallet, investeert voor eigen rekening en risico, betaalt
+  een vast rendement en betaalt de volledige nominale inleg terug; betalingen verlopen
+  via vergunninghoudende betaalpartners (#1)
+- **MVP-beperkingen vastgelegd** tot de wettelijke grondslag is bevestigd: toegestaan
+  zijn UX, werkende MVP, sandboxbetalingen, synthetische data, besloten demonstraties
+  en technische integraties; niet toegestaan zijn echte klantgelden, bindende
+  rendementcontracten, werkelijke rendementuitkeringen en productiegebruik (#1)
+- **Compliance:** RD-23 t/m RD-27 toegevoegd voor de wettelijke route, vergunning,
+  wettelijke uitzondering, vrijstelling en ontheffing; controls C-19 t/m C-23
+  toegevoegd. C-01 gesloten met de motivatie dat bedrijfsmodel en ketenrol zijn
+  vastgesteld en de juridische grondslag afzonderlijk wordt bepaald (#1)
+- **Security:** dreigingen T-19 t/m T-23 toegevoegd aan het threat model, waaronder
+  onveranderlijkheid van gesloten contracten, idempotentie van rendementuitkeringen en
+  een blokkade op echte klantgelden vóór bevestiging van de wettelijke grondslag (#1)
 - Productparameters vastgelegd: looptijden 3, 6, 12, 24, 36 en 60 maanden; minimum
   inleg € 50; geen vastgesteld maximum; vast rendement, maandelijks uitgekeerd;
   volledige inleg terug aan het einde van de looptijd (#1)
@@ -56,12 +68,11 @@ security-impact worden expliciet gemarkeerd.
   uitsluitend binnen de EER. De juridische beoordeling van een concrete uitzondering
   blijft een taak voor Privacy en Compliance (#1)
 - Type financiële dienst vastgesteld: digitaal contractueel rendementproduct. De
-  werking is beschreven in de productvisie §6; het regulatoire regime is
-  uitdrukkelijk niet vastgesteld (#1)
-- **Compliance:** RD-17 t/m RD-19 toegevoegd (betaaldienst-kwalificatie,
-  beleggerskwalificatie, kapitaalvereisten); RD-16 deels beantwoord; RD-01
-  aangescherpt op de vastgestelde productvorm. Het regulatoire regime blijft open
-  en blokkeert elke externe propositie (#1)
+  werking is beschreven in de productvisie §6 (#1)
+- **Compliance:** RD-17 t/m RD-19 toegevoegd (kwalificatie van de wallet,
+  kwalificatie van het product, kapitaalvereisten); RD-16 deels beantwoord; RD-01
+  herschreven naar de vraag via welke wettelijke route het besloten bedrijfsmodel
+  mag worden uitgevoerd (#1)
 - Productdoel PD-1 uitkomstgericht geherformuleerd: een inleg die binnen vijftien
   minuten zelfstandig af te ronden is, en die de gebruiker daarna aantoonbaar
   begrijpt (uitkering én risico). Meetwaarde voor doorlooptijd toegevoegd (#1)

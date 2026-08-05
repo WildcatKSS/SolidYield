@@ -7,6 +7,12 @@ compliancemomenten er spelen.
 > Vul deze journey aan met echte observaties uit de testgroep. Zolang de kolom "Bewijs"
 > leeg is, is de regel een aanname.
 
+> **Let op:** deze journey beschrijft het besloten bedrijfsmodel (besluit 4). Tot de
+> wettelijke grondslag is bevestigd wordt de reis uitsluitend doorlopen met
+> **sandboxbetalingen en synthetische data**, binnen een besloten testgroep — geen echte
+> klantgelden, geen bindende rendementcontracten, geen werkelijke rendementuitkeringen. Zie
+> [ADR-0007](../architecture/adr/0007-vergunningplicht-en-rol-in-de-keten.md).
+
 ## Overzicht
 
 | # | Fase | Doel van de gebruiker |
@@ -64,7 +70,7 @@ compliancemomenten er spelen.
 | Kernfeit | de wallet bevat **uitsluitend vrij beschikbaar saldo** en dat is **altijd opneembaar** — naar de eigen tegenrekening, niet naar derden |
 | Security | dekkingscontrole, eigenaarschapscontrole, idempotente verwerking, herauthenticatie bij opnemen |
 | Privacy | betaalgegevens minimaal en doelgebonden verwerken |
-| Compliance | of de wallet een betaaldienst is — **open, RD-17** |
+| Compliance | of de wallet kwalificeert als betaaldienst of als elektronisch geld — **open, RD-17** |
 | Meetpunt | % dat na accountaanmaak daadwerkelijk stort; doorlooptijd van een opname |
 | Bewijs | `[nog te verzamelen]` |
 

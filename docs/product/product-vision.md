@@ -3,8 +3,12 @@
 > **Status:** vastgesteld door de Product Owner op 2026-08-03 voor productnaam, doelgroep,
 > probleem, productdoel (besluit 1) en het type financiële dienst (besluit 2), zie
 > [`../../README.md`](../../README.md#10-openstaande-beslissingen-en-placeholders).
-> Waarden die nog tussen `[ ]` staan zijn **nog niet besloten**. Het **regulatoire regime**
-> is uitdrukkelijk **niet** vastgesteld: het product is beschreven, niet gekwalificeerd.
+> Het **bedrijfs- en ketenmodel** is vastgesteld (besluit 4, 2026-08-05,
+> [ADR-0007](../architecture/adr/0007-vergunningplicht-en-rol-in-de-keten.md)). De
+> **wettelijke grondslag** om dat model uit te voeren is dat **niet**: de gekozen
+> productinrichting kan vergunningplichtig zijn, en de toepasselijke wettelijke grondslag
+> wordt vastgesteld door Compliance (RD-23 t/m RD-27). Waarden die nog tussen `[ ]` staan
+> zijn nog niet besloten.
 
 ## 1. Visiestatement
 
@@ -80,8 +84,9 @@ Uitwerking en meetwaarden: [`product-goals.md`](product-goals.md).
 > Zie risico V-1 en V-5 in §9.
 
 **Doelgroep van de MVP** (vastgesteld 2026-08-05): Nederlandse **consumenten**, **zzp'ers**
-en **rechtspersonen**. De start is uitsluitend een **besloten testgroep**; er wordt niet
-breder gelanceerd zolang RD-01 openstaat.
+en **rechtspersonen**. De start is uitsluitend een **besloten testgroep**, met
+sandboxbetalingen en synthetische data; er wordt niet breder gelanceerd zolang de
+wettelijke grondslag niet is bevestigd (RD-23 t/m RD-27).
 
 > Let op: rechtspersonen zijn hiermee toegevoegd aan de MVP-doelgroep, terwijl besluit 1
 > alleen particulieren (primair) en ondernemers en zzp'ers (secundair) noemde. Dat is een
@@ -108,7 +113,7 @@ Persona's: [`personas.md`](personas.md).
 | Valuta | EUR | bepaalt afronding, weergave en boekhoudlogica |
 | Distributiekanaal | `[WEB / IOS / ANDROID / API]` | bepaalt tech en teststrategie |
 | Dataresidency | opslag en reguliere verwerking binnen de **EER**, primaire productieomgeving fysiek in **Nederland** ([ADR-0006](../architecture/adr/0006-dataresidency-en-opslaglocatie.md)) | beperkt de providerkeuze in ADR-0003; toegang vanuit derde landen standaard uitgesloten |
-| Type financiële dienst | **digitaal contractueel rendementproduct** (productbeschrijving, vastgesteld 2026-08-03) | het **regulatoire regime** dat hierbij hoort is nog **niet** vastgesteld |
+| Type financiële dienst | **digitaal contractueel rendementproduct** (vastgesteld 2026-08-03) | het bedrijfsmodel is besloten (besluit 4); de **wettelijke grondslag** voor uitvoering wordt afzonderlijk vastgesteld |
 
 ### Hoe het product werkt
 
@@ -139,7 +144,7 @@ Vastgesteld door de Product Owner op 2026-08-03, als **feitelijke beschrijving**
 | Zeggenschap over investeringen | geen; SolidYield bepaalt zelfstandig waarin wordt geïnvesteerd, categorieën blijven functioneel breed |
 | Vermogensscheiding | **administratief** |
 | Positie bij faillissement | **beoogd:** concurrent schuldeiser |
-| Betaalpartners | **beoogd:** Mollie (iDEAL/SEPA) en bunq (IBAN, uitbetalingen, reconciliatie) |
+| Betaalpartners | **vergunninghoudende betaalpartners:** Mollie (iDEAL/SEPA) en bunq (IBAN, uitbetalingen, reconciliatie) — betaalpartner, **geen productuitgever** |
 | KYC/AML | fase 1 bij SolidYield zelf; fase 2 via een gespecialiseerde externe partner — **roadmap, geen huidige implementatie** |
 
 > ⚠️ **Administratieve vermogensscheiding is boekhoudkundig.** Of zij bescherming biedt bij
@@ -214,4 +219,5 @@ kwartaal, en direct wanneer onderzoek een kernaanname weerlegt.
 | 2026-08-03 | §3 productdoel uitkomstgericht geherformuleerd; risico V-3 vervallen, V-4 toegevoegd | Product Owner |
 | 2026-08-03 | type dienst vastgesteld als digitaal contractueel rendementproduct; werking beschreven in §6; V-1 aangescherpt en V-5 toegevoegd. Juridische kwalificaties uit het besluit zijn als voorlopige aanname in het register gezet, niet als vastgesteld feit | Product Owner |
 | 2026-08-03 | besluit 3: markt en dataresidency vastgelegd (EER, primair Nederland) in ADR-0006; §6 en §8 aangevuld | Product Owner + Compliance |
-| 2026-08-05 | productparameters, walletrol, contractstroom en MVP-doelgroep vastgelegd in ADR-0007 en ADR-0008. Besluit 4 (vergunningplicht en rol in de keten) blijft **open** — geen juridische kwalificatie vastgesteld | Product Owner |
+| 2026-08-05 | productparameters, walletrol, contractstroom en MVP-doelgroep vastgelegd in ADR-0007 en ADR-0008 | Product Owner |
+| 2026-08-05 | **besluit 4 genomen**: bedrijfs- en ketenmodel vastgesteld. De wettelijke grondslag om dat model uit te voeren staat nog open (RD-23 t/m RD-27) en is bewust gescheiden van het model zelf | Product Owner |

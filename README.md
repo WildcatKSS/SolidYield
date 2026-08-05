@@ -4,19 +4,24 @@
 
 > **Status:** in opzet. Productnaam, doelgroep, probleem en productdoel zijn vastgesteld
 > (besluit 1 in §10); de [productvisie](docs/product/product-vision.md) is daarop
-> ingevuld. Ook het type financiële dienst (besluit 2) en markt, taal, valuta en
-> dataresidency (besluit 3) zijn vastgesteld. De productinrichting achter besluit 4 —
-> wallet, contractstroom, looptijden, inleg, betaalpartners — is beschreven in
-> [ADR-0007](docs/architecture/adr/0007-vergunningplicht-en-rol-in-de-keten.md) en
-> [ADR-0008](docs/architecture/adr/0008-geld-en-contractstroom.md); **besluit 4 zelf is
-> nog niet genomen**. De overige waarden tussen vierkante haken (`[TECH STACK]`, `[ORG]`, …)
-> zijn nog **niet** ingevuld — zie [`docs/placeholders.md`](docs/placeholders.md).
+> ingevuld. Ook het type financiële dienst (besluit 2), markt, taal, valuta en
+> dataresidency (besluit 3) en het **bedrijfs- en ketenmodel** (besluit 4) zijn vastgesteld;
+> zie [ADR-0007](docs/architecture/adr/0007-vergunningplicht-en-rol-in-de-keten.md) en
+> [ADR-0008](docs/architecture/adr/0008-geld-en-contractstroom.md). De overige waarden
+> tussen vierkante haken (`[TECH STACK]`, `[ORG]`, …) zijn nog **niet** ingevuld — zie
+> [`docs/placeholders.md`](docs/placeholders.md).
 >
-> **Blokkerend:** het product is beschreven, maar nog niet juridisch gekwalificeerd.
-> Onder welk regulatoir regime SolidYield mag worden aangeboden staat niet vast
-> (besluit 4 in §10; RD-01, RD-17, RD-18, RD-19, RD-20, RD-21, RD-22). Dat blokkeert geen
-> onderzoek of ontwerp, wél elke externe propositie en elke geldstroom van echte
-> gebruikers. De start is uitsluitend een **besloten testgroep**.
+> **Blokkerend: de wettelijke grondslag, niet het bedrijfsmodel.** Het bedrijfs- en
+> ketenmodel staat vast. Wat nog niet vaststaat, is via welke wettelijke route dat model mag
+> worden uitgevoerd — vergunning, wettelijke uitzondering, vrijstelling, ontheffing of een
+> andere juridisch bevestigde grondslag (RD-23 t/m RD-27). De gekozen productinrichting kan
+> vergunningplichtig zijn; de toepasselijke wettelijke grondslag wordt vastgesteld door
+> Compliance.
+>
+> Tot die bevestiging geldt: **toegestaan** zijn UX, een werkende MVP, sandboxbetalingen,
+> synthetische data, besloten demonstraties en technische integraties. **Niet toegestaan**
+> zijn echte klantgelden, bindende rendementcontracten, werkelijke rendementuitkeringen en
+> productiegebruik.
 
 > [!IMPORTANT]
 > Deze template levert **proces, structuur en controlemomenten**. Zij levert géén
@@ -84,11 +89,11 @@ privacyprincipes.
 | Onderwerp | Waarde | Consequentie |
 |---|---|---|
 | Productnaam · doelgroep · probleem · productdoel | **SolidYield** · Nederlandse particuliere spaarders · de keuze tussen laagrentend sparen en complex beleggen · een inleg die binnen vijftien minuten zelfstandig af te ronden is, en die de gebruiker daarna aantoonbaar begrijpt — uitkering én risico | zie [productvisie](docs/product/product-vision.md) |
-| Type financiële dienst | **digitaal contractueel rendementproduct** | het bijbehorende **regulatoire regime** is nog **niet** vastgesteld |
+| Type financiële dienst | **digitaal contractueel rendementproduct** | bedrijfsmodel besloten (besluit 4); de **wettelijke grondslag** voor uitvoering wordt afzonderlijk vastgesteld (RD-23 t/m RD-27) |
 | Product | looptijden 3/6/12/24/36/60 maanden · minimum inleg € 50 · geen vastgesteld maximum · **vast rendement**, maandelijks · volledige inleg terug aan het einde | zie [ADR-0008](docs/architecture/adr/0008-geld-en-contractstroom.md) |
-| Wallet | storten, opnemen naar de eigen tegenrekening, vastzetten — geen P2P, geen betalingen aan derden | of dit een betaaldienst is: **open**, RD-17 |
+| Wallet | onderdeel van SolidYield: storten, opnemen naar de eigen tegenrekening, vastzetten — geen P2P, geen betalingen aan derden | kwalificatie als betaaldienst of elektronisch geld: **open**, RD-17 |
 | Doelgroep MVP | Nederlandse consumenten, zzp'ers en rechtspersonen — start in een **besloten testgroep** | zie [MVP-scope](docs/product/mvp-scope.md) |
-| Betaalpartners | **beoogd:** Mollie (iDEAL/SEPA) · bunq (IBAN, uitbetalingen, reconciliatie) | rolverdeling nog niet definitief: **open**, RD-22 |
+| Betaalpartners | **vergunninghoudende betaalpartners:** Mollie (iDEAL/SEPA) · bunq (IBAN, uitbetalingen, reconciliatie) — betaalpartner, **geen productuitgever** | contractuele rolverdeling nog vast te leggen: RD-22 |
 | Landen/regio's · dataresidency | **Nederland** · opslag en reguliere verwerking binnen de **EER**, primaire productieomgeving in Nederland | zie [ADR-0006](docs/architecture/adr/0006-dataresidency-en-opslaglocatie.md) |
 | Technologiestack · cloud | `[TECH STACK]` · `[CLOUD]` | vastleggen als [ADR](docs/architecture/adr/) |
 | Sprintduur · testgroep | `[SPRINTDUUR]` · `[TESTGROEP]` | zie [Scrum](docs/scrum/scrum-guide.md) en [testgroepplan](docs/research/test-group-plan.md) |
@@ -218,7 +223,8 @@ Niet besloten — behandel deze niet als feit:
 | 1 | Productnaam, doelgroep, probleem, productdoel | ✅ **besloten 2026-08-03** — [productvisie](docs/product/product-vision.md) | Product Owner |
 | 2 | Type financiële dienst | ✅ **besloten 2026-08-03** — digitaal contractueel rendementproduct; het **regulatoire regime** is daarmee níét bepaald, zie 4 | PO + Compliance |
 | 3 | Landen/regio's, dataresidency, taal | ✅ **besloten 2026-08-03** — markt Nederland, taal Nederlands, valuta EUR; opslag en reguliere verwerking binnen de EER met de primaire productieomgeving in Nederland, één secundaire EER-regio voor back-up en DR, toegang vanuit derde landen standaard uitgesloten ([ADR-0006](docs/architecture/adr/0006-dataresidency-en-opslaglocatie.md)) | PO + Compliance |
-| 4 | Vergunningplicht en rol in de keten (RD-01, RD-17, RD-18, RD-19, RD-20, RD-21, RD-22) | **nog niet besloten — te valideren door bevoegde specialist.** De feitelijke inrichting is beschreven in [ADR-0007](docs/architecture/adr/0007-vergunningplicht-en-rol-in-de-keten.md) en [ADR-0008](docs/architecture/adr/0008-geld-en-contractstroom.md) (beide **Voorgesteld**); die ADR's bevatten géén juridische kwalificatie. Blokkeert elke externe propositie en elke geldstroom van echte gebruikers | Compliance |
+| 4 | Vergunningplicht en rol in de keten | ✅ **besloten 2026-08-05** — bedrijfs- en ketenmodel vastgesteld in [ADR-0007](docs/architecture/adr/0007-vergunningplicht-en-rol-in-de-keten.md) en [ADR-0008](docs/architecture/adr/0008-geld-en-contractstroom.md) | Product Owner |
+| 4a | **Wettelijke grondslag** om dat model uit te voeren: vergunning, wettelijke uitzondering, vrijstelling, ontheffing of een andere juridisch bevestigde grondslag (RD-23 t/m RD-27) | **te valideren door bevoegde specialist** — blokkeert echte klantgelden, bindende rendementcontracten, werkelijke rendementuitkeringen en productiegebruik | Compliance |
 | 5 | Technologiestack en cloudprovider | open besluit — **ingeperkt door ADR-0006**: de primaire regio moet in Nederland liggen | Tech lead |
 | 6 | Sprintduur (aanname: 2 weken) | aanname | Scrum Master |
 | 7 | Samenstelling testgroep (aanname: 8–12 deelnemers) | aanname | UX-expertise |

@@ -18,7 +18,9 @@ minimaal één developer, en bij gegevens de privacyverantwoordelijke.
 | Systeem | SolidYield, zie [`system-context.md`](system-context.md) |
 | Vertrouwensgrenzen | TB-1 t/m TB-5 uit de systeemcontext |
 | Belangrijkste bezittingen | gebruikersgegevens, financiële gegevens, geld(stromen), authenticatiemiddelen, auditlog, sleutels, broncode en pipeline |
-| Buiten scope | fysieke beveiliging van `[CLOUD]`, interne systemen van `[PROVIDER]` |
+| Buiten scope | fysieke beveiliging van `[CLOUD]`, interne systemen van de betaalpartners (Mollie, bunq) |
+| Bedrijfsmodel | vastgesteld (besluit 4, [`adr/0007-vergunningplicht-en-rol-in-de-keten.md`](adr/0007-vergunningplicht-en-rol-in-de-keten.md)): SolidYield is contractspartij en houdt de wallet; betalingen lopen via vergunninghoudende betaalpartners |
+| Fase | tot de wettelijke grondslag is bevestigd draait de MVP met sandboxbetalingen en synthetische data — geen echte klantgelden |
 
 ## 2. Aanvallers
 
@@ -56,7 +58,12 @@ snel uit te loggen).
 | T-15 | Information disclosure | Sessie blijft actief op een gedeeld apparaat | TB-1 | Middel | korte time-out, expliciet uitloggen, herauthenticatie bij gevoelige acties | e2e-test |
 | T-16 | Tampering | Onbevoegde toegang tot back-ups | TB-2 | Hoog | aparte sleutels, strikte rechten, MFA, hersteltests | kwartaaltest |
 | T-17 | Information disclosure | Productiedata in een testomgeving | TB-5 | **Hoog** | technisch en organisatorisch verbod, uitsluitend synthetische data, controle in de pipeline | reviewcheck |
-| T-18 | Denial | Uitval van `[PROVIDER]` | TB-3 | Middel | circuit breaker, degradatie met tijdstempel, uitwijkleverancier onderzoeken | chaos-/faaltest |
+| T-18 | Denial | Uitval van een betaalpartner (Mollie, bunq) | TB-3 | Middel | circuit breaker, degradatie met tijdstempel, uitwijkleverancier onderzoeken; **geen** saldomutatie zonder bevestigde ontvangst | chaos-/faaltest |
+| T-19 | Tampering | Vastgezet bedrag of contractvoorwaarden worden na het sluiten gewijzigd | TB-1 | **Hoog** | contract onveranderlijk na bevestiging; elke mutatie append-only in de audittrail; serverseitige herberekening | domein- en auditlogtests |
+| T-20 | Tampering | Dubbele of gemiste rendementuitkering door een herhaalde verwerkingsronde | TB-4 | **Hoog** | idempotente verwerking per contract en periode; reconciliatie tegen bankmutaties | domeintests + reconciliatiecontrole |
+| T-21 | Fraude | Storting wordt bijgeschreven zonder bevestigde ontvangst | TB-3 | **Hoog** | vrij saldo pas bijschrijven na bevestigde reconciliatie, niet op een statusmelding | integratietests met sandbox |
+| T-22 | Repudiation | Onduidelijkheid over wat de gebruiker vóór het vastzetten te zien kreeg | TB-4 | Hoog | bevestigingsscherm en getoonde voorwaarden vastleggen in de audittrail | auditlogtest |
+| T-23 | Compliance | Echte klantgelden of bindende contracten vóór bevestiging van de wettelijke grondslag | TB-5 | **Hoog** | technische en organisatorische blokkade: sandboxbetalingen en synthetische data afgedwongen; productiedeployment uit (`PRODUCTION_DEPLOY_ENABLED`) | reviewcheck + pipelinecontrole |
 
 ## 4. Risicomatrix
 

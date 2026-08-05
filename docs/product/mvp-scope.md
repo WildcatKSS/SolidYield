@@ -13,7 +13,25 @@
 * MVP-doelgroep (vastgesteld 2026-08-05): Nederlandse **consumenten**, **zzp'ers** en
   **rechtspersonen**
 * Beperking voor de MVP: **uitsluitend een besloten testgroep**, alleen Nederland, alleen
-  Nederlands, alleen EUR. Er wordt niet breder gelanceerd zolang RD-01 openstaat
+  Nederlands, alleen EUR
+
+### Harde beperkingen tot de wettelijke grondslag is bevestigd
+
+Het bedrijfsmodel is besloten (besluit 4); de wettelijke grondslag om het uit te voeren nog
+niet (RD-23 t/m RD-27). Tot die bevestiging geldt:
+
+| Toegestaan | Niet toegestaan |
+|---|---|
+| UX-ontwerp en -onderzoek | echte klantgelden |
+| werkende MVP | bindende rendementcontracten |
+| sandboxbetalingen | werkelijke rendementuitkeringen |
+| synthetische data | productiegebruik |
+| besloten demonstraties | |
+| technische integraties | |
+
+Deze beperkingen kennen **geen uitzonderingsprocedure**. Zie
+[ADR-0007](../architecture/adr/0007-vergunningplicht-en-rol-in-de-keten.md) en risico A-7
+daarin.
 * Aantal beoogde gebruikers in de eerste ronde: `[AANTAL]` (testgroep, zie
   [`../research/test-group-plan.md`](../research/test-group-plan.md))
 
@@ -85,10 +103,10 @@ synthetische data in niet-productieomgevingen.
 | A2 | Gebruikers vertrouwen ons met financiële gegevens | vertrouwen | registratie loopt leeg | usabilitytest + interviews |
 | A3 | Het kerninzicht M6 is begrijpelijk zonder uitleg | oplossing | inzicht wordt niet gebruikt | usabilitytest sprint 3 |
 | A4 | Gegevens zijn technisch betrouwbaar beschikbaar te maken | techniek | fundament ontbreekt | spike sprint 1 |
-| A5 | Wij mogen SolidYield aanbieden in Nederland (RD-01) | regulatoir | lancering onmogelijk | **juridisch advies** |
-| A6 | De walletfunctie is geen zelfstandige betaaldienst (RD-17) | regulatoir | vergunningtraject voor betaaldiensten | **juridisch advies** |
+| A5 | Er is een wettelijke route om het besloten bedrijfsmodel uit te voeren (RD-23 t/m RD-27) | regulatoir | het model kan niet met echte gebruikers worden uitgevoerd | **juridisch advies** |
+| A6 | De walletfunctie kwalificeert niet als zelfstandige betaaldienst of als elektronisch geld (RD-17) | regulatoir | aanvullend vergunningtraject | **juridisch advies** |
 | A7 | De beoogde positie als concurrent schuldeiser is houdbaar en begrijpelijk uit te leggen (RD-20, RD-21) | regulatoir + zorgplicht | propositie moet worden herzien | **juridisch advies** + begripstoets |
-| A8 | De beoogde rolverdeling met Mollie en bunq is regulatoir werkbaar (RD-22) | keten | architectuur en contracten wijzigen | **juridisch advies** + contractonderhandeling |
+| A8 | De rolverdeling met de vergunninghoudende betaalpartners is contractueel en regulatoir werkbaar (RD-22) | keten | integratiedetails en contracten wijzigen; het bedrijfsmodel niet | **juridisch advies** + contractonderhandeling |
 | A6 | MFA is acceptabel voor de doelgroep | adoptie | drempel te hoog | usabilitytest |
 | A7 | Sprintduur van 2 weken past bij het team | proces | ritme klopt niet | retrospective |
 

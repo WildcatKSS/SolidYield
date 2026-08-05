@@ -1,19 +1,27 @@
 # ADR-0008: Geld- en contractstroom
 
-* **Status:** **Voorgesteld** — wacht op validatie door Compliance en een gespecialiseerde
-  financieel-regulatoire jurist
+* **Status:** **Geaccepteerd** — beschrijft de geld- en contractstroom van het besloten
+  bedrijfsmodel (besluit 4). De **wettelijke grondslag** voor uitvoering wordt afzonderlijk
+  vastgesteld en staat nog open.
 * **Datum:** 2026-08-05
 * **Beslissers:** Product Owner (procesinrichting), Tech lead
 * **Geraadpleegd:** Compliance, Privacy, Security
 
 > [!IMPORTANT]
 > Deze ADR beschrijft **wat er gebeurt** in twaalf stappen, van accountaanmaak tot
-> terugbetaling. Zij bevat **geen** juridische kwalificatie en presenteert **geen**
-> vergunning als feit. De regulatoire beoordeling loopt via
-> [ADR-0007](0007-vergunningplicht-en-rol-in-de-keten.md) en
-> [`../../compliance/regulatory-decisions.md`](../../compliance/regulatory-decisions.md).
-> Besluit 4 in [`../../../README.md`](../../../README.md#10-openstaande-beslissingen-en-placeholders)
-> blijft open.
+> terugbetaling, binnen het bedrijfsmodel dat in besluit 4 is vastgesteld
+> ([ADR-0007](0007-vergunningplicht-en-rol-in-de-keten.md)).
+>
+> **De gekozen productinrichting kan vergunningplichtig zijn. De toepasselijke wettelijke
+> grondslag wordt vastgesteld door Compliance.** Deze ADR concludeert niet dat SolidYield
+> vergunningplichtig is, en evenmin dat dat niet zo is. Registratie van de vraag:
+> [`../../compliance/regulatory-decisions.md`](../../compliance/regulatory-decisions.md)
+> (RD-23 t/m RD-27).
+>
+> Tot de wettelijke grondslag is bevestigd gelden de MVP-beperkingen uit ADR-0007: geen
+> echte klantgelden, geen bindende rendementcontracten, geen werkelijke
+> rendementuitkeringen, geen productiegebruik. De stappen hieronder worden in die fase
+> uitgevoerd met **sandboxbetalingen en synthetische data**.
 
 ## Doel
 
@@ -23,10 +31,12 @@ onduidelijkheden zichtbaar worden vóórdat er code is.
 
 ## Context
 
-Uit [ADR-0007](0007-vergunningplicht-en-rol-in-de-keten.md): de gebruiker heeft vrij saldo
-in een wallet en, na vastzetten, een contractuele vordering op SolidYield. De geldstroom
-loopt via de beoogde betaalpartners Mollie (iDEAL/SEPA) en bunq (IBAN, uitbetalingen,
-reconciliatie). Beide rollen zijn **beoogd**, niet contractueel vastgelegd (RD-22).
+Uit [ADR-0007](0007-vergunningplicht-en-rol-in-de-keten.md): SolidYield is de
+contractspartij; de gebruiker heeft vrij saldo in een wallet en, na vastzetten, een
+contractuele vordering op SolidYield. Betalingen verlopen via **vergunninghoudende
+betaalpartners** — Mollie (iDEAL/SEPA) en bunq (IBAN, uitbetalingen, reconciliatie). Zij
+zijn betaalpartner, **geen productuitgever**: de contractuele en regulatoire rolverdeling
+wordt nog vastgelegd (RD-22), maar dat verandert die rolverdeling niet.
 
 **Productparameters** zoals vastgesteld door de Product Owner:
 
@@ -37,7 +47,7 @@ reconciliatie). Beide rollen zijn **beoogd**, niet contractueel vastgelegd (RD-2
 | Maximum inleg | geen vastgesteld maximum |
 | Rendement | **vast rendement**, maandelijks uitgekeerd |
 | Terugbetaling | volledige inleg aan het einde van de looptijd |
-| Doelgroep MVP | Nederlandse consumenten, zzp'ers en rechtspersonen — start uitsluitend met een **besloten testgroep** |
+| Doelgroep MVP | Nederlandse consumenten, zzp'ers en rechtspersonen — start uitsluitend met een **besloten testgroep**, met sandboxbetalingen en synthetische data |
 
 > De term is overal **vast rendement**. "Rente" wordt alleen gebruikt waar letterlijk wordt
 > verwezen naar historische documentatie of het oorspronkelijke ondernemingsplan.
@@ -48,8 +58,8 @@ reconciliatie). Beide rollen zijn **beoogd**, niet contractueel vastgelegd (RD-2
 |---|---|
 | `G` | Gebruiker |
 | `SY` | SolidYield (applicatie, walletadministratie, contractadministratie) |
-| `M` | Mollie — *beoogd*: iDEAL/SEPA |
-| `B` | bunq — *beoogd*: IBAN, uitbetalingen, reconciliatie |
+| `M` | Mollie — vergunninghoudende betaalpartner: iDEAL/SEPA |
+| `B` | bunq — vergunninghoudende betaalpartner: IBAN, uitbetalingen, reconciliatie |
 | `KYC` | KYC/AML-proces — fase 1 bij SolidYield zelf; fase 2 externe partner (roadmap) |
 | `AUD` | Auditlog (append-only) |
 
@@ -101,8 +111,8 @@ sequenceDiagram
     autonumber
     actor G as Gebruiker
     participant SY as SolidYield
-    participant M as Mollie (beoogd)
-    participant B as bunq (beoogd)
+    participant M as Mollie (betaalpartner)
+    participant B as bunq (betaalpartner)
     participant AUD as Auditlog
 
     G->>SY: 4. Storting starten (bedrag)
@@ -125,8 +135,9 @@ sequenceDiagram
   alleen. Dat vraagt idempotente verwerking en een expliciete reconciliatiestap.
 * De wallet kent **geen** P2P-betalingen en **geen** betalingen aan derden. Opnemen kan
   uitsluitend naar de eigen tegenrekening van de gebruiker.
-* Of deze inrichting betekent dat de wallet buiten het bereik van betaaldienstregelgeving
-  valt, staat open in **RD-17**.
+* Of de wallet kwalificeert als **betaaldienst** of als **elektronisch geld**, staat open in
+  **RD-17**. De inzet van een vergunninghoudende betaalpartner verandert niets aan de
+  verantwoordelijkheid van SolidYield om de eigen vergunningpositie vast te stellen.
 
 ### Opnemen van vrij saldo
 
@@ -135,7 +146,7 @@ sequenceDiagram
     autonumber
     actor G as Gebruiker
     participant SY as SolidYield
-    participant B as bunq (beoogd)
+    participant B as bunq (betaalpartner)
     participant AUD as Auditlog
 
     G->>SY: Opname aanvragen (bedrag ≤ vrij saldo)
@@ -189,7 +200,9 @@ sequenceDiagram
   expliciet moet zijn.
 * Er is **geen vastgesteld maximum** op de inleg. Zie risico A-5 in
   [ADR-0007](0007-vergunningplicht-en-rol-in-de-keten.md): drempelbedragen kunnen relevant
-  zijn voor een eventuele vrijstelling (RD-01).
+  zijn voor een wettelijke uitzondering of vrijstelling (RD-23, RD-25, RD-26).
+* Tot de wettelijke grondslag is bevestigd worden in deze stap **geen bindende
+  rendementcontracten** gesloten en worden uitsluitend synthetische bedragen gebruikt.
 
 ---
 
@@ -200,7 +213,7 @@ sequenceDiagram
     autonumber
     participant JOB as Achtergrondtaak
     participant SY as SolidYield
-    participant B as bunq (beoogd)
+    participant B as bunq (betaalpartner)
     participant AUD as Auditlog
     actor G as Gebruiker
 
@@ -235,7 +248,7 @@ sequenceDiagram
     autonumber
     participant JOB as Achtergrondtaak
     participant SY as SolidYield
-    participant B as bunq (beoogd)
+    participant B as bunq (betaalpartner)
     participant AUD as Auditlog
     actor G as Gebruiker
 
@@ -253,9 +266,11 @@ sequenceDiagram
 
 **Aandachtspunten**
 
-* De terugbetaling van de volledige inleg is een **contractuele** verplichting van
+* De terugbetaling van de volledige nominale inleg is een **contractuele** verplichting van
   SolidYield. Zij is niet gegarandeerd door een derde partij en niet gedekt door een
   depositogarantie; dat is precies het debiteurenrisico uit risico V-1 in de productvisie.
+* Tot de wettelijke grondslag is bevestigd vinden er **geen werkelijke
+  rendementuitkeringen en geen echte terugbetalingen** plaats.
 * Of de terugbetaling standaard in de wallet landt of direct naar de tegenrekening gaat, is
   nog **niet besloten**. Beide hebben gevolgen voor RD-17 (hoe lang staat geld stil in de
   wallet) en voor de gebruikerservaring.
@@ -313,8 +328,9 @@ walletmutatie**, **welk bedrag**, en **welke actor** (gebruiker, systeem, medewe
 
 **Negatief**
 
-* De diagrammen tonen Mollie en bunq in rollen die nog niet contractueel vastliggen; bij
-  een andere rolverdeling moeten zij worden herzien (RD-22, risico A-4).
+* De diagrammen tonen Mollie en bunq in rollen die nog niet contractueel zijn vastgelegd;
+  bij een andere contractuele invulling moeten de integratiedetails worden herzien (RD-22,
+  risico A-4). Het bedrijfsmodel verandert daarmee niet.
 * Twee ontwerpkeuzes zijn bewust opengelaten: bestemming van de terugbetaling, en de
   verwerking van rechtspersonen bij onboarding.
 
@@ -326,15 +342,16 @@ walletmutatie**, **welk bedrag**, en **welke actor** (gebruiker, systeem, medewe
 | 2 | Onboarding van zzp'ers en rechtspersonen | ontwerp, raakt RD-05 |
 | 3 | Bewaartermijn audittrail | RD-12 |
 | 4 | Kapitaalpositie voor uitkeringen en terugbetaling | RD-19 |
-| 5 | Definitieve rolverdeling betaalpartners | RD-22 |
+| 5 | Definitieve contractuele rolverdeling betaalpartners | RD-22 |
+| 6 | Wettelijke route voor uitvoering van het model | RD-23 t/m RD-27 |
 
 ## Gerelateerde besluiten
 
 * Werkt uit: [ADR-0007](0007-vergunningplicht-en-rol-in-de-keten.md)
 * Randvoorwaarde: [ADR-0006](0006-dataresidency-en-opslaglocatie.md)
-* Registervragen: `RD-05`, `RD-12`, `RD-17`, `RD-19`, `RD-20`, `RD-21`, `RD-22`
+* Registervragen: `RD-05`, `RD-12`, `RD-17`, `RD-19` t/m `RD-27`
 
 ## Herzieningsmoment
 
-Bij elke wijziging in de rolverdeling met betaalpartners, bij het antwoord op RD-17, en
-vóór de eerste geldstroom van echte gebruikers.
+Bij elke wijziging in de rolverdeling met betaalpartners, bij het antwoord op RD-17 en
+RD-23, en vóór het vervallen van de MVP-beperkingen uit ADR-0007.

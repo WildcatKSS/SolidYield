@@ -14,7 +14,7 @@ De workflow `code-quality.yml` telt bij elke run hoeveel er nog openstaan.
 | `[DOELGROEP]` | primaire doelgroep | PO | ✅ **ingevuld 2026-08-03** |
 | `[PROBLEEM]` | kernprobleem | PO | ✅ **ingevuld 2026-08-03** |
 | `[PRODUCTDOEL]` | belangrijkste productdoel | PO | ✅ **ingevuld 2026-08-03** |
-| `[TYPE DIENST]` | type financiële dienst | PO + Compliance | ✅ **ingevuld 2026-08-03** — digitaal contractueel rendementproduct. Het regulatoire regime blijft open (RD-01) |
+| `[TYPE DIENST]` | type financiële dienst | PO + Compliance | ✅ **ingevuld 2026-08-03** — digitaal contractueel rendementproduct. Bedrijfsmodel besloten (besluit 4); de wettelijke grondslag voor uitvoering wordt afzonderlijk vastgesteld (RD-23 t/m RD-27) |
 | `[LANDEN/REGIO]`, `[REGIO]` | markt en dataresidency | PO + Compliance | ✅ **ingevuld 2026-08-03** — markt Nederland; opslag en reguliere verwerking binnen de EER, primaire productieomgeving in Nederland ([ADR-0006](architecture/adr/0006-dataresidency-en-opslaglocatie.md)) |
 | `[TALEN]`, `[VALUTA]` | taal- en valutaondersteuning | PO | ✅ Nederlands, EUR |
 | `[ORGANISATIE]`, `[ORG]` | organisatie- en GitHub-organisatienaam | eigenaar repo | direct |
@@ -42,7 +42,7 @@ De workflow `code-quality.yml` telt bij elke run hoeveel er nog openstaan.
 | `[CLOUD]` | AWS, Azure, GCP of anders | ADR-0003 |
 | `[IDP]` | identiteitsprovider | ADR-0004 |
 | `[KMS]` | sleutelbeheer | ADR-0005 |
-| `[PROVIDER]` | externe financiële gegevensbron | ADR — betaalpartners zijn **beoogd** Mollie en bunq ([ADR-0007](architecture/adr/0007-vergunningplicht-en-rol-in-de-keten.md)); rolverdeling nog niet definitief (RD-22) |
+| `[PROVIDER]` | externe financiële gegevensbron | vergunninghoudende betaalpartners: Mollie en bunq ([ADR-0007](architecture/adr/0007-vergunningplicht-en-rol-in-de-keten.md)); contractuele rolverdeling nog vast te leggen (RD-22) |
 | `[TOOL]` | secrets manager, monitoring | ADR |
 | `[FRAMEWORK]` | front-endframework | ADR |
 | `[STAGING-URL]`, `[PRODUCTIE-URL]` | omgevings-URL's | deployment |

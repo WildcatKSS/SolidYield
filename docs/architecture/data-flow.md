@@ -4,6 +4,18 @@ Beschrijft welke gegevens waarheen stromen, met welk doel en met welke beschermi
 document is de basis voor het [threat model](threat-model.md), de
 [gegevensclassificatie](../privacy/data-classification.md) en de DPIA.
 
+> **Context.** Het bedrijfs- en ketenmodel is vastgesteld (besluit 4,
+> [`adr/0007-vergunningplicht-en-rol-in-de-keten.md`](adr/0007-vergunningplicht-en-rol-in-de-keten.md)):
+> SolidYield is contractspartij en houdt de wallet; betalingen verlopen via
+> vergunninghoudende betaalpartners (Mollie, bunq), die **betaalpartner zijn en geen
+> productuitgever**. De geld- en contractstroom staat met sequencediagrammen in
+> [`adr/0008-geld-en-contractstroom.md`](adr/0008-geld-en-contractstroom.md).
+>
+> De gekozen productinrichting kan vergunningplichtig zijn. De toepasselijke wettelijke
+> grondslag wordt vastgesteld door Compliance (RD-23 t/m RD-27). Tot die bevestiging lopen
+> deze stromen met **sandboxbetalingen en synthetische data**; er stromen geen echte
+> klantgelden.
+
 ## 1. Overzicht
 
 ```mermaid
@@ -14,7 +26,7 @@ sequenceDiagram
     participant A as API
     participant I as [IDP]
     participant D as Opslag
-    participant P as [PROVIDER]
+    participant P as Betaalpartner (Mollie/bunq)
     participant L as Auditlog
 
     U->>W: opent applicatie (HTTPS)
