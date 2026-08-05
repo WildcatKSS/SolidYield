@@ -12,6 +12,11 @@ compliancemomenten er spelen.
 > **sandboxbetalingen en synthetische data**, binnen een besloten testgroep — geen echte
 > klantgelden, geen bindende rendementcontracten, geen werkelijke rendementuitkeringen. Zie
 > [ADR-0007](../architecture/adr/0007-vergunningplicht-en-rol-in-de-keten.md).
+>
+> Betalingen in deze reis lopen via een **vergunninghoudende betaalpartner**. De eerste
+> implementatierichting is Mollie (iDEAL/SEPA) en bunq (IBAN, uitbetalingen,
+> reconciliatie); die partijen zijn **nog niet definitief geselecteerd of gecontracteerd**
+> (RD-22).
 
 ## Overzicht
 

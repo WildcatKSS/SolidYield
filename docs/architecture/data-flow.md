@@ -7,7 +7,9 @@ document is de basis voor het [threat model](threat-model.md), de
 > **Context.** Het bedrijfs- en ketenmodel is vastgesteld (besluit 4,
 > [`adr/0007-vergunningplicht-en-rol-in-de-keten.md`](adr/0007-vergunningplicht-en-rol-in-de-keten.md)):
 > SolidYield is contractspartij en houdt de wallet; betalingen verlopen via
-> vergunninghoudende betaalpartners (Mollie, bunq), die **betaalpartner zijn en geen
+> **vergunninghoudende betaalpartners**. De eerste implementatierichting is Mollie
+> (iDEAL/SEPA) en bunq (IBAN, uitbetalingen, reconciliatie); die partijen zijn **nog niet
+> definitief geselecteerd en niet gecontracteerd** (RD-22). Een betaalpartner is **geen
 > productuitgever**. De geld- en contractstroom staat met sequencediagrammen in
 > [`adr/0008-geld-en-contractstroom.md`](adr/0008-geld-en-contractstroom.md).
 >
@@ -26,7 +28,7 @@ sequenceDiagram
     participant A as API
     participant I as [IDP]
     participant D as Opslag
-    participant P as Betaalpartner (Mollie/bunq)
+    participant P as Betaalpartner<br/>(richting: Mollie/bunq)
     participant L as Auditlog
 
     U->>W: opent applicatie (HTTPS)

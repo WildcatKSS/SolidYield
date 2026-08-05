@@ -39,17 +39,24 @@ Wijk je af van een principe, dan hoort dat expliciet in de ADR onder *Negatieve 
 | 0004 | `[Keuze identiteitsprovider en MFA]` | **Te schrijven** | | hoog |
 | 0005 | `[Encryptie- en sleutelbeheerstrategie]` | **Te schrijven** | | hoog |
 | 0006 | [Dataresidency en opslaglocatie](0006-dataresidency-en-opslaglocatie.md) | Geaccepteerd | 2026-08-03 | midden |
-| 0007 | [Vergunningplicht en rol in de keten](0007-vergunningplicht-en-rol-in-de-keten.md) | Geaccepteerd | 2026-08-05 | hoog |
-| 0008 | [Geld- en contractstroom](0008-geld-en-contractstroom.md) | Geaccepteerd | 2026-08-05 | hoog |
+| 0007 | [Vergunningplicht en rol in de keten](0007-vergunningplicht-en-rol-in-de-keten.md) | Geaccepteerd **voor de bedrijfs- en keteninrichting**; wettelijke grondslag nog te valideren | 2026-08-05 | hoog |
+| 0008 | [Geld- en contractstroom](0008-geld-en-contractstroom.md) | Geaccepteerd **als functioneel ontwerp**; alleen uitvoerbaar met synthetische data en sandboxintegraties | 2026-08-05 | hoog |
 
 De vier "te schrijven" ADR's zijn openstaande beslissingen uit de README; zij horen bij de
 eerste sprints. ADR-0006 loopt daarop vooruit: dataresidency is vastgesteld vóór de
 providerkeuze, zodat ADR-0003 binnen die randvoorwaarde moet passen in plaats van haar
 stilzwijgend te bepalen.
 
-ADR-0007 en ADR-0008 leggen het **bedrijfs- en ketenmodel** vast (besluit 4, geaccepteerd)
-en houden dat scherp gescheiden van de **wettelijke grondslag** om dat model uit te voeren.
-Die grondslag staat nog open (RD-23 t/m RD-27): de gekozen productinrichting kan
-vergunningplichtig zijn, en de toepasselijke wettelijke grondslag wordt vastgesteld door
-Compliance. De Definition of Done in ADR-0007 benoemt wat er moet gebeuren voordat het
-model met echte gebruikers mag worden uitgevoerd.
+ADR-0007 en ADR-0008 leggen het **bedrijfs- en ketenmodel** vast (besluit 4) en houden dat
+scherp gescheiden van de **wettelijke grondslag** om dat model uit te voeren. Die grondslag
+staat nog open (RD-23 t/m RD-27): de gekozen productinrichting kan vergunningplichtig zijn,
+en de toepasselijke wettelijke grondslag wordt vastgesteld door Compliance.
+
+**"Geaccepteerd" betekent hier niet dat productiegebruik of echte geldstromen juridisch
+zijn toegestaan.** ADR-0007 is geaccepteerd voor de product- en keteninrichting; ADR-0008
+als functioneel doelmodel dat uitsluitend met synthetische data en sandboxintegraties mag
+worden uitgevoerd. De Definition of Done in ADR-0007 benoemt wat er moet gebeuren voordat
+het model met echte gebruikers mag worden uitgevoerd.
+
+De **betaalpartners zijn nog niet definitief geselecteerd of gecontracteerd**; Mollie en
+bunq vormen de eerste implementatierichting (RD-22).

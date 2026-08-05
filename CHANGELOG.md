@@ -20,12 +20,20 @@ security-impact worden expliciet gemarkeerd.
 ## [Unreleased]
 
 ### Toegevoegd
-- **ADR-0007** (Vergunningplicht en rol in de keten) en **ADR-0008** (Geld- en
-  contractstroom, met sequencediagrammen) toegevoegd, beide **Geaccepteerd** (#1)
+- **ADR-0007** (Vergunningplicht en rol in de keten) toegevoegd: geaccepteerd voor de
+  **bedrijfs- en keteninrichting**; wettelijke grondslag en juridische uitvoerbaarheid
+  blijven te valideren (#1)
+- **ADR-0008** (Geld- en contractstroom, met sequencediagrammen) toegevoegd: geaccepteerd
+  als **functioneel ontwerp**, uitsluitend uitvoerbaar met synthetische data en
+  sandboxintegraties totdat de wettelijke grondslag is bevestigd (#1)
 - **Besluit 4 genomen:** het bedrijfs- en ketenmodel is vastgesteld. SolidYield is
   contractspartij, houdt de wallet, investeert voor eigen rekening en risico, betaalt
   een vast rendement en betaalt de volledige nominale inleg terug; betalingen verlopen
   via vergunninghoudende betaalpartners (#1)
+- **Betaalpartners:** de MVP is ontworpen voor integratie met vergunninghoudende
+  betaalpartners. De eerste implementatierichting is Mollie (iDEAL/SEPA) en bunq (IBAN,
+  uitbetalingen, reconciliatie). De definitieve selectie en rolverdeling worden
+  contractueel en regulatoir vastgesteld; er is nog geen overeenkomst gesloten (RD-22) (#1)
 - **MVP-beperkingen vastgelegd** tot de wettelijke grondslag is bevestigd: toegestaan
   zijn UX, werkende MVP, sandboxbetalingen, synthetische data, besloten demonstraties
   en technische integraties; niet toegestaan zijn echte klantgelden, bindende

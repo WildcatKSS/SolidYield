@@ -144,7 +144,7 @@ Vastgesteld door de Product Owner op 2026-08-03, als **feitelijke beschrijving**
 | Zeggenschap over investeringen | geen; SolidYield bepaalt zelfstandig waarin wordt geïnvesteerd, categorieën blijven functioneel breed |
 | Vermogensscheiding | **administratief** |
 | Positie bij faillissement | **beoogd:** concurrent schuldeiser |
-| Betaalpartners | **vergunninghoudende betaalpartners:** Mollie (iDEAL/SEPA) en bunq (IBAN, uitbetalingen, reconciliatie) — betaalpartner, **geen productuitgever** |
+| Betaalpartners | ontworpen voor **vergunninghoudende betaalpartners**; eerste implementatierichting Mollie (iDEAL/SEPA) en bunq (IBAN, uitbetalingen, reconciliatie) — betaalpartner, **geen productuitgever**. Nog **niet definitief geselecteerd of gecontracteerd** (RD-22) |
 | KYC/AML | fase 1 bij SolidYield zelf; fase 2 via een gespecialiseerde externe partner — **roadmap, geen huidige implementatie** |
 
 > ⚠️ **Administratieve vermogensscheiding is boekhoudkundig.** Of zij bescherming biedt bij

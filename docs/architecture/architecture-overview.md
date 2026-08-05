@@ -41,8 +41,8 @@ graph TB
     end
     subgraph ext["Extern"]
         IDP["[IDP]"]
-        MOL["Mollie<br/>betaalpartner: iDEAL / SEPA"]
-        BUNQ["bunq<br/>betaalpartner: IBAN, uitbetalingen"]
+        MOL["Betaalpartner iDEAL / SEPA<br/>richting: Mollie"]
+        BUNQ["Betaalpartner IBAN, uitbetalingen<br/>richting: bunq"]
         KYCP["KYC/AML-partner<br/>(fase 2 — roadmap)"]
     end
 
@@ -64,7 +64,7 @@ graph TB
 | API-gateway | TLS-terminatie, rate limiting, basisfiltering | eerste verdedigingslinie |
 | API-laag | authenticatie, autorisatie, invoervalidatie, foutafhandeling | autorisatie **op objectniveau** |
 | Domeinlogica | berekeningen, regels, limieten | volledig unit-getest; afronding expliciet |
-| Integratielaag | koppelingen met de vergunninghoudende betaalpartners (Mollie, bunq) en later een KYC/AML-partner | time-outs, retries met backoff, circuit breaker, idempotentie, sandbox en mock in test |
+| Integratielaag | koppelingen met vergunninghoudende betaalpartners en later een KYC/AML-partner | time-outs, retries met backoff, circuit breaker, idempotentie, sandbox en mock in test; koppelvlakken zijn **implementatieaannames** tot de contracten rond zijn |
 | Achtergrondtaken | synchronisatie, meldingen | idempotent; foutafhandeling zichtbaar |
 | Primaire opslag | gegevens van gebruikers | encryptie in rust, minimale rechten, back-ups |
 | Auditlog | wie deed wat, wanneer | append-only, apart bewaard, andere rechten |
@@ -79,9 +79,14 @@ graph TB
 
 Geld- en contractstroom met sequencediagrammen:
 [`adr/0008-geld-en-contractstroom.md`](adr/0008-geld-en-contractstroom.md). SolidYield is de
-contractspartij en houdt de wallet; Mollie en bunq zijn **vergunninghoudende
-betaalpartners, geen productuitgever**. De contractuele rolverdeling met hen wordt nog
-vastgelegd (RD-22); dat verandert het bedrijfsmodel niet.
+contractspartij en houdt de wallet.
+
+De MVP is ontworpen voor integratie met **vergunninghoudende betaalpartners**. De eerste
+implementatierichting richt zich op **Mollie** voor iDEAL/SEPA en **bunq** voor
+IBAN-functionaliteit, uitbetalingen en reconciliatie. De **definitieve selectie en
+rolverdeling worden contractueel en regulatoir vastgesteld** (RD-22). Een betaalpartner is
+**geen productuitgever** en draagt het terugbetalingsrisico niet; dat blijft bij SolidYield,
+ongeacht welke partij wordt geselecteerd.
 
 > De gekozen productinrichting kan vergunningplichtig zijn. De toepasselijke wettelijke
 > grondslag wordt vastgesteld door Compliance (RD-23 t/m RD-27). Tot die bevestiging draait

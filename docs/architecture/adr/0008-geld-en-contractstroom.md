@@ -1,8 +1,7 @@
 # ADR-0008: Geld- en contractstroom
 
-* **Status:** **Geaccepteerd** — beschrijft de geld- en contractstroom van het besloten
-  bedrijfsmodel (besluit 4). De **wettelijke grondslag** voor uitvoering wordt afzonderlijk
-  vastgesteld en staat nog open.
+* **Status:** **Geaccepteerd als functioneel ontwerp — uitsluitend uitvoerbaar met
+  synthetische data en sandboxintegraties totdat de wettelijke grondslag is bevestigd.**
 * **Datum:** 2026-08-05
 * **Beslissers:** Product Owner (procesinrichting), Tech lead
 * **Geraadpleegd:** Compliance, Privacy, Security
@@ -18,10 +17,25 @@
 > [`../../compliance/regulatory-decisions.md`](../../compliance/regulatory-decisions.md)
 > (RD-23 t/m RD-27).
 >
+> **Wat "Geaccepteerd" hier wél en niet betekent:**
+>
+> * De twaalf stappen hieronder zijn het **functionele doelmodel**.
+> * Zij vormen **geen toestemming voor productiegebruik**.
+> * De getoonde **leveranciersinteracties zijn implementatieaannames** totdat contracten
+>   zijn gesloten.
+> * **Echte geldstromen blijven volledig geblokkeerd.**
+>
 > Tot de wettelijke grondslag is bevestigd gelden de MVP-beperkingen uit ADR-0007: geen
 > echte klantgelden, geen bindende rendementcontracten, geen werkelijke
 > rendementuitkeringen, geen productiegebruik. De stappen hieronder worden in die fase
 > uitgevoerd met **sandboxbetalingen en synthetische data**.
+>
+> **Status van de betaalpartners.** De MVP is ontworpen voor integratie met
+> **vergunninghoudende betaalpartners**. De eerste implementatierichting richt zich op
+> **Mollie** voor iDEAL/SEPA en **bunq** voor IBAN-functionaliteit, uitbetalingen en
+> reconciliatie. De **definitieve selectie en rolverdeling worden contractueel en
+> regulatoir vastgesteld** (RD-22). De namen in de diagrammen tonen die
+> implementatierichting, geen gesloten overeenkomst.
 
 ## Doel
 
@@ -34,9 +48,12 @@ onduidelijkheden zichtbaar worden vóórdat er code is.
 Uit [ADR-0007](0007-vergunningplicht-en-rol-in-de-keten.md): SolidYield is de
 contractspartij; de gebruiker heeft vrij saldo in een wallet en, na vastzetten, een
 contractuele vordering op SolidYield. Betalingen verlopen via **vergunninghoudende
-betaalpartners** — Mollie (iDEAL/SEPA) en bunq (IBAN, uitbetalingen, reconciliatie). Zij
-zijn betaalpartner, **geen productuitgever**: de contractuele en regulatoire rolverdeling
-wordt nog vastgelegd (RD-22), maar dat verandert die rolverdeling niet.
+betaalpartners**; de eerste implementatierichting is Mollie (iDEAL/SEPA) en bunq (IBAN,
+uitbetalingen, reconciliatie), nog niet definitief geselecteerd of gecontracteerd (RD-22).
+
+Een betaalpartner is **geen productuitgever**: die partij verzorgt het betalingsverkeer,
+is geen contractspartij van de gebruiker en draagt het terugbetalingsrisico niet. Dat
+blijft bij SolidYield, ongeacht welke partij uiteindelijk wordt geselecteerd.
 
 **Productparameters** zoals vastgesteld door de Product Owner:
 
@@ -58,8 +75,8 @@ wordt nog vastgelegd (RD-22), maar dat verandert die rolverdeling niet.
 |---|---|
 | `G` | Gebruiker |
 | `SY` | SolidYield (applicatie, walletadministratie, contractadministratie) |
-| `M` | Mollie — vergunninghoudende betaalpartner: iDEAL/SEPA |
-| `B` | bunq — vergunninghoudende betaalpartner: IBAN, uitbetalingen, reconciliatie |
+| `M` | Vergunninghoudende betaalpartner voor iDEAL/SEPA — *implementatierichting:* Mollie |
+| `B` | Vergunninghoudende betaalpartner voor IBAN, uitbetalingen en reconciliatie — *implementatierichting:* bunq |
 | `KYC` | KYC/AML-proces — fase 1 bij SolidYield zelf; fase 2 externe partner (roadmap) |
 | `AUD` | Auditlog (append-only) |
 
@@ -111,8 +128,8 @@ sequenceDiagram
     autonumber
     actor G as Gebruiker
     participant SY as SolidYield
-    participant M as Mollie (betaalpartner)
-    participant B as bunq (betaalpartner)
+    participant M as Betaalpartner iDEAL/SEPA<br/>(richting: Mollie)
+    participant B as Betaalpartner IBAN<br/>(richting: bunq)
     participant AUD as Auditlog
 
     G->>SY: 4. Storting starten (bedrag)
@@ -146,7 +163,7 @@ sequenceDiagram
     autonumber
     actor G as Gebruiker
     participant SY as SolidYield
-    participant B as bunq (betaalpartner)
+    participant B as Betaalpartner IBAN<br/>(richting: bunq)
     participant AUD as Auditlog
 
     G->>SY: Opname aanvragen (bedrag ≤ vrij saldo)
@@ -213,7 +230,7 @@ sequenceDiagram
     autonumber
     participant JOB as Achtergrondtaak
     participant SY as SolidYield
-    participant B as bunq (betaalpartner)
+    participant B as Betaalpartner IBAN<br/>(richting: bunq)
     participant AUD as Auditlog
     actor G as Gebruiker
 
@@ -248,7 +265,7 @@ sequenceDiagram
     autonumber
     participant JOB as Achtergrondtaak
     participant SY as SolidYield
-    participant B as bunq (betaalpartner)
+    participant B as Betaalpartner IBAN<br/>(richting: bunq)
     participant AUD as Auditlog
     actor G as Gebruiker
 
@@ -328,9 +345,12 @@ walletmutatie**, **welk bedrag**, en **welke actor** (gebruiker, systeem, medewe
 
 **Negatief**
 
-* De diagrammen tonen Mollie en bunq in rollen die nog niet contractueel zijn vastgelegd;
-  bij een andere contractuele invulling moeten de integratiedetails worden herzien (RD-22,
-  risico A-4). Het bedrijfsmodel verandert daarmee niet.
+* De diagrammen tonen de **eerste implementatierichting** (Mollie, bunq). Die partijen zijn
+  niet definitief geselecteerd en niet gecontracteerd; bij een andere keuze of rolverdeling
+  moeten de integratiedetails worden herzien (RD-22, risico A-4). Het bedrijfsmodel
+  verandert daarmee niet.
+* De leveranciersinteracties in deze ADR zijn **implementatieaannames**, geen vastgelegde
+  koppelvlakken.
 * Twee ontwerpkeuzes zijn bewust opengelaten: bestemming van de terugbetaling, en de
   verwerking van rechtspersonen bij onboarding.
 

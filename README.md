@@ -93,7 +93,7 @@ privacyprincipes.
 | Product | looptijden 3/6/12/24/36/60 maanden · minimum inleg € 50 · geen vastgesteld maximum · **vast rendement**, maandelijks · volledige inleg terug aan het einde | zie [ADR-0008](docs/architecture/adr/0008-geld-en-contractstroom.md) |
 | Wallet | onderdeel van SolidYield: storten, opnemen naar de eigen tegenrekening, vastzetten — geen P2P, geen betalingen aan derden | kwalificatie als betaaldienst of elektronisch geld: **open**, RD-17 |
 | Doelgroep MVP | Nederlandse consumenten, zzp'ers en rechtspersonen — start in een **besloten testgroep** | zie [MVP-scope](docs/product/mvp-scope.md) |
-| Betaalpartners | **vergunninghoudende betaalpartners:** Mollie (iDEAL/SEPA) · bunq (IBAN, uitbetalingen, reconciliatie) — betaalpartner, **geen productuitgever** | contractuele rolverdeling nog vast te leggen: RD-22 |
+| Betaalpartners | ontworpen voor **vergunninghoudende betaalpartners**; eerste implementatierichting: Mollie (iDEAL/SEPA) en bunq (IBAN, uitbetalingen, reconciliatie) — betaalpartner, **geen productuitgever** | **nog niet definitief geselecteerd en niet gecontracteerd**; selectie en regulatoire rolverdeling worden contractueel vastgesteld (RD-22) |
 | Landen/regio's · dataresidency | **Nederland** · opslag en reguliere verwerking binnen de **EER**, primaire productieomgeving in Nederland | zie [ADR-0006](docs/architecture/adr/0006-dataresidency-en-opslaglocatie.md) |
 | Technologiestack · cloud | `[TECH STACK]` · `[CLOUD]` | vastleggen als [ADR](docs/architecture/adr/) |
 | Sprintduur · testgroep | `[SPRINTDUUR]` · `[TESTGROEP]` | zie [Scrum](docs/scrum/scrum-guide.md) en [testgroepplan](docs/research/test-group-plan.md) |

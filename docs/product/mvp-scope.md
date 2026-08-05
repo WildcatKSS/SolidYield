@@ -32,6 +32,14 @@ niet (RD-23 t/m RD-27). Tot die bevestiging geldt:
 Deze beperkingen kennen **geen uitzonderingsprocedure**. Zie
 [ADR-0007](../architecture/adr/0007-vergunningplicht-en-rol-in-de-keten.md) en risico A-7
 daarin.
+
+### Betaalpartners
+
+De MVP is ontworpen voor integratie met **vergunninghoudende betaalpartners**. De eerste
+implementatierichting richt zich op **Mollie** voor iDEAL/SEPA en **bunq** voor
+IBAN-functionaliteit, uitbetalingen en reconciliatie. De **definitieve selectie en
+rolverdeling worden contractueel en regulatoir vastgesteld** (RD-22): er is nog geen
+overeenkomst gesloten, en de integratie loopt in deze fase via **sandboxomgevingen**.
 * Aantal beoogde gebruikers in de eerste ronde: `[AANTAL]` (testgroep, zie
   [`../research/test-group-plan.md`](../research/test-group-plan.md))
 
@@ -106,7 +114,7 @@ synthetische data in niet-productieomgevingen.
 | A5 | Er is een wettelijke route om het besloten bedrijfsmodel uit te voeren (RD-23 t/m RD-27) | regulatoir | het model kan niet met echte gebruikers worden uitgevoerd | **juridisch advies** |
 | A6 | De walletfunctie kwalificeert niet als zelfstandige betaaldienst of als elektronisch geld (RD-17) | regulatoir | aanvullend vergunningtraject | **juridisch advies** |
 | A7 | De beoogde positie als concurrent schuldeiser is houdbaar en begrijpelijk uit te leggen (RD-20, RD-21) | regulatoir + zorgplicht | propositie moet worden herzien | **juridisch advies** + begripstoets |
-| A8 | De rolverdeling met de vergunninghoudende betaalpartners is contractueel en regulatoir werkbaar (RD-22) | keten | integratiedetails en contracten wijzigen; het bedrijfsmodel niet | **juridisch advies** + contractonderhandeling |
+| A8 | Er is een vergunninghoudende betaalpartner te selecteren en te contracteren met een werkbare regulatoire rolverdeling (RD-22). Eerste implementatierichting: Mollie en bunq, nog niet geselecteerd of gecontracteerd | keten | integratiedetails en contracten wijzigen; het bedrijfsmodel niet | **juridisch advies** + leveranciersselectie en contractonderhandeling |
 | A6 | MFA is acceptabel voor de doelgroep | adoptie | drempel te hoog | usabilitytest |
 | A7 | Sprintduur van 2 weken past bij het team | proces | ritme klopt niet | retrospective |
 

@@ -42,7 +42,7 @@ De workflow `code-quality.yml` telt bij elke run hoeveel er nog openstaan.
 | `[CLOUD]` | AWS, Azure, GCP of anders | ADR-0003 |
 | `[IDP]` | identiteitsprovider | ADR-0004 |
 | `[KMS]` | sleutelbeheer | ADR-0005 |
-| `[PROVIDER]` | externe financiële gegevensbron | vergunninghoudende betaalpartners: Mollie en bunq ([ADR-0007](architecture/adr/0007-vergunningplicht-en-rol-in-de-keten.md)); contractuele rolverdeling nog vast te leggen (RD-22) |
+| `[PROVIDER]` | externe financiële gegevensbron | vergunninghoudende betaalpartner; eerste implementatierichting Mollie en bunq ([ADR-0007](architecture/adr/0007-vergunningplicht-en-rol-in-de-keten.md)) — **nog niet definitief geselecteerd of gecontracteerd** (RD-22) |
 | `[TOOL]` | secrets manager, monitoring | ADR |
 | `[FRAMEWORK]` | front-endframework | ADR |
 | `[STAGING-URL]`, `[PRODUCTIE-URL]` | omgevings-URL's | deployment |
