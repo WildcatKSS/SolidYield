@@ -75,7 +75,8 @@ Elke module heeft:
 * een duidelijke **publieke API**;
 * eigen **packagegrenzen**;
 * eigen **tests**;
-* eigen **migraties**;
+* eigen **migraties** — in een eigen Flyway-locatie, met **globaal unieke versienummers**
+  (zie *Migratieconventie* onder **Database**);
 * expliciete **domeinevents**.
 
 ## Database
@@ -86,6 +87,26 @@ Elke module heeft:
   **backup**.
 * **Flyway** voert migraties uit; de **runtime-gebruiker mag geen schemawijzigingen
   uitvoeren**.
+
+### Migratieconventie: geen versieconflicten tussen modules
+
+Elke module heeft **eigen migraties**, maar er is **één gedeelde Flyway-schemahistorie** per
+database. Zonder afspraak leveren twee modules dan vroeg of laat dezelfde versie aan en
+faalt de migratie. De conventie:
+
+| Afspraak | Uitwerking |
+|---|---|
+| **Eigen locatie per module** | `classpath:db/migration/<module>` — elke module beheert alleen zijn eigen map; de locaties worden samen aan Flyway meegegeven |
+| **Eén globale versienummering** | het versienummer is **repositorybreed uniek**, niet uniek per module — dus geen `V1__` in twee modules |
+| **Tijdgebonden versienummer** | `V<jjjjMMddHHmm>__<module>_<beschrijving>.sql`, bijvoorbeeld `V202608051430__ledger_add_correlation_id.sql`; een botsing vergt dan dezelfde minuut én dezelfde module |
+| **Modulenaam in de bestandsnaam** | herkomst blijft zichtbaar in de schemahistorie, ook nadat de bestanden zijn samengevoegd |
+| **Controle in CI** | een check faalt bij dubbele versienummers over alle modulelocaties heen, vóór de migratie draait |
+| **Onveranderlijk na merge** | een gemigreerd bestand wordt nooit gewijzigd; een correctie is een nieuwe migratie |
+
+> Alternatief overwogen: een **apart Flyway-schema per module**, elk met een eigen historie
+> en eigen versiereeks. Dat maakt versienummers vanzelf conflictvrij, maar maakt migraties
+> die meerdere modules raken en het herstellen van back-ups aanzienlijk ingewikkelder. Voor
+> de MVP is één historie met globale versienummering de eenvoudigere keuze.
 
 ## Financiële administratie
 
@@ -120,14 +141,37 @@ ledgerboekingen.
 | **Dead-letter** | |
 | **Idempotente handlers** | |
 
+**Wat de outbox wél en niet garandeert.** De Transactional Outbox waarborgt dat de
+domeinwijziging en het bijbehorende event **in dezelfde transactie** worden opgeslagen. Dat
+sluit uit dat één van beide ontbreekt. Het sluit **niet** uit dat een event **meer dan één
+keer wordt afgeleverd**: bij retries, een crash tussen aflevering en het markeren als
+verwerkt, of een herstart van de worker kan hetzelfde event opnieuw langskomen. De
+aflevergarantie is daarom **at-least-once**, niet exactly-once.
+
+> **Consumers en jobhandlers moeten daarom idempotent zijn.** Elke handler verwerkt een
+> herhaald event zonder aanvullend effect — afgedwongen met **idempotency keys** en unieke
+> constraints op de doeltabel, niet met de aanname dat een event maar één keer aankomt.
+> Voor geldstromen is dit een harde eis (T-20, DoD-criterium C4).
+
 ## Authenticatie
 
 | Doelgroep | Middelen |
 |---|---|
-| **Klanten** | **Argon2id** voor wachtwoordhashing · **Passkeys** en **WebAuthn** · **TOTP** · **secure cookies** |
+| **Klanten** | **Passkeys** en **WebAuthn** · **TOTP** · **veilige sessiecookies** · **sterke MFA** · wachtwoordopslag volgens de eis hieronder |
 | **Medewerkers** | **verplichte MFA** · **hardware security keys** waar mogelijk · **aparte rollen** · **auditlogging** |
 
-> De keuze van een identity provider valt **buiten** dit besluit; die hoort bij besluit 8.
+Dit besluit legt **uitsluitend de beveiligingseisen** vast. De identity provider en de
+implementatie ervan worden bepaald in **besluit 8**.
+
+> Passkeys/WebAuthn, TOTP, veilige sessiecookies en sterke MFA zijn verplichte
+> authenticatiemogelijkheden. Wanneer SolidYield zelf wachtwoorden beheert, is Argon2id
+> verplicht. Wanneer wachtwoordbeheer wordt uitbesteed aan een identity-provider, moet die
+> provider een aantoonbaar gelijkwaardig of sterker wachtwoordopslag- en
+> beveiligingsmechanisme gebruiken.
+
+Argon2id is dus **geen onvoorwaardelijke implementatiekeuze**: welke van de twee gevallen
+geldt, volgt uit besluit 8. Zolang dat besluit openstaat, is de eis geformuleerd op
+beveiligingsniveau, niet op implementatieniveau.
 
 ## Beheerinterface
 
@@ -178,7 +222,10 @@ reconstrueerbaar is, en of een fout in de applicatie schema of historie kan aant
   "werkt-op-test"-fouten verdwijnt.
 * Geen container- of orkestratielaag om te beheren of te beveiligen.
 * Geen extra datastores: de job queue en de outbox zitten in dezelfde transactie als de
-  domeinwijziging, wat dubbele of verloren verwerking structureel voorkomt.
+  domeinwijziging. Daarmee is **atomische opslag** van domeinwijziging en event
+  gewaarborgd: er ontstaat geen event zonder domeinwijziging en geen domeinwijziging zonder
+  event. **Aflevering is daarmee niet exactly-once:** een event kan **minstens eenmaal**
+  worden afgeleverd, dus consumers moeten **idempotent** zijn (zie *Achtergrondverwerking*).
 * Runtime kan het schema niet wijzigen.
 
 ## Negatieve gevolgen

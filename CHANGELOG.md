@@ -55,7 +55,7 @@ security-impact worden expliciet gemarkeerd.
   en technische integraties; niet toegestaan zijn echte klantgelden, bindende
   rendementcontracten, werkelijke rendementuitkeringen en productiegebruik (#1)
 - **Compliance:** RD-23 t/m RD-27 toegevoegd voor de wettelijke route, vergunning,
-  wettelijke uitzondering, vrijstelling en ontheffing; controls C-19 t/m C-23
+  wettelijke uitzondering, vrijstelling en ontheffing; controls C-27 t/m C-31
   toegevoegd. C-01 gesloten met de motivatie dat bedrijfsmodel en ketenrol zijn
   vastgesteld en de juridische grondslag afzonderlijk wordt bepaald (#1)
 - **Security:** dreigingen T-19 t/m T-23 toegevoegd aan het threat model, waaronder
@@ -71,7 +71,7 @@ security-impact worden expliciet gemarkeerd.
 - **Compliance:** RD-20 (werking van administratieve vermogensscheiding bij
   faillissement), RD-21 (houdbaarheid en communicatie van de positie als concurrent
   schuldeiser) en RD-22 (definitieve rolverdeling met betaalpartners) toegevoegd;
-  controls C-16 t/m C-18 toegevoegd aan het complianceregister (#1)
+  controls C-21 t/m C-23 toegevoegd aan het complianceregister (#1)
 - Productvisie ingevuld voor SolidYield: doelgroep, probleem, productdoel en
   marktafbakening (Nederland, NL, EUR) (#1)
 - Productdoel PD-1 vastgelegd, met meetwaarden en PD-0 (validatie) als voorliggend
@@ -81,6 +81,36 @@ security-impact worden expliciet gemarkeerd.
   onder het rendement (#1)
 
 ### Gewijzigd
+- **Reviewbevindingen op besluit 5 verwerkt.** **Provider- en accountrisico** worden nu
+  onderscheiden: een geografisch gescheiden secundaire locatie bij dezelfde provider
+  beperkt locatiegebonden uitval, maar neemt providerbrede, accountgebonden en
+  control-plane-risico's niet weg. Dat concentratierisico wordt bewust geaccepteerd voor
+  de MVP, periodiek herbeoordeeld en is een herzieningstrigger voor ADR-0003. Vastgelegd
+  als **T-29**, restrisico **RR-2** en control **C-32**. TransIP is vastgelegd als de
+  gekozen **startprovider**; een latere onafhankelijke back-uplocatie bij een andere
+  partij is niet langer architectonisch uitgesloten (#1)
+- **Object Store-scheiding aangescherpt.** Generieke bucketnamen zijn vervangen door
+  `solidyield-production-documents`, `solidyield-production-exports`,
+  `solidyield-production-backups`, `solidyield-test-documents`, `solidyield-test-exports`
+  en `solidyield-test-backups`. Productie en test gebruiken afzonderlijke credentials,
+  access keys, endpoints/accounts of IAM-principals, encryptiesleutels en
+  lifecycle-/retentieconfiguraties: een verkeerde productiecredential mag technisch geen
+  toegang geven tot test en omgekeerd (C-24, T-27) (#1)
+- **Authenticatie losgekoppeld van besluit 8.** Passkeys/WebAuthn, TOTP, veilige
+  sessiecookies en sterke MFA zijn verplichte authenticatiemogelijkheden. Argon2id is
+  verplicht wanneer SolidYield zelf wachtwoorden beheert; bij uitbesteding aan een
+  identity-provider moet die provider een aantoonbaar gelijkwaardig of sterker mechanisme
+  gebruiken. Argon2id is daarmee geen onvoorwaardelijke implementatiekeuze meer (#1)
+- **Outbox-garantie gecorrigeerd:** de Transactional Outbox waarborgt atomische opslag van
+  domeinwijziging en event, maar aflevering is **at-least-once** en geen exactly-once;
+  consumers en jobhandlers moeten daarom idempotent zijn (#1)
+- **Flyway-migratieconventie vastgelegd:** eigen migratielocatie per module met één
+  gedeelde schemahistorie en **globaal unieke, tijdgebonden versienummers**
+  (`V<jjjjMMddHHmm>__<module>_<beschrijving>.sql`), bewaakt met een CI-check op dubbele
+  versienummers (#1)
+- **Complianceregister:** dubbele control-ID's opgelost. De bij besluit 4 toegevoegde rijen
+  botsten met de bestaande C-16 t/m C-20; zij zijn hernummerd naar **C-21 t/m C-23** en
+  **C-27 t/m C-31**. C-24 t/m C-26 zijn ongewijzigd (#1)
 - **ADR-0006 aangepast:** "één secundaire EER-regio" is vervangen door "één geografisch
   gescheiden secundaire locatie binnen de Europese Economische Ruimte". Die locatie hoeft
   niet in een ander land te liggen, mits de oplossing aantoonbaar voldoende bescherming

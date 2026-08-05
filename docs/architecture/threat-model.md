@@ -68,8 +68,9 @@ snel uit te loggen).
 | T-24 | Elevation of privilege | Onbevoegde toegang tot een VPS via SSH of beheerinterface | TB-4 | **Hoog** | beheer uitsluitend via **WireGuard**; geen wachtwoordauthenticatie; firewall standaard dicht; aparte serviceaccounts per systemd-proces | configuratietest + toegangsreview |
 | T-25 | Tampering | Schemawijziging of datacorrectie buiten de applicatie om, rechtstreeks op de database | TB-4 | **Hoog** | vier gescheiden databasegebruikers; runtime mag geen schema wijzigen; **directe databasecorrecties zijn verboden**, correcties lopen via de beheerinterface met maker-checker en audittrail | rechtencontrole + auditlogtest |
 | T-26 | Information disclosure | Object-storagecredentials of langlevende URL's bereiken de client | TB-1 | Hoog | de frontend krijgt **nooit** credentials; uitsluitend korte presigned URL's vanuit de backend | securitytest |
-| T-27 | Information disclosure | Testomgeving of testback-up bevat of lekt productiegegevens | TB-5 | **Hoog** | productie en test delen niets (databases, gebruikers, accounts, secrets, buckets, monitoring, logging, back-ups); test uitsluitend via WireGuard en met synthetische data | configuratiecontrole + reviewcheck |
+| T-27 | Information disclosure | Testomgeving of testback-up bevat of lekt productiegegevens; een credential van de ene omgeving geeft toegang tot de bucket van de andere | TB-5 | **Hoog** | productie en test delen niets (databases, gebruikers, accounts, secrets, buckets, monitoring, logging, back-ups); **unieke bucketnamen** (`solidyield-production-*` / `solidyield-test-*`) en **afzonderlijke** Object Store-credentials, access keys, endpoints/IAM-principals, encryptiesleutels en lifecycle-/retentieconfiguraties, zodat een productiecredential technisch geen toegang tot test geeft en omgekeerd; test uitsluitend via WireGuard en met synthetische data | configuratiecontrole + **negatieve toegangstest per omgeving** + reviewcheck |
 | T-28 | Denial | Uitval van de enige productie-VPS | TB-3 | Hoog | back-up en disaster recovery op een geografisch gescheiden secundaire locatie binnen de EER; herstelproef periodiek uitvoeren. **Er is geen automatische failover** | hersteltest |
+| T-29 | Denial | Verlies van of blokkade op het provideraccount, uitval van het control plane, of contractbeëindiging bij TransIP — alle omgevingen én de back-ups staan daar | TB-3 | **Hoog** | **niet afgedekt; bewust geaccepteerd voor de MVP.** Een geografisch gescheiden secundaire locatie bij dezelfde provider dekt dit niet. Periodieke herbeoordeling; vóór echte klantgelden beoordelen of een back-upkopie buiten het provideraccount nodig is ([ADR-0003](adr/0003-cloudprovider.md), vervolgactie 4a) | periodieke risicoherbeoordeling |
 
 ## 4. Risicomatrix
 
@@ -95,6 +96,7 @@ Elke dreiging met risico *Hoog* of hoger krijgt:
 | # | Restrisico | Waarom aanvaard | Compenserende maatregel | Houdbaar tot | Geaccepteerd door |
 |---|---|---|---|---|---|
 | RR-1 | `[RESTRISICO]` | `[REDEN]` | `[MAATREGEL]` | `[DATUM]` | `[MANDAATHOUDER]` |
+| RR-2 | **Concentratierisico bij één provider** (T-29): productie, test, objectopslag en back-ups staan alle bij TransIP; account-, control-plane-, contract- en providerbrede uitval is niet afgedekt | bewust geaccepteerd voor de MVP; een tweede provider is voor de MVP niet ingericht | geografisch gescheiden secundaire locatie (dekt alleen locatiegebonden uitval), periodieke hersteltest, en **periodieke herbeoordeling** van dit risico — herzieningstrigger voor [ADR-0003](adr/0003-cloudprovider.md) | **vóór echte klantgelden** opnieuw te beoordelen | `[MANDAATHOUDER]` |
 
 Risicoacceptatie volgt de procedure uit [`../../GOVERNANCE.md`](../../GOVERNANCE.md).
 Kritieke en hoge risico's kan het team niet zelf accepteren.

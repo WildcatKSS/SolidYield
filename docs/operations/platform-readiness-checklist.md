@@ -98,9 +98,17 @@ proces (API en Worker gescheiden).
 runtime mag geen schemawijzigingen uitvoeren · Flyway voert migraties uit · geen netwerk-
 toegang van buiten de VPS.
 
-**Object storage (TransIP Object Store)** — afzonderlijke buckets per omgeving voor
-`documents`, `exports` en `backups` · versioning, encryptie en lifecycle policies aan ·
+**Object storage (TransIP Object Store)** — **unieke bucketnamen per omgeving**, geen
+generieke namen: `solidyield-production-documents`, `solidyield-production-exports`,
+`solidyield-production-backups`, `solidyield-test-documents`, `solidyield-test-exports`,
+`solidyield-test-backups` · versioning, encryptie en lifecycle policies aan ·
 uitsluitend **korte presigned URL's**; de frontend krijgt nooit credentials.
+
+**Gescheiden Object Store-toegang** — productie en test hebben afzonderlijke credentials,
+access keys, endpoints/accounts of IAM-principals, encryptiesleutels en
+lifecycle-/retentieconfiguraties. **Aantoonbaar maken:** een productiecredential geeft
+technisch **geen** toegang tot test, en omgekeerd — op autorisatieniveau, niet alleen via
+de bucketnaam (C-24, T-27).
 
 **Scheiding productie en test** — nooit gedeeld: databases, databasegebruikers,
 Unix-accounts, secrets, signing keys, buckets, provideraccounts, monitoring, logging en

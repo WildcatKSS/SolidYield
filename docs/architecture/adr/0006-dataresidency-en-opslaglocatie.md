@@ -94,6 +94,27 @@ Uitgangspunten:
 | **Geografisch gescheiden secundaire locatie** | een tweede fysieke locatie binnen de EER die **niet dezelfde faalscenario's deelt** met de primaire locatie: geen gedeeld datacentergebouw, geen gedeelde stroomvoorziening en geen gedeelde koeling, en op voldoende afstand om niet door dezelfde lokale gebeurtenis te worden geraakt |
 | **Aantoonbaar voldoende bescherming** | de scheiding is **onderbouwd vastgelegd** (welke faalscenario's zij afdekt en welke niet) en **periodiek getest** met een herstelproef; zonder die onderbouwing en test telt de locatie niet als gescheiden |
 
+#### Wat een secundaire locatie bij dezelfde provider níét afdekt
+
+Geografische scheiding en providerspreiding zijn **verschillende maatregelen tegen
+verschillende risico's**. Ze worden hier expliciet uit elkaar gehouden:
+
+| Risicosoort | Wat het is | Wordt afgedekt door |
+|---|---|---|
+| **Locatiegebonden uitval** | uitval van één fysieke locatie: stroom, koeling, brand, netwerk | de geografisch gescheiden secundaire locatie uit dit besluit |
+| **Concentratierisico** | productie, test, objectopslag én back-ups staan bij dezelfde provider | **niet afgedekt** door dit besluit |
+| **Account-, control-plane-, contract- en providerbrede uitval** | compromittering of blokkade van het provideraccount, uitval van het beheerportaal of de API, contractbeëindiging, faillissement van de provider | **niet afgedekt** door dit besluit |
+
+> Een geografisch gescheiden secundaire locatie bij dezelfde provider beperkt
+> locatiegebonden uitval, maar neemt providerbrede, accountgebonden en
+> control-plane-risico's niet weg. SolidYield accepteert dit concentratierisico voor de
+> MVP. Het risico wordt periodiek herbeoordeeld en vormt een herzieningstrigger voor
+> ADR-0003.
+
+Dit besluit stelt de **residency-eis**; het schrijft geen provider voor en sluit een latere
+**onafhankelijke back-up- of uitwijklocatie bij een andere partij** niet uit — mits die
+binnen de EER blijft.
+
 > ⚠️ "Geografisch gescheiden" binnen één land is een **zwakkere** eis dan een tweede land.
 > Zonder de twee criteria hierboven is de term niet toetsbaar en kan een tweede locatie in
 > de praktijk hetzelfde datacenter blijken. Het vastleggen en testen van de scheiding is
@@ -155,6 +176,13 @@ geen theoretische — zie *Negatieve gevolgen*.
   accepteert dat risico bewust, onder de voorwaarde dat de scheiding onderbouwd is
   vastgelegd en periodiek getest.
   *Beperking:* de twee criteria onder *Definities*, plus een terugkerende herstelproef.
+* **Een tweede locatie bij dezelfde provider dekt geen providerbreed risico af.** Account-,
+  control-plane-, contract- en providerbrede uitval blijft open; zie *Wat een secundaire
+  locatie bij dezelfde provider níét afdekt*. Dit besluit dekt dat risico niet en pretendeert
+  dat ook niet.
+  *Beperking:* het risico is als zodanig vastgelegd in [ADR-0003](0003-cloudprovider.md)
+  (concentratierisico, vervolgactie 4a), T-29 en RR-2 in het
+  [threat model](../threat-model.md), en control C-32; het wordt periodiek herbeoordeeld.
 * Uitgangspunt 7 vraagt een werkend goedkeurings- en registratieproces voor toegang vanuit
   derde landen; dat proces bestaat nog niet.
 * Een strikt uitzonderingspad kan operationeel knellen bij leveranciers die

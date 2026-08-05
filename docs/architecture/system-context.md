@@ -65,7 +65,7 @@ graph TB
 | # | Aanname | Consequentie als onjuist |
 |---|---|---|
 | SA-1 | Opslag en reguliere verwerking van productiegegevens vinden uitsluitend binnen de **EER** plaats; de primaire productieomgeving staat fysiek in **Nederland** op een TransIP VPS, back-up en disaster recovery op één **geografisch gescheiden secundaire locatie binnen de EER** ([ADR-0003](adr/0003-cloudprovider.md), [ADR-0006](adr/0006-dataresidency-en-opslaglocatie.md)) | toegang vanuit derde landen is standaard uitgesloten en alleen mogelijk bij een vooraf goedgekeurde uitzondering |
-| SA-2 | Productie en test draaien op **afzonderlijke VPS'en** en delen niets: geen databases, databasegebruikers, Unix-accounts, secrets, signing keys, buckets, provideraccounts, monitoring, logging of back-ups (ADR-0003) | test is uitsluitend bereikbaar via WireGuard en draait met synthetische data |
+| SA-2 | Productie en test draaien op **afzonderlijke VPS'en** en delen niets: geen databases, databasegebruikers, Unix-accounts, secrets, signing keys, buckets, provideraccounts, monitoring, logging of back-ups (ADR-0003). Object storage gebruikt **unieke bucketnamen** per omgeving en afzonderlijke credentials, access keys, endpoints/IAM-principals, encryptiesleutels en lifecycle-/retentieconfiguraties | test is uitsluitend bereikbaar via WireGuard en draait met synthetische data; een productiecredential geeft technisch geen toegang tot test en omgekeerd |
 | SA-2 | Authenticatie wordt uitbesteed aan `[IDP]` | zelf bouwen betekent aanzienlijk meer securitywerk |
 | SA-3 | Eén logische tenant (geen white label) | multi-tenancy raakt datamodel en autorisatie |
 | SA-4 | Wij initiëren geen betalingen in de MVP | zwaarder regulatoir regime — **te valideren** |

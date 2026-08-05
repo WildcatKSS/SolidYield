@@ -86,8 +86,29 @@ privacybeoordeling verplicht; migraties draaien nooit ongecontroleerd tijdens pi
 | Applicatiesecrets | secrets manager `[TOOL]` | `[90]` dagen of bij vermoeden |
 | Deploycredentials | OIDC-federatie (voorkeur) of environment secrets | OIDC: n.v.t.; anders `[90]` dagen |
 | Encryptiesleutels | KMS/HSM | volgens sleutelbeleid |
+| Object Store-credentials en access keys | secrets manager `[TOOL]`, **per omgeving apart** | `[90]` dagen of bij vermoeden |
 
 Nieuwe variabele? Voeg hem toe aan `.env.example` én aan dit document.
+
+### Object Store per omgeving
+
+Productie en test gebruiken **unieke bucketnamen** — generieke namen zijn niet toegestaan,
+omdat een verkeerd geconfigureerde omgeving dan stilzwijgend de verkeerde bucket raakt:
+
+| Omgeving | Buckets |
+|---|---|
+| Productie | `solidyield-production-documents` · `solidyield-production-exports` · `solidyield-production-backups` |
+| Test | `solidyield-test-documents` · `solidyield-test-exports` · `solidyield-test-backups` |
+
+Naast de bucketnamen zijn ook **afzonderlijk** per omgeving: Object Store-credentials,
+access keys, endpoints/accounts of IAM-principals, encryptiesleutels en
+lifecycle-/retentieconfiguraties.
+
+> **Harde eis bij deployment:** een verkeerde *productie*credential mag technisch **geen**
+> toegang geven tot test, en omgekeerd. De scheiding berust niet op een correct ingevulde
+> bucketnaam, maar is op autorisatieniveau afdwingbaar. Zie
+> [ADR-0003](../architecture/adr/0003-cloudprovider.md), control **C-24** en dreiging
+> **T-27**.
 
 ### Repository-variabelen die het gedrag van de pipeline sturen
 

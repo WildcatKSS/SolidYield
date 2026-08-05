@@ -22,8 +22,14 @@ getoetst. Wie hiervan wil afwijken, doorloopt de procedure voor risicoacceptatie
 
 ### 2.1 Authenticatie
 * Wachtwoorden: minimaal 12 tekens, gecontroleerd tegen bekende gelekte wachtwoorden,
-  geen verplichte periodieke wijziging, opgeslagen met een moderne, trage hashfunctie
-  (bijvoorbeeld Argon2id of bcrypt met passende parameters).
+  geen verplichte periodieke wijziging, opgeslagen met een moderne, trage hashfunctie.
+  Voor SolidYield geldt ([ADR-0002](../architecture/adr/0002-technologiestack.md)):
+  **Argon2id is verplicht wanneer SolidYield zelf wachtwoorden beheert**; wordt
+  wachtwoordbeheer uitbesteed aan een identity-provider, dan moet die provider een
+  **aantoonbaar gelijkwaardig of sterker** wachtwoordopslag- en beveiligingsmechanisme
+  gebruiken. Welk van beide geldt, volgt uit **besluit 8**.
+* Passkeys/WebAuthn, TOTP, veilige sessiecookies en sterke MFA zijn **verplichte**
+  authenticatiemogelijkheden, ongeacht die keuze.
 * Snelheidsbeperking en progressieve vertraging op inlogpogingen; account nooit permanent
   blokkeren op basis van invoer van derden (dat is zelf een aanvalsmiddel).
 * Neutrale foutmeldingen: nooit onthullen of een account bestaat.

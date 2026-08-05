@@ -68,7 +68,7 @@ graph TB
 | API-laag | authenticatie, autorisatie, invoervalidatie, foutafhandeling | autorisatie **op objectniveau** |
 | Domeinlogica | berekeningen, regels, limieten | volledig unit-getest; afronding expliciet; **geen floating point** — integer minor units of een gecontroleerd decimaltype |
 | Integratielaag | koppelingen met vergunninghoudende betaalpartners en later een KYC/AML-partner | time-outs, retries met backoff, circuit breaker, idempotentie, sandbox en mock in test; koppelvlakken zijn **implementatieaannames** tot de contracten rond zijn |
-| Worker (achtergrondtaken) | job queue, outbox, meldingen | eigen systemd-proces uit hetzelfde artifact; `FOR UPDATE SKIP LOCKED`; retries met backoff, dead-letter; idempotente handlers |
+| Worker (achtergrondtaken) | job queue, outbox, meldingen | eigen systemd-proces uit hetzelfde artifact; `FOR UPDATE SKIP LOCKED`; retries met backoff, dead-letter; **aflevering is at-least-once**, dus handlers zijn verplicht idempotent |
 | Primaire opslag | gegevens van gebruikers | encryptie in rust, minimale rechten, back-ups |
 | Auditlog | wie deed wat, wanneer | append-only, apart bewaard, andere rechten |
 | Cache | prestaties | nooit gevoelige gegevens zonder noodzaak; korte TTL |
@@ -80,6 +80,13 @@ Modulaire monoliet met **Spring Modulith**; grenzen worden in tests afgedwongen.
 `servicing` · `reconciliation` · `reporting` · `notification` · `document` ·
 `administration` · `audit`. Elke module heeft een publieke API, eigen packagegrenzen, eigen
 tests, eigen migraties en expliciete domeinevents.
+
+**Migraties per module zonder versieconflicten.** Elke module heeft een eigen
+Flyway-locatie (`classpath:db/migration/<module>`), maar er is **één gedeelde
+schemahistorie** per database. Versienummers zijn daarom **globaal uniek**, niet uniek per
+module: `V<jjjjMMddHHmm>__<module>_<beschrijving>.sql`. Een CI-check faalt bij dubbele
+versienummers over alle modulelocaties heen. Uitwerking en het overwogen alternatief
+(schema per module) staan in [ADR-0002](adr/0002-technologiestack.md).
 
 ### Kerncomponenten van het domein
 
@@ -111,7 +118,8 @@ ongeacht welke partij wordt geselecteerd.
 
 | Onderwerp | Keuze (voorstel) | Status |
 |---|---|---|
-| Wachtwoorden en factoren (klanten) | **Argon2id**, **passkeys/WebAuthn**, **TOTP**, secure cookies | vastgesteld ([ADR-0002](adr/0002-technologiestack.md)) |
+| Authenticatiemiddelen (klanten) | **passkeys/WebAuthn**, **TOTP**, veilige sessiecookies, **sterke MFA** | vastgesteld als **eis** ([ADR-0002](adr/0002-technologiestack.md)) |
+| Wachtwoordopslag (klanten) | **Argon2id** wanneer SolidYield zelf wachtwoorden beheert; bij uitbesteding aan een identity-provider een **aantoonbaar gelijkwaardig of sterker** mechanisme | afhankelijk van **besluit 8** |
 | Medewerkers | verplichte MFA, hardware security keys waar mogelijk, aparte rollen, auditlogging | vastgesteld |
 | Identiteitsprovider | OIDC via `[IDP]`, authorization code flow met PKCE | te besluiten — **besluit 8** |
 | MFA | verplicht voor inloggen en gevoelige handelingen | vast uitgangspunt |
@@ -127,10 +135,31 @@ Uitwerking: [`../security/access-control.md`](../security/access-control.md).
 |---|---|---|---|
 | Accountgegevens | PostgreSQL | in rust + in transport | zolang het account bestaat + `[termijn]` |
 | Financiële gegevens en ledger | PostgreSQL | in rust; gevoelige velden aanvullend op veldniveau | `[termijn]` — **te valideren** |
-| Documenten en exports | TransIP Object Store, aparte buckets per omgeving | in rust; versioning en lifecycle policies | `[termijn]` — **te valideren** |
+| Documenten en exports | TransIP Object Store, **unieke buckets per omgeving** (zie hieronder) | in rust; versioning en lifecycle policies | `[termijn]` — **te valideren** |
 | Sessies/tokens | cache of opslag | versleuteld, korte TTL | minuten tot uren |
 | Auditlog | aparte, append-only opslag | in rust | `[termijn]` — **te valideren** |
 | Onderzoeksdata | **buiten** deze systemen | zie privacydocumentatie | `[termijn]` |
+
+### Object Store: unieke buckets en gescheiden toegang per omgeving
+
+Generieke bucketnamen zijn **niet toegestaan**: bij een verkeerd geconfigureerde omgeving
+raakt een generieke naam stilzwijgend de verkeerde bucket.
+
+| Omgeving | Buckets |
+|---|---|
+| Productie | `solidyield-production-documents` · `solidyield-production-exports` · `solidyield-production-backups` |
+| Test | `solidyield-test-documents` · `solidyield-test-exports` · `solidyield-test-backups` |
+
+Productie en test gebruiken **afzonderlijke** Object Store-credentials, access keys,
+endpoints/accounts of IAM-principals, encryptiesleutels en lifecycle-/retentieconfiguraties.
+
+> **Harde eis:** een verkeerde *productie*credential mag technisch **geen** toegang geven
+> tot test, en omgekeerd. De scheiding mag niet berusten op een correct ingevulde
+> bucketnaam alleen; zij moet op autorisatieniveau afdwingbaar zijn. Zie
+> [ADR-0003](adr/0003-cloudprovider.md), control **C-24** en dreiging **T-27**.
+
+De frontend krijgt **nooit** object-storagecredentials; toegang loopt via de backend, die
+kortlevende presigned URL's uitgeeft.
 
 ## 5. Foutscenario's
 

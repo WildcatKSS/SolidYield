@@ -6,8 +6,13 @@
 * **Geraadpleegd:** Product Owner, Security, Privacy, Compliance
 
 > [!IMPORTANT]
-> Er wordt **één** hostingprovider gebruikt. Er worden geen extra cloudproviders
-> geïntroduceerd. De technologiestack staat in [ADR-0002](0002-technologiestack.md); de
+> **TransIP is de gekozen startprovider voor de MVP.** Alle omgevingen draaien daar: het
+> is geen multi-providerarchitectuur. Dit besluit **verbiedt niet** dat later een
+> onafhankelijke back-up- of uitwijklocatie bij een andere partij wordt toegevoegd; die
+> mogelijkheid blijft architectonisch open en is een herzieningstrigger (zie
+> *Concentratierisico*).
+>
+> De technologiestack staat in [ADR-0002](0002-technologiestack.md); de
 > dataresidency-randvoorwaarde in [ADR-0006](0006-dataresidency-en-opslaglocatie.md).
 
 ## Probleem
@@ -55,19 +60,32 @@ Productie en test zijn **volledig gescheiden**. De volgende zaken worden **nooit
 
 ## Object storage
 
-**TransIP Object Store**, met **afzonderlijke buckets per omgeving**:
+**TransIP Object Store**, met **unieke bucketnamen per omgeving**. Generieke namen zijn
+niet toegestaan: bij een verkeerd geconfigureerde omgeving raakt een generieke naam
+stilzwijgend de verkeerde bucket.
 
 | Omgeving | Buckets |
 |---|---|
-| Productie | `documents` · `exports` · `backups` |
-| Test | `documents` · `exports` · `backups` |
+| Productie | `solidyield-production-documents` · `solidyield-production-exports` · `solidyield-production-backups` |
+| Test | `solidyield-test-documents` · `solidyield-test-exports` · `solidyield-test-backups` |
 
-Toegepast op elke bucket:
+Toegepast op elke bucket: **versioning** · **encryptie** · **lifecycle policies** ·
+**korte presigned URL's**.
 
-* **versioning**
-* **encryptie**
-* **lifecycle policies**
-* **korte presigned URL's**
+### Gescheiden toegang per omgeving
+
+Productie en test gebruiken **afzonderlijke**:
+
+* Object Store-**credentials**
+* **access keys**
+* **endpoints/accounts of IAM-principals**
+* **encryptiesleutels**
+* **lifecycle- en retentieconfiguraties**
+
+> **Harde eis:** een verkeerde *productie*credential mag technisch **geen** toegang geven
+> tot test, en omgekeerd. De scheiding mag niet berusten op een correct ingevulde
+> bucketnaam alleen; zij moet op autorisatieniveau afdwingbaar zijn. Toetsbaar gemaakt in
+> control **C-24** en dreiging **T-27**.
 
 **De frontend krijgt nooit object-storagecredentials.** Toegang loopt uitsluitend via de
 backend, die kortlevende presigned URL's uitgeeft.
@@ -98,10 +116,24 @@ realistisch ogende data is een reëel lekpad.
 
 ## Negatieve gevolgen
 
-* **Concentratierisico bij één provider.** Uitval, prijswijziging of beëindiging van de
-  dienst raakt productie en test tegelijk. Er is geen tweede provider als uitwijk.
-  *Beperking:* back-ups en disaster recovery op een geografisch gescheiden secundaire
-  locatie (ADR-0006); herstelbaarheid periodiek testen.
+* **Concentratierisico bij één provider — drie verschillende risico's die niet door
+  dezelfde maatregel worden afgedekt:**
+
+  | Risicosoort | Wat het is | Wordt afgedekt door |
+  |---|---|---|
+  | **Locatiegebonden uitval** | uitval van één fysiek datacenter: stroom, koeling, brand, netwerk | geografisch gescheiden secundaire locatie (ADR-0006) |
+  | **Concentratierisico** | productie, test, object storage én back-ups staan alle bij TransIP | **niet afgedekt** — bewust geaccepteerd voor de MVP |
+  | **Account-, control-plane-, contract- en providerbrede uitval** | compromittering of blokkade van het provideraccount, uitval van het beheerportaal of de API, contractbeëindiging, faillissement van de provider | **niet afgedekt** — bewust geaccepteerd voor de MVP |
+
+  > Een geografisch gescheiden secundaire locatie bij dezelfde provider beperkt
+  > locatiegebonden uitval, maar neemt providerbrede, accountgebonden en
+  > control-plane-risico's niet weg. SolidYield accepteert dit concentratierisico voor de
+  > MVP. Het risico wordt periodiek herbeoordeeld en vormt een herzieningstrigger voor
+  > ADR-0003.
+
+  *Beperking voor zover mogelijk:* back-ups en disaster recovery op een geografisch
+  gescheiden secundaire locatie (ADR-0006), herstelbaarheid periodiek testen, en een
+  exportmogelijkheid van back-ups die niet van het provideraccount afhankelijk is.
 * **Zelf beheerde VPS'en betekent zelf patchen, harden, monitoren en herstellen.** Er is
   geen beheerde database, geen beheerde back-updienst en geen automatische failover. Dat is
   terugkerend werk, geen eenmalige inrichting.
@@ -122,6 +154,8 @@ realistisch ogende data is een reëel lekpad.
 | 2 | Scheiding van de tien niet-gedeelde items aantoonbaar maken (accounts, buckets, secrets, back-ups) | Tech lead + Security |
 | 3 | Deploystappen in `release.yml` invullen voor deze architectuur; `PRODUCTION_DEPLOY_ENABLED` blijft uit tot dat klaar is | Tech lead |
 | 4 | Secundaire locatie voor back-up en disaster recovery kiezen en de scheiding onderbouwen (ADR-0006) | Tech lead + Ops |
+| 4a | Concentratierisico periodiek herbeoordelen; beoordelen of een back-upkopie buiten het TransIP-account of bij een andere partij nodig is vóór echte klantgelden | Tech lead + Ops |
+| 4b | Object Store-scheiding aantoonbaar maken: unieke bucketnamen, aparte credentials, access keys, endpoints/IAM-principals, encryptiesleutels en lifecycle-/retentieconfiguraties per omgeving | Tech lead + Security |
 | 5 | Hersteltest uitvoeren en vastleggen (C-12) | Ops |
 | 6 | SLO's herijken op een architectuur met één productiemachine | Ops + Product Owner |
 
@@ -134,4 +168,6 @@ realistisch ogende data is een reëel lekpad.
 ## Herzieningsmoment
 
 Bij een beschikbaarheidseis die met één productiemachine niet haalbaar is, bij groei van de
-belasting, of wanneer de provider de benodigde diensten niet meer levert.
+belasting, wanneer de provider de benodigde diensten niet meer levert, en bij de
+**periodieke herbeoordeling van het concentratierisico** — dat laatste is een expliciete
+herzieningstrigger voor dit besluit.
