@@ -2,8 +2,11 @@
 
 Beschrijft de hoofdcomponenten van SolidYield en hoe zij samenwerken (C4 niveau 2).
 
-> **Status:** sjabloon met een bewust eenvoudige startarchitectuur. Kies pas complexere
-> patronen wanneer een concreet probleem daarom vraagt, en leg dat vast in een ADR.
+> **Status:** de technologiestack en hosting zijn vastgesteld in besluit 5 —
+> [ADR-0002](adr/0002-technologiestack.md) en [ADR-0003](adr/0003-cloudprovider.md).
+> Bewust eenvoudig: een **modulaire monoliet** op **twee TransIP VPS'en**, zonder
+> containers of orkestratie. Kies pas complexere patronen wanneer een concreet probleem
+> daarom vraagt, en leg dat vast in een ADR.
 
 > **Gerelateerd:** [`architecture-principles.md`](architecture-principles.md) (de kaders) ·
 > [`system-context.md`](system-context.md) · [`adr/README.md`](adr/README.md)
@@ -23,19 +26,19 @@ Beschrijft de hoofdcomponenten van SolidYield en hoe zij samenwerken (C4 niveau 
 ```mermaid
 graph TB
     subgraph client["Client"]
-        WEB["Webapplicatie<br/>[FRAMEWORK]"]
+        WEB["Webapplicatie<br/>React + TypeScript (Vite)<br/>statisch, via Nginx"]
     end
     subgraph edge["Rand"]
         GW["API-gateway / reverse proxy<br/>TLS, rate limiting, WAF"]
     end
     subgraph app["Applicatie"]
-        API["API-laag<br/>authenticatie, autorisatie, validatie"]
-        DOM["Domeinlogica<br/>[KERNBEREKENINGEN]"]
+        API["API-laag (Spring Boot, systemd)<br/>authenticatie, autorisatie, validatie"]
+        DOM["Domeinlogica<br/>Kotlin, Spring Modulith"]
         INT["Integratielaag<br/>externe koppelingen"]
-        JOB["Achtergrondtaken<br/>synchronisatie, meldingen"]
+        JOB["Worker (Spring Boot, systemd)<br/>job queue + outbox"]
     end
     subgraph data["Gegevens"]
-        DB[("Primaire opslag<br/>versleuteld")]
+        DB[("PostgreSQL<br/>versleuteld")]
         AUD[("Auditlog<br/>append-only")]
         CACHE[("Cache<br/>geen gevoelige gegevens")]
     end
@@ -63,12 +66,20 @@ graph TB
 | Webapplicatie | presentatie, toegankelijkheid, begrijpelijke taal | geen bedrijfsregels; geen gevoelige gegevens in localStorage |
 | API-gateway | TLS-terminatie, rate limiting, basisfiltering | eerste verdedigingslinie |
 | API-laag | authenticatie, autorisatie, invoervalidatie, foutafhandeling | autorisatie **op objectniveau** |
-| Domeinlogica | berekeningen, regels, limieten | volledig unit-getest; afronding expliciet |
+| Domeinlogica | berekeningen, regels, limieten | volledig unit-getest; afronding expliciet; **geen floating point** — integer minor units of een gecontroleerd decimaltype |
 | Integratielaag | koppelingen met vergunninghoudende betaalpartners en later een KYC/AML-partner | time-outs, retries met backoff, circuit breaker, idempotentie, sandbox en mock in test; koppelvlakken zijn **implementatieaannames** tot de contracten rond zijn |
-| Achtergrondtaken | synchronisatie, meldingen | idempotent; foutafhandeling zichtbaar |
+| Worker (achtergrondtaken) | job queue, outbox, meldingen | eigen systemd-proces uit hetzelfde artifact; `FOR UPDATE SKIP LOCKED`; retries met backoff, dead-letter; idempotente handlers |
 | Primaire opslag | gegevens van gebruikers | encryptie in rust, minimale rechten, back-ups |
 | Auditlog | wie deed wat, wanneer | append-only, apart bewaard, andere rechten |
 | Cache | prestaties | nooit gevoelige gegevens zonder noodzaak; korte TTL |
+
+### Modules
+
+Modulaire monoliet met **Spring Modulith**; grenzen worden in tests afgedwongen. Modules:
+`identity` · `customer` · `compliance` · `product` · `contract` · `ledger` · `payment` ·
+`servicing` · `reconciliation` · `reporting` · `notification` · `document` ·
+`administration` · `audit`. Elke module heeft een publieke API, eigen packagegrenzen, eigen
+tests, eigen migraties en expliciete domeinevents.
 
 ### Kerncomponenten van het domein
 
@@ -76,6 +87,8 @@ graph TB
 |---|---|---|
 | **Walletadministratie** | vrij beschikbaar saldo per gebruiker; storten, opnemen naar de eigen tegenrekening, vastzetten | geen P2P-betalingen, geen betalingen aan derden; administratieve vermogensscheiding; idempotente verwerking |
 | **Contractadministratie** | digitale contracten met looptijd (3, 6, 12, 24, 36 of 60 maanden), vast rendement, einddatum en terugbetaling | vastzetten is onomkeerbaar tot de einddatum; elke mutatie in de audittrail; afronding expliciet en getest |
+| **Ledger** | immutable double-entry boekhouding | append-only; geen updates of deletes; correcties uitsluitend via tegenboekingen; idempotency keys en correlation IDs; via jOOQ of expliciete SQL, **geen generieke CRUD** |
+| **Beheerinterface** | klantbeheer, KYC, betalingen, reconciliation, audit, rapportages | uitsluitend via **WireGuard**; **maker-checker**; **directe databasecorrecties zijn verboden** |
 
 Geld- en contractstroom met sequencediagrammen:
 [`adr/0008-geld-en-contractstroom.md`](adr/0008-geld-en-contractstroom.md). SolidYield is de
@@ -98,7 +111,9 @@ ongeacht welke partij wordt geselecteerd.
 
 | Onderwerp | Keuze (voorstel) | Status |
 |---|---|---|
-| Authenticatie | OIDC via `[IDP]`, authorization code flow met PKCE | te besluiten (ADR) |
+| Wachtwoorden en factoren (klanten) | **Argon2id**, **passkeys/WebAuthn**, **TOTP**, secure cookies | vastgesteld ([ADR-0002](adr/0002-technologiestack.md)) |
+| Medewerkers | verplichte MFA, hardware security keys waar mogelijk, aparte rollen, auditlogging | vastgesteld |
+| Identiteitsprovider | OIDC via `[IDP]`, authorization code flow met PKCE | te besluiten — **besluit 8** |
 | MFA | verplicht voor inloggen en gevoelige handelingen | vast uitgangspunt |
 | Sessies | korte levensduur (`[15]` min inactiviteit), httpOnly + secure + SameSite cookies, herauthenticatie bij gevoelige acties | voorstel |
 | Autorisatie | rolgebaseerd (gebruiker, support, beheerder) **plus** eigenaarschapscontrole per object | vast uitgangspunt |
@@ -110,8 +125,9 @@ Uitwerking: [`../security/access-control.md`](../security/access-control.md).
 
 | Soort gegeven | Waar | Encryptie | Bewaartermijn |
 |---|---|---|---|
-| Accountgegevens | primaire opslag | in rust + in transport | zolang het account bestaat + `[termijn]` |
-| Financiële gegevens | primaire opslag | in rust; gevoelige velden aanvullend op veldniveau | `[termijn]` — **te valideren** |
+| Accountgegevens | PostgreSQL | in rust + in transport | zolang het account bestaat + `[termijn]` |
+| Financiële gegevens en ledger | PostgreSQL | in rust; gevoelige velden aanvullend op veldniveau | `[termijn]` — **te valideren** |
+| Documenten en exports | TransIP Object Store, aparte buckets per omgeving | in rust; versioning en lifecycle policies | `[termijn]` — **te valideren** |
 | Sessies/tokens | cache of opslag | versleuteld, korte TTL | minuten tot uren |
 | Auditlog | aparte, append-only opslag | in rust | `[termijn]` — **te valideren** |
 | Onderzoeksdata | **buiten** deze systemen | zie privacydocumentatie | `[termijn]` |
@@ -157,9 +173,10 @@ Optimaliseer pas op basis van meting, niet op verwachting.
 | # | Beslissing | Eigenaar | Vastleggen als |
 |---|---|---|---|
 | 0 | **Wettelijke grondslag** om het besloten bedrijfsmodel uit te voeren — blokkeert echte klantgelden en productiegebruik | Compliance | RD-23 t/m RD-27; model zelf besloten in [ADR-0007](adr/0007-vergunningplicht-en-rol-in-de-keten.md) |
-| 1 | Technologiestack en runtime | Tech lead | ADR |
-| 2 | Cloudprovider en regio | Tech lead + Compliance | ADR |
-| 3 | Identiteitsprovider en MFA-methode | Security | ADR |
-| 4 | Databasekeuze en encryptiestrategie | Tech lead + Security | ADR |
-| 5 | Monolith of opsplitsing | Tech lead | ADR |
-| 6 | Wachtrij-/taakmechanisme | Tech lead | ADR |
+| 1 | ~~Technologiestack en runtime~~ | Tech lead | ✅ [ADR-0002](adr/0002-technologiestack.md) |
+| 2 | ~~Cloudprovider en hosting~~ | Tech lead + Compliance | ✅ [ADR-0003](adr/0003-cloudprovider.md) |
+| 3 | Identiteitsprovider en MFA-methode | Security | ADR-0004 — **besluit 8** |
+| 4 | Encryptie- en sleutelbeheerstrategie | Tech lead + Security | ADR-0005 |
+| 5 | ~~Monolith of opsplitsing~~ | Tech lead | ✅ modulaire monoliet, [ADR-0002](adr/0002-technologiestack.md) |
+| 6 | ~~Wachtrij-/taakmechanisme~~ | Tech lead | ✅ PostgreSQL job queue + outbox, [ADR-0002](adr/0002-technologiestack.md) |
+| 7 | Secundaire locatie voor back-up en disaster recovery, met onderbouwde scheiding | Tech lead + Ops | [ADR-0006](adr/0006-dataresidency-en-opslaglocatie.md) vervolgactie 3 |

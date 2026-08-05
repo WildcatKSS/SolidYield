@@ -82,7 +82,7 @@ sequenceDiagram
 |---|---|---|---|---|
 | Primaire database | account- en financiële gegevens | in rust (`[KMS]`), gevoelige velden aanvullend | alleen de applicatie, least privilege | dagelijks, versleuteld, hersteltest per kwartaal |
 | Auditlog | gebeurtenissen | in rust | schrijven door app, lezen door security | conform bewaartermijn |
-| Back-ups | volledige dataset | in rust, aparte sleutel | strikt beperkt, MFA | offsite in één secundaire EER-regio (ADR-0006) |
+| Back-ups | volledige dataset | in rust, aparte sleutel | strikt beperkt, MFA | offsite op één geografisch gescheiden secundaire locatie binnen de EER (ADR-0006) |
 | Cache | tijdelijke gegevens | in rust waar mogelijk | alleen applicatie | geen |
 | Onderzoeksdata | interviewaantekeningen | buiten deze systemen | UX + privacy | volgens onderzoeksbeleid |
 

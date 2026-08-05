@@ -34,16 +34,17 @@ Wijk je af van een principe, dan hoort dat expliciet in de ADR onder *Negatieve 
 | Nr | Titel | Status | Datum | Security-impact |
 |---|---|---|---|---|
 | 0001 | Sjabloon voor architectuurbesluiten | Geaccepteerd | `[JJJJ-MM-DD]` | n.v.t. |
-| 0002 | `[Keuze technologiestack]` | **Te schrijven** | | hoog |
-| 0003 | `[Keuze cloudprovider en regio]` | **Te schrijven** | | hoog |
+| 0002 | [Technologiestack](0002-technologiestack.md) | Geaccepteerd | 2026-08-05 | hoog |
+| 0003 | [Cloudprovider en hostingarchitectuur](0003-cloudprovider.md) | Geaccepteerd | 2026-08-05 | hoog |
 | 0004 | `[Keuze identiteitsprovider en MFA]` | **Te schrijven** | | hoog |
 | 0005 | `[Encryptie- en sleutelbeheerstrategie]` | **Te schrijven** | | hoog |
 | 0006 | [Dataresidency en opslaglocatie](0006-dataresidency-en-opslaglocatie.md) | Geaccepteerd | 2026-08-03 | midden |
 | 0007 | [Vergunningplicht en rol in de keten](0007-vergunningplicht-en-rol-in-de-keten.md) | Geaccepteerd **voor de bedrijfs- en keteninrichting**; wettelijke grondslag nog te valideren | 2026-08-05 | hoog |
 | 0008 | [Geld- en contractstroom](0008-geld-en-contractstroom.md) | Geaccepteerd **als functioneel ontwerp**; alleen uitvoerbaar met synthetische data en sandboxintegraties | 2026-08-05 | hoog |
 
-De vier "te schrijven" ADR's zijn openstaande beslissingen uit de README; zij horen bij de
-eerste sprints. ADR-0006 loopt daarop vooruit: dataresidency is vastgesteld vóór de
+De resterende "te schrijven" ADR's (0004 identiteitsprovider, 0005 sleutelbeheer) zijn
+openstaande beslissingen uit de README; zij horen bij de eerste sprints. ADR-0004 valt samen
+met besluit 8. ADR-0006 loopt daarop vooruit: dataresidency is vastgesteld vóór de
 providerkeuze, zodat ADR-0003 binnen die randvoorwaarde moet passen in plaats van haar
 stilzwijgend te bepalen.
 

@@ -20,7 +20,7 @@ kortere RPO/RTO kost meer.
 |---|---|---|---|---|
 | Primaire database | volledige back-up + continue transactielogs | dagelijks + continu | in rust, aparte sleutel | tweede zone in Nederland |
 | Auditlog | append-only met eigen back-up | dagelijks | in rust | gescheiden van de applicatieback-up |
-| Objectopslag (bestanden) | versiebeheer + replicatie | continu | in rust | Nederland; replicatie binnen de EER |
+| Objectopslag (TransIP Object Store) | versioning + replicatie | continu | in rust | Nederland; replicatie binnen de EER |
 | Configuratie en infrastructuur | infrastructure as code in Git | per wijziging | n.v.t. | repository |
 | Secrets | secrets manager met eigen back-up | volgens tool | ja | `[LOCATIE]` |
 
@@ -35,8 +35,14 @@ reproduceerbaar).
 * Onveranderlijkheid (immutability / object lock) waar mogelijk — beschermt tegen
   ransomware en tegen fouten.
 * Toegang tot back-ups wordt geaudit.
-* Back-ups liggen binnen de **EER**: primair Nederland, met disaster recovery in één
-  secundaire EER-regio (ADR-0006). Opslag buiten de EER vindt niet plaats.
+* Back-ups liggen binnen de **EER**: primair Nederland, met disaster recovery op één
+  **geografisch gescheiden secundaire locatie binnen de EER** (ADR-0006). Die locatie hoeft
+  niet in een ander land te liggen, mits de scheiding aantoonbaar voldoende bescherming
+  biedt tegen uitval van de primaire locatie — onderbouwd vastgelegd en periodiek getest.
+  Opslag buiten de EER vindt niet plaats.
+* Back-ups van **productie en test zijn volledig gescheiden** en worden nooit gedeeld
+  (ADR-0003). Objectopslag loopt via afzonderlijke TransIP Object Store-buckets per
+  omgeving, met versioning, encryptie en lifecycle policies.
 * Herstelwerkzaamheden worden binnen de EER uitgevoerd. Toegang tot back-ups vanuit een
   derde land is standaard uitgesloten en alleen mogelijk bij een vooraf goedgekeurde
   uitzondering, die als internationale doorgifte wordt geregistreerd.

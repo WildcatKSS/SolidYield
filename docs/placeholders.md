@@ -38,15 +38,15 @@ De workflow `code-quality.yml` telt bij elke run hoeveel er nog openstaan.
 
 | Placeholder | Betekenis | Vastleggen als |
 |---|---|---|
-| `[TECH STACK]` | technologiekeuze | ADR-0002 |
-| `[CLOUD]` | AWS, Azure, GCP of anders | ADR-0003 |
+| `[TECH STACK]` | technologiekeuze | ✅ **ingevuld 2026-08-05** — Kotlin/Spring Boot, React/TypeScript/Vite, PostgreSQL ([ADR-0002](architecture/adr/0002-technologiestack.md)) |
+| `[CLOUD]` | hostingprovider | ✅ **ingevuld 2026-08-05** — TransIP, twee VPS'en met Ubuntu Server LTS ([ADR-0003](architecture/adr/0003-cloudprovider.md)) |
 | `[IDP]` | identiteitsprovider | ADR-0004 |
 | `[KMS]` | sleutelbeheer | ADR-0005 |
 | `[PROVIDER]` | externe financiële gegevensbron | vergunninghoudende betaalpartner; eerste implementatierichting Mollie en bunq ([ADR-0007](architecture/adr/0007-vergunningplicht-en-rol-in-de-keten.md)) — **nog niet definitief geselecteerd of gecontracteerd** (RD-22) |
 | `[TOOL]` | secrets manager, monitoring | ADR |
-| `[FRAMEWORK]` | front-endframework | ADR |
+| `[FRAMEWORK]` | front-endframework | ✅ **ingevuld 2026-08-05** — React met Vite ([ADR-0002](architecture/adr/0002-technologiestack.md)) |
 | `[STAGING-URL]`, `[PRODUCTIE-URL]` | omgevings-URL's | deployment |
-| `[TERRAFORM/BICEP/…]` | infrastructure as code | ADR |
+| `[TERRAFORM/BICEP/…]` | infrastructure as code | ✅ **ingevuld 2026-08-05** — Ansible ([ADR-0002](architecture/adr/0002-technologiestack.md)) |
 
 ## 4. Proces
 

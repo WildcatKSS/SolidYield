@@ -18,9 +18,10 @@ minimaal één developer, en bij gegevens de privacyverantwoordelijke.
 | Systeem | SolidYield, zie [`system-context.md`](system-context.md) |
 | Vertrouwensgrenzen | TB-1 t/m TB-5 uit de systeemcontext |
 | Belangrijkste bezittingen | gebruikersgegevens, financiële gegevens, geld(stromen), authenticatiemiddelen, auditlog, sleutels, broncode en pipeline |
-| Buiten scope | fysieke beveiliging van `[CLOUD]`, interne systemen van de betaalpartners |
+| Buiten scope | fysieke beveiliging van de TransIP-datacenters, interne systemen van de betaalpartners |
 | Bedrijfsmodel | vastgesteld (besluit 4, [`adr/0007-vergunningplicht-en-rol-in-de-keten.md`](adr/0007-vergunningplicht-en-rol-in-de-keten.md)): SolidYield is contractspartij en houdt de wallet; betalingen lopen via vergunninghoudende betaalpartners |
 | Fase | tot de wettelijke grondslag is bevestigd draait de MVP met sandboxbetalingen en synthetische data — geen echte klantgelden |
+| Technische architectuur | twee zelf beheerde TransIP VPS'en (productie en test), Ubuntu Server LTS, Nginx, Kotlin/Spring Boot, PostgreSQL, WireGuard voor beheer ([ADR-0002](adr/0002-technologiestack.md), [ADR-0003](adr/0003-cloudprovider.md)) |
 
 ## 2. Aanvallers
 
@@ -64,6 +65,11 @@ snel uit te loggen).
 | T-21 | Fraude | Storting wordt bijgeschreven zonder bevestigde ontvangst | TB-3 | **Hoog** | vrij saldo pas bijschrijven na bevestigde reconciliatie, niet op een statusmelding | integratietests met sandbox |
 | T-22 | Repudiation | Onduidelijkheid over wat de gebruiker vóór het vastzetten te zien kreeg | TB-4 | Hoog | bevestigingsscherm en getoonde voorwaarden vastleggen in de audittrail | auditlogtest |
 | T-23 | Compliance | Echte klantgelden of bindende contracten vóór bevestiging van de wettelijke grondslag | TB-5 | **Hoog** | technische en organisatorische blokkade: sandboxbetalingen en synthetische data afgedwongen; productiedeployment uit (`PRODUCTION_DEPLOY_ENABLED`) | reviewcheck + pipelinecontrole |
+| T-24 | Elevation of privilege | Onbevoegde toegang tot een VPS via SSH of beheerinterface | TB-4 | **Hoog** | beheer uitsluitend via **WireGuard**; geen wachtwoordauthenticatie; firewall standaard dicht; aparte serviceaccounts per systemd-proces | configuratietest + toegangsreview |
+| T-25 | Tampering | Schemawijziging of datacorrectie buiten de applicatie om, rechtstreeks op de database | TB-4 | **Hoog** | vier gescheiden databasegebruikers; runtime mag geen schema wijzigen; **directe databasecorrecties zijn verboden**, correcties lopen via de beheerinterface met maker-checker en audittrail | rechtencontrole + auditlogtest |
+| T-26 | Information disclosure | Object-storagecredentials of langlevende URL's bereiken de client | TB-1 | Hoog | de frontend krijgt **nooit** credentials; uitsluitend korte presigned URL's vanuit de backend | securitytest |
+| T-27 | Information disclosure | Testomgeving of testback-up bevat of lekt productiegegevens | TB-5 | **Hoog** | productie en test delen niets (databases, gebruikers, accounts, secrets, buckets, monitoring, logging, back-ups); test uitsluitend via WireGuard en met synthetische data | configuratiecontrole + reviewcheck |
+| T-28 | Denial | Uitval van de enige productie-VPS | TB-3 | Hoog | back-up en disaster recovery op een geografisch gescheiden secundaire locatie binnen de EER; herstelproef periodiek uitvoeren. **Er is geen automatische failover** | hersteltest |
 
 ## 4. Risicomatrix
 

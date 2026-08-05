@@ -41,7 +41,7 @@ Cloud- en stack-agnostisch. Per onderwerp kies je één status:
 | P5 | Netwerksegmentatie | database niet vanaf internet bereikbaar; uitgaand verkeer beperkt | | |
 | P6 | Encryptie in transport | TLS 1.2+, HSTS, moderne ciphers | | |
 | P7 | Encryptie in rust | opslag én back-ups; sleutels in KMS/HSM | | |
-| P8 | Datalocatie | opslag en reguliere verwerking binnen de EER; primaire productieomgeving in Nederland; één secundaire EER-regio voor back-up en disaster recovery (ADR-0006) | | |
+| P8 | Datalocatie | opslag en reguliere verwerking binnen de EER; primaire productieomgeving in Nederland (TransIP VPS); één geografisch gescheiden secundaire locatie binnen de EER voor back-up en disaster recovery, onderbouwd en getest (ADR-0003, ADR-0006) | | |
 | P8a | Toegang vanuit derde landen | standaard uitgesloten; goedgekeurde uitzonderingen zijn geregistreerd als internationale doorgifte (ADR-0006) | | |
 | P9 | Omgevingsscheiding | eigen accounts, netwerken, sleutels per omgeving | | |
 | P10 | Geen productiedata buiten productie | technisch én organisatorisch afgedwongen | | |
@@ -80,28 +80,34 @@ Cloud- en stack-agnostisch. Per onderwerp kies je één status:
 
 ---
 
-## Aandachtspunten per platform
+## Aandachtspunten voor onze architectuur
 
-Kort en bewust zonder implementatiecode — die hoort in je eigen infrastructuurrepository.
+Twee zelf beheerde TransIP VPS'en met Ubuntu Server LTS, zonder containers of orkestratie
+([ADR-0003](../architecture/adr/0003-cloudprovider.md)). Kort en bewust zonder
+implementatiecode — die hoort in de Ansible-repository.
 
-**AWS** — OIDC via IAM Roles for Service Accounts of GitHub OIDC-provider in plaats van
-access keys · Secrets Manager of Parameter Store (SecureString) · KMS met key rotation ·
-VPC met private subnets voor data · CloudTrail als auditbron, apart account voor logs ·
-S3-objectversioning en Object Lock voor onveranderlijke back-ups.
+**Besturingssysteem en netwerk** — Ubuntu Server LTS met automatische securityupdates ·
+firewall standaard dicht, alleen expliciet geopende poorten · SSH-beheer uitsluitend via
+**WireGuard**, geen wachtwoordauthenticatie · test is **niet publiek bereikbaar**.
 
-**Azure** — Workload Identity Federation in plaats van clientsecrets · Key Vault met
-purge protection · Private Endpoints voor PaaS-diensten · Managed Identity per component ·
-diagnostic settings naar een aparte Log Analytics-workspace · resource locks op
-productieresources.
+**Provisioning** — alles via **Ansible** vanuit Git; geen handmatige productieconfiguratie ·
+drift zichtbaar maken · systemd-units met minimale rechten en een eigen serviceaccount per
+proces (API en Worker gescheiden).
 
-**GCP** — Workload Identity Federation · Secret Manager met versiebeheer · VPC Service
-Controls rond gevoelige diensten · Cloud KMS met rotatie · Cloud Audit Logs apart bewaard ·
-organisatiebeleid dat publieke buckets verbiedt.
+**PostgreSQL** — vier gescheiden gebruikers (migraties, runtime, readonly, backup) ·
+runtime mag geen schemawijzigingen uitvoeren · Flyway voert migraties uit · geen netwerk-
+toegang van buiten de VPS.
 
-**Kubernetes** — geen `latest`-tags; images op digest · NetworkPolicies standaard dicht ·
-secrets uit een externe kluis (CSI-driver of operator), niet als plain Secret · resource
-requests én limits · PodSecurity-standaarden op `restricted` · aparte namespaces én
-liefst clusters per omgeving · read-only rootfilesystem waar mogelijk.
+**Object storage (TransIP Object Store)** — afzonderlijke buckets per omgeving voor
+`documents`, `exports` en `backups` · versioning, encryptie en lifecycle policies aan ·
+uitsluitend **korte presigned URL's**; de frontend krijgt nooit credentials.
+
+**Scheiding productie en test** — nooit gedeeld: databases, databasegebruikers,
+Unix-accounts, secrets, signing keys, buckets, provideraccounts, monitoring, logging en
+back-ups. Test draait uitsluitend met synthetische data.
+
+**Secrets** — buiten Git, met beperkte rechten op de VPS · rotatiebeleid · aparte secrets
+per omgeving; sleutelbeheer wordt uitgewerkt in ADR-0005.
 
 ---
 

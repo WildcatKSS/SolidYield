@@ -5,10 +5,13 @@
 > **Status:** in opzet. Productnaam, doelgroep, probleem en productdoel zijn vastgesteld
 > (besluit 1 in §10); de [productvisie](docs/product/product-vision.md) is daarop
 > ingevuld. Ook het type financiële dienst (besluit 2), markt, taal, valuta en
-> dataresidency (besluit 3) en het **bedrijfs- en ketenmodel** (besluit 4) zijn vastgesteld;
-> zie [ADR-0007](docs/architecture/adr/0007-vergunningplicht-en-rol-in-de-keten.md) en
+> dataresidency (besluit 3), het **bedrijfs- en ketenmodel** (besluit 4) en de
+> **technologiestack en hosting** (besluit 5) zijn vastgesteld; zie
+> [ADR-0002](docs/architecture/adr/0002-technologiestack.md),
+> [ADR-0003](docs/architecture/adr/0003-cloudprovider.md),
+> [ADR-0007](docs/architecture/adr/0007-vergunningplicht-en-rol-in-de-keten.md) en
 > [ADR-0008](docs/architecture/adr/0008-geld-en-contractstroom.md). De overige waarden
-> tussen vierkante haken (`[TECH STACK]`, `[ORG]`, …) zijn nog **niet** ingevuld — zie
+> tussen vierkante haken (`[IDP]`, `[ORG]`, …) zijn nog **niet** ingevuld — zie
 > [`docs/placeholders.md`](docs/placeholders.md).
 >
 > **Blokkerend: de wettelijke grondslag, niet het bedrijfsmodel.** Het bedrijfs- en
@@ -40,8 +43,9 @@ schaalbare en gebruiksvriendelijke online financiële dienst bouwt.
 Scrum-werkwijze die niet omzeilbaar is · documentatie voor security, privacy, compliance
 en operations · een fictieve voorbeeldbacklog om mee te starten.
 
-**Niet:** geen applicatiecode, geen gekozen technologiestack, geen juridisch advies, en
-geen verplichting om alles tegelijk in te voeren.
+**Niet:** nog geen applicatiecode, geen juridisch advies, en geen verplichting om alles
+tegelijk in te voeren. De technologiestack en hosting zijn inmiddels wél gekozen
+(besluit 5).
 
 | Doel | Waar geregeld |
 |---|---|
@@ -95,7 +99,8 @@ privacyprincipes.
 | Doelgroep MVP | Nederlandse consumenten, zzp'ers en rechtspersonen — start in een **besloten testgroep** | zie [MVP-scope](docs/product/mvp-scope.md) |
 | Betaalpartners | ontworpen voor **vergunninghoudende betaalpartners**; eerste implementatierichting: Mollie (iDEAL/SEPA) en bunq (IBAN, uitbetalingen, reconciliatie) — betaalpartner, **geen productuitgever** | **nog niet definitief geselecteerd en niet gecontracteerd**; selectie en regulatoire rolverdeling worden contractueel vastgesteld (RD-22) |
 | Landen/regio's · dataresidency | **Nederland** · opslag en reguliere verwerking binnen de **EER**, primaire productieomgeving in Nederland | zie [ADR-0006](docs/architecture/adr/0006-dataresidency-en-opslaglocatie.md) |
-| Technologiestack · cloud | `[TECH STACK]` · `[CLOUD]` | vastleggen als [ADR](docs/architecture/adr/) |
+| Technologiestack | **Kotlin/Spring Boot** · **React/TypeScript/Vite** · **PostgreSQL** · modulaire monoliet met Spring Modulith | zie [ADR-0002](docs/architecture/adr/0002-technologiestack.md) |
+| Hosting | **TransIP**, twee VPS'en met **Ubuntu Server LTS**; productie en test **volledig gescheiden**, test uitsluitend via **WireGuard** | zie [ADR-0003](docs/architecture/adr/0003-cloudprovider.md) |
 | Sprintduur · testgroep | `[SPRINTDUUR]` · `[TESTGROEP]` | zie [Scrum](docs/scrum/scrum-guide.md) en [testgroepplan](docs/research/test-group-plan.md) |
 
 ### Installatie
@@ -108,8 +113,10 @@ cp .env.example .env          # lokale, niet-productie waarden
 ./scripts/verify-template.sh  # controleert de repository zelf
 ```
 
-`bootstrap.sh` is stack-agnostisch: het herkent Node.js, Python, Go, Java en .NET. Zolang
-`[TECH STACK]` niet is gekozen, meldt het dat er nog niets te installeren is.
+`bootstrap.sh` is stack-agnostisch: het herkent Node.js, Python, Go, Java en .NET. De
+gekozen stack is Kotlin/Gradle en Node ([ADR-0002](docs/architecture/adr/0002-technologiestack.md));
+zolang de manifesten nog niet in de repository staan, meldt het script dat er niets te
+installeren is.
 
 ### Configuratie
 
@@ -128,7 +135,7 @@ De repository-variabelen die het gedrag van de pipeline sturen (`TEMPLATE_STRICT
 ```
 .github/        Issue Forms, PR-template, CODEOWNERS, labels, Dependabot, workflows
 docs/           procesdocumentatie — begin bij docs/README.md
-src/            applicatiecode (structuur volgt uit [TECH STACK])
+src/            applicatiecode — Kotlin/Spring Boot (backend), React/TypeScript (frontend)
 tests/          unit · integration · security · accessibility · end-to-end
 scripts/        bootstrap + de CI-scripts die de workflows aanroepen
 ```
@@ -222,10 +229,10 @@ Niet besloten — behandel deze niet als feit:
 |---|---|---|---|
 | 1 | Productnaam, doelgroep, probleem, productdoel | ✅ **besloten 2026-08-03** — [productvisie](docs/product/product-vision.md) | Product Owner |
 | 2 | Type financiële dienst | ✅ **besloten 2026-08-03** — digitaal contractueel rendementproduct; het **regulatoire regime** is daarmee níét bepaald, zie 4 | PO + Compliance |
-| 3 | Landen/regio's, dataresidency, taal | ✅ **besloten 2026-08-03** — markt Nederland, taal Nederlands, valuta EUR; opslag en reguliere verwerking binnen de EER met de primaire productieomgeving in Nederland, één secundaire EER-regio voor back-up en DR, toegang vanuit derde landen standaard uitgesloten ([ADR-0006](docs/architecture/adr/0006-dataresidency-en-opslaglocatie.md)) | PO + Compliance |
+| 3 | Landen/regio's, dataresidency, taal | ✅ **besloten 2026-08-03** — markt Nederland, taal Nederlands, valuta EUR; opslag en reguliere verwerking binnen de EER met de primaire productieomgeving in Nederland, één geografisch gescheiden secundaire locatie binnen de EER voor back-up en DR, toegang vanuit derde landen standaard uitgesloten ([ADR-0006](docs/architecture/adr/0006-dataresidency-en-opslaglocatie.md)) | PO + Compliance |
 | 4 | Vergunningplicht en rol in de keten | ✅ **besloten 2026-08-05** — bedrijfs- en ketenmodel vastgesteld in [ADR-0007](docs/architecture/adr/0007-vergunningplicht-en-rol-in-de-keten.md) en [ADR-0008](docs/architecture/adr/0008-geld-en-contractstroom.md) | Product Owner |
 | 4a | **Wettelijke grondslag** om dat model uit te voeren: vergunning, wettelijke uitzondering, vrijstelling, ontheffing of een andere juridisch bevestigde grondslag (RD-23 t/m RD-27) | **te valideren door bevoegde specialist** — blokkeert echte klantgelden, bindende rendementcontracten, werkelijke rendementuitkeringen en productiegebruik | Compliance |
-| 5 | Technologiestack en cloudprovider | open besluit — **ingeperkt door ADR-0006**: de primaire regio moet in Nederland liggen | Tech lead |
+| 5 | Technologiestack en cloudprovider | ✅ **besloten 2026-08-05** — Kotlin/Spring Boot, React/Vite, PostgreSQL, modulaire monoliet ([ADR-0002](docs/architecture/adr/0002-technologiestack.md)); TransIP met twee VPS'en ([ADR-0003](docs/architecture/adr/0003-cloudprovider.md)) | Tech lead |
 | 6 | Sprintduur (aanname: 2 weken) | aanname | Scrum Master |
 | 7 | Samenstelling testgroep (aanname: 8–12 deelnemers) | aanname | UX-expertise |
 | 8 | Identiteitsprovider en MFA-methode | open besluit | Security + Tech lead |

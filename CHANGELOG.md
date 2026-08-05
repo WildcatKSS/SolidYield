@@ -20,6 +20,22 @@ security-impact worden expliciet gemarkeerd.
 ## [Unreleased]
 
 ### Toegevoegd
+- **Besluit 5 — technologiestack en hosting.** **ADR-0002** (technologiestack) en
+  **ADR-0003** (cloudprovider en hostingarchitectuur) toegevoegd, beide
+  **Geaccepteerd**. Kotlin/Spring Boot met Spring Modulith als modulaire monoliet,
+  React/TypeScript/Vite als statische frontend achter Nginx, PostgreSQL, jOOQ en
+  Flyway; achtergrondverwerking via een PostgreSQL job queue met Transactional Outbox
+  (#1)
+- **Hosting:** TransIP met twee afzonderlijke VPS'en (Ubuntu Server LTS) voor productie
+  en test, volledig gescheiden; test uitsluitend bereikbaar via WireGuard. Provisioning
+  met Ansible, Git en systemd; geen handmatige productieconfiguratie (#1)
+- **Financiële administratie:** immutable double-entry ledger — append-only, geen
+  updates of deletes, correcties uitsluitend via tegenboekingen, idempotency keys,
+  correlation IDs en geen floating point (#1)
+- **Security:** dreigingen T-24 t/m T-28 toegevoegd (VPS-toegang, schemawijziging buiten
+  de applicatie om, object-storagecredentials, productiegegevens in test, uitval van de
+  enige productie-VPS); controls C-24 t/m C-26 toegevoegd (omgevingsscheiding,
+  onveranderlijkheid van de administratie, maker-checker) (#1)
 - **ADR-0007** (Vergunningplicht en rol in de keten) toegevoegd: geaccepteerd voor de
   **bedrijfs- en keteninrichting**; wettelijke grondslag en juridische uitvoerbaarheid
   blijven te valideren (#1)
@@ -65,10 +81,17 @@ security-impact worden expliciet gemarkeerd.
   onder het rendement (#1)
 
 ### Gewijzigd
+- **ADR-0006 aangepast:** "één secundaire EER-regio" is vervangen door "één geografisch
+  gescheiden secundaire locatie binnen de Europese Economische Ruimte". Die locatie hoeft
+  niet in een ander land te liggen, mits de oplossing aantoonbaar voldoende bescherming
+  biedt tegen uitval van de primaire locatie. Definities, motivatie, gevolgen en
+  vervolgacties zijn hierop aangepast; de term is repositorybreed bijgewerkt (#1)
+- Achterhaalde verwijzingen naar AWS, Azure, GCP, Kubernetes en Docker vervangen door de
+  vastgestelde architectuur (#1)
 - Besluit 3 verwerkt: markt Nederland, taal Nederlands, valuta EUR. Opslag en reguliere
-  verwerking binnen de EER, primaire productieomgeving in Nederland, één secundaire
-  EER-regio voor back-up en disaster recovery. Vastgelegd als **ADR-0006**; `[REGIO]`
-  is daarmee overal ingevuld (#1)
+  verwerking binnen de EER, primaire productieomgeving in Nederland, back-up en disaster
+  recovery op één geografisch gescheiden secundaire locatie binnen de EER. Vastgelegd als
+  **ADR-0006**; `[REGIO]` is daarmee overal ingevuld (#1)
 - **Privacy:** toegang vanuit derde landen is standaard uitgesloten; een vooraf
   goedgekeurde uitzondering geldt als internationale doorgifte en wordt als zodanig
   geregistreerd (ADR-0006) (#1)

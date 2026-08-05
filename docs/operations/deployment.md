@@ -170,8 +170,8 @@ Elke pull request bevat een rollbackplan. Geen plan = niet mergen.
 
 | Onderwerp | Eigenaar |
 |---|---|
-| Cloudprovider (`[CLOUD]`) — regio ligt vast: primair Nederland, EER (ADR-0006) | Tech lead + Compliance |
-| Infrastructure as code (`[TERRAFORM/BICEP/…]`) | Tech lead |
+| ~~Cloudprovider~~ — vastgesteld: **TransIP**, twee VPS'en, primair Nederland ([ADR-0003](../architecture/adr/0003-cloudprovider.md)) | ✅ besloten |
+| ~~Infrastructure as code~~ — vastgesteld: **Ansible**, Git en systemd; geen handmatige productieconfiguratie ([ADR-0002](../architecture/adr/0002-technologiestack.md)) | ✅ besloten |
 | Containerisatie en runtime | Tech lead |
 | Secrets manager | Security |
 | Deployvenster en changekalender | Ops |

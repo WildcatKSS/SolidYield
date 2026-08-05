@@ -64,7 +64,7 @@ updates:
   #   commit-message:
   #     prefix: "build"
 
-  # --- Containers — activeer zodra er een Dockerfile is ---
+  # --- Containers — niet van toepassing: Docker valt buiten de MVP (ADR-0002) ---
   # - package-ecosystem: "docker"
   #   directory: "/"
   #   schedule:

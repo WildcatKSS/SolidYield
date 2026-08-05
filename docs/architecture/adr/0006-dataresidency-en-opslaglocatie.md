@@ -13,9 +13,11 @@ Het product verwerkt persoonsgegevens, walletadministratie, contractgegevens en
 transactielogs — categorieën waarvoor de opslaglocatie zowel een privacyvraag als een
 toezichtvraag is.
 
-De cloudprovider is nog niet gekozen (ADR-0003 staat nog open). Dit besluit gaat daaraan
-vooraf: het legt de *randvoorwaarde* vast waarbinnen die keuze moet passen, zodat de
-providerkeuze niet stilzwijgend de dataresidency bepaalt.
+Dit besluit is genomen **vóór** de providerkeuze: het legt de *randvoorwaarde* vast
+waarbinnen die keuze moest passen, zodat de providerkeuze niet stilzwijgend de
+dataresidency zou bepalen. De provider is inmiddels gekozen
+([ADR-0003](0003-cloudprovider.md): TransIP, primaire omgeving in Nederland) en past binnen
+deze randvoorwaarde.
 
 ## Probleem
 
@@ -40,11 +42,13 @@ voorwaarden mag er vanuit een derde land toegang toe zijn?
 * Nadelen: disaster recovery binnen één land is zwak bij een regionale storing; sterk
   beperkte providerkeuze.
 
-### Optie B — Primair Nederland, back-ups en DR in één secundaire EER-regio
-* Beschrijving: productie fysiek in Nederland; herstelkopieën elders binnen de EER.
+### Optie B — Primair Nederland, back-ups en DR op een geografisch gescheiden secundaire locatie binnen de EER
+* Beschrijving: productie fysiek in Nederland; herstelkopieën op een geografisch gescheiden
+  locatie binnen de EER. Die locatie hoeft **niet** in een ander land te liggen.
 * Voordelen: geografische scheiding voor herstel zonder de EER te verlaten; in de reguliere
   bedrijfsvoering is geen doorgiftemechanisme nodig.
-* Nadelen: providerkeuze blijft beperkt; twee regio's betekent extra beheerlast.
+* Nadelen: providerkeuze blijft beperkt; twee locaties betekent extra beheerlast; "geografisch
+  gescheiden" moet aantoonbaar worden gemaakt (zie *Definities*).
 
 ### Optie C — Vrij binnen de EER, geen voorkeurland
 * Beschrijving: elke EER-regio is toegestaan.
@@ -54,15 +58,22 @@ voorwaarden mag er vanuit een derde land toegang toe zijn?
 
 ## Gekozen optie
 
-**Optie B — primaire productieomgeving in Nederland, back-ups en disaster recovery in
-één secundaire EER-regio.**
+**Optie B — primaire productieomgeving in Nederland, back-ups en disaster recovery op één
+geografisch gescheiden secundaire locatie binnen de Europese Economische Ruimte.**
+
+De primaire productieomgeving bevindt zich fysiek in Nederland. Back-ups en disaster
+recovery worden ondergebracht op een geografisch gescheiden secundaire locatie binnen de
+Europese Economische Ruimte. Deze locatie hoeft zich **niet in een ander land** te bevinden,
+mits de gekozen oplossing **aantoonbaar voldoende bescherming biedt tegen uitval van de
+primaire locatie**.
 
 Uitgangspunten:
 
 1. Opslag en reguliere verwerking van productiegegevens vinden **uitsluitend binnen de
    EER** plaats.
 2. De primaire productieomgeving bevindt zich **fysiek in Nederland**.
-3. Back-ups en disaster recovery mogen in **één** secundaire EER-regio staan.
+3. Back-ups en disaster recovery staan op **één geografisch gescheiden secundaire locatie**
+   binnen de EER; die locatie hoeft niet in een ander land te liggen.
 4. Persoonsgegevens, walletadministratie, contractgegevens, transactielogs en back-ups
    blijven binnen de EER.
 5. Er vindt **geen structurele doorgifte naar derde landen** plaats. Eventuele
@@ -75,6 +86,19 @@ Uitgangspunten:
    **geldt als internationale doorgifte** en wordt als zodanig geregistreerd.
 8. Uitbreiding naar andere Europese landen verandert dit besluit niet; Nederland blijft de
    primaire regio tenzij hierover expliciet een nieuw bestuursbesluit wordt genomen.
+
+### Definities
+
+| Begrip | Betekenis in dit besluit |
+|---|---|
+| **Geografisch gescheiden secundaire locatie** | een tweede fysieke locatie binnen de EER die **niet dezelfde faalscenario's deelt** met de primaire locatie: geen gedeeld datacentergebouw, geen gedeelde stroomvoorziening en geen gedeelde koeling, en op voldoende afstand om niet door dezelfde lokale gebeurtenis te worden geraakt |
+| **Aantoonbaar voldoende bescherming** | de scheiding is **onderbouwd vastgelegd** (welke faalscenario's zij afdekt en welke niet) en **periodiek getest** met een herstelproef; zonder die onderbouwing en test telt de locatie niet als gescheiden |
+
+> ⚠️ "Geografisch gescheiden" binnen één land is een **zwakkere** eis dan een tweede land.
+> Zonder de twee criteria hierboven is de term niet toetsbaar en kan een tweede locatie in
+> de praktijk hetzelfde datacenter blijken. Het vastleggen en testen van de scheiding is
+> daarom geen formaliteit maar de kern van dit uitgangspunt — zie vervolgactie 3 en
+> negatief gevolg 4.
 
 > **Waarom uitgangspunt 7 zo strikt is geformuleerd.** Toegang op afstand vanuit een derde
 > land is niet neutraal: het beschikbaar stellen van gegevens aan iemand buiten de EER kan
@@ -92,6 +116,12 @@ Optie B haalt het herstelvoordeel van geografische spreiding binnen zonder de EE
 verlaten. In de reguliere bedrijfsvoering is daardoor geen doorgiftemechanisme nodig; dat
 is de eenvoudigste positie zolang RD-01 openstaat, want hoe minder open variabelen richting
 de specialist, hoe scherper die vraag te beantwoorden is.
+
+Door de secundaire locatie te definiëren op **faalscenario's** in plaats van op
+landsgrenzen, blijft de eis werkbaar bij een hostingprovider die primair in Nederland
+levert ([ADR-0003](0003-cloudprovider.md)), zonder de bescherming tegen uitval van de
+primaire locatie los te laten. Die bescherming moet dan wel aantoonbaar zijn; zie
+*Definities*.
 
 Het besluit maakt tegelijk expliciet dat "EER-only" een **beleidsnorm** is en geen
 technische onmogelijkheid. Toegang vanuit een derde land blijft denkbaar — bijvoorbeeld bij
@@ -114,14 +144,17 @@ geen theoretische — zie *Negatieve gevolgen*.
 
 ## Negatieve gevolgen
 
-* **De providerkeuze wordt materieel ingeperkt.** Niet elke grote cloudprovider heeft een
-  volwaardige regio in Nederland; sommige bedienen de Nederlandse markt vanuit een regio
-  in een ander EER-land. Welke providers aan uitgangspunt 2 voldoen is **te verifiëren
-  bij het opstellen van ADR-0003** — dit besluit stelt de eis, het inventariseert de
-  markt niet.
+* **De providerkeuze werd materieel ingeperkt.** Niet elke hostingpartij levert een
+  volwaardige omgeving in Nederland. Dit besluit stelde de eis; de keuze is vervolgens
+  gemaakt in [ADR-0003](0003-cloudprovider.md) en past daarbinnen.
   *Beperking:* de eis is expliciet vastgelegd vóór de providerkeuze, zodat die keuze de
-  residency niet stilzwijgend bepaalt.
-* Twee regio's betekent extra beheerlast en hogere kosten dan één regio.
+  residency niet stilzwijgend bepaalde.
+* Twee locaties betekenen extra beheerlast en hogere kosten dan één locatie.
+* **"Geografisch gescheiden" binnen één land is zwakker dan een tweede land.** Bij een
+  landelijke of regionale gebeurtenis kunnen beide locaties geraakt worden. Dit besluit
+  accepteert dat risico bewust, onder de voorwaarde dat de scheiding onderbouwd is
+  vastgelegd en periodiek getest.
+  *Beperking:* de twee criteria onder *Definities*, plus een terugkerende herstelproef.
 * Uitgangspunt 7 vraagt een werkend goedkeurings- en registratieproces voor toegang vanuit
   derde landen; dat proces bestaat nog niet.
 * Een strikt uitzonderingspad kan operationeel knellen bij leveranciers die
@@ -169,18 +202,20 @@ geen theoretische — zie *Negatieve gevolgen*.
 
 | # | Actie | Eigenaar | Issue | Deadline |
 |---|---|---|---|---|
-| 1 | Bij ADR-0003 verifiëren welke providers een volwaardige primaire regio in Nederland bieden | Tech lead | # | vóór providerkeuze |
+| 1 | ~~Bij ADR-0003 verifiëren welke providers een volwaardige primaire regio in Nederland bieden~~ | Tech lead | # | ✅ afgerond — [ADR-0003](0003-cloudprovider.md) |
 | 2 | Goedkeurings- en registratieproces inrichten voor toegang vanuit derde landen (uitgangspunt 7), inclusief vastlegging als internationale doorgifte | Privacy + Compliance | # | vóór eerste leverancier |
-| 3 | Secundaire EER-regio voor back-ups en DR kiezen en vastleggen | Tech lead | # | bij ADR-0003 |
+| 3 | Secundaire locatie voor back-ups en DR kiezen, de geografische scheiding onderbouwen tegen de criteria onder *Definities*, en een herstelproef uitvoeren | Tech lead + Ops | # | vóór de eerste echte geldstroom |
 | 4 | Toetsen of het verwerkingsregister en de PIA een veld hebben voor goedgekeurde uitzonderingen op uitgangspunt 7 | Privacy | # | vóór eerste uitzondering |
 
 ## Gerelateerde besluiten
 
-* Randvoorwaarde voor: `ADR-0003` (cloudprovider en regio), `ADR-0005` (sleutelbeheer)
+* Randvoorwaarde voor: [ADR-0003](0003-cloudprovider.md) (cloudprovider en hosting),
+  `ADR-0005` (sleutelbeheer)
 * Gerelateerde registervragen: `RD-07`, `RD-09`, `RD-10`
 
 ## Herzieningsmoment
 
-Bij uitbreiding naar een ander EER-land, bij wisseling van cloudprovider, wanneer een
-leverancier verwerking binnen de EER niet kan garanderen, of bij de eerste goedgekeurde
-uitzondering op uitgangspunt 7.
+Bij uitbreiding naar een ander EER-land, bij wisseling van hostingprovider, wanneer een
+leverancier verwerking binnen de EER niet kan garanderen, bij de eerste goedgekeurde
+uitzondering op uitgangspunt 7, of wanneer een herstelproef aantoont dat de secundaire
+locatie onvoldoende gescheiden is.
