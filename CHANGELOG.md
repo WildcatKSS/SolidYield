@@ -29,6 +29,11 @@ security-impact worden expliciet gemarkeerd.
   onder het rendement (#1)
 
 ### Gewijzigd
+- Besluit 3 verwerkt: markt Nederland, taal Nederlands, valuta EUR, en dataresidency
+  binnen de EER met de primaire productieomgeving in Nederland. Vastgelegd als
+  **ADR-0006**; `[REGIO]` is daarmee overal ingevuld (#1)
+- **Compliance:** RD-07 beleidsmatig gesloten — verwerking uitsluitend binnen de EER;
+  de juridische doorgiftevraag blijft open (#1)
 - Type financiële dienst vastgesteld: digitaal contractueel rendementproduct. De
   werking is beschreven in de productvisie §6; het regulatoire regime is
   uitdrukkelijk niet vastgesteld (#1)

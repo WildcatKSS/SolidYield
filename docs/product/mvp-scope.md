@@ -64,7 +64,7 @@ synthetische data in niet-productieomgevingen.
 | `[BIJV. betalingen initiëren]` | zwaarder regulatoir regime en hoger risico | na juridisch advies en bewezen kernwaarde |
 | `[BIJV. meerdere rekeningen koppelen]` | complexiteit zonder extra leerwaarde | na validatie van M6 |
 | Mobiele apps (native) | web volstaat om te leren | bij bewezen retentie |
-| Meertaligheid | testgroep is `[TAAL]`-talig | bij uitbreiding naar `[REGIO]` |
+| Meertaligheid | testgroep is Nederlandstalig | bij uitbreiding naar een ander EER-land |
 | Geavanceerde analyses of AI-advies | risico op misleidend financieel advies | na juridische toets |
 | Sociale of deelfuncties | leidt af van het kernprobleem | mogelijk nooit |
 | Integratie met `[PARTNER]` | afhankelijkheid van derden | na contract en DPIA |

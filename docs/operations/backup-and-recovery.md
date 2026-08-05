@@ -18,9 +18,9 @@ kortere RPO/RTO kost meer.
 
 | Onderdeel | Methode | Frequentie | Encryptie | Locatie |
 |---|---|---|---|---|
-| Primaire database | volledige back-up + continue transactielogs | dagelijks + continu | in rust, aparte sleutel | tweede zone in `[REGIO]` |
+| Primaire database | volledige back-up + continue transactielogs | dagelijks + continu | in rust, aparte sleutel | tweede zone in Nederland |
 | Auditlog | append-only met eigen back-up | dagelijks | in rust | gescheiden van de applicatieback-up |
-| Objectopslag (bestanden) | versiebeheer + replicatie | continu | in rust | `[REGIO]` |
+| Objectopslag (bestanden) | versiebeheer + replicatie | continu | in rust | Nederland; replicatie binnen de EER |
 | Configuratie en infrastructuur | infrastructure as code in Git | per wijziging | n.v.t. | repository |
 | Secrets | secrets manager met eigen back-up | volgens tool | ja | `[LOCATIE]` |
 
@@ -35,7 +35,8 @@ reproduceerbaar).
 * Onveranderlijkheid (immutability / object lock) waar mogelijk — beschermt tegen
   ransomware en tegen fouten.
 * Toegang tot back-ups wordt geaudit.
-* Back-ups liggen binnen `[REGIO]`; doorgifte buiten de regio is **te valideren**.
+* Back-ups liggen binnen de **EER**: primair Nederland, met disaster recovery in één
+  secundaire EER-regio (ADR-0006). Opslag buiten de EER is uitgesloten.
 
 ## 4. Herstelscenario's
 

@@ -20,7 +20,7 @@ graph TB
         OBS["Monitoring en logging<br/>[PROVIDER]"]
     end
 
-    subgraph trust["Onze vertrouwensgrens — [CLOUD], regio [REGIO]"]
+    subgraph trust["Onze vertrouwensgrens — [CLOUD], primaire regio Nederland (EER)"]
         APP["SolidYield<br/>webapplicatie + API"]
         DB[("Gegevensopslag<br/>versleuteld")]
         AUDIT[("Auditlog<br/>append-only")]
@@ -64,7 +64,7 @@ graph TB
 
 | # | Aanname | Consequentie als onjuist |
 |---|---|---|
-| SA-1 | Alle gegevens blijven binnen `[REGIO]` | doorgifte-eisen, aanpassing van de architectuur |
+| SA-1 | Alle productiegegevens blijven binnen de **EER**; de primaire omgeving staat fysiek in **Nederland** (ADR-0006) | beperkt de providerkeuze; doorgifte buiten de EER is uitgesloten |
 | SA-2 | Authenticatie wordt uitbesteed aan `[IDP]` | zelf bouwen betekent aanzienlijk meer securitywerk |
 | SA-3 | Eén logische tenant (geen white label) | multi-tenancy raakt datamodel en autorisatie |
 | SA-4 | Wij initiëren geen betalingen in de MVP | zwaarder regulatoir regime — **te valideren** |

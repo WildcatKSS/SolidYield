@@ -38,6 +38,9 @@ Wijk je af van een principe, dan hoort dat expliciet in de ADR onder *Negatieve 
 | 0003 | `[Keuze cloudprovider en regio]` | **Te schrijven** | | hoog |
 | 0004 | `[Keuze identiteitsprovider en MFA]` | **Te schrijven** | | hoog |
 | 0005 | `[Encryptie- en sleutelbeheerstrategie]` | **Te schrijven** | | hoog |
+| 0006 | [Dataresidency en opslaglocatie](0006-dataresidency-en-opslaglocatie.md) | Geaccepteerd | 2026-08-03 | midden |
 
 De vier "te schrijven" ADR's zijn openstaande beslissingen uit de README; zij horen bij de
-eerste sprints.
+eerste sprints. ADR-0006 loopt daarop vooruit: dataresidency is vastgesteld vóór de
+providerkeuze, zodat ADR-0003 binnen die randvoorwaarde moet passen in plaats van haar
+stilzwijgend te bepalen.

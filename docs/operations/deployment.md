@@ -170,7 +170,7 @@ Elke pull request bevat een rollbackplan. Geen plan = niet mergen.
 
 | Onderwerp | Eigenaar |
 |---|---|
-| Cloudprovider en regio (`[CLOUD]`, `[REGIO]`) | Tech lead + Compliance |
+| Cloudprovider (`[CLOUD]`) — regio ligt vast: primair Nederland, EER (ADR-0006) | Tech lead + Compliance |
 | Infrastructure as code (`[TERRAFORM/BICEP/…]`) | Tech lead |
 | Containerisatie en runtime | Tech lead |
 | Secrets manager | Security |

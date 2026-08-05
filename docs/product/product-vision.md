@@ -94,10 +94,11 @@ Persona's: [`personas.md`](personas.md).
 
 | Onderwerp | Waarde | Consequentie |
 |---|---|---|
-| Landen/regio's | **Nederland** (eerste markt) | bepaalt toezichthouder, taal en dataresidency |
+| Landen/regio's | **Nederland** — enige markt in de eerste fase (besluit 3) | bepaalt toezichthouder, taal en dataresidency |
 | Talen | Nederlands | bepaalt contentwerk en toegankelijkheid |
 | Valuta | EUR | bepaalt afronding, weergave en boekhoudlogica |
 | Distributiekanaal | `[WEB / IOS / ANDROID / API]` | bepaalt tech en teststrategie |
+| Dataresidency | **EER**, primaire omgeving fysiek in **Nederland** ([ADR-0006](../architecture/adr/0006-dataresidency-en-opslaglocatie.md)) | beperkt de providerkeuze in ADR-0003 |
 | Type financiële dienst | **digitaal contractueel rendementproduct** (productbeschrijving, vastgesteld 2026-08-03) | het **regulatoire regime** dat hierbij hoort is nog **niet** vastgesteld |
 
 ### Hoe het product werkt
@@ -145,7 +146,9 @@ Vastgesteld door de Product Owner op 2026-08-03, als **feitelijke beschrijving**
   één vaste looptijd.
 * Geen keuzes over samenstelling, spreiding of timing bij de gebruiker leggen.
 * Geen uitbreiding buiten Nederland vóór het regulatoire regime in de eerste markt
-  vaststaat.
+  vaststaat. Internationale uitbreiding valt buiten de MVP; per nieuw land volgt vooraf
+  een afzonderlijke beoordeling op wet- en regelgeving, fiscaliteit,
+  consumentenbescherming, operationele inrichting en productgeschiktheid.
 * `[NIET-DOEL 4]` — aan te vullen bij de MVP-afbakening ([`mvp-scope.md`](mvp-scope.md)).
 
 ## 9. Aannames en risico's op visieniveau
@@ -176,3 +179,4 @@ kwartaal, en direct wanneer onderzoek een kernaanname weerlegt.
 | 2026-08-03 | eerste versie — productnaam, doelgroep, probleem en productdoel vastgesteld; type dienst en regulatoir regime expliciet opengelaten | Product Owner |
 | 2026-08-03 | §3 productdoel uitkomstgericht geherformuleerd; risico V-3 vervallen, V-4 toegevoegd | Product Owner |
 | 2026-08-03 | type dienst vastgesteld als digitaal contractueel rendementproduct; werking beschreven in §6; V-1 aangescherpt en V-5 toegevoegd. Juridische kwalificaties uit het besluit zijn als voorlopige aanname in het register gezet, niet als vastgesteld feit | Product Owner |
+| 2026-08-03 | besluit 3: markt en dataresidency vastgelegd (EER, primair Nederland) in ADR-0006; §6 en §8 aangevuld | Product Owner + Compliance |

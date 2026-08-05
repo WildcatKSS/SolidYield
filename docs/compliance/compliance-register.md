@@ -43,7 +43,7 @@ eigenaar en bewijs. Dit register is een **werkinstrument**, geen juridisch oorde
 
 | # | Type | Mogelijke verplichting | Toepassingsgebied | Eigenaar | Status | Bewijs | Openstaande actie | Laatst beoordeeld | Goedkeurder |
 |---|---|---|---|---|---|---|---|---|---|
-| C-01 | `FR` | Vergunning of registratie voor `[TYPE DIENST]` in `[LANDEN/REGIO]` | hele dienst | Compliance | **te valideren door specialist** | — | juridisch advies inwinnen vóór bèta | `[datum]` | `[naam]` |
+| C-01 | `FR` | Vergunning of registratie voor het digitaal contractueel rendementproduct in Nederland | hele dienst | Compliance | **te valideren door specialist** | — | juridisch advies inwinnen vóór bèta | `[datum]` | `[naam]` |
 | C-02 | `FR` | Informatieverplichtingen richting consumenten (kosten, voorwaarden, risico's) | web + app | PO + Compliance | **te valideren** | `[link]` | teksten laten toetsen | | |
 | C-03 | `GB` | Gegevensbescherming: grondslagen en transparantie | hele dienst | Privacy | in onderzoek | `docs/privacy/` | grondslagen per verwerking vastleggen | | |
 | C-04 | `GB` | Bewaartermijnen en bewaarplichten | gegevens | Privacy | **te valideren** | `docs/privacy/data-retention.md` | termijnen laten bevestigen | | |
@@ -78,4 +78,5 @@ eigenaar en bewijs. Dit register is een **werkinstrument**, geen juridisch oorde
 * Geen bewijs dat wij aan wet- en regelgeving voldoen.
 * Geen vervanging van juridisch advies.
 * Geen volledige lijst van toepasselijke regelgeving — die stelt een bevoegde specialist
-  vast op basis van `[TYPE DIENST]` en `[LANDEN/REGIO]`.
+  vast op basis van het type dienst (digitaal contractueel rendementproduct) en de markt
+  (Nederland).

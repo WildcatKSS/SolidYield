@@ -54,7 +54,8 @@ sequenceDiagram
 * Geen financiële gegevens naar analytics of marketing.
 * Geen persoonsgegevens in applicatielogs, URL's, foutmeldingen of monitoring.
 * Geen productiedata in test-, demo- of testgroepomgevingen.
-* Geen doorgifte naar landen buiten `[REGIO]` zonder beoordeling — **te valideren**.
+* Geen doorgifte naar landen buiten de **EER** — uitgesloten door ADR-0006. Toegang vanuit
+  buiten de EER alleen na afzonderlijke privacy- en compliancebeoordeling.
 * Geen profilering met rechtsgevolg zonder aparte beoordeling.
 
 ## 4. Gegevens in rust
@@ -63,7 +64,7 @@ sequenceDiagram
 |---|---|---|---|---|
 | Primaire database | account- en financiële gegevens | in rust (`[KMS]`), gevoelige velden aanvullend | alleen de applicatie, least privilege | dagelijks, versleuteld, hersteltest per kwartaal |
 | Auditlog | gebeurtenissen | in rust | schrijven door app, lezen door security | conform bewaartermijn |
-| Back-ups | volledige dataset | in rust, aparte sleutel | strikt beperkt, MFA | offsite in `[REGIO]` |
+| Back-ups | volledige dataset | in rust, aparte sleutel | strikt beperkt, MFA | offsite in één secundaire EER-regio (ADR-0006) |
 | Cache | tijdelijke gegevens | in rust waar mogelijk | alleen applicatie | geen |
 | Onderzoeksdata | interviewaantekeningen | buiten deze systemen | UX + privacy | volgens onderzoeksbeleid |
 

@@ -27,7 +27,7 @@ plicht.
 | 1 | **Gegevensbescherming** (privacywetgeving) | wet | bevoegde specialist; de DPO adviseert en houdt onafhankelijk toezicht, de mandaathouder besluit | dit document, [`data-retention.md`](data-retention.md), DPIA |
 | 2 | **Intern privacybeleid** | eigen keuze, strenger dan de wet mag | privacy officer + PO | dit document |
 | 3 | **Informatiebeveiliging** (algemeen) | goede praktijk, normen, klantvereisten | security officer | [`../security/security-principles.md`](../security/security-principles.md) |
-| 4 | **Sectorspecifieke financiële regelgeving** | wet en toezicht, afhankelijk van `[TYPE DIENST]` en `[LANDEN/REGIO]` | **bevoegde specialist** — het team niet | [`../compliance/regulatory-decisions.md`](../compliance/regulatory-decisions.md) |
+| 4 | **Sectorspecifieke financiële regelgeving** | wet en toezicht voor een digitaal contractueel rendementproduct in Nederland | **bevoegde specialist** — het team niet | [`../compliance/regulatory-decisions.md`](../compliance/regulatory-decisions.md) |
 | 5 | **Contractueel of leveranciersvereist** | overeenkomst | compliance + inkoop | [`../compliance/compliance-register.md`](../compliance/compliance-register.md) |
 
 **Praktisch verschil:** een bewaartermijn uit categorie 1 mag je niet zelf verlengen; een

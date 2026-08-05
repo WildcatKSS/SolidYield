@@ -103,7 +103,7 @@ Denk vanuit de **gebruiker**, niet vanuit de organisatie.
 
 ## 7. Leveranciers
 
-| Leverancier | Rol | Locatie | Verwerkersovereenkomst | Doorgifte buiten `[REGIO]` | Beoordeeld |
+| Leverancier | Rol | Locatie | Verwerkersovereenkomst | Doorgifte buiten de EER (uitgesloten, ADR-0006) | Beoordeeld |
 |---|---|---|---|---|---|
 | | verwerker / verwerkingsverantwoordelijke | | ⬜ | ⬜ | ⬜ |
 

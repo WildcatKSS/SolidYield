@@ -28,7 +28,7 @@ weggenomen. Alles na de huidige horizon is een intentie, geen belofte.
 
 | Doel | Los de vraag op: *kunnen we dit opschalen en verbreden?* |
 |---|---|
-| Kandidaten | `[TWEEDE PROBLEEM]`, extra `[KOPPELINGEN]`, mobiele app, meertaligheid, uitbreiding naar `[REGIO]` |
+| Kandidaten | `[TWEEDE PROBLEEM]`, extra `[KOPPELINGEN]`, mobiele app, meertaligheid, gefaseerde uitbreiding naar andere EER-landen |
 | Voorwaarde | Horizon 2 aantoonbaar geslaagd |
 | Status | intentie — expliciet **geen** toezegging |
 
@@ -43,7 +43,7 @@ weggenomen. Alles na de huidige horizon is een intentie, geen belofte.
 | Onderwerp | Nodig vóór | Eigenaar | Status |
 |---|---|---|---|
 | Keuze technologiestack en cloud | sprint 1 | Tech lead | open |
-| Juridisch advies over `[TYPE DIENST]` in `[LANDEN/REGIO]` | Horizon 2 | Compliance | open |
+| Juridisch advies over het rendementproduct in Nederland (RD-01) | Horizon 2 | Compliance | open |
 | Contract en DPA met `[LEVERANCIER]` | Horizon 2 | Inkoop + Privacy | open |
 | Pentest gepland | vóór productie | Security | open |
 | Samenstelling testgroep compleet | sprint 1 | UX | open |

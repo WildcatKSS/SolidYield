@@ -42,7 +42,7 @@ eenmaal vastgestelde verplichting borgen, staat in
 | RD-04 | Welke wettelijke bewaartermijnen gelden voor financiële gegevens? | bepaalt verwijderroutines | verwijderfunctionaliteit | Open | `[7 jaar]` als werkhypothese | | | |
 | RD-05 | Gelden er identificatie- of verificatieverplichtingen bij onboarding? | bepaalt de registratieflow | onboarding | Open | in de MVP niet ingebouwd | | | |
 | RD-06 | Welke informatieverplichtingen gelden richting consumenten? | bepaalt teksten en schermen | UI-teksten | Open | transparantie als uitgangspunt | | | |
-| RD-07 | Mogen gegevens buiten `[REGIO]` worden verwerkt? | bepaalt cloudkeuze | ADR cloud | Open | uitgangspunt: alles binnen `[REGIO]` | | | |
+| RD-07 | Mogen gegevens buiten de EER worden verwerkt? | bepaalt cloudkeuze en leverancierseisen | ADR-0003 | **Beleidsmatig gesloten 2026-08-03** (ADR-0006): wij verwerken uitsluitend binnen de EER, primair Nederland. De *juridische* vraag of doorgifte toegestaan zou zijn blijft open — wij kiezen een strengere norm dan mogelijk vereist is, en dat mag het team zelf beslissen | doorgifte buiten de EER is uitgesloten; toegang van buiten de EER alleen na afzonderlijke privacy- en compliancebeoordeling | | | |
 | RD-08 | Welke meldplichten en termijnen gelden bij een incident of datalek? | bepaalt het incidentproces | incidentprocedure | Open | zie `../security/incident-response.md` | | | |
 | RD-09 | Is een DPIA verplicht voor de kernverwerking? | bepaalt of we mogen starten | bèta | Open | wij voeren er sowieso één uit | | | |
 | RD-10 | Gelden er eisen aan uitbesteding en leveranciersbeheersing? | bepaalt contracten en toezicht | leveranciers | Open | DPA en risicobeoordeling als minimum | | | |

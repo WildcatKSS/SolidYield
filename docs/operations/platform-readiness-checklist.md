@@ -41,7 +41,7 @@ Cloud- en stack-agnostisch. Per onderwerp kies je één status:
 | P5 | Netwerksegmentatie | database niet vanaf internet bereikbaar; uitgaand verkeer beperkt | | |
 | P6 | Encryptie in transport | TLS 1.2+, HSTS, moderne ciphers | | |
 | P7 | Encryptie in rust | opslag én back-ups; sleutels in KMS/HSM | | |
-| P8 | Datalocatie | gegevens binnen `[REGIO]`; doorgifte beoordeeld | | |
+| P8 | Datalocatie | gegevens binnen de EER, primair Nederland; DR in één secundaire EER-regio (ADR-0006) | | |
 | P9 | Omgevingsscheiding | eigen accounts, netwerken, sleutels per omgeving | | |
 | P10 | Geen productiedata buiten productie | technisch én organisatorisch afgedwongen | | |
 

@@ -50,7 +50,7 @@ Waarop wegen we de opties? Geef gewichten als niet alles even zwaar telt.
 | # | Criterium | Gewicht | Toelichting |
 |---|---|---|---|
 | C1 | Security (MFA, sessiebeheer, hardening) | hoog | niet onderhandelbaar |
-| C2 | Privacy en dataresidency | hoog | gegevens binnen `[REGIO]` |
+| C2 | Privacy en dataresidency | hoog | gegevens binnen de EER, primair Nederland (ADR-0006) |
 | C3 | Kennis in het team | midden | leercurve en onderhoud |
 | C4 | Kosten (bouw en beheer) | midden | |
 | C5 | Leveranciersafhankelijkheid en exitmogelijkheid | midden | |
@@ -106,7 +106,8 @@ bewust accepteren en waarom die aanvaardbaar zijn.
 
 * Welke persoonsgegevens raakt dit besluit?
 * Verandert het doel, de bewaartermijn, de opslaglocatie of de toegang?
-* Is er sprake van doorgifte buiten `[REGIO]`?
+* Is er sprake van doorgifte buiten de EER? (uitgesloten door ADR-0006 — een afwijking is
+  een nieuw besluit)
 * Is een (aanvullende) DPIA nodig? ⬜ ja ⬜ nee
 * Beoordeeld door: `[NAAM]` op `[DATUM]`
 
