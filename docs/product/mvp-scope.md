@@ -10,7 +10,10 @@
 ## 1. Doelgroep van de MVP
 
 * Primair: Nederlandse particuliere spaarders zonder financiële expertise
-* Beperking voor de MVP: `[BIJV. alleen [LAND], alleen web, alleen één rekeningtype]`
+* MVP-doelgroep (vastgesteld 2026-08-05): Nederlandse **consumenten**, **zzp'ers** en
+  **rechtspersonen**
+* Beperking voor de MVP: **uitsluitend een besloten testgroep**, alleen Nederland, alleen
+  Nederlands, alleen EUR. Er wordt niet breder gelanceerd zolang RD-01 openstaat
 * Aantal beoogde gebruikers in de eerste ronde: `[AANTAL]` (testgroep, zie
   [`../research/test-group-plan.md`](../research/test-group-plan.md))
 
@@ -68,6 +71,11 @@ synthetische data in niet-productieomgevingen.
 | Geavanceerde analyses of AI-advies | risico op misleidend financieel advies | na juridische toets |
 | Sociale of deelfuncties | leidt af van het kernprobleem | mogelijk nooit |
 | Integratie met `[PARTNER]` | afhankelijkheid van derden | na contract en DPIA |
+| P2P-betalingen tussen gebruikers | valt buiten de walletrol; zwaarder regulatoir regime | mogelijk nooit — zie RD-17 |
+| Betalingen aan derden vanuit de wallet | idem; de wallet is geen betaalrekening | mogelijk nooit — zie RD-17 |
+| Tussentijds opnemen van een vastgezet bedrag | vastzetten is onomkeerbaar tot de einddatum | niet voorzien |
+| Zeggenschap van de gebruiker over investeringen | SolidYield investeert voor eigen rekening en risico | niet voorzien |
+| KYC/AML via een externe partner | fase 2 op de roadmap; fase 1 wordt intern uitgevoerd | zie RD-05 |
 
 ## 7. Aannames
 
@@ -78,6 +86,9 @@ synthetische data in niet-productieomgevingen.
 | A3 | Het kerninzicht M6 is begrijpelijk zonder uitleg | oplossing | inzicht wordt niet gebruikt | usabilitytest sprint 3 |
 | A4 | Gegevens zijn technisch betrouwbaar beschikbaar te maken | techniek | fundament ontbreekt | spike sprint 1 |
 | A5 | Wij mogen SolidYield aanbieden in Nederland (RD-01) | regulatoir | lancering onmogelijk | **juridisch advies** |
+| A6 | De walletfunctie is geen zelfstandige betaaldienst (RD-17) | regulatoir | vergunningtraject voor betaaldiensten | **juridisch advies** |
+| A7 | De beoogde positie als concurrent schuldeiser is houdbaar en begrijpelijk uit te leggen (RD-20, RD-21) | regulatoir + zorgplicht | propositie moet worden herzien | **juridisch advies** + begripstoets |
+| A8 | De beoogde rolverdeling met Mollie en bunq is regulatoir werkbaar (RD-22) | keten | architectuur en contracten wijzigen | **juridisch advies** + contractonderhandeling |
 | A6 | MFA is acceptabel voor de doelgroep | adoptie | drempel te hoog | usabilitytest |
 | A7 | Sprintduur van 2 weken past bij het team | proces | ritme klopt niet | retrospective |
 

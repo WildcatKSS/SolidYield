@@ -41,13 +41,18 @@ graph TB
     end
     subgraph ext["Extern"]
         IDP["[IDP]"]
-        PROV["[PROVIDER]"]
+        MOL["Mollie (beoogd)<br/>iDEAL / SEPA"]
+        BUNQ["bunq (beoogd)<br/>IBAN, uitbetalingen"]
+        KYCP["KYC/AML-partner<br/>(fase 2 — roadmap)"]
     end
 
     WEB --> GW --> API
     API --> DOM --> DB
     API --> AUD
-    DOM --> INT --> PROV
+    DOM --> INT
+    INT --> MOL
+    INT --> BUNQ
+    INT -.fase 2.-> KYCP
     API --> IDP
     JOB --> DOM
     DOM --> CACHE
@@ -59,11 +64,23 @@ graph TB
 | API-gateway | TLS-terminatie, rate limiting, basisfiltering | eerste verdedigingslinie |
 | API-laag | authenticatie, autorisatie, invoervalidatie, foutafhandeling | autorisatie **op objectniveau** |
 | Domeinlogica | berekeningen, regels, limieten | volledig unit-getest; afronding expliciet |
-| Integratielaag | koppelingen met `[PROVIDER]` | time-outs, retries met backoff, circuit breaker, mock in test |
+| Integratielaag | koppelingen met de betaalpartners (beoogd: Mollie, bunq) en later een KYC/AML-partner | time-outs, retries met backoff, circuit breaker, idempotentie, mock in test |
 | Achtergrondtaken | synchronisatie, meldingen | idempotent; foutafhandeling zichtbaar |
 | Primaire opslag | gegevens van gebruikers | encryptie in rust, minimale rechten, back-ups |
 | Auditlog | wie deed wat, wanneer | append-only, apart bewaard, andere rechten |
 | Cache | prestaties | nooit gevoelige gegevens zonder noodzaak; korte TTL |
+
+### Kerncomponenten van het domein
+
+| Component | Verantwoordelijkheid | Aandachtspunten |
+|---|---|---|
+| **Walletadministratie** | vrij beschikbaar saldo per gebruiker; storten, opnemen naar de eigen tegenrekening, vastzetten | geen P2P-betalingen, geen betalingen aan derden; administratieve vermogensscheiding; idempotente verwerking |
+| **Contractadministratie** | digitale contracten met looptijd (3, 6, 12, 24, 36 of 60 maanden), vast rendement, einddatum en terugbetaling | vastzetten is onomkeerbaar tot de einddatum; elke mutatie in de audittrail; afronding expliciet en getest |
+
+Geld- en contractstroom met sequencediagrammen:
+[`adr/0008-geld-en-contractstroom.md`](adr/0008-geld-en-contractstroom.md). De rolverdeling
+met de betaalpartners is **beoogd en niet contractueel vastgelegd** (RD-22).
+
 
 ## 3. Authenticatie en autorisatie
 
@@ -91,7 +108,8 @@ Uitwerking: [`../security/access-control.md`](../security/access-control.md).
 
 | Scenario | Gedrag | Gebruiker ziet |
 |---|---|---|
-| `[PROVIDER]` niet bereikbaar | circuit breaker, laatst bekende gegevens met tijdstempel | "Gegevens van `[tijd]`; we proberen het opnieuw" |
+| Betaalpartner niet bereikbaar | circuit breaker; **geen** saldomutatie zonder bevestigde ontvangst | "De betaling is nog niet bevestigd; we proberen het opnieuw" |
+| Uitbetaling mislukt | markeren, retry met backoff, daarna alarm; nooit stilzwijgend overslaan | melding met uitleg en verwacht herstelmoment |
 | Database niet bereikbaar | falen zonder gegevens te tonen; alarmering | neutrale foutpagina zonder technische details |
 | Authenticatie faalt | toegang weigeren (faalstand dicht) | duidelijke uitleg, geen informatie over het bestaan van accounts |
 | Achtergrondtaak faalt | retry met backoff, daarna dead-letter + alarm | eventueel melding dat gegevens verouderd zijn |
@@ -126,6 +144,7 @@ Optimaliseer pas op basis van meting, niet op verwachting.
 
 | # | Beslissing | Eigenaar | Vastleggen als |
 |---|---|---|---|
+| 0 | **Vergunningplicht en rol in de keten** — blokkeert alles wat geld raakt | Compliance | [ADR-0007](adr/0007-vergunningplicht-en-rol-in-de-keten.md) (**Voorgesteld**) |
 | 1 | Technologiestack en runtime | Tech lead | ADR |
 | 2 | Cloudprovider en regio | Tech lead + Compliance | ADR |
 | 3 | Identiteitsprovider en MFA-methode | Security | ADR |

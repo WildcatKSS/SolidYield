@@ -79,6 +79,15 @@ Uitwerking en meetwaarden: [`product-goals.md`](product-goals.md).
 > 5. Communiceren wij alleen "geen beleggingsrisico", dan is de voorstelling onvolledig.
 > Zie risico V-1 en V-5 in §9.
 
+**Doelgroep van de MVP** (vastgesteld 2026-08-05): Nederlandse **consumenten**, **zzp'ers**
+en **rechtspersonen**. De start is uitsluitend een **besloten testgroep**; er wordt niet
+breder gelanceerd zolang RD-01 openstaat.
+
+> Let op: rechtspersonen zijn hiermee toegevoegd aan de MVP-doelgroep, terwijl besluit 1
+> alleen particulieren (primair) en ondernemers en zzp'ers (secundair) noemde. Dat is een
+> verbreding. Zij brengt een andere onboarding, andere verificatie (RD-05) en mogelijk
+> andere informatieverplichtingen mee dan bij consumenten.
+
 Persona's: [`personas.md`](personas.md).
 
 ## 5. Waardepropositie
@@ -113,6 +122,31 @@ Vastgesteld door de Product Owner op 2026-08-03, als **feitelijke beschrijving**
 4. Gedurende de looptijd beheert en investeert SolidYield het bedrag **voor eigen rekening
    en risico**.
 5. De wallet is een hulpmiddel binnen het product, geen zelfstandige dienst.
+
+**Productparameters** (vastgesteld 2026-08-05, zie
+[ADR-0007](../architecture/adr/0007-vergunningplicht-en-rol-in-de-keten.md) en
+[ADR-0008](../architecture/adr/0008-geld-en-contractstroom.md)):
+
+| Onderwerp | Waarde |
+|---|---|
+| Looptijden | 3, 6, 12, 24, 36 en 60 maanden |
+| Minimum inleg | € 50 |
+| Maximum inleg | geen vastgesteld maximum |
+| Rendement | **vast rendement**, maandelijks uitgekeerd |
+| Terugbetaling | volledige inleg aan het einde van de looptijd |
+| Wallet | storten, opnemen naar de eigen tegenrekening, vastzetten — **geen** P2P-betalingen, **geen** betalingen aan derden |
+| Wat de gebruiker krijgt | uitsluitend een **contractuele vordering op SolidYield** — geen aandelen, obligaties, participaties of eigendom van onderliggende beleggingen |
+| Zeggenschap over investeringen | geen; SolidYield bepaalt zelfstandig waarin wordt geïnvesteerd, categorieën blijven functioneel breed |
+| Vermogensscheiding | **administratief** |
+| Positie bij faillissement | **beoogd:** concurrent schuldeiser |
+| Betaalpartners | **beoogd:** Mollie (iDEAL/SEPA) en bunq (IBAN, uitbetalingen, reconciliatie) |
+| KYC/AML | fase 1 bij SolidYield zelf; fase 2 via een gespecialiseerde externe partner — **roadmap, geen huidige implementatie** |
+
+> ⚠️ **Administratieve vermogensscheiding is boekhoudkundig.** Of zij bescherming biedt bij
+> faillissement is een juridische vraag (RD-20), en de beoogde positie "concurrent
+> schuldeiser" gaat er juist van uit dat die bescherming er niet is. Beide staan hier als
+> beoogde inrichting, niet als vastgesteld rechtsgevolg. De term mag niet richting
+> gebruikers worden gebruikt als geruststelling — zie risico A-2 in ADR-0007.
 
 > **Te valideren door een bevoegde specialist.** De beschrijving hierboven is wat het
 > product *doet*; zij zegt niets over hoe het product juridisch *kwalificeert*. Punt 3 en 4
@@ -180,3 +214,4 @@ kwartaal, en direct wanneer onderzoek een kernaanname weerlegt.
 | 2026-08-03 | §3 productdoel uitkomstgericht geherformuleerd; risico V-3 vervallen, V-4 toegevoegd | Product Owner |
 | 2026-08-03 | type dienst vastgesteld als digitaal contractueel rendementproduct; werking beschreven in §6; V-1 aangescherpt en V-5 toegevoegd. Juridische kwalificaties uit het besluit zijn als voorlopige aanname in het register gezet, niet als vastgesteld feit | Product Owner |
 | 2026-08-03 | besluit 3: markt en dataresidency vastgelegd (EER, primair Nederland) in ADR-0006; §6 en §8 aangevuld | Product Owner + Compliance |
+| 2026-08-05 | productparameters, walletrol, contractstroom en MVP-doelgroep vastgelegd in ADR-0007 en ADR-0008. Besluit 4 (vergunningplicht en rol in de keten) blijft **open** — geen juridische kwalificatie vastgesteld | Product Owner |

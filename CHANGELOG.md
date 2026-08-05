@@ -20,6 +20,22 @@ security-impact worden expliciet gemarkeerd.
 ## [Unreleased]
 
 ### Toegevoegd
+- **ADR-0007** (Vergunningplicht en rol in de keten) en **ADR-0008** (Geld- en
+  contractstroom, met sequencediagrammen) toegevoegd. Beide status **Voorgesteld**:
+  zij beschrijven de inrichting, niet de juridische kwalificatie. Besluit 4 blijft
+  open en wacht op validatie door Compliance en een gespecialiseerde
+  financieel-regulatoire jurist (#1)
+- Productparameters vastgelegd: looptijden 3, 6, 12, 24, 36 en 60 maanden; minimum
+  inleg € 50; geen vastgesteld maximum; vast rendement, maandelijks uitgekeerd;
+  volledige inleg terug aan het einde van de looptijd (#1)
+- Walletrol vastgelegd: storten, opnemen naar de eigen tegenrekening en vastzetten;
+  geen P2P-betalingen en geen betalingen aan derden (#1)
+- MVP-doelgroep vastgelegd: Nederlandse consumenten, zzp'ers en rechtspersonen, met
+  start uitsluitend in een besloten testgroep (#1)
+- **Compliance:** RD-20 (werking van administratieve vermogensscheiding bij
+  faillissement), RD-21 (houdbaarheid en communicatie van de positie als concurrent
+  schuldeiser) en RD-22 (definitieve rolverdeling met betaalpartners) toegevoegd;
+  controls C-16 t/m C-18 toegevoegd aan het complianceregister (#1)
 - Productvisie ingevuld voor SolidYield: doelgroep, probleem, productdoel en
   marktafbakening (Nederland, NL, EUR) (#1)
 - Productdoel PD-1 vastgelegd, met meetwaarden en PD-0 (validatie) als voorliggend
