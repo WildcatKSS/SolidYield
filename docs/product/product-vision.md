@@ -98,7 +98,7 @@ Persona's: [`personas.md`](personas.md).
 | Talen | Nederlands | bepaalt contentwerk en toegankelijkheid |
 | Valuta | EUR | bepaalt afronding, weergave en boekhoudlogica |
 | Distributiekanaal | `[WEB / IOS / ANDROID / API]` | bepaalt tech en teststrategie |
-| Dataresidency | **EER**, primaire omgeving fysiek in **Nederland** ([ADR-0006](../architecture/adr/0006-dataresidency-en-opslaglocatie.md)) | beperkt de providerkeuze in ADR-0003 |
+| Dataresidency | opslag en reguliere verwerking binnen de **EER**, primaire productieomgeving fysiek in **Nederland** ([ADR-0006](../architecture/adr/0006-dataresidency-en-opslaglocatie.md)) | beperkt de providerkeuze in ADR-0003; toegang vanuit derde landen standaard uitgesloten |
 | Type financiële dienst | **digitaal contractueel rendementproduct** (productbeschrijving, vastgesteld 2026-08-03) | het **regulatoire regime** dat hierbij hoort is nog **niet** vastgesteld |
 
 ### Hoe het product werkt

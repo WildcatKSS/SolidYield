@@ -81,7 +81,7 @@ privacyprincipes.
 |---|---|---|
 | Productnaam · doelgroep · probleem · productdoel | **SolidYield** · Nederlandse particuliere spaarders · de keuze tussen laagrentend sparen en complex beleggen · een inleg die binnen vijftien minuten zelfstandig af te ronden is, en die de gebruiker daarna aantoonbaar begrijpt — uitkering én risico | zie [productvisie](docs/product/product-vision.md) |
 | Type financiële dienst | **digitaal contractueel rendementproduct** | het bijbehorende **regulatoire regime** is nog **niet** vastgesteld |
-| Landen/regio's · dataresidency | **Nederland** · gegevens binnen de **EER**, primaire omgeving in Nederland | zie [ADR-0006](docs/architecture/adr/0006-dataresidency-en-opslaglocatie.md) |
+| Landen/regio's · dataresidency | **Nederland** · opslag en reguliere verwerking binnen de **EER**, primaire productieomgeving in Nederland | zie [ADR-0006](docs/architecture/adr/0006-dataresidency-en-opslaglocatie.md) |
 | Technologiestack · cloud | `[TECH STACK]` · `[CLOUD]` | vastleggen als [ADR](docs/architecture/adr/) |
 | Sprintduur · testgroep | `[SPRINTDUUR]` · `[TESTGROEP]` | zie [Scrum](docs/scrum/scrum-guide.md) en [testgroepplan](docs/research/test-group-plan.md) |
 
@@ -209,7 +209,7 @@ Niet besloten — behandel deze niet als feit:
 |---|---|---|---|
 | 1 | Productnaam, doelgroep, probleem, productdoel | ✅ **besloten 2026-08-03** — [productvisie](docs/product/product-vision.md) | Product Owner |
 | 2 | Type financiële dienst | ✅ **besloten 2026-08-03** — digitaal contractueel rendementproduct; het **regulatoire regime** is daarmee níét bepaald, zie 4 | PO + Compliance |
-| 3 | Landen/regio's, dataresidency, taal | ✅ **besloten 2026-08-03** — markt Nederland, taal Nederlands, valuta EUR, data binnen de EER met primaire omgeving in Nederland ([ADR-0006](docs/architecture/adr/0006-dataresidency-en-opslaglocatie.md)) | PO + Compliance |
+| 3 | Landen/regio's, dataresidency, taal | ✅ **besloten 2026-08-03** — markt Nederland, taal Nederlands, valuta EUR; opslag en reguliere verwerking binnen de EER met de primaire productieomgeving in Nederland, één secundaire EER-regio voor back-up en DR, toegang vanuit derde landen standaard uitgesloten ([ADR-0006](docs/architecture/adr/0006-dataresidency-en-opslaglocatie.md)) | PO + Compliance |
 | 4 | Vergunningplicht en rol in de keten (RD-01, RD-17, RD-18, RD-19) | **te valideren door bevoegde specialist** — blokkeert elke externe propositie en elke geldstroom van echte gebruikers | Compliance |
 | 5 | Technologiestack en cloudprovider | open besluit — **ingeperkt door ADR-0006**: de primaire regio moet in Nederland liggen | Tech lead |
 | 6 | Sprintduur (aanname: 2 weken) | aanname | Scrum Master |

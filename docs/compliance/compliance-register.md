@@ -49,7 +49,7 @@ eigenaar en bewijs. Dit register is een **werkinstrument**, geen juridisch oorde
 | C-04 | `GB` | Bewaartermijnen en bewaarplichten | gegevens | Privacy | **te valideren** | `docs/privacy/data-retention.md` | termijnen laten bevestigen | | |
 | C-05 | `GB` | Rechten van betrokkenen (inzage, correctie, verwijdering, portabiliteit) | applicatie | Privacy | open | acceptatiecriteria E3 | functionaliteit bouwen en testen | | |
 | C-06 | `GB` | Verwerkersovereenkomsten met leveranciers | leveranciers | Privacy + Inkoop | open | `control-mapping.md` | DPA's afsluiten vóór ingebruikname | | |
-| C-07 | `GB` | Internationale gegevensdoorgifte | infrastructuur | Privacy | **te valideren** | ADR cloudkeuze | regio vastleggen, doorgifte beoordelen | | |
+| C-07 | `GB` | Internationale gegevensdoorgifte | infrastructuur + toegangsbeheer | Privacy | **te valideren** | [ADR-0006](../architecture/adr/0006-dataresidency-en-opslaglocatie.md) | regio ligt vast (EER, primair Nederland); goedkeurings- en registratieproces voor toegang vanuit derde landen inrichten en elke goedgekeurde uitzondering als doorgifte vastleggen | | |
 | C-08 | `GB` | DPIA voor risicovolle verwerkingen | gegevens | Privacy | open | `privacy-impact-assessment-template.md` | DPIA uitvoeren vóór bèta | | |
 | C-09 | `IS` | Toegangscontrole en functiescheiding | organisatie + techniek | Security | in onderzoek | `docs/security/access-control.md` | kwartaalreview inrichten | | |
 | C-10 | `IS` | Audit trail en onweerlegbaarheid | applicatie | Security | open | threat model T-04 | auditlog implementeren en testen | | |

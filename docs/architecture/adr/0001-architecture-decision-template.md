@@ -106,8 +106,10 @@ bewust accepteren en waarom die aanvaardbaar zijn.
 
 * Welke persoonsgegevens raakt dit besluit?
 * Verandert het doel, de bewaartermijn, de opslaglocatie of de toegang?
-* Is er sprake van doorgifte buiten de EER? (uitgesloten door ADR-0006 — een afwijking is
-  een nieuw besluit)
+* Is er sprake van doorgifte buiten de EER, of van toegang vanuit een derde land? Beide
+  zijn volgens ADR-0006 standaard uitgesloten; een uitzondering vraagt goedkeuring door
+  Privacy en Compliance, een geldig doorgiftemechanisme en registratie als internationale
+  doorgifte.
 * Is een (aanvullende) DPIA nodig? ⬜ ja ⬜ nee
 * Beoordeeld door: `[NAAM]` op `[DATUM]`
 

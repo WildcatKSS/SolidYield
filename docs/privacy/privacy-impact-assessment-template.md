@@ -103,7 +103,7 @@ Denk vanuit de **gebruiker**, niet vanuit de organisatie.
 
 ## 7. Leveranciers
 
-| Leverancier | Rol | Locatie | Verwerkersovereenkomst | Doorgifte buiten de EER (uitgesloten, ADR-0006) | Beoordeeld |
+| Leverancier | Rol | Locatie | Verwerkersovereenkomst | Toegang of doorgifte buiten de EER — standaard uitgesloten (ADR-0006); vermeld hier een goedgekeurde uitzondering met het toegepaste doorgiftemechanisme | Beoordeeld |
 |---|---|---|---|---|---|
 | | verwerker / verwerkingsverantwoordelijke | | ⬜ | ⬜ | ⬜ |
 

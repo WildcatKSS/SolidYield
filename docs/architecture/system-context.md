@@ -64,7 +64,7 @@ graph TB
 
 | # | Aanname | Consequentie als onjuist |
 |---|---|---|
-| SA-1 | Alle productiegegevens blijven binnen de **EER**; de primaire omgeving staat fysiek in **Nederland** (ADR-0006) | beperkt de providerkeuze; doorgifte buiten de EER is uitgesloten |
+| SA-1 | Opslag en reguliere verwerking van productiegegevens vinden uitsluitend binnen de **EER** plaats; de primaire productieomgeving staat fysiek in **Nederland**, back-up en disaster recovery in één secundaire EER-regio (ADR-0006) | beperkt de providerkeuze; toegang vanuit derde landen is standaard uitgesloten en alleen mogelijk bij een vooraf goedgekeurde uitzondering |
 | SA-2 | Authenticatie wordt uitbesteed aan `[IDP]` | zelf bouwen betekent aanzienlijk meer securitywerk |
 | SA-3 | Eén logische tenant (geen white label) | multi-tenancy raakt datamodel en autorisatie |
 | SA-4 | Wij initiëren geen betalingen in de MVP | zwaarder regulatoir regime — **te valideren** |

@@ -36,7 +36,10 @@ reproduceerbaar).
   ransomware en tegen fouten.
 * Toegang tot back-ups wordt geaudit.
 * Back-ups liggen binnen de **EER**: primair Nederland, met disaster recovery in één
-  secundaire EER-regio (ADR-0006). Opslag buiten de EER is uitgesloten.
+  secundaire EER-regio (ADR-0006). Opslag buiten de EER vindt niet plaats.
+* Herstelwerkzaamheden worden binnen de EER uitgevoerd. Toegang tot back-ups vanuit een
+  derde land is standaard uitgesloten en alleen mogelijk bij een vooraf goedgekeurde
+  uitzondering, die als internationale doorgifte wordt geregistreerd.
 
 ## 4. Herstelscenario's
 

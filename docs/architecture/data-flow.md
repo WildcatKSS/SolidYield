@@ -54,8 +54,12 @@ sequenceDiagram
 * Geen financiële gegevens naar analytics of marketing.
 * Geen persoonsgegevens in applicatielogs, URL's, foutmeldingen of monitoring.
 * Geen productiedata in test-, demo- of testgroepomgevingen.
-* Geen doorgifte naar landen buiten de **EER** — uitgesloten door ADR-0006. Toegang vanuit
-  buiten de EER alleen na afzonderlijke privacy- en compliancebeoordeling.
+* Geen **structurele** doorgifte naar derde landen (ADR-0006). Eventuele uitzonderingen
+  vereisen afzonderlijke beoordeling, passende juridische waarborgen en registratie als
+  internationale doorgifte.
+* Toegang vanuit een derde land is **standaard uitgesloten** en alleen mogelijk bij een
+  vooraf door Privacy en Compliance goedgekeurde uitzondering. Zo'n uitzondering geldt zelf
+  als internationale doorgifte.
 * Geen profilering met rechtsgevolg zonder aparte beoordeling.
 
 ## 4. Gegevens in rust
