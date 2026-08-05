@@ -4,6 +4,11 @@ Deze roadmap is **op resultaat gericht**, niet op datums met vaste functionalite
 beschrijft welk probleem we wanneer willen oplossen en welke onzekerheid we dan hebben
 weggenomen. Alles na de huidige horizon is een intentie, geen belofte.
 
+> **Sprintnummers in dit document verwijzen naar sprints van twee weken** (besluit 6,
+> [`../scrum/scrum-guide.md`](../scrum/scrum-guide.md) §2). Een horizon van vier sprints
+> beslaat dus ongeveer acht weken. Dat is een **ordegrootte, geen toezegging**: de
+> roadmap blijft op resultaat gericht en er is geen releasedatum vastgelegd.
+
 ## Horizon 1 — Valideren (sprint 1–4)
 
 | Doel | Los de vraag op: *bestaat het probleem en vertrouwt de doelgroep ons?* |
@@ -42,7 +47,8 @@ weggenomen. Alles na de huidige horizon is een intentie, geen belofte.
 
 | Onderwerp | Nodig vóór | Eigenaar | Status |
 |---|---|---|---|
-| Keuze technologiestack en cloud | sprint 1 | Tech lead | open |
+| ~~Keuze technologiestack en cloud~~ | sprint 1 | Tech lead | ✅ **besloten 2026-08-05** — [ADR-0002](../architecture/adr/0002-technologiestack.md) en [ADR-0003](../architecture/adr/0003-cloudprovider.md) |
+| **Wettelijke grondslag** om het besloten bedrijfsmodel uit te voeren (RD-23 t/m RD-27) | vóór echte klantgelden en productiegebruik | Compliance | open — **blokkerend** |
 | Juridisch advies over het rendementproduct in Nederland (RD-01) | Horizon 2 | Compliance | open |
 | Contract en DPA met `[LEVERANCIER]` | Horizon 2 | Inkoop + Privacy | open |
 | Pentest gepland | vóór productie | Security | open |
@@ -50,8 +56,9 @@ weggenomen. Alles na de huidige horizon is een intentie, geen belofte.
 
 ## Herziening
 
-De roadmap wordt elke `[2]` sprints herzien in de Sprint Review, op basis van bewijs uit de
-testgroep en van gewijzigde risico's. Wijzigingen worden hier met datum vastgelegd.
+De roadmap wordt elke **2 sprints** — dus ongeveer elke vier weken — herzien in de Sprint
+Review, op basis van bewijs uit de testgroep en van gewijzigde risico's. Wijzigingen worden
+hier met datum vastgelegd.
 
 | Datum | Wijziging | Reden | Door |
 |---|---|---|---|

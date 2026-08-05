@@ -20,6 +20,27 @@ security-impact worden expliciet gemarkeerd.
 ## [Unreleased]
 
 ### Toegevoegd
+- **Besluit 6 — sprintduur.** SolidYield werkt met sprints van **twee weken** (veertien
+  kalenderdagen), met een vaste start- en einddag. Iedere sprint bevat minimaal sprint
+  planning, dagelijkse afstemming, backlog refinement, sprint review en retrospective.
+  Vastgelegd in [`docs/scrum/scrum-guide.md`](docs/scrum/scrum-guide.md) §2 (#1)
+- **Eén gezamenlijke productbacklog:** architectuur-, security-, privacy-, compliance-,
+  operations- en documentatiewerk staat in dezelfde geprioriteerde backlog als functionele
+  ontwikkeling en wordt niet in een afzonderlijk parallel traject uitgevoerd (#1)
+- **Cadansuitgangspunten vastgelegd:** de Scrum Master bewaakt de cadans, de Product Owner
+  bepaalt prioriteit en sprintdoel, het ontwikkelteam bepaalt de op te nemen hoeveelheid
+  werk; onvoltooid werk schuift niet automatisch door maar wordt opnieuw beoordeeld en
+  geprioriteerd; urgente productie- en security-incidenten mogen de sprint onderbreken
+  volgens het incidentproces; compliance- of juridische blokkades worden zichtbaar als
+  backlogitem, afhankelijkheid of releasevoorwaarde (#1)
+- **Richtlijnen per ceremonie** toegevoegd aan de scrumgids: doelen van de sprint planning,
+  de vijftienminutengrens en het buiten de dagelijkse afstemming houden van inhoudelijke
+  probleemoplossing, refinement minimaal één keer per sprint inclusief architectuur-,
+  security-, privacy- en compliance-impact, de sprint review met de Definition of Done als
+  maatstaf, en verbeteracties uit de retrospective met een eigenaar (#1)
+- **Begrenzing vastgelegd:** een sprintcadans is **geen toestemming** om echte klantgelden,
+  bindende rendementcontracten of productiegebruik toe te staan zolang de wettelijke
+  grondslag niet is bevestigd (#1)
 - **Besluit 5 — technologiestack en hosting.** **ADR-0002** (technologiestack) en
   **ADR-0003** (cloudprovider en hostingarchitectuur) toegevoegd, beide
   **Geaccepteerd**. Kotlin/Spring Boot met Spring Modulith als modulaire monoliet,
@@ -81,6 +102,19 @@ security-impact worden expliciet gemarkeerd.
   onder het rendement (#1)
 
 ### Gewijzigd
+- **`[SPRINTDUUR]` overal ingevuld.** README, `placeholders.md`, `project-board.md`,
+  `scrum-guide.md`, `sprint-planning.md`, `sprint-review.md`, `retrospective.md`,
+  `refinement.md`, `roadmap.md` en `mvp-scope.md` spreken nu consequent van twee weken; de
+  keuzetabel met 1 week versus 2 weken is vervallen. Rij 6 van de openstaande
+  besluitentabel staat op **besloten** (#1)
+- **MVP-aannames:** de aanname "sprintduur van 2 weken past bij het team" is gesloten door
+  besluit 6; of de cadans blijft passen is voortaan een terugkerend onderwerp in de
+  retrospective, geen openstaande MVP-aanname. Dubbele aanname-ID's A6 en A7 opgelost: de
+  bestaande template-aannames zijn hernummerd naar **A9** en **A10** (#1)
+- **Roadmap:** de afhankelijkheid "keuze technologiestack en cloud" is gesloten met
+  verwijzing naar ADR-0002 en ADR-0003; de wettelijke grondslag is als blokkerende
+  afhankelijkheid toegevoegd; sprintnummers zijn geduid als sprints van twee weken, met de
+  expliciete kanttekening dat dit een ordegrootte is en geen releasetoezegging (#1)
 - **Reviewbevindingen op besluit 5 verwerkt.** **Provider- en accountrisico** worden nu
   onderscheiden: een geografisch gescheiden secundaire locatie bij dezelfde provider
   beperkt locatiegebonden uitval, maar neemt providerbrede, accountgebonden en

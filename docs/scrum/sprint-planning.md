@@ -2,7 +2,7 @@
 
 **Doel:** het **hele Scrum Team** bepaalt samen waarom deze sprint waardevol is, wat erin
 kan, en hoe dat wordt gedaan.
-**Duur:** maximaal 4 uur bij een sprint van 2 weken (2 uur bij 1 week).
+**Duur:** maximaal 4 uur — onze sprint duurt **twee weken** (besluit 6).
 **Deelnemers:** het Scrum Team; specialisten sluiten aan wanneer hun input nodig is.
 
 | Wie | Brengt in |

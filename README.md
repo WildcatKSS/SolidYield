@@ -101,7 +101,7 @@ privacyprincipes.
 | Landen/regio's · dataresidency | **Nederland** · opslag en reguliere verwerking binnen de **EER**, primaire productieomgeving in Nederland | zie [ADR-0006](docs/architecture/adr/0006-dataresidency-en-opslaglocatie.md) |
 | Technologiestack | **Kotlin/Spring Boot** · **React/TypeScript/Vite** · **PostgreSQL** · modulaire monoliet met Spring Modulith | zie [ADR-0002](docs/architecture/adr/0002-technologiestack.md) |
 | Hosting | **TransIP**, twee VPS'en met **Ubuntu Server LTS**; productie en test **volledig gescheiden**, test uitsluitend via **WireGuard** | zie [ADR-0003](docs/architecture/adr/0003-cloudprovider.md) |
-| Sprintduur · testgroep | `[SPRINTDUUR]` · `[TESTGROEP]` | zie [Scrum](docs/scrum/scrum-guide.md) en [testgroepplan](docs/research/test-group-plan.md) |
+| Sprintduur · testgroep | **twee weken** (veertien kalenderdagen) · `[TESTGROEP]` | zie [Scrum](docs/scrum/scrum-guide.md) en [testgroepplan](docs/research/test-group-plan.md) |
 
 ### Installatie
 
@@ -146,8 +146,13 @@ scripts/        bootstrap + de CI-scripts die de workflows aanroepen
   multidisciplinair (UX, onderzoek, test, security, privacy, compliance, operations).
   Governancerollen en de deelnemers aan de testgroep staan bewust **buiten** het Scrum
   Team — [`docs/scrum/roles.md`](docs/scrum/roles.md).
-* **Sprintduur:** `[SPRINTDUUR]` (advies 2 weken). Elke sprint levert een bruikbaar,
-  getest en potentieel releasbaar increment.
+* **Sprintduur:** **twee weken** — veertien kalenderdagen, vaste start- en einddag
+  (besluit 6). Elke sprint levert een bruikbaar, getest en potentieel releasbaar increment,
+  en bevat minimaal sprint planning, dagelijkse afstemming, backlog refinement, sprint
+  review en retrospective.
+* **Eén backlog:** architectuur-, security-, privacy-, compliance-, operations- en
+  documentatiewerk staat in dezelfde geprioriteerde productbacklog als functionele
+  ontwikkeling — niet in een parallel traject.
 * **Board:** 12 statussen en 14 velden — [`docs/scrum/project-board.md`](docs/scrum/project-board.md).
 * **Backlog:** Productdoel → Epic → Feature → User story → taken. Labels in
   [`.github/labels.yml`](.github/labels.yml); fictief voorbeeld in
@@ -233,7 +238,7 @@ Niet besloten — behandel deze niet als feit:
 | 4 | Vergunningplicht en rol in de keten | ✅ **besloten 2026-08-05** — bedrijfs- en ketenmodel vastgesteld in [ADR-0007](docs/architecture/adr/0007-vergunningplicht-en-rol-in-de-keten.md) en [ADR-0008](docs/architecture/adr/0008-geld-en-contractstroom.md) | Product Owner |
 | 4a | **Wettelijke grondslag** om dat model uit te voeren: vergunning, wettelijke uitzondering, vrijstelling, ontheffing of een andere juridisch bevestigde grondslag (RD-23 t/m RD-27) | **te valideren door bevoegde specialist** — blokkeert echte klantgelden, bindende rendementcontracten, werkelijke rendementuitkeringen en productiegebruik | Compliance |
 | 5 | Technologiestack en cloudprovider | ✅ **besloten 2026-08-05** — Kotlin/Spring Boot, React/Vite, PostgreSQL, modulaire monoliet ([ADR-0002](docs/architecture/adr/0002-technologiestack.md)); TransIP met twee VPS'en ([ADR-0003](docs/architecture/adr/0003-cloudprovider.md)) | Tech lead |
-| 6 | Sprintduur (aanname: 2 weken) | aanname | Scrum Master |
+| 6 | Sprintduur | ✅ **besloten** — sprints van twee weken | Scrum Master |
 | 7 | Samenstelling testgroep (aanname: 8–12 deelnemers) | aanname | UX-expertise |
 | 8 | Identiteitsprovider en MFA-methode | open besluit | Security + Tech lead |
 | 9 | Bewaartermijnen per gegevenscategorie | **te valideren door bevoegde specialist** | Privacy |

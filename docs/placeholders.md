@@ -50,9 +50,9 @@ De workflow `code-quality.yml` telt bij elke run hoeveel er nog openstaan.
 
 ## 4. Proces
 
-| Placeholder | Betekenis | Aanname in deze template |
+| Placeholder | Betekenis | Aanname in deze template, of vastgesteld besluit |
 |---|---|---|
-| `[SPRINTDUUR]` | lengte van de sprint | 2 weken |
+| `[SPRINTDUUR]` | lengte van de sprint | ✅ **ingevuld 2026-08-05** — twee weken, veertien kalenderdagen (besluit 6, [`scrum/scrum-guide.md`](scrum/scrum-guide.md) §2) |
 | `[TESTGROEP]` | samenstelling testgroep | 8–12 deelnemers |
 | `[VERGOEDING]`, `[KANAAL]` | vergoeding en wervingskanaal | — |
 | `[HULPINSTANTIE]` | verwijzing bij financiële nood | — |
@@ -93,7 +93,7 @@ bruikbaar zonder invulwerk.
 
 1. **Direct:** organisatie, repository, contactadressen, licentiejaar.
 2. **Sprint 1:** product, doelgroep, probleem, doel, type dienst, regio, stack, cloud.
-3. **Sprint 2:** IDP, provider, testgroep, sprintduur bevestigen.
+3. **Sprint 2:** IDP, provider, testgroep. *(Sprintduur is besloten: twee weken.)*
 4. **Vóór bèta:** alle juridische punten, bewaartermijnen, SLO's, URL's.
 5. **Vóór productie:** alle overige waarden; de teller in `code-quality.yml` hoort dan
    richting nul te gaan.

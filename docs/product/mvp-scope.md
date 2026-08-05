@@ -115,8 +115,8 @@ synthetische data in niet-productieomgevingen.
 | A6 | De walletfunctie kwalificeert niet als zelfstandige betaaldienst of als elektronisch geld (RD-17) | regulatoir | aanvullend vergunningtraject | **juridisch advies** |
 | A7 | De beoogde positie als concurrent schuldeiser is houdbaar en begrijpelijk uit te leggen (RD-20, RD-21) | regulatoir + zorgplicht | propositie moet worden herzien | **juridisch advies** + begripstoets |
 | A8 | Er is een vergunninghoudende betaalpartner te selecteren en te contracteren met een werkbare regulatoire rolverdeling (RD-22). Eerste implementatierichting: Mollie en bunq, nog niet geselecteerd of gecontracteerd | keten | integratiedetails en contracten wijzigen; het bedrijfsmodel niet | **juridisch advies** + leveranciersselectie en contractonderhandeling |
-| A6 | MFA is acceptabel voor de doelgroep | adoptie | drempel te hoog | usabilitytest |
-| A7 | Sprintduur van 2 weken past bij het team | proces | ritme klopt niet | retrospective |
+| A9 | MFA is acceptabel voor de doelgroep | adoptie | drempel te hoog | usabilitytest |
+| ~~A10~~ | ~~Sprintduur van 2 weken past bij het team~~ | proces | — | ✅ **gesloten door besluit 6 (2026-08-05)**: sprints van twee weken zijn vastgelegd in [`../scrum/scrum-guide.md`](../scrum/scrum-guide.md) §2. Of de cadans blijft passen, is een terugkerend onderwerp in de retrospective — geen openstaande MVP-aanname |
 
 ## 8. Grootste risico's
 
@@ -150,7 +150,8 @@ De MVP is geslaagd als **alle** onderstaande punten waar zijn:
 * ≥ `[50]%` keert binnen een week uit zichzelf terug;
 * geen kritieke of hoge openstaande kwetsbaarheden;
 * geen privacy- of compliance-blokkade die niet is opgelost of aantoonbaar geaccepteerd;
-* het team kan minimaal elke twee weken een werkend increment opleveren.
+* het team kan elke sprint — dus elke twee weken (besluit 6) — een werkend increment
+  opleveren.
 
 ## 11. Stop-, wijzigings- en doorgaancriteria
 

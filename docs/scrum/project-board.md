@@ -69,7 +69,7 @@ Aan te maken onder *Project → Settings → Fields*.
 |---|---|---|---|
 | **Itemtype** | Single select | Epic · Feature · User story · Bug · Technische taak · Testtaak · Securitytaak · Compliance-/privacytaak · Research | Inbox |
 | **Epic** | Text (of Issue-link) | verwijzing naar het epic-issue, bijv. `#12` | Ready for refinement |
-| **Sprint** | Iteration | duur `[2]` weken, startend op `[JJJJ-MM-DD]` | Sprint backlog |
+| **Sprint** | Iteration | duur **2 weken** (veertien kalenderdagen, besluit 6 — [`scrum-guide.md`](scrum-guide.md) §2); vaste start- en einddag, eerste sprintstart `[JJJJ-MM-DD]` | Sprint backlog |
 | **Prioriteit** | Single select | Critical · High · Medium · Low | Inbox |
 | **Businesswaarde** | Number (1–10) | inschatting door de PO | Ready for refinement |
 | **Risico** | Single select | High · Medium · Low | Ready for refinement |
@@ -155,6 +155,12 @@ Testgroepsessie
 
 Elke gesloten feedback krijgt een korte motivatie in het issue **en** een terugkoppeling
 aan de deelnemer. Zie [`../research/feedback-log.md`](../research/feedback-log.md).
+
+> **Eén board, één backlog.** Architectuur-, security-, privacy-, compliance-, operations-
+> en documentatiewerk staat op ditzelfde board en in dezelfde geprioriteerde backlog als
+> functionele ontwikkeling — niet in een parallel traject ernaast (besluit 6,
+> [`scrum-guide.md`](scrum-guide.md) §2.1). Het veld *Itemtype* maakt het onderscheid
+> zichtbaar zonder het werk te scheiden.
 
 ## 7. Definition of Ready op het board
 

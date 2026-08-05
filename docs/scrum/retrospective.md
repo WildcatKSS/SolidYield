@@ -2,7 +2,7 @@
 
 **Doel:** de werkwijze verbeteren. Het team kijkt naar samenwerking, proces en kwaliteit
 en kiest **één tot twee** concrete verbeteringen voor de volgende sprint.
-**Duur:** maximaal 1,5 uur bij een sprint van 2 weken.
+**Duur:** maximaal 1,5 uur — onze sprint duurt **twee weken** (besluit 6).
 **Deelnemers:** het hele team. Belanghebbenden zijn niet aanwezig — dit is een veilige
 ruimte.
 

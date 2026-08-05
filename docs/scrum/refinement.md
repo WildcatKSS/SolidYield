@@ -2,7 +2,8 @@
 
 **Doel:** items uit de backlog begrijpelijk, klein en Ready maken — vóórdat er een sprint
 mee wordt gepland.
-**Ritme:** richtlijn `[60–90]` minuten per week (samen ±5% van de sprinttijd).
+**Ritme:** **minimaal één keer per sprint** van twee weken (besluit 6); richtlijn
+`[60–90]` minuten per week, samen ±5% van de sprinttijd.
 **Deelnemers:** wie het betreffende werk raakt.
 
 > **Refinement is een doorlopende activiteit, geen formeel Scrum-event.** Er is geen
@@ -27,6 +28,8 @@ Een vast moment in de week voorkomt alleen dat het erbij inschiet.
    * *Privacy:* welke gegevens raken we, hebben we ze allemaal nodig, hoe lang bewaren we ze?
    * *Compliance:* raakt dit een control of een mogelijke verplichting?
    * *Geld:* kunnen er onjuiste bedragen ontstaan? Wat is de schade als het misgaat?
+   * *Architectuur:* raakt dit een vastgelegd besluit uit een [ADR](../architecture/adr/README.md),
+     of vraagt het er een?
 5. **Testaanpak bepalen:** welke tests, welk niveau, welke synthetische data?
 6. **Risicotype benoemen bij onzekerheid.** Weet je niet of dit werkt, bepaal dan wélk
    risico je eerst wegneemt: *desirability* (willen ze dit?), *usability* (snappen ze het?),
