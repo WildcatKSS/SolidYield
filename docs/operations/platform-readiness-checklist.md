@@ -162,6 +162,7 @@ uitsluitend starten wanneer aan **alle** onderstaande voorwaarden is voldaan (C-
 | 3 | De MVP voldoet aan de [Definition of Done](../scrum/definition-of-done.md) | groene CI, DoD-verantwoording per item |
 | 4 | Alle kritieke en hoge beveiligingsbevindingen zijn opgelost of formeel geaccepteerd | security-gate; [`../security/vulnerability-management.md`](../security/vulnerability-management.md); risicoacceptatie volgens [`../../GOVERNANCE.md`](../../GOVERNANCE.md) §4 |
 | 5 | Een **succesvolle hersteltest** van back-up en disaster recovery is uitgevoerd | C-12; [`backup-and-recovery.md`](backup-and-recovery.md) |
+| 6 | **Voor echte walletgelden aanvullend:** **RD-32** is opgelost en de gekozen rekening- en safeguardingstructuur is **juridisch en contractueel vastgelegd**. Vergunningverlening alleen is niet voldoende | RD-32; control **C-39** |
 
 > Dit is een **operationele vrijgavevoorwaarde**, geen wijziging van eerdere besluiten. Zij
 > voegt niets toe aan en haalt niets weg van de besluiten 1 t/m 6; zij bepaalt uitsluitend

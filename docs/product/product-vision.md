@@ -10,7 +10,11 @@
 > vergunning, wettelijke grondslag en voorwaarden** worden vastgesteld tijdens het
 > vergunningstraject (RD-23 t/m RD-27); productie en klantgelden zijn pas toegestaan na
 > verlening van de vereiste vergunning of een andere rechtsgeldige toestemming van de
-> bevoegde toezichthouder. Waarden die nog tussen `[ ]` staan zijn nog niet besloten.
+> bevoegde toezichthouder; voor **echte walletgelden** geldt bovendien dat **RD-32** — de
+> juridische positie van vrij walletsaldogeld — eerst moet zijn opgelost. Het besloten
+> model blijft het uitgangspunt van het vergunningstraject; acht een jurist of
+> toezichthouder een wijziging noodzakelijk, dan gaat dat via een **nieuw Product
+> Owner-besluit**. Waarden die nog tussen `[ ]` staan zijn nog niet besloten.
 
 ## 1. Visiestatement
 

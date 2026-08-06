@@ -50,6 +50,12 @@ sequenceDiagram
 | # | Stroom | Gegevens | Doel | Grondslag (voorlopig) | Bescherming |
 |---|---|---|---|---|---|
 | DF-1 | Gebruiker → applicatie | inloggegevens, MFA-code | authenticatie | uitvoering overeenkomst | TLS, geen logging van geheimen, rate limiting |
+> **Vrij walletsaldogeld:** de juridische positie is **niet vastgesteld** — rechthebbende,
+> tenaamstelling van de bankrekening, vermogensscheiding en faillissementspositie zijn open
+> (**RD-32**). Het rekening- en ledgerontwerp mag daar niet op vooruitlopen (C-39). Het
+> **vastgezette** bedrag valt hier niet onder: dat wordt een contractuele vordering en is
+> volgens besluit 4A gedurende de looptijd eigendom van SolidYield.
+
 | DF-2 | Applicatie → `[IDP]` | identiteitsclaims | authenticatie | uitvoering overeenkomst | OIDC, PKCE, korte tokenlevensduur |
 | DF-3 | Gebruiker → applicatie | profielgegevens | account beheren | uitvoering overeenkomst | validatie, minimalisatie |
 | DF-4 | Applicatie ↔ `[PROVIDER]` | financiële gegevens | het kerninzicht leveren | **toestemming** (intrekbaar) | scopebeperking, tokens in secrets manager, mTLS/OAuth |

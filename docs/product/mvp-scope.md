@@ -110,6 +110,7 @@ synthetische data in niet-productieomgevingen.
 | Sociale of deelfuncties | leidt af van het kernprobleem | mogelijk nooit |
 | Integratie met `[PARTNER]` | afhankelijkheid van derden | na contract en DPIA |
 | P2P-betalingen tussen gebruikers | valt buiten de walletrol; zwaarder regulatoir regime | mogelijk nooit — zie RD-17 |
+| **Verwerking van echte walletgelden** | de **juridische positie van vrij walletsaldogeld** is nog niet vastgesteld (**RD-32**): rechthebbende, tenaamstelling van de bankrekening, vermogensscheiding en faillissementspositie zijn open | pas ná verlening van de vereiste vergunning of andere rechtsgeldige toestemming **én** nadat RD-32 is opgelost en de rekening-/safeguardingstructuur juridisch en contractueel is vastgelegd |
 | Betalingen aan derden vanuit de wallet | idem; de wallet is geen betaalrekening | mogelijk nooit — zie RD-17 |
 | Tussentijds opnemen van een vastgezet bedrag | vastzetten is onomkeerbaar tot de einddatum | niet voorzien |
 | Zeggenschap van de gebruiker over investeringen | SolidYield investeert voor eigen rekening en risico | niet voorzien |

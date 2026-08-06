@@ -80,7 +80,10 @@ providerkeuze, zodat ADR-0003 binnen die randvoorwaarde moet passen in plaats va
 stilzwijgend te bepalen.
 
 ADR-0007 en ADR-0008 leggen het **bedrijfs- en ketenmodel** vast (besluit 4) en houden dat
-scherp gescheiden van de **wettelijke grondslag** om dat model uit te voeren. Die grondslag
+scherp gescheiden van de **wettelijke grondslag** om dat model uit te voeren. Het model is
+**bestuurlijk besloten, niet onaantastbaar**: acht een jurist of toezichthouder een wijziging
+noodzakelijk, dan gaat dat via een **nieuw Product Owner-besluit** en een nieuwe of gewijzigde
+ADR — niet stilzwijgend (ADR-0007, *Vier dingen die uit elkaar moeten blijven*). Die grondslag
 staat nog open (RD-23 t/m RD-27): SolidYield gaat uit van een **vergunningplicht** (besluit 4A) en
 bouwt alsof een vergunning vereist is; de exacte vergunning en grondslag worden vastgesteld
 tijdens het vergunningstraject.

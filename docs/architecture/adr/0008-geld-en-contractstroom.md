@@ -70,6 +70,32 @@ blijft bij SolidYield, ongeacht welke partij uiteindelijk wordt geselecteerd.
 > De term is overal **vast rendement**. "Rente" wordt alleen gebruikt waar letterlijk wordt
 > verwezen naar historische documentatie of het oorspronkelijke ondernemingsplan.
 
+## Vrij walletsaldo versus vastgezet bedrag
+
+Deze twee zijn juridisch **niet hetzelfde** en mogen in documentatie, ledger en communicatie
+niet door elkaar lopen.
+
+| | **Vrij walletsaldogeld** | **Vastgezet bedrag** |
+|---|---|---|
+| Beschikbaarheid | **vrij beschikbaar**, altijd **opneembaar** naar de eigen tegenrekening | verdwijnt uit het walletsaldo; onomkeerbaar tot de einddatum |
+| Wat de gebruiker heeft | **juridische positie nog te bepalen** — zie **RD-32** | een **contractuele vordering** op SolidYield |
+| Eigendom | **niet vastgesteld**: rechthebbende, tenaamstelling van de bankrekening, vermogensscheiding en faillissementspositie zijn **open** (RD-32) | het bedrag wordt volgens **besluit 4A** gedurende de looptijd **eigendom van SolidYield** |
+| Risico | volgt uit de uitkomst van RD-32 | debiteurenrisico op SolidYield; beoogde positie als **concurrent schuldeiser** (RD-20, RD-21) |
+| Blokkade | **echte verwerking pas** ná verlening van de vereiste vergunning of andere rechtsgeldige toestemming **én** nadat RD-32 is opgelost | valt onder het besloten bedrijfsmodel en het vergunningstraject |
+
+> **Wat hier bewust niet staat.** Er wordt géén standpunt ingenomen over wie juridisch
+> rechthebbende is op het vrije saldo. Vier veelgemaakte gelijkstellingen worden hier
+> expliciet **niet** gemaakt:
+>
+> * vrij walletsaldogeld is **niet zonder meer** eigendom van SolidYield;
+> * "op naam van de gebruiker **in de administratie**" betekent **geen** juridische eigendom;
+> * **administratieve** vermogensscheiding biedt **niet automatisch** faillissementsbescherming;
+> * de betaalpartner is **niet automatisch** juridisch houder van het geld.
+>
+> **Het ledger- en rekeningontwerp mag niet vooruitlopen op de uitkomst van RD-32**
+> (control **C-39**). Zolang RD-32 openstaat, worden **geen echte walletgelden** verwerkt —
+> ook niet wanneer de vereiste vergunning of andere rechtsgeldige toestemming al is verleend.
+
 ## Deelnemers in de diagrammen
 
 | Naam | Rol |

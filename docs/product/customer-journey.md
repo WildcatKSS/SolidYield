@@ -13,8 +13,9 @@ compliancemomenten er spelen.
 > rendementcontracten, geen werkelijke rendementuitkeringen. Zie
 > [ADR-0007](../architecture/adr/0007-vergunningplicht-en-rol-in-de-keten.md).
 >
-> **Ná** bevestiging van die grondslag wordt deze reis voor het eerst met **echte
-> gegevens, echte KYC en echte geldstromen** doorlopen, door de **besloten testgroep** van
+> **Ná** die verlening — en voor walletgelden bovendien pas nadat **RD-32** is opgelost —
+> wordt deze reis voor het eerst met **echte gegevens, echte KYC en echte geldstromen**
+> doorlopen, door de **besloten testgroep** van
 > maximaal tien uitgenodigde deelnemers (besluit 7,
 > [`closed-test-group.md`](closed-test-group.md)). Dat is geen wijziging van besluit 4: het
 > is de eerste gecontroleerde uitrol die besluit 4 pas ná bevestiging toelaat.
@@ -81,7 +82,7 @@ compliancemomenten er spelen.
 | Kernfeit | de wallet bevat **uitsluitend vrij beschikbaar saldo** en dat is **altijd opneembaar** — naar de eigen tegenrekening, niet naar derden |
 | Security | dekkingscontrole, eigenaarschapscontrole, idempotente verwerking, herauthenticatie bij opnemen |
 | Privacy | betaalgegevens minimaal en doelgebonden verwerken |
-| Compliance | of de wallet kwalificeert als betaaldienst of als elektronisch geld — **open, RD-17** |
+| Compliance | of de wallet kwalificeert als betaaldienst of als elektronisch geld — **open, RD-17**. De **juridische positie van het vrije saldo** — rechthebbende, tenaamstelling van de bankrekening, vermogensscheiding, faillissementspositie en de rol van de betaalpartner — is eveneens **open, RD-32**; die vraag blokkeert de verwerking van echte walletgelden |
 | Meetpunt | % dat na accountaanmaak daadwerkelijk stort; doorlooptijd van een opname |
 | Bewijs | `[nog te verzamelen]` |
 

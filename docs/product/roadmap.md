@@ -48,7 +48,8 @@ weggenomen. Alles na de huidige horizon is een intentie, geen belofte.
 | Onderwerp | Nodig vóór | Eigenaar | Status |
 |---|---|---|---|
 | ~~Keuze technologiestack en cloud~~ | sprint 1 | Tech lead | ✅ **besloten 2026-08-05** — [ADR-0002](../architecture/adr/0002-technologiestack.md) en [ADR-0003](../architecture/adr/0003-cloudprovider.md) |
-| **Vergunningstraject** — de vereiste vergunning of een andere rechtsgeldige toestemming van de bevoegde toezichthouder (besluit 4A; RD-23 t/m RD-27) | vóór echte klantgelden en productiegebruik | PO + Compliance | **strategie besloten**, traject open — **blokkerend** |
+| **Vergunningstraject** — de vereiste vergunning of een andere rechtsgeldige toestemming van de bevoegde toezichthouder (besluit 4A; RD-23 t/m RD-27) | vóór echte klantgelden en productiegebruik | PO + Compliance | **strategie besloten**, traject open — **blokkerend**. Het traject beoordeelt de juridische uitvoerbaarheid van het besloten model; noodzakelijke wijzigingen gaan via een **nieuw Product Owner-besluit**, niet stilzwijgend |
+| **RD-32** — juridische positie van vrij walletsaldogeld: rechthebbende, tenaamstelling van de bankrekening, vermogensscheiding, faillissementspositie en de rol van de betaalpartner | vóór **echte walletgelden** | Compliance + PO + Tech lead | open — **blokkerend, ook ná vergunningverlening** (C-39) |
 | Juridisch advies over het rendementproduct in Nederland (RD-01) | Horizon 2 | Compliance | open |
 | Contract en DPA met `[LEVERANCIER]` | Horizon 2 | Inkoop + Privacy | open |
 | Pentest gepland | vóór productie | Security | open |

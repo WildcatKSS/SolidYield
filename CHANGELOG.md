@@ -20,6 +20,24 @@ security-impact worden expliciet gemarkeerd.
 ## [Unreleased]
 
 ### Toegevoegd
+- **RD-32 — juridische positie van vrij walletsaldogeld.** Nieuwe regulatoire beslissing:
+  wie is juridisch rechthebbende op het vrije walletsaldo · op wiens naam staat de
+  onderliggende bankrekening · wordt het vrije saldo onderdeel van het vermogen van
+  SolidYield · is sprake van juridische of uitsluitend administratieve vermogensscheiding ·
+  wat is de positie van de gebruiker bij faillissement · welke rol heeft de
+  vergunninghoudende betaalpartner in het houden, administreren en uitbetalen · welke
+  gevolgen heeft de kwalificatie voor betaaldiensten, elektronisch geld, safeguarding en de
+  ledger-/rekeningstructuur. **Open**, te valideren door Compliance en een gespecialiseerde
+  financieel-regulatoire jurist, en **blokkerend voor echte walletgelden en
+  productiegebruik**. Er wordt **geen juridisch antwoord** gegeven (#1)
+- **Control C-39** toegevoegd (fase *Nog te ontwerpen*): rekeningstructuur, safeguarding en
+  vermogensscheiding voor vrij walletsaldo. Geen ontwerpbesluit, geen implementatie, geen
+  juridisch bewijs; **het ledger- en rekeningontwerp mag de juridische uitkomst niet
+  vooruitlopen**. Dreiging **T-34** dekt precies dat risico (#1)
+- **Aanvullende go-live-voorwaarde voor echte walletgelden:** die worden pas verwerkt nadat
+  RD-32 is opgelost **én** de gekozen rekening- en safeguardingstructuur juridisch en
+  contractueel is vastgelegd. **Vergunningverlening alleen is niet voldoende.** Opgenomen
+  als voorwaarde 6 in de Go/No-Go. Dit verandert besluit 4A niet (#1)
 - **Besluit 4A — vergunningstrategie.** SolidYield gaat uit van een **vergunningplicht**
   voor de voorgenomen dienstverlening en baseert ontwikkeling, architectuur,
   complianceprocessen en operationele inrichting op dat uitgangspunt. De repository gaat
@@ -218,6 +236,30 @@ security-impact worden expliciet gemarkeerd.
   onder het rendement (#1)
 
 ### Gewijzigd
+- **Te absolute claim over het juridische traject gecorrigeerd.** De formuleringen "het
+  juridisch onderzoek verandert het gekozen bedrijfsmodel niet" en "het bepaalt uitsluitend
+  welke wettelijke grondslag nodig is" zijn vervangen door een **governancebenadering**: het
+  model is door de Product Owner vastgesteld en blijft het uitgangspunt van het
+  vergunningstraject; dat traject beoordeelt de **juridische uitvoerbaarheid**; acht een
+  gespecialiseerde jurist of bevoegde toezichthouder wijzigingen noodzakelijk, dan worden
+  die **niet stilzwijgend door Compliance doorgevoerd** maar als expliciet
+  **wijzigingsvoorstel aan de Product Owner** voorgelegd en via een **nieuw besluit** en zo
+  nodig een gewijzigde ADR verwerkt. In ADR-0007 staat nu een tabel die het huidige model,
+  de juridische uitvoerbaarheid, mogelijke verplichte wijzigingen en de besluitvorming
+  daarover uit elkaar houdt (#1)
+- **Het model blijft besloten, maar is niet onaantastbaar.** SolidYield als contractspartij,
+  ontvanger van gelden en beheerder van de wallet, het vaste rendement, de terugbetaling van
+  de nominale inleg en de vergunningplicht als bouwuitgangspunt blijven het **huidige
+  besloten model** — maar worden niet langer gepresenteerd als onafhankelijk van de uitkomst
+  van het vergunningstraject (#1)
+- **Grens tussen vrij saldo en vastgezet bedrag overal consequent gemaakt.** Vrij
+  walletsaldogeld is vrij beschikbaar en opneembaar, met een **nog te bepalen** juridische
+  positie (RD-32); het vastgezette bedrag verdwijnt uit de wallet, wordt een contractuele
+  vordering en is volgens besluit 4A gedurende de looptijd eigendom van SolidYield. Vier
+  gelijkstellingen worden expliciet **niet** gemaakt: vrij saldo is niet zonder meer eigendom
+  van SolidYield · "op naam in de administratie" is geen juridische eigendom ·
+  administratieve vermogensscheiding is geen automatische faillissementsbescherming · de
+  betaalpartner is niet automatisch juridisch houder van het geld (#1)
 - **Rij 4a van de openstaande besluitentabel gesloten** — van "wettelijke grondslag, te
   valideren" naar **vergunningstrategie, besloten**. Bijgewerkt in README, ADR-0007,
   ADR-register, complianceregister (**C-27**), regulatoire besluiten (**RD-23 t/m RD-27**),

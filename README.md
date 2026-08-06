@@ -25,8 +25,13 @@
 > [ADR-0004](docs/architecture/adr/0004-identity-and-access-management.md). De overige waarden tussen vierkante haken (`[ORG]`, `[PROVIDER]`, …) zijn nog
 > **niet** ingevuld — zie [`docs/placeholders.md`](docs/placeholders.md).
 >
-> **Blokkerend: de vergunning, niet het bedrijfsmodel.** Het bedrijfs- en ketenmodel staat
-> vast. **SolidYield gaat uit van een vergunningplicht** (besluit 4A) en ontwikkelt het
+> **Blokkerend: de vergunning, niet het bedrijfsmodel.** Het bedrijfs- en ketenmodel is
+> **bestuurlijk vastgesteld** en blijft het uitgangspunt voor het vergunningstraject. Dat
+> traject beoordeelt de **juridische uitvoerbaarheid**; acht een gespecialiseerde jurist of
+> bevoegde toezichthouder wijzigingen noodzakelijk, dan worden die **niet stilzwijgend
+> doorgevoerd** maar als expliciet wijzigingsvoorstel aan de Product Owner voorgelegd en via
+> een **nieuw besluit** en zo nodig een gewijzigde ADR verwerkt. **SolidYield gaat uit van
+> een vergunningplicht** (besluit 4A) en ontwikkelt het
 > platform alsof een vergunning vereist is. De **exacte vergunning, de wettelijke grondslag
 > en de voorwaarden** worden vastgesteld tijdens het vergunningstraject (RD-23 t/m RD-27);
 > deze repository wijst geen vergunningcategorie en geen toezichthouder aan.
@@ -34,6 +39,9 @@
 > **Zolang de vereiste vergunning of een andere rechtsgeldige toestemming van de bevoegde
 > toezichthouder niet is verleend:** mag productie niet starten, mag de besloten testgroep
 > met echte klantgelden niet starten en mogen geen klantgelden worden geaccepteerd.
+> **Voor echte walletgelden geldt een tweede voorwaarde:** die worden pas verwerkt nadat
+> **RD-32** is opgelost en de gekozen rekening- en safeguardingstructuur juridisch en
+> contractueel is vastgelegd. Vergunningverlening alleen is dus niet voldoende.
 > **Toegestaan** zijn UX, een werkende MVP, sandboxbetalingen, synthetische data, besloten
 > demonstraties en technische integraties.
 
@@ -106,7 +114,8 @@ privacyprincipes.
 | Productnaam · doelgroep · probleem · productdoel | **SolidYield** · Nederlandse particuliere spaarders · de keuze tussen laagrentend sparen en complex beleggen · een inleg die binnen vijftien minuten zelfstandig af te ronden is, en die de gebruiker daarna aantoonbaar begrijpt — uitkering én risico | zie [productvisie](docs/product/product-vision.md) |
 | Type financiële dienst | **digitaal contractueel rendementproduct** | bedrijfsmodel besloten (besluit 4); de **wettelijke grondslag** voor uitvoering wordt afzonderlijk vastgesteld (RD-23 t/m RD-27) |
 | Product | looptijden 3/6/12/24/36/60 maanden · minimum inleg € 50 · geen vastgesteld maximum · **vast rendement**, maandelijks · volledige inleg terug aan het einde | zie [ADR-0008](docs/architecture/adr/0008-geld-en-contractstroom.md) |
-| Wallet | onderdeel van SolidYield: storten, opnemen naar de eigen tegenrekening, vastzetten — geen P2P, geen betalingen aan derden | kwalificatie als betaaldienst of elektronisch geld: **open**, RD-17 |
+| Wallet — **vrij saldo** | onderdeel van SolidYield: storten, opnemen naar de eigen tegenrekening, vastzetten — geen P2P, geen betalingen aan derden | **juridische positie van het vrije saldo is open**: rechthebbende, tenaamstelling van de bankrekening, vermogensscheiding en faillissementspositie — **RD-32**, blokkerend voor echte walletgelden. Kwalificatie als betaaldienst of elektronisch geld: **open**, RD-17 |
+| Wallet — **vastgezet bedrag** | verdwijnt uit het walletsaldo en wordt een **contractuele vordering** op SolidYield; het bedrag wordt gedurende de looptijd eigendom van SolidYield (besluit 4A) | debiteurenrisico; beoogde positie als concurrent schuldeiser — RD-20, RD-21 |
 | Doelgroep MVP | Nederlandse consumenten, zzp'ers en rechtspersonen — start in een **besloten testgroep** | zie [MVP-scope](docs/product/mvp-scope.md) |
 | Betaalpartners | ontworpen voor **vergunninghoudende betaalpartners**; eerste implementatierichting: Mollie (iDEAL/SEPA) en bunq (IBAN, uitbetalingen, reconciliatie) — betaalpartner, **geen productuitgever** | **nog niet definitief geselecteerd en niet gecontracteerd**; selectie en regulatoire rolverdeling worden contractueel vastgesteld (RD-22) |
 | Landen/regio's · dataresidency | **Nederland** · opslag en reguliere verwerking binnen de **EER**, primaire productieomgeving in Nederland | zie [ADR-0006](docs/architecture/adr/0006-dataresidency-en-opslaglocatie.md) |

@@ -34,8 +34,13 @@
 > voorwaarden uiteindelijk gelden, wordt vastgesteld tijdens het vergunningstraject door
 > Compliance en een gespecialiseerde financieel-regulatoire jurist.
 >
-> Het juridisch onderzoek **verandert het gekozen bedrijfsmodel niet**. Het bepaalt
-> uitsluitend welke wettelijke grondslag nodig is om dit model uit te voeren.
+> **Het bedrijfs- en ketenmodel is door de Product Owner vastgesteld en blijft het
+> uitgangspunt voor het vergunningstraject.** Het vergunningstraject beoordeelt de
+> **juridische uitvoerbaarheid** van dit model. Wanneer een gespecialiseerde jurist of
+> bevoegde toezichthouder wijzigingen noodzakelijk acht, worden die **niet stilzwijgend door
+> Compliance doorgevoerd**. Zij worden als **expliciet wijzigingsvoorstel aan de Product
+> Owner voorgelegd** en uitsluitend via een **nieuw besluit** en, waar nodig, een nieuwe of
+> gewijzigde ADR verwerkt.
 
 > **Status van de betaalpartners.** De MVP is ontworpen voor integratie met
 > **vergunninghoudende betaalpartners**. De eerste implementatierichting richt zich op
@@ -188,9 +193,34 @@ Voordat het product met echte gebruikers wordt aangeboden, moet daarom worden va
 * of een andere juridisch bevestigde grondslag.
 
 Welke route uiteindelijk geldt, wordt bepaald door **Compliance en een gespecialiseerde
-financieel-regulatoire jurist** (RD-23). Dat onderzoek verandert het gekozen bedrijfsmodel
-niet; het bepaalt uitsluitend welke wettelijke grondslag nodig is om dit model uit te
-voeren.
+financieel-regulatoire jurist** (RD-23).
+
+> **Het bedrijfs- en ketenmodel is door de Product Owner vastgesteld en blijft het
+> uitgangspunt voor het vergunningstraject.** Het vergunningstraject beoordeelt de
+> **juridische uitvoerbaarheid** van dit model. Wanneer een gespecialiseerde jurist of
+> bevoegde toezichthouder wijzigingen noodzakelijk acht, worden die **niet stilzwijgend door
+> Compliance doorgevoerd**. Zij worden als **expliciet wijzigingsvoorstel aan de Product
+> Owner voorgelegd** en uitsluitend via een **nieuw besluit** en, waar nodig, een nieuwe of
+> gewijzigde ADR verwerkt.
+
+### Vier dingen die uit elkaar moeten blijven
+
+| | Wat het is | Wie beslist |
+|---|---|---|
+| **Het huidige model** | het **bestuurlijk vastgestelde** bedrijfs- en ketenmodel hierboven — SolidYield als contractspartij, ontvanger van gelden en beheerder van de wallet; vast rendement; terugbetaling van de nominale inleg | ✅ **Product Owner** (besluit 4) |
+| **De juridische uitvoerbaarheid** | of dat model in deze vorm mag worden uitgevoerd, en onder welke wettelijke grondslag | ⛔ **Compliance + gespecialiseerde jurist**, tijdens het vergunningstraject |
+| **Mogelijke voorwaarden of verplichte wijzigingen** | eisen die een jurist of toezichthouder aan het model stelt | ⛔ komen **uit** het traject; worden **niet** door het team bedacht |
+| **Besluitvorming over zo'n wijziging** | of, en hoe, het model daarop wordt aangepast | ✅ **Product Owner**, via een **nieuw besluit** en een nieuwe of gewijzigde ADR |
+
+> **Wat dit wél en niet zegt.** Het model is *besloten*, niet *onaantastbaar*. Dat het
+> bestuurlijk vaststaat, betekent dat niemand het onderweg mag verschuiven — niet dat een
+> vergunningstraject er nooit iets aan zou kunnen veranderen. Een traject dat geen enkele
+> aanpassing kan afdwingen, is geen toets maar een formaliteit.
+>
+> **Blijft het huidige besloten model**, zolang er geen nieuw besluit is: SolidYield is
+> contractspartij · SolidYield ontvangt de gelden · SolidYield beheert de wallet · het
+> rendement is vast · de nominale inleg wordt terugbetaald · vergunningplicht is het
+> bouwuitgangspunt (besluit 4A).
 
 ---
 
@@ -260,6 +290,11 @@ toestemming van de bevoegde toezichthouder** is:
 | 2 | **de besloten testgroep met echte klantgelden mag niet starten**; |
 | 3 | **klantgelden mogen niet worden geaccepteerd**. |
 
+**Aanvullend voor echte walletgelden.** Vergunningverlening alleen is niet voldoende: echte
+walletgelden worden pas verwerkt nadat **RD-32** is opgelost en de gekozen **rekening- en
+safeguardingstructuur juridisch en contractueel is vastgelegd** (control **C-39**). RD-32 is
+een **uitvoeringsvoorwaarde binnen het vergunningstraject**; dit verandert besluit 4A niet.
+
 Deze verboden kennen **geen uitzonderingsprocedure**. Zij vervangen de eerdere formulering
 "bevestiging van de wettelijke grondslag" door een concreter, toetsbaar criterium: niet een
 intern oordeel, maar een **besluit van de bevoegde toezichthouder**.
@@ -318,6 +353,7 @@ grondslag** en de daarmee samenhangende kwalificaties:
 | Is een wettelijke uitzondering van toepassing? | RD-25 |
 | Is een vrijstelling van toepassing? | RD-26 |
 | Is een ontheffing nodig of mogelijk? | RD-27 |
+| **Juridische positie van vrij walletsaldogeld** — rechthebbende, tenaamstelling van de bankrekening, vermogensscheiding, faillissementspositie en de rol van de betaalpartner | **RD-32** — **blokkerend voor echte walletgelden, ook ná vergunningverlening** |
 | Kwalificeert de wallet als betaaldienst of als elektronisch geld? | RD-17 |
 | Hoe kwalificeert het product, en is de gebruiker belegger? | RD-18 |
 | Werking van administratieve vermogensscheiding bij faillissement | RD-20 |

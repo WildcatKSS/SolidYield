@@ -99,7 +99,7 @@ versienummers over alle modulelocaties heen. Uitwerking en het overwogen alterna
 
 | Component | Verantwoordelijkheid | Aandachtspunten |
 |---|---|---|
-| **Walletadministratie** | vrij beschikbaar saldo per gebruiker; storten, opnemen naar de eigen tegenrekening, vastzetten | geen P2P-betalingen, geen betalingen aan derden; administratieve vermogensscheiding; idempotente verwerking |
+| **Walletadministratie** | vrij beschikbaar saldo per gebruiker; storten, opnemen naar de eigen tegenrekening, vastzetten | geen P2P-betalingen, geen betalingen aan derden; idempotente verwerking. **De juridische positie van het vrije saldo is nog niet vastgesteld** — rechthebbende, tenaamstelling van de bankrekening, vermogensscheiding en faillissementspositie zijn open (**RD-32**, control **C-39**). Administratieve vermogensscheiding is **geen** juridische scheiding; het ledger- en rekeningontwerp mag niet op de uitkomst vooruitlopen |
 | **Contractadministratie** | digitale contracten met looptijd (3, 6, 12, 24, 36 of 60 maanden), vast rendement, einddatum en terugbetaling | vastzetten is onomkeerbaar tot de einddatum; elke mutatie in de audittrail; afronding expliciet en getest |
 | **Ledger** | immutable double-entry boekhouding | append-only; geen updates of deletes; correcties uitsluitend via tegenboekingen; idempotency keys en correlation IDs; via jOOQ of expliciete SQL, **geen generieke CRUD** |
 | **Beheerinterface** | klantbeheer, KYC, betalingen, reconciliation, audit, rapportages | uitsluitend via **WireGuard**; **maker-checker**; **directe databasecorrecties zijn verboden** |
