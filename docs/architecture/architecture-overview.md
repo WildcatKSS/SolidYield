@@ -43,7 +43,7 @@ graph TB
         CACHE[("Cache<br/>geen gevoelige gegevens")]
     end
     subgraph ext["Extern"]
-        IDP["Identity Provider<br/>OIDC · WebAuthn<br/><i>leverancier nog te kiezen</i>"]
+        IDP["Identity Provider<br/>Keycloak (self-hosted)<br/>OIDC · WebAuthn"]
         MOL["Betaalpartner iDEAL / SEPA<br/>richting: Mollie"]
         BUNQ["Betaalpartner IBAN, uitbetalingen<br/>richting: bunq"]
         KYCP["KYC/AML-partner<br/>(fase 2 — roadmap)"]
@@ -130,7 +130,7 @@ Vastgesteld in **besluit 8** ([ADR-0004](adr/0004-identity-and-access-management
 | Authenticatiemiddelen (klanten) | **passkeys/WebAuthn als primaire methode**, e-mailadres, **TOTP**, veilige sessiecookies; wachtwoord uitsluitend als **fallback** zolang operationeel nodig | vastgesteld ([ADR-0004](adr/0004-identity-and-access-management.md)) |
 | Wachtwoordopslag (klanten) | **Argon2id** wanneer SolidYield zelf wachtwoorden opslaat; voert de Identity Provider het wachtwoordbeheer uit, dan moet die **aantoonbaar minimaal een gelijkwaardig beveiligingsniveau** bieden | vastgesteld als **voorwaardelijke eis** — geen onvoorwaardelijke implementatiekeuze |
 | Medewerkers | **MFA verplicht**, individuele accounts, voorkeur voor passkeys en hardware security keys; TOTP uitsluitend als fallback | vastgesteld |
-| Identiteitsprovider | externe **OIDC**-provider met OAuth 2.1, WebAuthn, MFA, RBAC, session- en device management, audit logging en SCIM-provisioning. **Leverancieronafhankelijk**: koppeling via een adapter, geen leveranciersspecifieke code in domeinmodules | model **vastgesteld**; **leverancierskeuze nog open** (Keycloak is uitsluitend MVP-referentie) |
+| Identiteitsprovider | **Keycloak**, self-hosted en native onder systemd op de bestaande VPS'en (besluit 8A); OIDC en OAuth 2.1, WebAuthn, MFA, RBAC, session- en device management, audit logging. **Leverancieronafhankelijk gekoppeld**: uitsluitend via OIDC, gestandaardiseerde claims en één adapter — geen Keycloak-code, -datamodellen of directe databasetoegang in domeinmodules | vastgesteld ([ADR-0004](adr/0004-identity-and-access-management.md)); **gekozen, nog niet ingericht** |
 | MFA | verplicht voor inloggen en gevoelige handelingen; hardware security keys of hardware-backed passkeys bij verhoogde rechten | vastgesteld |
 | Sessies | korte levensduur (`[15]` min inactiviteit), httpOnly + secure + SameSite cookies, **sessierotatie**, **centrale intrekking**, herauthenticatie bij gevoelige acties; gebruikers kunnen actieve sessies inzien en beëindigen | vastgesteld |
 | Autorisatie | **RBAC, afgedwongen in de servicelaag** — niet in controllers, niet uitsluitend in de frontend — **plus** eigenaarschapscontrole per object. ABAC kan later worden toegevoegd zonder RBAC te vervangen | vastgesteld |
@@ -216,7 +216,7 @@ Optimaliseer pas op basis van meting, niet op verwachting.
 | 1 | ~~Technologiestack en runtime~~ | Tech lead | ✅ [ADR-0002](adr/0002-technologiestack.md) |
 | 2 | ~~Cloudprovider en hosting~~ | Tech lead + Compliance | ✅ [ADR-0003](adr/0003-cloudprovider.md) |
 | 3 | ~~Identity & Access Management~~ | Security Architect + Tech lead | ✅ [ADR-0004](adr/0004-identity-and-access-management.md) — leverancieronafhankelijk model |
-| 3a | **Definitieve keuze van de Identity Provider** — valt buiten besluit 8 | Security Architect + Tech lead + Privacy | ADR-0004 vervolgactie 5 |
+| 3a | ~~Definitieve keuze van de Identity Provider~~ | Security Architect + Tech lead + Privacy | ✅ [ADR-0004](adr/0004-identity-and-access-management.md) §8A — **Keycloak**, self-hosted |
 | 4 | Encryptie- en sleutelbeheerstrategie | Tech lead + Security | ADR-0005 |
 | 5 | ~~Monolith of opsplitsing~~ | Tech lead | ✅ modulaire monoliet, [ADR-0002](adr/0002-technologiestack.md) |
 | 6 | ~~Wachtrij-/taakmechanisme~~ | Tech lead | ✅ PostgreSQL job queue + outbox, [ADR-0002](adr/0002-technologiestack.md) |

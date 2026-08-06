@@ -100,7 +100,7 @@ goedkeuring, met een tweede persoon en met vastlegging.
 | Onderwerp | Eigenaar | Status |
 |---|---|---|
 | ~~Identity & Access Management~~ | Security Architect + Tech lead | ✅ [ADR-0004](../architecture/adr/0004-identity-and-access-management.md) |
-| **Definitieve keuze van de Identity Provider** | Security Architect + Tech lead + Privacy | ADR-0004 vervolgactie 5 — **nog open** |
+| ~~Definitieve keuze van de Identity Provider~~ | Security Architect + Tech lead + Privacy | ✅ ADR-0004 §8A — **Keycloak**, self-hosted; rollen worden in de **SolidYield-servicelaag** gecontroleerd, niet uitsluitend op Keycloak-rollen |
 | Just-in-time-toegangsoplossing | Security + Ops | open |
 | Duur van tijdelijke rechten (`[4]` uur is een aanname) | Security | te bevestigen |
 | Informeren van gebruikers bij inzage door support | Privacy + PO | **te valideren door bevoegde specialist** |

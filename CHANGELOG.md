@@ -20,6 +20,34 @@ security-impact worden expliciet gemarkeerd.
 ## [Unreleased]
 
 ### Toegevoegd
+- **Besluit 8A — gekozen Identity Provider.** SolidYield kiest **Keycloak**, **self-hosted**
+  en native op Ubuntu Server LTS onder **systemd**. De productie-instantie draait op de
+  bestaande productie-VPS, de test-instantie op de bestaande test-VPS. Vastgelegd als
+  afzonderlijke sectie in
+  [ADR-0004](docs/architecture/adr/0004-identity-and-access-management.md) §8A; er is geen
+  nieuw ADR-nummer aangemaakt omdat ADR-0004 de providerselectie al als vervolgactie
+  bevatte (#1)
+- **Volledige scheiding tussen productie en test voor Keycloak:** afzonderlijke instanties,
+  databases, databasegebruikers, realms, clients, signing keys, secrets,
+  beheerdersaccounts, configuraties, e-mailconfiguraties, logging, monitoring en back-ups.
+  Er worden **geen identitygegevens, accounts, credentials, sleutels of sessies** tussen
+  productie en test gedeeld, en **geen productie-identiteiten naar test gekopieerd** (#1)
+- **Kandidatenafweging vastgelegd:** Keycloak gekozen vanwege open source en self-hosting,
+  volwassenheid, community, aansluiting op Spring Security, OIDC/OAuth, WebAuthn en
+  passkeys, TOTP en recovery codes, sessiebeheer, rollen en groepen, ondersteuning van
+  meerdere applicaties, beschikbare commerciële ondersteuning en beperkte vendor lock-in —
+  en omdat het native op de vastgestelde Ubuntu/systemd-architectuur past. **Authentik**
+  afgevallen omdat het gedocumenteerde installatiepad sterker containergericht is;
+  **FusionAuth** omdat passkeys/WebAuthn een geactiveerde licentie vereisen (#1)
+- **Hybride eigenaarschap van gegevens:** Keycloak beheert authenticatiecredentials,
+  passkeys/WebAuthn, wachtwoorden waar van toepassing, TOTP, identitysessies en technische
+  IdP-rollen; SolidYield beheert klantprofiel, KYC-status, klantacceptatie,
+  risicoclassificatie, contracten, wallets, betalingen, domeinrollen en de audit van
+  bedrijfsacties. **Er worden geen financiële domeingegevens in Keycloak opgeslagen** (#1)
+- **Keycloak opgenomen in** systemd-processen, monitoring, back-upscope, de
+  patchmanagementvervolgactie, de restore- en disaster-recoverytest en capaciteitsplanning.
+  Keycloak deelt het faalscenario van de productie-VPS (T-28) en biedt **geen hoge
+  beschikbaarheid**; bij strengere eisen kan een afzonderlijke VPS nodig zijn (#1)
 - **Besluit 8 — Identity & Access Management.** **ADR-0004** toegevoegd: identiteit,
   authenticatie, autorisatie, accountlevenscyclus, sessiebeheer, beveiliging, audit en de
   koppeling met KYC. `identity` is een **zelfstandige module** die uitsluitend publieke
@@ -28,9 +56,9 @@ security-impact worden expliciet gemarkeerd.
 - **Leverancieronafhankelijk IAM.** Authenticatie loopt via een externe **OIDC**-provider
   met OAuth 2.1, WebAuthn, MFA, RBAC, session- en device management, audit logging en
   SCIM-provisioning. De koppeling loopt via **één adapter**; dat is de enige plek waar
-  leveranciersspecifieke code mag staan. **De leverancier is niet gekozen: Keycloak geldt
-  uitsluitend als referentie-implementatie voor de MVP** en mag geen afhankelijkheid worden
-  in architectuur of broncode (#1)
+  leveranciersspecifieke code mag staan. De leverancierskeuze viel buiten besluit 8 en is
+  gesloten in **besluit 8A** (Keycloak); de eis dat er geen leveranciersafhankelijkheid in
+  architectuur of broncode terechtkomt, blijft onverkort gelden (#1)
 - **Authenticatie:** **passkeys (WebAuthn) zijn de primaire methode** voor klanten;
   e-mailadres, TOTP en wachtwoord als fallback zolang operationeel nodig. Meerdere passkeys
   per account, met apparaatbeheer en intrekking; **privésleutels verlaten nooit het apparaat
@@ -54,7 +82,8 @@ security-impact worden expliciet gemarkeerd.
   rechtentoekenning door een beheerder, uitval van de Identity Provider, en
   leveranciersspecifieke IAM-code die de domeinmodules in lekt); controls **C-36**
   (architectuurtest op leverancieronafhankelijkheid), **C-37** (IAM-productiegereedheid
-  inclusief penetratietest) en **C-38** (selectie van de Identity Provider) toegevoegd (#1)
+  inclusief penetratietest) en **C-38** (Identity Provider: keuze, privacybeoordeling en
+  beschikbaarheid) toegevoegd (#1)
 - **Compliance:** **RD-30** en **RD-31** toegevoegd voor eisen aan sterke
   cliëntauthenticatie en aan uitbesteding van authenticatie aan een externe provider (#1)
 - **Besluit 7 — besloten testgroep.** Nieuw document
@@ -171,6 +200,32 @@ security-impact worden expliciet gemarkeerd.
   onder het rendement (#1)
 
 ### Gewijzigd
+- **Rij 8a van de openstaande besluitentabel gesloten**; `[IDP]` ingevuld met Keycloak.
+  Keycloak wordt niet langer als "uitsluitend MVP-referentie" gepresenteerd maar als de
+  **gekozen provider** — bijgewerkt in README, ADR-register, architectuuroverzicht,
+  systeemcontext, `security-principles.md`, `access-control.md`, `deployment.md`,
+  `backup-and-recovery.md`, `platform-readiness-checklist.md`, het threat model, het
+  complianceregister en `placeholders.md` (#1)
+- **De adaptergrens blijft onverkort gelden.** Keycloak wordt uitsluitend gekoppeld via
+  OIDC, gestandaardiseerde claims en één IdP-adapter. Buiten die grens niet toegestaan:
+  Keycloak-specifieke imports, datamodellen, directe toegang tot de Keycloak-database,
+  Keycloak-specifieke domeinregels en autorisatie die uitsluitend op Keycloak-rollen steunt
+  zonder controle in de SolidYield-servicelaag. **T-33** is hierop aangescherpt: nu de
+  leverancier vaststaat, wordt dit risico groter in plaats van kleiner (#1)
+- **C-38 herzien:** de leverancierskeuze is gesloten; open blijven de privacybeoordeling
+  vóór productie, de afzonderlijke beoordeling van gekoppelde externe diensten zoals
+  e-mailverzending, de beoordeling van de SCIM-functionaliteit van de gebruikte versie, en
+  het beschikbaarheids- en herstelscenario. **RD-31** aangevuld: Keycloak is self-hosted en
+  introduceert daardoor geen externe IdP-verwerker voor de kernverwerking (#1)
+- **SCIM blijft een architectuureis, geen aangenomen Keycloak-functie.** De
+  SCIM-functionaliteit van de gebruikte versie wordt vóór productie beoordeeld; een
+  previewfunctie wordt **niet** als kritieke productieafhankelijkheid gebruikt. Voor de MVP
+  kan provisioning via de adapter en ondersteunde beheer-API's plaatsvinden (#1)
+- **Fasering van besluit 8A vastgelegd:** de **keuze** is besloten en ontworpen;
+  installatie, realms, clients, passkeyflows, MFA, back-ups, monitoring, recovery,
+  penetratietest en adaptertest zijn **nog te implementeren of nog te verifiëren**. Keycloak
+  recovery codes mogen als technische mogelijkheid worden onderzocht maar vormen niet
+  automatisch het operationele recoveryproces; die vervolgactie blijft ongewijzigd (#1)
 - **Ontwerp, implementatie en bewijs expliciet uit elkaar getrokken.** Vastgelegd dat een
   ADR een **ontwerpbesluit** is en dat een control **niet** betekent dat de maatregel
   bestaat; verificatie vindt pas plaats tijdens implementatie en acceptatie. Het

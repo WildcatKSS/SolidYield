@@ -90,6 +90,23 @@ privacybeoordeling verplicht; migraties draaien nooit ongecontroleerd tijdens pi
 
 Nieuwe variabele? Voeg hem toe aan `.env.example` én aan dit document.
 
+### Identity Provider per omgeving
+
+De Identity Provider is **Keycloak**, self-hosted en native onder systemd op dezelfde
+VPS'en als de applicatie (besluit 8A,
+[ADR-0004](../architecture/adr/0004-identity-and-access-management.md) §8A). Productie en
+test draaien **afzonderlijke instanties** met eigen databases, databasegebruikers, realms,
+clients, signing keys, secrets, beheerdersaccounts, configuraties, e-mailconfiguraties,
+logging, monitoring en back-ups.
+
+> **Harde eis:** er worden **geen identitygegevens, accounts, credentials, sleutels of
+> sessies** tussen productie en test gedeeld, en **geen productie-identiteiten naar test
+> gekopieerd**. Dit valt onder dezelfde omgevingsscheiding als C-24 en T-27.
+>
+> **Fase: nog te implementeren.** Keycloak is gekozen, niet ingericht. Concrete
+> systemd-units, realm- en clientconfiguratie horen bij de implementatie en staan hier
+> bewust niet.
+
 ### Object Store per omgeving
 
 Productie en test gebruiken **unieke bucketnamen** — generieke namen zijn niet toegestaan,

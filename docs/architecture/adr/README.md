@@ -55,7 +55,7 @@ maatregel is nog niet gebouwd of aangetoond.
 | 0001 | Sjabloon voor architectuurbesluiten | Geaccepteerd | n.v.t. (sjabloon) | `[JJJJ-MM-DD]` | n.v.t. |
 | 0002 | [Technologiestack](0002-technologiestack.md) | Geaccepteerd | Ontworpen | 2026-08-05 | hoog |
 | 0003 | [Cloudprovider en hostingarchitectuur](0003-cloudprovider.md) | Geaccepteerd | Ontworpen | 2026-08-05 | hoog |
-| 0004 | [Identity & Access Management](0004-identity-and-access-management.md) | Geaccepteerd **als leverancieronafhankelijk model**; de definitieve keuze van de Identity Provider valt erbuiten | Ontworpen | 2026-08-06 | hoog |
+| 0004 | [Identity & Access Management](0004-identity-and-access-management.md) | Geaccepteerd — **leverancieronafhankelijk model** (besluit 8) én **gekozen provider: Keycloak, self-hosted** (besluit 8A) | Ontworpen | 2026-08-06 | hoog |
 | 0005 | `[Encryptie- en sleutelbeheerstrategie]` | **Te schrijven** | Nog te ontwerpen | | hoog |
 | 0006 | [Dataresidency en opslaglocatie](0006-dataresidency-en-opslaglocatie.md) | Geaccepteerd | Ontworpen | 2026-08-03 | midden |
 | 0007 | [Vergunningplicht en rol in de keten](0007-vergunningplicht-en-rol-in-de-keten.md) | Geaccepteerd **voor de bedrijfs- en keteninrichting**; wettelijke grondslag nog te valideren | Ontworpen | 2026-08-05 | hoog |
@@ -64,10 +64,16 @@ maatregel is nog niet gebouwd of aangetoond.
 ADR-0005 (sleutelbeheer) is de laatste "te schrijven" ADR uit de openstaande beslissingen in
 de README en hoort bij de eerste sprints.
 
-**ADR-0004 legt besluit 8 vast als leverancieronafhankelijk model.** De definitieve keuze
-van de Identity Provider valt daar uitdrukkelijk **buiten** en blijft een later besluit;
-**Keycloak geldt uitsluitend als referentie-implementatie voor de MVP** en mag nergens als
-afhankelijkheid in architectuur of broncode terechtkomen.
+**ADR-0004 bevat twee besluiten.** Besluit 8 legt het **leverancieronafhankelijke
+IAM-model** vast; besluit 8A kiest **Keycloak** als Identity Provider voor de MVP,
+self-hosted en native onder systemd. Die keuze verandert niets aan de adaptergrens:
+Keycloak-specifieke code mag **uitsluitend** binnen de IdP-adapter of de
+infrastructuurconfiguratie voorkomen, zodat een andere OIDC-conforme provider bruikbaar
+blijft zonder wijziging aan de domeinlogica (control **C-36**, dreiging **T-33**).
+
+**Keycloak is gekozen, niet ingericht.** Installatie, realms, clients, authenticatieflows,
+back-ups, monitoring en de adaptertest staan alle in de fase *nog te implementeren* of *nog
+te verifiëren* — zie ADR-0004 §8A.9.
 
 ADR-0006 loopt vooruit op ADR-0003: dataresidency is vastgesteld vóór de
 providerkeuze, zodat ADR-0003 binnen die randvoorwaarde moet passen in plaats van haar

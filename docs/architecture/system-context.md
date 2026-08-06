@@ -17,7 +17,6 @@ graph TB
         U["Gebruiker<br/>particuliere spaarder"]
         S["Supportmedewerker"]
         A["Beheerder"]
-        IDP["Identity Provider<br/>OIDC · WebAuthn<br/><i>leverancier nog te kiezen</i>"]
         FIN["Financiële gegevensbron<br/>[PROVIDER]"]
         MAIL["E-mail-/berichtendienst<br/>[PROVIDER]"]
         OBS["Monitoring en logging<br/>[PROVIDER]"]
@@ -25,6 +24,7 @@ graph TB
 
     subgraph trust["Onze vertrouwensgrens — TransIP VPS, Nederland (EER)"]
         APP["SolidYield<br/>webapplicatie + API"]
+        IDP["Identity Provider<br/>Keycloak (self-hosted)<br/>OIDC · WebAuthn"]
         DB[("Gegevensopslag<br/>versleuteld")]
         AUDIT[("Auditlog<br/>append-only")]
     end
@@ -48,7 +48,7 @@ graph TB
 | Supportmedewerker | mens | gebruiker helpen | minimale rechten, tijdelijk, altijd geaudit | inzage alleen met aanleiding |
 | Beheerder | mens | configuratie en beheer | verhoogde rechten, MFA, vier-ogen | geen toegang tot klantgegevens zonder noodzaak |
 | Auditor | mens | controles verifiëren | alleen-lezen op bewijs | geen productiedata |
-| Identity Provider | systeem | authenticatie, MFA, passkeys/WebAuthn, sessie- en device management | **OIDC** en OAuth 2.1 via een adapter; geen leveranciersspecifieke code in domeinmodules ([ADR-0004](adr/0004-identity-and-access-management.md)) | leveranciersafhankelijkheid en uitwijk; **leverancier nog niet gekozen** — Keycloak is uitsluitend MVP-referentie |
+| Identity Provider (**Keycloak**, self-hosted) | systeem — **binnen onze vertrouwensgrens**, want zelf gehost op de eigen VPS'en | authenticatie, MFA, passkeys/WebAuthn, sessie- en device management | **OIDC** en OAuth 2.1 via één adapter; geen leveranciersspecifieke code in domeinmodules ([ADR-0004](adr/0004-identity-and-access-management.md)) | **gekozen, nog niet ingericht**; deelt het faalscenario van de productie-VPS (T-28) en valt onder patchmanagement, monitoring en back-upscope |
 | Financiële gegevensbron `[PROVIDER]` | systeem | gegevens leveren | token met beperkte scope, intrekbaar | **regulatoir regime te valideren** |
 | Berichtendienst | systeem | e-mail/notificaties | API-sleutel in secrets manager | geen gevoelige inhoud in berichten |
 | Monitoring `[PROVIDER]` | systeem | beschikbaarheid en fouten | uitgaande telemetrie | geen persoonsgegevens in logs |
@@ -79,6 +79,6 @@ graph TB
 |---|---|---|
 | ~~Technologiestack~~ | Tech lead | ✅ [ADR-0002](adr/0002-technologiestack.md) |
 | ~~Cloudprovider en regio~~ | Tech lead + Compliance | ✅ [ADR-0003](adr/0003-cloudprovider.md) · [ADR-0006](adr/0006-dataresidency-en-opslaglocatie.md) |
-| ~~Identity & Access Management~~ | Security Architect + Tech lead | ✅ [ADR-0004](adr/0004-identity-and-access-management.md) — leverancieronafhankelijk model |
-| **Definitieve keuze van de Identity Provider** | Security Architect + Tech lead + Privacy | ADR-0004 vervolgactie 5 — **nog open** |
+| ~~Identity & Access Management~~ | Security Architect + Tech lead | ✅ [ADR-0004](adr/0004-identity-and-access-management.md) — leverancieronafhankelijk model (besluit 8) |
+| ~~Definitieve keuze van de Identity Provider~~ | Security Architect + Tech lead + Privacy | ✅ [ADR-0004](adr/0004-identity-and-access-management.md) §8A — **Keycloak**, self-hosted (besluit 8A) |
 | Gegevensbron/koppeling | PO + Tech lead | `adr/000X` |

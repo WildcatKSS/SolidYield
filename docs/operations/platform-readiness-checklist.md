@@ -114,6 +114,14 @@ de bucketnaam (C-24, T-27).
 Unix-accounts, secrets, signing keys, buckets, provideraccounts, monitoring, logging en
 back-ups. Test draait uitsluitend met synthetische data.
 
+**Identity Provider (Keycloak, self-hosted)** — native onder systemd op dezelfde VPS'en
+(besluit 8A) · afzonderlijke instanties, databases, databasegebruikers, realms, clients,
+signing keys, secrets, beheerdersaccounts, configuraties, e-mailconfiguraties, logging,
+monitoring en back-ups per omgeving · geen identitygegevens, credentials, sleutels of
+sessies gedeeld · opnemen in monitoring, back-upscope, patchmanagement, restore-/DR-test en
+capaciteitsplanning. **Fase: nog te implementeren en nog te verifiëren** — Keycloak deelt
+het faalscenario van de productie-VPS (T-28).
+
 **Secrets** — buiten Git, met beperkte rechten op de VPS · rotatiebeleid · aparte secrets
 per omgeving; sleutelbeheer wordt uitgewerkt in ADR-0005.
 
@@ -135,7 +143,7 @@ als beschreven proces of genomen besluit.
 
 | # | Vervolgactie | Eigenaar |
 |---|---|---|
-| 1 | **Operationeel patchmanagementproces vaststellen.** Minimaal uit te werken: reguliere updates · spoedpatches · onderhoudsvensters · rollback · testvolgorde. Zelf beheerde VPS'en betekent dat patchen terugkerend eigen werk is ([ADR-0003](../architecture/adr/0003-cloudprovider.md)) | Ops + Security |
+| 1 | **Operationeel patchmanagementproces vaststellen.** Minimaal uit te werken: reguliere updates · spoedpatches · onderhoudsvensters · rollback · testvolgorde. Zelf beheerde VPS'en betekent dat patchen terugkerend eigen werk is ([ADR-0003](../architecture/adr/0003-cloudprovider.md)); **Keycloak valt hier expliciet onder** (besluit 8A) | Ops + Security |
 | 2 | **Operationele runbooks opstellen** voor onder andere: account recovery · providerstoringen · mislukte betalingen · reconciliation · dead letter jobs · KYC-herbeoordeling · incidentafhandeling. Zie [`runbook.md`](runbook.md) §12 | Ops + Support |
 | 3 | **Beschikbaarheidsdoelstelling onderbouwen** met hersteltests, back-uptests, disaster recovery-tests en operationele metingen ([`service-level-objectives.md`](service-level-objectives.md) §7) | Ops + PO |
 

@@ -27,11 +27,13 @@ getoetst. Wie hiervan wil afwijken, doorloopt de procedure voor risicoacceptatie
   **Argon2id is verplicht wanneer SolidYield zelf wachtwoorden opslaat**; voert de Identity
   Provider het wachtwoordbeheer uit, dan moet die provider **aantoonbaar minimaal een
   gelijkwaardig beveiligingsniveau** bieden. Argon2id is dus **geen onvoorwaardelijke
-  implementatiekeuze**; welk geval geldt, volgt uit de nog openstaande leverancierskeuze.
+  implementatiekeuze**. Met **Keycloak** als gekozen provider (besluit 8A) beheert de
+  Identity Provider de wachtwoorden; dat het geboden niveau aantoonbaar gelijkwaardig of
+  sterker is, moet vóór productie worden **geverifieerd** — het is nu ontwerp, geen bewijs.
 * **Passkeys (WebAuthn) zijn de primaire authenticatiemethode** voor klanten. Wachtwoord is
   een **fallback zolang dat operationeel nodig is**, geen gelijkwaardig alternatief.
   Passkeys/WebAuthn, TOTP, veilige sessiecookies en sterke MFA zijn **verplichte**
-  authenticatiemogelijkheden, ongeacht de leverancierskeuze.
+  authenticatiemogelijkheden, ongeacht de leverancier.
 * **Niet toegestaan:** SMS-authenticatie · social login · gedeelde accounts · hardcoded
   accounts · embedded secrets (ADR-0004).
 * Meerdere passkeys per account; gebruikers kunnen apparaten benoemen, verwijderen en
@@ -174,6 +176,13 @@ en het wegvallen van auditlogging.
   accounts/projecten, aparte netwerken, aparte sleutels, aparte credentials.
 * **Geen productiedata buiten productie.** Testdata is synthetisch.
 * Toegang tot productie is beperkt, tijdelijk, met MFA en volledig geaudit.
+* **De Identity Provider is self-hosted** (Keycloak, besluit 8A) en draait op dezelfde
+  VPS'en. Productie en test gebruiken **afzonderlijke Keycloak-instanties, databases,
+  realms, clients, signing keys, secrets, beheerdersaccounts, configuraties, logging,
+  monitoring en back-ups**; er worden **geen identitygegevens, credentials, sleutels of
+  sessies** tussen omgevingen gedeeld, en **geen productie-identiteiten naar test
+  gekopieerd** ([ADR-0004](../architecture/adr/0004-identity-and-access-management.md) §8A.1).
+  **Nog te implementeren en nog te verifiëren.**
 * **De besloten testgroep (besluit 7) draait in productie, niet in test.** Zij werkt met
   echte persoonsgegevens, volledige KYC en — ná bevestiging van de wettelijke grondslag —
   echte geldstromen. Dat verruimt de regel hierboven **niet**: er komen nooit echte

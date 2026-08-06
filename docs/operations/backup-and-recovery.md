@@ -21,6 +21,7 @@ kortere RPO/RTO kost meer.
 | Primaire database | volledige back-up + continue transactielogs | dagelijks + continu | in rust, aparte sleutel | tweede zone in Nederland |
 | Auditlog | append-only met eigen back-up | dagelijks | in rust | gescheiden van de applicatieback-up |
 | Objectopslag (TransIP Object Store) | versioning + replicatie | continu | in rust, eigen sleutel per omgeving | Nederland; replicatie binnen de EER |
+| **Identity Provider (Keycloak)** — database, realms, clients, signing keys | volgt bij de inrichting; **nog te implementeren** | `[te bepalen]` | in rust, eigen sleutel per omgeving | Nederland; back-up onder de geografisch gescheiden EER-eis |
 | Configuratie en infrastructuur | infrastructure as code in Git | per wijziging | n.v.t. | repository |
 | Secrets | secrets manager met eigen back-up | volgens tool | ja | `[LOCATIE]` |
 

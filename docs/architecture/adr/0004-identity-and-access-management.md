@@ -1,7 +1,8 @@
 # ADR-0004: Identity & Access Management
 
-* **Status:** **Geaccepteerd** (besluit 8, 2026-08-06) — **leverancieronafhankelijk model**;
-  de definitieve keuze van de Identity Provider is **geen onderdeel** van dit besluit
+* **Status:** **Geaccepteerd** — besluit 8 (2026-08-06, leverancieronafhankelijk model) en
+  **besluit 8A** (2026-08-06, gekozen Identity Provider: **Keycloak**, self-hosted)
+* **Fase:** **Ontworpen** — niets uit deze ADR is geïmplementeerd of geverifieerd
 * **Datum:** 2026-08-06
 * **Beslissers:** Security Architect + Tech lead
 * **Geraadpleegd:** Product Owner, Compliance, Privacy, Ops
@@ -12,10 +13,14 @@
 > koppeling met KYC. Het is de basis voor registratie, onboarding, inloggen, accountbeheer,
 > het beheerportaal en alle beveiligde API's.
 >
-> **De leverancier wordt hier niet gekozen.** **Keycloak geldt uitsluitend als
-> referentie-implementatie voor de MVP.** Repository, architectuur en broncode mogen **geen
-> afhankelijkheid van Keycloak** bevatten: een andere OIDC-conforme provider moet later
-> zonder wijzigingen aan de domeinlogica bruikbaar zijn.
+> **De leverancier is gekozen in besluit 8A** (zie de sectie *Besluit 8A — gekozen Identity
+> Provider* hieronder): **Keycloak**, self-hosted, native op Ubuntu Server LTS onder systemd.
+> Repository, architectuur en broncode mogen desondanks **geen afhankelijkheid van Keycloak**
+> bevatten buiten de IdP-adapter: een andere OIDC-conforme provider moet zonder wijzigingen
+> aan de domeinlogica bruikbaar blijven (C-36, T-33).
+>
+> **Keycloak is nog niet geïnstalleerd, geconfigureerd of geverifieerd.** De keuze is
+> genomen; de inrichting bestaat nog niet.
 
 ## Probleem
 
@@ -54,7 +59,7 @@ een architectuureis, geen luxe.
 ```mermaid
 graph LR
     subgraph ext["Buiten het domein"]
-        IDP["Identity Provider<br/>OIDC · OAuth 2.1 · WebAuthn<br/><i>MVP-referentie: Keycloak</i>"]
+        IDP["Identity Provider<br/>OIDC · OAuth 2.1 · WebAuthn<br/><b>Keycloak</b> (self-hosted)<br/><i>nog te implementeren</i>"]
     end
     subgraph id["identity"]
         ADAPT["IdP-adapter<br/><i>enige plek met leveranciersspecifieke code</i>"]
@@ -100,20 +105,241 @@ ondersteuning:
 | **Session Management** | **Device Management** |
 | **Audit Logging** | **Provisioning via SCIM** of een gelijkwaardig mechanisme |
 
-### De leverancier is nog niet gekozen
+---
 
-**Keycloak geldt uitsluitend als referentie-implementatie voor de MVP** — een concrete
-invulling om tegen te ontwikkelen en te testen, niet een vastgelegde keuze.
+# Besluit 8A — gekozen Identity Provider
 
-* De **definitieve selectie van de Identity Provider is geen onderdeel van dit besluit** en
-  blijft een later besluit.
-* **Repository, architectuur en broncode bevatten geen afhankelijkheid van Keycloak.**
-* Een andere OIDC-conforme provider moet **zonder wijzigingen aan de domeinlogica** kunnen
-  worden gebruikt.
+* **Status:** ✅ **besloten 2026-08-06** · **Eigenaar:** Security Architect + Tech Lead + Privacy
+* **Fase:** **Ontworpen** — zie *Fasering van besluit 8A* onderaan deze sectie
+
+> [!IMPORTANT]
+> **SolidYield kiest Keycloak als Identity Provider voor de MVP.** Keycloak wordt
+> **self-hosted** en draait **native op Ubuntu Server LTS onder systemd**.
+>
+> **Besluit 8 blijft volledig intact.** De adaptergrens, de leverancieronafhankelijkheid van
+> de domeinlogica, control **C-36** en dreiging **T-33** blijven onverkort gelden. Dit
+> besluit vult in *wie* de provider is, niet *hoe* het domein eraan gekoppeld is.
+>
+> **Er is nog niets geïnstalleerd, geconfigureerd of geverifieerd.** Zie *Fasering* hieronder.
+
+## 8A.1 Plaatsing
+
+Voor de MVP draait:
+
+* de **productie-instantie** op de bestaande **productie-VPS**;
+* de **test-instantie** op de bestaande **test-VPS**.
+
+Dit sluit aan op [ADR-0003](0003-cloudprovider.md); de hostingarchitectuur verandert niet.
+
+### Volledige scheiding tussen productie en test
+
+Productie en test gebruiken **volledig afzonderlijke**:
+
+| | |
+|---|---|
+| Keycloak-**instanties** | **databases** en **databasegebruikers** |
+| **realms** | **clients** |
+| **signing keys** | **secrets** |
+| **beheerdersaccounts** | **configuraties** |
+| **e-mailconfiguraties** | **logging** |
+| **monitoring** | **back-ups** |
+
+> **Harde eis:** er worden **geen identitygegevens, accounts, credentials, sleutels of
+> sessies** tussen productie en test gedeeld. Dit is dezelfde eis als in
+> [ADR-0003](0003-cloudprovider.md) en control **C-24**, nu ook expliciet voor Keycloak.
+> Een gekopieerde realm of een gedeelde signing key doorbreekt de omgevingsscheiding
+> stilzwijgend (T-27).
+
+## 8A.2 Motivatie
+
+Keycloak is gekozen vanwege:
+
+| | |
+|---|---|
+| **open source** en **self-hosting** | **volwassenheid** en langjarige stabiliteit |
+| grote **community** | goede integratie met **Spring Security** en Kotlin/Spring Boot |
+| **OpenID Connect** | **OAuth** |
+| **WebAuthn** en **passkeys** | **TOTP** en **recovery codes** |
+| **sessiebeheer** | **rollen en groepen** |
+| ondersteuning van **meerdere applicaties** | **commerciële ondersteuning** beschikbaar via gespecialiseerde dienstverleners |
+| **beperkte vendor lock-in** door gebruik van open standaarden | |
+
+**Aansluiting op de vastgestelde architectuur.** Keycloak draait native op een JVM en past
+daarmee op de **Ubuntu/systemd**-architectuur uit [ADR-0002](0002-technologiestack.md) en
+[ADR-0003](0003-cloudprovider.md) — waarin containers voor productie, test en de
+deploymentarchitectuur bewust zijn uitgesloten. Kandidaten waarvan het **primaire
+gedocumenteerde installatiepad containergebaseerd** is, sluiten daar minder goed op aan: dan
+draai je óf tegen de vastgelegde architectuur in, óf op een installatiepad dat de leverancier
+zelf niet als hoofdroute onderhoudt.
+
+## 8A.3 Afweging van kandidaten
+
+### Keycloak — **gekozen**
+
+| Sterke punten | Aandachtspunten |
+|---|---|
+| volwassen open-sourceproject | **extra kritieke applicatie om zelf te beheren** |
+| native Java-runtime | configuratie en upgrades vragen **specialistische kennis** |
+| sterke aansluiting op Spring Security | beschikbaarheid is afhankelijk van **dezelfde productie-VPS** |
+| OIDC en OAuth | **SCIM-ondersteuning mag niet als productieklare kernvoorwaarde worden aangenomen** zolang de gebruikte Keycloak-versie deze functie als preview behandelt (zie 8A.7) |
+| WebAuthn en geïntegreerde passkeyondersteuning | |
+| TOTP en recovery codes | |
+| uitgebreide configuratie van authenticatieflows | |
+| geschikt voor meerdere applicaties en portals | |
+
+### Authentik — niet gekozen
+
+**Sterke punten:** open source · OIDC · WebAuthn/passkeys · SCIM · moderne en flexibele
+authenticatieflows.
+
+**Reden om niet te kiezen:** het gedocumenteerde beheer- en installatiepad is **sterker
+containergericht** en sluit daarmee minder goed aan op de vastgestelde native
+Ubuntu/systemd-architectuur; de Spring/Kotlin-integratie is minder doorslaggevend dan bij
+Keycloak.
+
+### FusionAuth — niet gekozen
+
+**Sterke punten:** self-hosted · OIDC · uitgebreide API · WebAuthn/passkeys.
+
+**Reden om niet te kiezen:** **passkeys/WebAuthn vereisen een geactiveerde
+FusionAuth-licentie**. Dat introduceert een aanvullende licentie- en
+leveranciersafhankelijkheid op precies de functie die in besluit 8 als **primaire
+authenticatiemethode** is vastgelegd, en sluit minder goed aan op de voorkeur voor een
+open-sourcebasis met minimale vendor lock-in.
+
+## 8A.4 Architectuurgrens — ongewijzigd
+
+Keycloak wordt **uitsluitend** gekoppeld via:
+
+* **OpenID Connect**;
+* **gestandaardiseerde claims**;
+* **één Identity Provider-adapter**.
+
+Leveranciersspecifieke Keycloak-code mag **alleen** binnen de adapter of de
+infrastructuurconfiguratie voorkomen.
+
+**Buiten die grens niet toegestaan:**
+
+| |
+|---|
+| **Keycloak-specifieke imports** |
+| **Keycloak-datamodellen** |
+| **directe toegang tot de Keycloak-database** |
+| **Keycloak-specifieke domeinregels** |
+| **autorisatie die uitsluitend afhankelijk is van Keycloak-rollen** zonder controle in de SolidYield-servicelaag |
+
+> Control **C-36** en dreiging **T-33** blijven onverkort van toepassing. Dat Keycloak nu de
+> gekozen provider is, maakt de adaptergrens **belangrijker, niet minder belangrijk**: juist
+> wanneer een leverancier vaststaat, verspreidt leveranciersspecifieke code zich ongemerkt.
+
+## 8A.5 Gebruikersgegevens — hybride eigenaarschap
+
+| Keycloak beheert | SolidYield beheert |
+|---|---|
+| **authenticatiecredentials** | **klantprofiel** |
+| **passkeys/WebAuthn-credentials** | **KYC-status** |
+| **wachtwoorden** wanneer van toepassing | **klantacceptatie** |
+| **TOTP** | **risicoclassificatie** |
+| **identitysessies** | **contracten** · **wallets** · **betalingen** |
+| **primaire authenticatie-identificatie** | **domeinrollen en eigenaarschapsregels** |
+| **technische IdP-rollen of groepen** | **audit van bedrijfsacties** |
+
+> **Er worden geen financiële domeingegevens in Keycloak opgeslagen.** Contracten, saldi,
+> boekingen en KYC-uitkomsten horen in de SolidYield-database — daar gelden de
+> onveranderlijkheids-, audit- en bewaareisen uit [ADR-0002](0002-technologiestack.md) en
+> [ADR-0008](0008-geld-en-contractstroom.md), en die gelden niet voor een IdP-datastore.
+
+## 8A.6 Passkeys, MFA en recovery — ongewijzigd
+
+Onveranderd uit besluit 8: **passkeys als primaire authenticatiemethode** · meerdere
+passkeys per account · **TOTP als fallback** · **SMS uitgesloten** · **verplichte MFA voor
+medewerkers** · voorkeur voor hardware security keys of hardware-backed passkeys bij
+verhoogde medewerkerrollen.
+
+> De exacte **Keycloak-authenticatieflows zijn nog niet geconfigureerd** en gelden
+> uitdrukkelijk **niet als operationeel bewijs**. Zij zijn **nog te implementeren en nog te
+> verifiëren** (zie 8A.9).
+
+**Recovery.** Keycloak **recovery codes** mogen als **technische mogelijkheid** worden
+onderzocht, maar vormen **niet automatisch** het definitieve operationele recoveryproces. De
+bestaande vervolgactie 8 blijft ongewijzigd staan: verlies van alle passkeys · verlies van
+TOTP · verlies van e-mailadres · verloren apparaat · medewerkerrecovery · recovery van
+accounts met verhoogde rechten. **Er wordt hier geen nieuw recoverybesluit genomen.**
+
+## 8A.7 SCIM en provisioning
+
+* **SCIM of gelijkwaardige provisioning blijft een architectuureis** uit besluit 8.
+* De **SCIM-functionaliteit van de gekozen Keycloak-versie moet vóór productie worden
+  beoordeeld**.
+* Een **previewfunctie wordt niet gebruikt als kritieke productieafhankelijkheid**.
+* Voor de MVP kan provisioning plaatsvinden via de **leverancieronafhankelijke adapter** en
+  **ondersteunde beheer-API's**.
+* Een **definitieve SCIM-inrichting is een vervolgactie**, geen besluit in deze pull request.
+
+## 8A.8 Hosting, beschikbaarheid en operations
+
+Keycloak draait voor de MVP **op dezelfde VPS als de SolidYield-applicatie**. Dat:
+
+* houdt het **beheer eenvoudig**;
+* sluit aan op [ADR-0003](0003-cloudprovider.md);
+* biedt **geen hoge beschikbaarheid**;
+* stelt **Keycloak en de applicatie bloot aan hetzelfde VPS-faalscenario** (T-28) — valt de
+  productie-VPS uit, dan is niet alleen de dienst weg maar ook de mogelijkheid om in te
+  loggen, inclusief voor beheerders;
+* kan bij groei of strengere beschikbaarheidseisen een **herziening naar een afzonderlijke
+  VPS** vereisen.
+
+**De huidige hostingarchitectuur verandert niet.**
+
+Keycloak wordt opgenomen in: **systemd-processen** · **monitoring** · **back-upscope** ·
+de **patchmanagementvervolgactie** · de **restore- en disaster-recoverytest** ·
+**capaciteitsplanning**.
+
+> Concrete systemd-units en operationele configuratie worden hier **niet** beschreven; dat is
+> implementatiewerk.
+
+## 8A.9 Fasering van besluit 8A
+
+| Onderdeel | Fase |
+|---|---|
+| **Keuze van Keycloak als Identity Provider** | ✅ **Besloten · Ontworpen** |
+| Keycloak-**installatie** | **Nog te implementeren** |
+| **realms** · **clients** | **Nog te implementeren** |
+| **passkeyflows** · **MFA** | **Nog te implementeren en nog te verifiëren** |
+| **back-ups** · **monitoring** | **Nog te implementeren en nog te verifiëren** |
+| **recovery** | **Nog te ontwerpen** (vervolgactie 8) |
+| **penetratietest** | **Nog te verifiëren** |
+| **adaptertest** (C-36) | **Nog te implementeren en nog te verifiëren** |
+
+> **Geen van deze onderdelen is operationeel.** De keuze is genomen; de inrichting bestaat
+> nog niet. Fasen zoals gedefinieerd in
+> [`../../compliance/compliance-register.md`](../../compliance/compliance-register.md).
+
+## 8A.10 Dataresidency en privacy
+
+Keycloak valt onder [ADR-0006](0006-dataresidency-en-opslaglocatie.md):
+
+* **opslag en reguliere verwerking vinden in Nederland plaats**;
+* **back-ups** vallen onder de eis van een **geografisch gescheiden secundaire locatie
+  binnen de EER**;
+* er worden **geen productie-identiteiten naar test gekopieerd**;
+* **Privacy beoordeelt vóór productie** de persoonsgegevens, logging, bewaartermijnen en
+  verwerkerspositie (C-33, C-38);
+* Keycloak is **self-hosted** en introduceert daardoor **geen afzonderlijke externe
+  IdP-verwerker** voor de kernverwerking;
+* **externe e-mail-, support- of andere gekoppelde diensten moeten afzonderlijk worden
+  beoordeeld** — een self-hosted IdP die e-mail via een derde partij verstuurt, verplaatst
+  die verwerking niet weg, maar naar een ander koppelvlak.
+
+---
+
+## De adaptergrens blijft leidend
 
 > **Toetsbaar gemaakt.** De eis "leverancieronafhankelijk" is pas echt wanneer zij faalt bij
 > overtreding: een architectuurtest verbiedt leveranciersspecifieke imports buiten de
-> IdP-adapter (vervolgactie 2, control **C-36**).
+> IdP-adapter (vervolgactie 2, control **C-36**). Dat Keycloak is gekozen, verandert daar
+> niets aan — een andere OIDC-conforme provider moet zonder wijzigingen aan de domeinlogica
+> bruikbaar blijven.
 
 ## Authenticatie
 
@@ -400,12 +626,16 @@ MFA, ook al is het gemakkelijker uit te leggen.
 | 2 | **Architectuurtest** die leveranciersspecifieke imports buiten de adapter laat falen (C-36) | Tech lead + Security |
 | 3 | Rollenmatrix uitwerken tot concrete rechten per endpoint, met negatieve tests per rol | Security + Developers |
 | 4 | Recoveryprocedures ontwerpen, inclusief identiteitscontrole, wachttijd en handmatige beoordeling; daarna testen | Security + Support |
-| 5 | **Definitieve selectie van de Identity Provider** — inclusief beschikbaarheid, exit, verwerkersovereenkomst en dataresidency (ADR-0006) | Security Architect + Tech lead + Privacy |
+| ~~5~~ | ~~Definitieve selectie van de Identity Provider~~ — ✅ **besloten 2026-08-06** (besluit 8A): **Keycloak**, self-hosted. Beschikbaarheid, exit en dataresidency zijn beschreven in 8A.8 en 8A.10; de **privacybeoordeling vóór productie** blijft open (C-38) | Security Architect + Tech lead + Privacy |
 | 6 | Sessiebeheerscherm bouwen: actieve sessies tonen, individueel en volledig beëindigen | Developers |
 | 7 | Productiegereedheid aantonen (zie hieronder), inclusief penetratietest | Security + Ops |
 | 8 | **Operationeel recoveryproces uitwerken en vaststellen vóór productie** (zie hieronder) | Security + Support + Ops |
 | 9 | **Toegankelijk alternatief vaststellen** voor gebruikers die geen passkeys kunnen gebruiken (zie hieronder) | Security + UX + PO |
 | 10 | **Functiescheidingsmatrix opstellen vóór productie** (zie hieronder) | Security + Compliance |
+| 11 | **Keycloak inrichten** (besluit 8A): installatie op productie- en test-VPS onder systemd, gescheiden realms, clients, databases, signing keys en secrets | Tech lead + Ops |
+| 12 | **SCIM-functionaliteit van de gekozen Keycloak-versie beoordelen** vóór productie; een previewfunctie wordt geen kritieke productieafhankelijkheid (8A.7) | Tech lead + Security |
+| 13 | **Keycloak opnemen in monitoring, back-upscope, patchmanagement, restore-/DR-test en capaciteitsplanning** | Ops |
+| 14 | **Privacybeoordeling van Keycloak vóór productie**: persoonsgegevens, logging, bewaartermijnen en verwerkerspositie; externe e-mail- en supportdiensten afzonderlijk beoordelen (8A.10, C-38) | Privacy |
 
 ### Vervolgactie 8 — operationeel recoveryproces
 
@@ -502,6 +732,7 @@ productieplanning. Deze blijven onderdeel van latere besluiten.
 
 ## Herzieningsmoment
 
-Bij de definitieve selectie van de Identity Provider, bij invoering van ABAC, wanneer de
-wachtwoord-fallback kan vervallen, en bij een IAM-bevinding uit een penetratietest of
-incident.
+Bij invoering van ABAC, wanneer de wachtwoord-fallback kan vervallen, bij een IAM-bevinding
+uit een penetratietest of incident, en — voor besluit 8A — wanneer de beschikbaarheidseisen
+een afzonderlijke VPS voor Keycloak vergen of wanneer de SCIM-beoordeling tot een andere
+provisioninginrichting leidt.
