@@ -20,6 +20,24 @@ security-impact worden expliciet gemarkeerd.
 ## [Unreleased]
 
 ### Toegevoegd
+- **Besluit 4A — vergunningstrategie.** SolidYield gaat uit van een **vergunningplicht**
+  voor de voorgenomen dienstverlening en baseert ontwikkeling, architectuur,
+  complianceprocessen en operationele inrichting op dat uitgangspunt. De repository gaat
+  **niet langer uit van een mogelijke vergunning of uitzondering als primaire aanname**.
+  Vastgelegd als sectie **4A** in
+  [ADR-0007](docs/architecture/adr/0007-vergunningplicht-en-rol-in-de-keten.md) (#1)
+- **Uitgangspunten van de dienstverlening expliciet vastgelegd:** SolidYield is
+  contractspartij, ontvangt de gelden van klanten en beheert de wallets; het ingelegde geld
+  wordt gedurende de looptijd eigendom van SolidYield en de klant ontvangt daarvoor een
+  contractuele vordering; het rendement staat vooraf contractueel vast en wordt maandelijks
+  uitgekeerd; de nominale inleg wordt aan het einde van de looptijd terugbetaald;
+  contracten zijn niet overdraagbaar; er is geen tussentijdse uitstapmogelijkheid; het
+  product is bedoeld voor particuliere én zakelijke klanten (#1)
+- **Go-live-voorwaarde aangescherpt:** de formulering "bevestiging van de wettelijke
+  grondslag" is repositorybreed vervangen door **"verlening van de vereiste vergunning of
+  een andere rechtsgeldige toestemming van de bevoegde toezichthouder"**. Zolang die er niet
+  is: **productie mag niet starten**, **de besloten testgroep met echte klantgelden mag niet
+  starten** en **klantgelden mogen niet worden geaccepteerd** (#1)
 - **Besluit 8A — gekozen Identity Provider.** SolidYield kiest **Keycloak**, **self-hosted**
   en native op Ubuntu Server LTS onder **systemd**. De productie-instantie draait op de
   bestaande productie-VPS, de test-instantie op de bestaande test-VPS. Vastgelegd als
@@ -200,6 +218,24 @@ security-impact worden expliciet gemarkeerd.
   onder het rendement (#1)
 
 ### Gewijzigd
+- **Rij 4a van de openstaande besluitentabel gesloten** — van "wettelijke grondslag, te
+  valideren" naar **vergunningstrategie, besloten**. Bijgewerkt in README, ADR-0007,
+  ADR-register, complianceregister (**C-27**), regulatoire besluiten (**RD-23 t/m RD-27**),
+  architectuuroverzicht, roadmap, platform-readinesschecklist, MVP-scope, customer journey,
+  productvisie, `closed-test-group.md`, threat model, `release-process.md`, `SUPPORT.md`,
+  `scrum-guide.md`, `test-group-plan.md` en `data-flow.md` (#1)
+- **Besluit 4 blijft inhoudelijk ongewijzigd.** Besluit 4A concretiseert uitsluitend het
+  juridische uitgangspunt; bedrijfsmodel, geldstroom, contractstroom, walletrol en ketenrol
+  zijn niet aangeraakt. Besluit 7 blijft afhankelijk van besluit 4A; besluit 8 is
+  ongewijzigd (#1)
+- **RD-24 t/m RD-27 aangepast op het nieuwe uitgangspunt:** een wettelijke uitzondering,
+  vrijstelling of ontheffing is **niet langer de primaire aanname** maar een mogelijke
+  uitkomst van het vergunningstraject. Het team wijst **geen vergunningcategorie en geen
+  toezichthouder** aan; dat blijft het werk van Compliance en een gespecialiseerde
+  financieel-regulatoire jurist (#1)
+- **Open gebleven als vervolgactiviteit, niet als besluit:** de exacte vergunningcategorie,
+  de definitieve vergunningsvoorwaarden, eventuele aanvullende eisen van de toezichthouder
+  en de planning van het vergunningstraject (#1)
 - **Rij 8a van de openstaande besluitentabel gesloten**; `[IDP]` ingevuld met Keycloak.
   Keycloak wordt niet langer als "uitsluitend MVP-referentie" gepresenteerd maar als de
   **gekozen provider** — bijgewerkt in README, ADR-register, architectuuroverzicht,

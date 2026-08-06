@@ -1,7 +1,8 @@
 # ADR-0007: Vergunningplicht en rol in de keten
 
-* **Status:** **Geaccepteerd voor de bedrijfs- en keteninrichting — wettelijke grondslag
-  en juridische uitvoerbaarheid nog te valideren** (besluit 4, 2026-08-05).
+* **Status:** **Geaccepteerd voor de bedrijfs- en keteninrichting** (besluit 4, 2026-08-05);
+  **vergunningstrategie besloten** (besluit 4A, 2026-08-06) — de exacte vergunning en de
+  juridische uitvoerbaarheid worden vastgesteld tijdens het vergunningstraject.
 * **Datum:** 2026-08-05
 * **Beslissers:** Product Owner
 * **Geraadpleegd:** Compliance, Tech lead, Privacy, Security
@@ -22,13 +23,16 @@
 > | | Status |
 > |---|---|
 > | **Bedrijfs- en ketenmodel** — wie is contractspartij, hoe loopt de geldstroom, welke rol heeft de wallet | ✅ **Besloten** |
-> | **Wettelijke grondslag** — via welke route (vergunning, wettelijke uitzondering, vrijstelling, ontheffing of een andere juridisch bevestigde grondslag) dit model mag worden uitgevoerd | ⛔ **Nog vast te stellen** door Compliance en een gespecialiseerde financieel-regulatoire jurist |
+> | **Vergunningstrategie** — het uitgangspunt waarop wordt gebouwd | ✅ **Besloten** (besluit 4A): uitgaan van **vergunningplicht** |
+| **Exacte vergunning, wettelijke grondslag en voorwaarden** | ⛔ **Nog vast te stellen** tijdens het vergunningstraject, door Compliance en een gespecialiseerde financieel-regulatoire jurist |
 > | **Juridische uitvoerbaarheid** van het model | ⛔ **Niet vastgesteld** |
 > | **Leveranciersselectie en -contracten** | ⛔ **Niet gesloten** — zie hieronder |
 >
-> De gekozen productinrichting **kan** vergunningplichtig zijn. De toepasselijke wettelijke
-> grondslag wordt vastgesteld door Compliance. Deze ADR concludeert **niet** dat SolidYield
-> vergunningplichtig is, en evenmin dat dat niet zo is.
+> **SolidYield gaat uit van een vergunningplicht** (besluit 4A, zie hieronder) en ontwikkelt
+> het platform alsof een vergunning vereist is. Dat is een **uitgangspunt dat de bouw
+> stuurt**, geen juridische conclusie: welke vergunning, welke wettelijke grondslag en welke
+> voorwaarden uiteindelijk gelden, wordt vastgesteld tijdens het vergunningstraject door
+> Compliance en een gespecialiseerde financieel-regulatoire jurist.
 >
 > Het juridisch onderzoek **verandert het gekozen bedrijfsmodel niet**. Het bepaalt
 > uitsluitend welke wettelijke grondslag nodig is om dit model uit te voeren.
@@ -188,7 +192,106 @@ financieel-regulatoire jurist** (RD-23). Dat onderzoek verandert het gekozen bed
 niet; het bepaalt uitsluitend welke wettelijke grondslag nodig is om dit model uit te
 voeren.
 
-## Beperkingen tot de wettelijke grondslag is bevestigd
+---
+
+# Besluit 4A — vergunningstrategie
+
+* **Status:** ✅ **besloten 2026-08-06** · **Eigenaar:** Product Owner + Compliance
+* **Fase:** **Ontworpen** — uitgangspunt vastgelegd; het vergunningstraject is nog niet gestart
+
+> [!IMPORTANT]
+> **SolidYield gaat uit van een vergunningplicht voor de voorgenomen dienstverlening.**
+> Ontwikkeling, architectuur, complianceprocessen en operationele inrichting worden op dit
+> uitgangspunt gebaseerd. **De repository gaat niet langer uit van een mogelijke vergunning
+> of uitzondering als primaire aanname.**
+>
+> **Besluit 4 blijft inhoudelijk ongewijzigd.** Besluit 4A concretiseert uitsluitend het
+> gekozen juridische **uitgangspunt** — niet het bedrijfsmodel, de geldstroom, de
+> contractstroom of de rolverdeling in de keten.
+
+## 4A.1 Uitgangspunten van de dienstverlening
+
+Deze feiten liggen ten grondslag aan het uitgangspunt van vergunningplicht:
+
+| # | Uitgangspunt |
+|---|---|
+| 1 | **SolidYield is contractspartij.** |
+| 2 | **SolidYield ontvangt de gelden van klanten.** |
+| 3 | **SolidYield beheert de wallets.** |
+| 4 | **Het ingelegde geld wordt gedurende de looptijd eigendom van SolidYield.** |
+| 5 | **De klant ontvangt daarvoor een contractuele vordering.** |
+| 6 | **Het rendement wordt vooraf contractueel vastgesteld.** |
+| 7 | **Het rendement wordt maandelijks uitgekeerd.** |
+| 8 | **De nominale inleg wordt aan het einde van de looptijd terugbetaald.** |
+| 9 | **Contracten zijn niet overdraagbaar.** |
+| 10 | **Er is geen tussentijdse uitstapmogelijkheid.** |
+| 11 | **Het product is bedoeld voor zowel particuliere als zakelijke klanten.** |
+
+Dit zijn dezelfde feiten als in het besloten bedrijfsmodel hierboven; besluit 4A voegt er
+geen productkenmerk aan toe en wijzigt er geen.
+
+## 4A.2 Vergunning als uitgangspunt
+
+> **SolidYield ontwikkelt het platform alsof een vergunning vereist is.**
+
+De **exacte vergunning(en)**, de **wettelijke grondslag** en eventuele **aanvullende
+voorwaarden** worden vastgesteld tijdens het **vergunningstraject**.
+
+**Deze pull request bepaalt niet:**
+
+| |
+|---|
+| welke **vergunning** wordt aangevraagd |
+| welke **toezichthouder** aanvullende voorwaarden stelt |
+| welke **vergunningsvoorwaarden** uiteindelijk worden opgelegd |
+
+> Het uitgangspunt is een **werkhypothese die de bouw stuurt**, geen juridische conclusie.
+> Bouwen alsof een vergunning vereist is, is de voorzichtige richting: een platform dat aan
+> zwaardere eisen voldoet dan achteraf nodig blijkt, is bruikbaar; andersom niet.
+
+## 4A.3 Go-live-voorwaarde
+
+Zolang er **geen verlening van de vereiste vergunning of een andere rechtsgeldige
+toestemming van de bevoegde toezichthouder** is:
+
+| # | Verbod |
+|---|---|
+| 1 | **productie mag niet starten**; |
+| 2 | **de besloten testgroep met echte klantgelden mag niet starten**; |
+| 3 | **klantgelden mogen niet worden geaccepteerd**. |
+
+Deze verboden kennen **geen uitzonderingsprocedure**. Zij vervangen de eerdere formulering
+"bevestiging van de wettelijke grondslag" door een concreter, toetsbaar criterium: niet een
+intern oordeel, maar een **besluit van de bevoegde toezichthouder**.
+
+## 4A.4 Relatie met eerdere besluiten
+
+| Besluit | Verhouding |
+|---|---|
+| **Besluit 4** | **inhoudelijk ongewijzigd** — bedrijfsmodel, geldstroom, contractstroom, walletrol en ketenrol blijven exact zoals hierboven vastgelegd |
+| **Besluit 4A** | concretiseert **uitsluitend** het gekozen juridische uitgangspunt |
+| **Besluit 7** | blijft **afhankelijk van besluit 4A**: de besloten testgroep met echte klantgelden start pas na verlening van de vereiste vergunning of andere rechtsgeldige toestemming |
+| **Besluit 8** | **inhoudelijk ongewijzigd** |
+
+## 4A.5 Wat open blijft — vervolgactiviteiten, geen open besluit
+
+| # | Open punt |
+|---|---|
+| 1 | de **exacte vergunningcategorie** |
+| 2 | de **definitieve vergunningsvoorwaarden** |
+| 3 | eventuele **aanvullende eisen vanuit de toezichthouder** |
+| 4 | de **planning van het vergunningstraject** |
+
+> Dit zijn **vervolgactiviteiten**, geen openstaand besluit. Rij 4a in de besluitentabel is
+> daarmee **gesloten**: de strategie staat vast. Wat resteert is uitvoering, en die uitvoering
+> wordt gevolgd in RD-23 t/m RD-27 en de controls C-27 t/m C-31.
+>
+> **Het team wijst geen vergunningcategorie of toezichthouder aan.** Dat blijft het werk van
+> Compliance en een gespecialiseerde financieel-regulatoire jurist.
+
+---
+
+## Beperkingen tot de vereiste vergunning of andere rechtsgeldige toestemming is verleend
 
 | Toegestaan | Niet toegestaan |
 |---|---|
@@ -199,7 +302,8 @@ voeren.
 | besloten demonstraties | |
 | technische integraties | |
 
-Deze beperkingen gelden **totdat de juridische grondslag is bevestigd**. Zij zijn niet
+Deze beperkingen gelden **totdat de vereiste vergunning of een andere rechtsgeldige
+toestemming van de bevoegde toezichthouder is verleend** (besluit 4A). Zij zijn niet
 onderhandelbaar en kennen geen uitzonderingsprocedure.
 
 ## Open compliancevragen

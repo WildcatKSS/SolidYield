@@ -58,7 +58,7 @@ maatregel is nog niet gebouwd of aangetoond.
 | 0004 | [Identity & Access Management](0004-identity-and-access-management.md) | Geaccepteerd — **leverancieronafhankelijk model** (besluit 8) én **gekozen provider: Keycloak, self-hosted** (besluit 8A) | Ontworpen | 2026-08-06 | hoog |
 | 0005 | `[Encryptie- en sleutelbeheerstrategie]` | **Te schrijven** | Nog te ontwerpen | | hoog |
 | 0006 | [Dataresidency en opslaglocatie](0006-dataresidency-en-opslaglocatie.md) | Geaccepteerd | Ontworpen | 2026-08-03 | midden |
-| 0007 | [Vergunningplicht en rol in de keten](0007-vergunningplicht-en-rol-in-de-keten.md) | Geaccepteerd **voor de bedrijfs- en keteninrichting**; wettelijke grondslag nog te valideren | Ontworpen | 2026-08-05 | hoog |
+| 0007 | [Vergunningplicht en rol in de keten](0007-vergunningplicht-en-rol-in-de-keten.md) | Geaccepteerd **voor de bedrijfs- en keteninrichting** (besluit 4) én **vergunningstrategie besloten** (besluit 4A): uitgaan van vergunningplicht; exacte vergunning nog vast te stellen | Ontworpen | 2026-08-05 | hoog |
 | 0008 | [Geld- en contractstroom](0008-geld-en-contractstroom.md) | Geaccepteerd **als functioneel ontwerp**; alleen uitvoerbaar met synthetische data en sandboxintegraties | Ontworpen | 2026-08-05 | hoog |
 
 ADR-0005 (sleutelbeheer) is de laatste "te schrijven" ADR uit de openstaande beslissingen in
@@ -81,8 +81,9 @@ stilzwijgend te bepalen.
 
 ADR-0007 en ADR-0008 leggen het **bedrijfs- en ketenmodel** vast (besluit 4) en houden dat
 scherp gescheiden van de **wettelijke grondslag** om dat model uit te voeren. Die grondslag
-staat nog open (RD-23 t/m RD-27): de gekozen productinrichting kan vergunningplichtig zijn,
-en de toepasselijke wettelijke grondslag wordt vastgesteld door Compliance.
+staat nog open (RD-23 t/m RD-27): SolidYield gaat uit van een **vergunningplicht** (besluit 4A) en
+bouwt alsof een vergunning vereist is; de exacte vergunning en grondslag worden vastgesteld
+tijdens het vergunningstraject.
 
 **"Geaccepteerd" betekent hier niet dat productiegebruik of echte geldstromen juridisch
 zijn toegestaan.** ADR-0007 is geaccepteerd voor de product- en keteninrichting; ADR-0008

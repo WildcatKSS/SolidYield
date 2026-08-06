@@ -27,7 +27,7 @@ Interviews, prototypetests en usabilitytests — in een **testomgeving**.
 ## Voor deelnemers aan de besloten testgroep
 
 Dit is iets anders dan een onderzoekssessie: de besloten testgroep draait in **productie**,
-met echte gegevens en — na bevestiging van de wettelijke grondslag — echte geldstromen
+met echte gegevens en — na verlening van de vereiste vergunning of een andere rechtsgeldige toestemming van de bevoegde toezichthouder — echte geldstromen
 (besluit 7, [`docs/product/closed-test-group.md`](docs/product/closed-test-group.md)).
 
 * Deelname is **uitsluitend op uitnodiging**; de groep telt maximaal tien deelnemers.

@@ -19,7 +19,7 @@
   **uitsluitend op uitnodiging**. Open inschrijving maakt geen onderdeel uit van de MVP.
   Volledige inrichting: [`closed-test-group.md`](closed-test-group.md)
 
-### Harde beperkingen tot de wettelijke grondslag is bevestigd
+### Harde beperkingen tot verlening van de vereiste vergunning of een andere rechtsgeldige toestemming van de bevoegde toezichthouder (besluit 4A)
 
 Het bedrijfsmodel is besloten (besluit 4); de wettelijke grondslag om het uit te voeren nog
 niet (RD-23 t/m RD-27). Tot die bevestiging geldt:
@@ -38,7 +38,7 @@ Deze beperkingen kennen **geen uitzonderingsprocedure**. Zie
 daarin.
 
 > **Besluit 7 wijzigt hier niets aan.** De besloten testgroep beschrijft de eerste
-> gecontroleerde uitrol **ná** bevestiging van de wettelijke grondslag; zij start
+> gecontroleerde uitrol **ná** verlening van de vereiste vergunning of een andere rechtsgeldige toestemming van de bevoegde toezichthouder; zij start
 > uitsluitend wanneer die bevestiging er is en aan de volledige Go/No-Go-lijst is voldaan
 > ([`closed-test-group.md`](closed-test-group.md) §10). Tot dat moment blijft de tabel
 > hierboven onverkort gelden.

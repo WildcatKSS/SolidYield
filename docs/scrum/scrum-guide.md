@@ -69,7 +69,7 @@ een control stilvalt zonder dat iemand het merkt.
 | 7 | **Onvoltooid werk gaat niet automatisch door** naar de volgende sprint, maar wordt opnieuw beoordeeld en geprioriteerd |
 | 8 | **Urgente productie- of security-incidenten mogen de sprint onderbreken**, volgens een expliciet incidentproces (§8) |
 | 9 | **Compliance- of juridische blokkades worden zichtbaar** als backlogitem, afhankelijkheid of releasevoorwaarde — nooit als stilzwijgend uitstel |
-| 10 | Een sprint is **geen toestemming** om echte klantgelden, bindende rendementcontracten of productiegebruik toe te staan zolang de wettelijke grondslag niet is bevestigd |
+| 10 | Een sprint is **geen toestemming** om echte klantgelden, bindende rendementcontracten of productiegebruik toe te staan zolang verlening van de vereiste vergunning of een andere rechtsgeldige toestemming van de bevoegde toezichthouder ontbreekt |
 
 **Buiten dit besluit vallen:** samenstelling of omvang van de testgroep (besluit 7),
 Identity & Access Management (besluit 8), functionele requirements, sprintinhoud en concrete

@@ -184,7 +184,7 @@ en het wegvallen van auditlogging.
   gekopieerd** ([ADR-0004](../architecture/adr/0004-identity-and-access-management.md) §8A.1).
   **Nog te implementeren en nog te verifiëren.**
 * **De besloten testgroep (besluit 7) draait in productie, niet in test.** Zij werkt met
-  echte persoonsgegevens, volledige KYC en — ná bevestiging van de wettelijke grondslag —
+  echte persoonsgegevens, volledige KYC en — ná verlening van de vereiste vergunning of een andere rechtsgeldige toestemming van de bevoegde toezichthouder —
   echte geldstromen. Dat verruimt de regel hierboven **niet**: er komen nooit echte
   gegevens in `development`, `test`, `staging`, demo-omgevingen of securityonderzoek.
   Sandboxgegevens blijven daar de norm. Zie

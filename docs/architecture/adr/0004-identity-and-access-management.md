@@ -710,7 +710,7 @@ voorwaarden 3 en 4).
 
 | Besluit | Verhouding |
 |---|---|
-| **Besluit 4** | bepaalt **wanneer** echte gebruikers toegang mogen krijgen — pas na bevestiging van de wettelijke grondslag |
+| **Besluit 4** | bepaalt **wanneer** echte gebruikers toegang mogen krijgen — pas na verlening van de vereiste vergunning of een andere rechtsgeldige toestemming van de bevoegde toezichthouder |
 | **Besluit 5** | levert de **technische infrastructuur** waarop dit IAM-model draait ([ADR-0002](0002-technologiestack.md), [ADR-0003](0003-cloudprovider.md)) |
 | **Besluit 7** | **gebruikt** deze IAM-oplossing tijdens de besloten testgroep |
 

@@ -158,7 +158,7 @@ uitsluitend starten wanneer aan **alle** onderstaande voorwaarden is voldaan (C-
 | # | Voorwaarde | Bewijs |
 |---|---|---|
 | 1 | Besluiten 1 tot en met 8 zijn vastgesteld | besluitentabel in [`../../README.md`](../../README.md) §10 |
-| 2 | **De wettelijke grondslag uit besluit 4 is bevestigd** | RD-23 t/m RD-27; controls C-27 t/m C-31 |
+| 2 | **De vereiste vergunning of een andere rechtsgeldige toestemming van de bevoegde toezichthouder is verleend** (besluit 4A) | RD-23 t/m RD-27; controls C-27 t/m C-31 |
 | 3 | De MVP voldoet aan de [Definition of Done](../scrum/definition-of-done.md) | groene CI, DoD-verantwoording per item |
 | 4 | Alle kritieke en hoge beveiligingsbevindingen zijn opgelost of formeel geaccepteerd | security-gate; [`../security/vulnerability-management.md`](../security/vulnerability-management.md); risicoacceptatie volgens [`../../GOVERNANCE.md`](../../GOVERNANCE.md) §4 |
 | 5 | Een **succesvolle hersteltest** van back-up en disaster recovery is uitgevoerd | C-12; [`backup-and-recovery.md`](backup-and-recovery.md) |

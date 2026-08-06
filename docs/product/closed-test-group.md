@@ -16,7 +16,7 @@
 > rendementuitkeringen en geen productiegebruik.
 >
 > **Dit besluit wijzigt besluit 4 niet.** Besluit 4 bepaalt *dat* deze activiteiten vóór
-> bevestiging van de wettelijke grondslag niet zijn toegestaan. Besluit 7 beschrijft
+> verlening van de vereiste vergunning of een andere rechtsgeldige toestemming van de bevoegde toezichthouder niet zijn toegestaan. Besluit 7 beschrijft
 > uitsluitend *hoe* de eerste gecontroleerde uitrol eruitziet **ná** die bevestiging. De
 > wettelijke kwalificatie zelf blijft volledig open en wordt vastgesteld door Compliance en
 > een gespecialiseerde financieel-regulatoire jurist (RD-23 t/m RD-27, controls C-27 t/m
@@ -33,7 +33,7 @@ persoonsgegevens.
 | Wat het is | interviews, prototypetests, usabilitytests | eerste gecontroleerde **productie**-uitrol |
 | Omgeving | **testomgeving** | **productieomgeving** |
 | Data | **uitsluitend synthetisch** | **echte persoonsgegevens**, echte KYC |
-| Geldstromen | geen | echt, ná bevestiging van de wettelijke grondslag |
+| Geldstromen | geen | echt, ná verlening van de vereiste vergunning of een andere rechtsgeldige toestemming van de bevoegde toezichthouder |
 | Wanneer | doorlopend vanaf sprint 1 | pas ná de Go/No-Go in §10 |
 | Voorwaarde | toestemming per sessie | volledige Go/No-Go-lijst |
 
@@ -108,7 +108,7 @@ Dat een deelnemer familie of bekende is, verandert daar niets aan.
 
 ## 5. Financiële transacties
 
-Nadat de wettelijke grondslag is bevestigd, mogen deelnemers:
+Nadat verlening van de vereiste vergunning of een andere rechtsgeldige toestemming van de bevoegde toezichthouder is verleend, mogen deelnemers:
 
 * daadwerkelijk **geld storten**;
 * daadwerkelijke **rendementcontracten sluiten**;
@@ -116,7 +116,7 @@ Nadat de wettelijke grondslag is bevestigd, mogen deelnemers:
 * aan het einde van de looptijd de **nominale inleg terugontvangen**.
 
 > **Dit is geen wijziging van besluit 4.** Besluit 4 bepaalt uitsluitend dat deze
-> activiteiten **vóór** bevestiging van de wettelijke grondslag niet zijn toegestaan.
+> activiteiten **vóór** verlening van de vereiste vergunning of een andere rechtsgeldige toestemming van de bevoegde toezichthouder niet zijn toegestaan.
 > Besluit 7 beschrijft de eerste gecontroleerde uitrol **ná** die bevestiging. De
 > productparameters, de geldstroom, de contractstroom en de rolverdeling in de keten blijven
 > exact zoals vastgelegd in [ADR-0007](../architecture/adr/0007-vergunningplicht-en-rol-in-de-keten.md)
@@ -240,7 +240,7 @@ voorwaarden is voldaan:
 | # | Voorwaarde | Bewijs |
 |---|---|---|
 | 1 | **Besluiten 1 tot en met 8 zijn vastgesteld** | besluitentabel in [`../../README.md`](../../README.md) §10 |
-| 2 | **De wettelijke grondslag uit besluit 4 is bevestigd** | RD-23 t/m RD-27; controls C-27 t/m C-31 |
+| 2 | **De vereiste vergunning of een andere rechtsgeldige toestemming van de bevoegde toezichthouder is verleend** (besluit 4A) | RD-23 t/m RD-27; controls C-27 t/m C-31 |
 | 3 | **De MVP voldoet aan de [Definition of Done](../scrum/definition-of-done.md)** | groene CI, DoD-verantwoording per item |
 | 4 | **Alle kritieke en hoge beveiligingsbevindingen zijn opgelost of formeel geaccepteerd** | security-gate; [`../security/vulnerability-management.md`](../security/vulnerability-management.md); risicoacceptatie volgens [`../../GOVERNANCE.md`](../../GOVERNANCE.md) §4 |
 | 5 | **Een succesvolle hersteltest van back-up en disaster recovery is uitgevoerd** | C-12; [`../operations/backup-and-recovery.md`](../operations/backup-and-recovery.md) |

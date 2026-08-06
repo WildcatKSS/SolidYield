@@ -7,8 +7,8 @@ compliancemomenten er spelen.
 > Vul deze journey aan met echte observaties uit de testgroep. Zolang de kolom "Bewijs"
 > leeg is, is de regel een aanname.
 
-> **Let op:** deze journey beschrijft het besloten bedrijfsmodel (besluit 4). Tot de
-> wettelijke grondslag is bevestigd wordt de reis uitsluitend doorlopen met
+> **Let op:** deze journey beschrijft het besloten bedrijfsmodel (besluit 4). Tot verlening van de vereiste vergunning of een andere rechtsgeldige toestemming van de bevoegde toezichthouder
+> wordt de reis uitsluitend doorlopen met
 > **sandboxbetalingen en synthetische data** — geen echte klantgelden, geen bindende
 > rendementcontracten, geen werkelijke rendementuitkeringen. Zie
 > [ADR-0007](../architecture/adr/0007-vergunningplicht-en-rol-in-de-keten.md).
@@ -163,7 +163,7 @@ als volgt binnen deze journey:
 
 Deze vijf momenten worden **altijd** gevalideerd: eerst in onderzoekssessies met
 synthetische data ([`../research/test-group-plan.md`](../research/test-group-plan.md)) en
-daarna, ná bevestiging van de wettelijke grondslag, in de besloten testgroep met echte
+daarna, ná verlening van de vereiste vergunning of een andere rechtsgeldige toestemming van de bevoegde toezichthouder, in de besloten testgroep met echte
 geldstromen ([`closed-test-group.md`](closed-test-group.md)). Moment 2 en 4 — de eerste
 uitkering en de terugbetaling aan het einde van de looptijd — zijn pas in de besloten
 testgroep écht te valideren.

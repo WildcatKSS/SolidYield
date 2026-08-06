@@ -25,17 +25,17 @@
 > [ADR-0004](docs/architecture/adr/0004-identity-and-access-management.md). De overige waarden tussen vierkante haken (`[ORG]`, `[PROVIDER]`, …) zijn nog
 > **niet** ingevuld — zie [`docs/placeholders.md`](docs/placeholders.md).
 >
-> **Blokkerend: de wettelijke grondslag, niet het bedrijfsmodel.** Het bedrijfs- en
-> ketenmodel staat vast. Wat nog niet vaststaat, is via welke wettelijke route dat model mag
-> worden uitgevoerd — vergunning, wettelijke uitzondering, vrijstelling, ontheffing of een
-> andere juridisch bevestigde grondslag (RD-23 t/m RD-27). De gekozen productinrichting kan
-> vergunningplichtig zijn; de toepasselijke wettelijke grondslag wordt vastgesteld door
-> Compliance.
+> **Blokkerend: de vergunning, niet het bedrijfsmodel.** Het bedrijfs- en ketenmodel staat
+> vast. **SolidYield gaat uit van een vergunningplicht** (besluit 4A) en ontwikkelt het
+> platform alsof een vergunning vereist is. De **exacte vergunning, de wettelijke grondslag
+> en de voorwaarden** worden vastgesteld tijdens het vergunningstraject (RD-23 t/m RD-27);
+> deze repository wijst geen vergunningcategorie en geen toezichthouder aan.
 >
-> Tot die bevestiging geldt: **toegestaan** zijn UX, een werkende MVP, sandboxbetalingen,
-> synthetische data, besloten demonstraties en technische integraties. **Niet toegestaan**
-> zijn echte klantgelden, bindende rendementcontracten, werkelijke rendementuitkeringen en
-> productiegebruik.
+> **Zolang de vereiste vergunning of een andere rechtsgeldige toestemming van de bevoegde
+> toezichthouder niet is verleend:** mag productie niet starten, mag de besloten testgroep
+> met echte klantgelden niet starten en mogen geen klantgelden worden geaccepteerd.
+> **Toegestaan** zijn UX, een werkende MVP, sandboxbetalingen, synthetische data, besloten
+> demonstraties en technische integraties.
 
 > [!IMPORTANT]
 > Deze template levert **proces, structuur en controlemomenten**. Zij levert géén
@@ -114,7 +114,7 @@ privacyprincipes.
 | Hosting | **TransIP**, twee VPS'en met **Ubuntu Server LTS**; productie en test **volledig gescheiden**, test uitsluitend via **WireGuard** | zie [ADR-0003](docs/architecture/adr/0003-cloudprovider.md) |
 | Identity & Access Management | **Keycloak**, self-hosted en native onder systemd (besluit 8A) · **passkeys/WebAuthn als primaire methode** · **RBAC** in de servicelaag · verplichte MFA voor medewerkers. Koppeling uitsluitend via **OIDC en één adapter**: geen Keycloak-code in de domeinmodules | zie [ADR-0004](docs/architecture/adr/0004-identity-and-access-management.md); **gekozen, nog niet ingericht** |
 | Sprintduur | **twee weken** (veertien kalenderdagen) | zie [Scrum](docs/scrum/scrum-guide.md) |
-| Besloten testgroep | **maximaal 10 deelnemers**, uitsluitend op uitnodiging — eerste gecontroleerde **productie**-uitrol, start **pas na bevestiging van de wettelijke grondslag** (besluit 4) | zie [besloten testgroep](docs/product/closed-test-group.md); onderzoekssessies met synthetische data staan in het [testgroepplan](docs/research/test-group-plan.md) |
+| Besloten testgroep | **maximaal 10 deelnemers**, uitsluitend op uitnodiging — eerste gecontroleerde **productie**-uitrol, start **pas na verlening van de vereiste vergunning of een andere rechtsgeldige toestemming van de bevoegde toezichthouder** (besluit 4) | zie [besloten testgroep](docs/product/closed-test-group.md); onderzoekssessies met synthetische data staan in het [testgroepplan](docs/research/test-group-plan.md) |
 
 ### Installatie
 
@@ -254,7 +254,7 @@ Niet besloten — behandel deze niet als feit:
 | 2 | Type financiële dienst | ✅ **besloten 2026-08-03** — digitaal contractueel rendementproduct; het **regulatoire regime** is daarmee níét bepaald, zie 4 | PO + Compliance |
 | 3 | Landen/regio's, dataresidency, taal | ✅ **besloten 2026-08-03** — markt Nederland, taal Nederlands, valuta EUR; opslag en reguliere verwerking binnen de EER met de primaire productieomgeving in Nederland, één geografisch gescheiden secundaire locatie binnen de EER voor back-up en DR, toegang vanuit derde landen standaard uitgesloten ([ADR-0006](docs/architecture/adr/0006-dataresidency-en-opslaglocatie.md)) | PO + Compliance |
 | 4 | Vergunningplicht en rol in de keten | ✅ **besloten 2026-08-05** — bedrijfs- en ketenmodel vastgesteld in [ADR-0007](docs/architecture/adr/0007-vergunningplicht-en-rol-in-de-keten.md) en [ADR-0008](docs/architecture/adr/0008-geld-en-contractstroom.md) | Product Owner |
-| 4a | **Wettelijke grondslag** om dat model uit te voeren: vergunning, wettelijke uitzondering, vrijstelling, ontheffing of een andere juridisch bevestigde grondslag (RD-23 t/m RD-27) | **te valideren door bevoegde specialist** — blokkeert echte klantgelden, bindende rendementcontracten, werkelijke rendementuitkeringen en productiegebruik | Compliance |
+| 4a | Vergunningstrategie | ✅ **besloten** — SolidYield ontwikkelt het platform uitgaande van een vergunningplicht; productie en klantgelden pas na verlening van de vereiste vergunning of andere rechtsgeldige toestemming | Product Owner + Compliance |
 | 5 | Technologiestack en cloudprovider | ✅ **besloten 2026-08-05** — Kotlin/Spring Boot, React/Vite, PostgreSQL, modulaire monoliet ([ADR-0002](docs/architecture/adr/0002-technologiestack.md)); TransIP met twee VPS'en ([ADR-0003](docs/architecture/adr/0003-cloudprovider.md)) | Tech lead |
 | 6 | Sprintduur | ✅ **besloten** — sprints van twee weken | Scrum Master |
 | 7 | Besloten testgroep (MVP-deelnemers) | ✅ **besloten** — maximaal 10 uitgenodigde deelnemers; eerste gecontroleerde productie-uitrol na bevestiging wettelijke grondslag | Product Owner |

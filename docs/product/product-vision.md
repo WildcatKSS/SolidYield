@@ -5,10 +5,12 @@
 > [`../../README.md`](../../README.md#10-openstaande-beslissingen-en-placeholders).
 > Het **bedrijfs- en ketenmodel** is vastgesteld (besluit 4, 2026-08-05,
 > [ADR-0007](../architecture/adr/0007-vergunningplicht-en-rol-in-de-keten.md)). De
-> **wettelijke grondslag** om dat model uit te voeren is dat **niet**: de gekozen
-> productinrichting kan vergunningplichtig zijn, en de toepasselijke wettelijke grondslag
-> wordt vastgesteld door Compliance (RD-23 t/m RD-27). Waarden die nog tussen `[ ]` staan
-> zijn nog niet besloten.
+> **vergunningstrategie** is eveneens vastgesteld (besluit 4A, 2026-08-06): SolidYield gaat
+> uit van een **vergunningplicht** en bouwt alsof een vergunning vereist is. De **exacte
+> vergunning, wettelijke grondslag en voorwaarden** worden vastgesteld tijdens het
+> vergunningstraject (RD-23 t/m RD-27); productie en klantgelden zijn pas toegestaan na
+> verlening van de vereiste vergunning of een andere rechtsgeldige toestemming van de
+> bevoegde toezichthouder. Waarden die nog tussen `[ ]` staan zijn nog niet besloten.
 
 ## 1. Visiestatement
 

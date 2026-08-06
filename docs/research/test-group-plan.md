@@ -20,7 +20,7 @@ financiële dienst is dat een risico voor de gebruiker, niet alleen voor het pro
 > | Wat | interviews, prototypetests, usabilitytests | eerste gecontroleerde **productie**-uitrol |
 > | Omgeving | testomgeving | productieomgeving |
 > | Data | **uitsluitend synthetisch** | **echte persoonsgegevens**, echte KYC |
-> | Geldstromen | geen | echt, ná bevestiging van de wettelijke grondslag |
+> | Geldstromen | geen | echt, ná verlening van de vereiste vergunning of een andere rechtsgeldige toestemming van de bevoegde toezichthouder |
 > | Deelnemers | representatieve spreiding, zie §1 | maximaal tien uitgenodigde bekenden |
 > | Start | doorlopend vanaf sprint 1 | pas na de Go/No-Go uit besluit 7 |
 >

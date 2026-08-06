@@ -20,7 +20,7 @@ minimaal één developer, en bij gegevens de privacyverantwoordelijke.
 | Belangrijkste bezittingen | gebruikersgegevens, financiële gegevens, geld(stromen), authenticatiemiddelen, auditlog, sleutels, broncode en pipeline |
 | Buiten scope | fysieke beveiliging van de TransIP-datacenters, interne systemen van de betaalpartners |
 | Bedrijfsmodel | vastgesteld (besluit 4, [`adr/0007-vergunningplicht-en-rol-in-de-keten.md`](adr/0007-vergunningplicht-en-rol-in-de-keten.md)): SolidYield is contractspartij en houdt de wallet; betalingen lopen via vergunninghoudende betaalpartners |
-| Fase | tot de wettelijke grondslag is bevestigd draait de MVP met sandboxbetalingen en synthetische data — geen echte klantgelden |
+| Fase | tot verlening van de vereiste vergunning of een andere rechtsgeldige toestemming van de bevoegde toezichthouder (besluit 4A) draait de MVP met sandboxbetalingen en synthetische data — geen echte klantgelden |
 | Technische architectuur | twee zelf beheerde TransIP VPS'en (productie en test), Ubuntu Server LTS, Nginx, Kotlin/Spring Boot, PostgreSQL, WireGuard voor beheer ([ADR-0002](adr/0002-technologiestack.md), [ADR-0003](adr/0003-cloudprovider.md)) |
 
 ## 2. Aanvallers
@@ -76,7 +76,7 @@ snel uit te loggen).
 | T-20 | Tampering | Dubbele of gemiste rendementuitkering door een herhaalde verwerkingsronde | TB-4 | **Hoog** | idempotente verwerking per contract en periode; reconciliatie tegen bankmutaties | domeintests + reconciliatiecontrole |
 | T-21 | Fraude | Storting wordt bijgeschreven zonder bevestigde ontvangst | TB-3 | **Hoog** | vrij saldo pas bijschrijven na bevestigde reconciliatie, niet op een statusmelding | integratietests met sandbox |
 | T-22 | Repudiation | Onduidelijkheid over wat de gebruiker vóór het vastzetten te zien kreeg | TB-4 | Hoog | bevestigingsscherm en getoonde voorwaarden vastleggen in de audittrail | auditlogtest |
-| T-23 | Compliance | Echte klantgelden of bindende contracten vóór bevestiging van de wettelijke grondslag | TB-5 | **Hoog** | technische en organisatorische blokkade: sandboxbetalingen en synthetische data afgedwongen; productiedeployment uit (`PRODUCTION_DEPLOY_ENABLED`) | reviewcheck + pipelinecontrole |
+| T-23 | Compliance | Echte klantgelden of bindende contracten vóór verlening van de vereiste vergunning of een andere rechtsgeldige toestemming van de bevoegde toezichthouder | TB-5 | **Hoog** | technische en organisatorische blokkade: sandboxbetalingen en synthetische data afgedwongen; productiedeployment uit (`PRODUCTION_DEPLOY_ENABLED`) | reviewcheck + pipelinecontrole |
 | T-24 | Elevation of privilege | Onbevoegde toegang tot een VPS via SSH of beheerinterface | TB-4 | **Hoog** | beheer uitsluitend via **WireGuard**; geen wachtwoordauthenticatie; firewall standaard dicht; aparte serviceaccounts per systemd-proces | configuratietest + toegangsreview |
 | T-25 | Tampering | Schemawijziging of datacorrectie buiten de applicatie om, rechtstreeks op de database | TB-4 | **Hoog** | vier gescheiden databasegebruikers; runtime mag geen schema wijzigen; **directe databasecorrecties zijn verboden**, correcties lopen via de beheerinterface met maker-checker en audittrail | rechtencontrole + auditlogtest |
 | T-26 | Information disclosure | Object-storagecredentials of langlevende URL's bereiken de client | TB-1 | Hoog | de frontend krijgt **nooit** credentials; uitsluitend korte presigned URL's vanuit de backend | securitytest |

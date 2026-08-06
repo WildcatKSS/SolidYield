@@ -115,8 +115,9 @@ rolverdeling worden contractueel en regulatoir vastgesteld** (RD-22). Een betaal
 **geen productuitgever** en draagt het terugbetalingsrisico niet; dat blijft bij SolidYield,
 ongeacht welke partij wordt geselecteerd.
 
-> De gekozen productinrichting kan vergunningplichtig zijn. De toepasselijke wettelijke
-> grondslag wordt vastgesteld door Compliance (RD-23 t/m RD-27). Tot die bevestiging draait
+> **SolidYield gaat uit van een vergunningplicht** (besluit 4A) en bouwt het platform alsof
+> een vergunning vereist is. De exacte vergunning, grondslag en voorwaarden worden
+> vastgesteld tijdens het vergunningstraject (RD-23 t/m RD-27). Tot die bevestiging draait
 > de MVP met sandboxbetalingen en synthetische data — zie
 > [`adr/0007-vergunningplicht-en-rol-in-de-keten.md`](adr/0007-vergunningplicht-en-rol-in-de-keten.md).
 

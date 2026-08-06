@@ -1,7 +1,7 @@
 # ADR-0008: Geld- en contractstroom
 
 * **Status:** **Geaccepteerd als functioneel ontwerp — uitsluitend uitvoerbaar met
-  synthetische data en sandboxintegraties totdat de wettelijke grondslag is bevestigd.**
+  synthetische data en sandboxintegraties totdat verlening van de vereiste vergunning of een andere rechtsgeldige toestemming van de bevoegde toezichthouder is verkregen.**
 * **Datum:** 2026-08-05
 * **Beslissers:** Product Owner (procesinrichting), Tech lead
 * **Geraadpleegd:** Compliance, Privacy, Security
@@ -11,8 +11,9 @@
 > terugbetaling, binnen het bedrijfsmodel dat in besluit 4 is vastgesteld
 > ([ADR-0007](0007-vergunningplicht-en-rol-in-de-keten.md)).
 >
-> **De gekozen productinrichting kan vergunningplichtig zijn. De toepasselijke wettelijke
-> grondslag wordt vastgesteld door Compliance.** Deze ADR concludeert niet dat SolidYield
+> **SolidYield gaat uit van een **vergunningplicht** (besluit 4A) en bouwt alsof een
+> vergunning vereist is; de exacte vergunning en grondslag worden vastgesteld tijdens het
+> vergunningstraject.** Deze ADR concludeert niet dat SolidYield
 > vergunningplichtig is, en evenmin dat dat niet zo is. Registratie van de vraag:
 > [`../../compliance/regulatory-decisions.md`](../../compliance/regulatory-decisions.md)
 > (RD-23 t/m RD-27).
@@ -25,7 +26,7 @@
 >   zijn gesloten.
 > * **Echte geldstromen blijven volledig geblokkeerd.**
 >
-> Tot de wettelijke grondslag is bevestigd gelden de MVP-beperkingen uit ADR-0007: geen
+> Tot verlening van de vereiste vergunning of een andere rechtsgeldige toestemming van de bevoegde toezichthouder is verleend gelden de MVP-beperkingen uit ADR-0007: geen
 > echte klantgelden, geen bindende rendementcontracten, geen werkelijke
 > rendementuitkeringen, geen productiegebruik. De stappen hieronder worden in die fase
 > uitgevoerd met **sandboxbetalingen en synthetische data**.
@@ -218,7 +219,7 @@ sequenceDiagram
 * Er is **geen vastgesteld maximum** op de inleg. Zie risico A-5 in
   [ADR-0007](0007-vergunningplicht-en-rol-in-de-keten.md): drempelbedragen kunnen relevant
   zijn voor een wettelijke uitzondering of vrijstelling (RD-23, RD-25, RD-26).
-* Tot de wettelijke grondslag is bevestigd worden in deze stap **geen bindende
+* Tot verlening van de vereiste vergunning of een andere rechtsgeldige toestemming van de bevoegde toezichthouder is verleend worden in deze stap **geen bindende
   rendementcontracten** gesloten en worden uitsluitend synthetische bedragen gebruikt.
 
 ---
@@ -286,7 +287,7 @@ sequenceDiagram
 * De terugbetaling van de volledige nominale inleg is een **contractuele** verplichting van
   SolidYield. Zij is niet gegarandeerd door een derde partij en niet gedekt door een
   depositogarantie; dat is precies het debiteurenrisico uit risico V-1 in de productvisie.
-* Tot de wettelijke grondslag is bevestigd vinden er **geen werkelijke
+* Tot verlening van de vereiste vergunning of een andere rechtsgeldige toestemming van de bevoegde toezichthouder is verleend vinden er **geen werkelijke
   rendementuitkeringen en geen echte terugbetalingen** plaats.
 * Of de terugbetaling standaard in de wallet landt of direct naar de tegenrekening gaat, is
   nog **niet besloten**. Beide hebben gevolgen voor RD-17 (hoe lang staat geld stil in de

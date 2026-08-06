@@ -13,8 +13,9 @@ document is de basis voor het [threat model](threat-model.md), de
 > productuitgever**. De geld- en contractstroom staat met sequencediagrammen in
 > [`adr/0008-geld-en-contractstroom.md`](adr/0008-geld-en-contractstroom.md).
 >
-> De gekozen productinrichting kan vergunningplichtig zijn. De toepasselijke wettelijke
-> grondslag wordt vastgesteld door Compliance (RD-23 t/m RD-27). Tot die bevestiging lopen
+> SolidYield gaat uit van een **vergunningplicht** (besluit 4A) en bouwt alsof een
+> vergunning vereist is; de exacte vergunning en grondslag worden vastgesteld tijdens het
+> vergunningstraject (RD-23 t/m RD-27). Tot die bevestiging lopen
 > deze stromen met **sandboxbetalingen en synthetische data**; er stromen geen echte
 > klantgelden.
 
