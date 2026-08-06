@@ -36,15 +36,21 @@ Wijk je af van een principe, dan hoort dat expliciet in de ADR onder *Negatieve 
 | 0001 | Sjabloon voor architectuurbesluiten | Geaccepteerd | `[JJJJ-MM-DD]` | n.v.t. |
 | 0002 | [Technologiestack](0002-technologiestack.md) | Geaccepteerd | 2026-08-05 | hoog |
 | 0003 | [Cloudprovider en hostingarchitectuur](0003-cloudprovider.md) | Geaccepteerd | 2026-08-05 | hoog |
-| 0004 | `[Keuze identiteitsprovider en MFA]` | **Te schrijven** | | hoog |
+| 0004 | [Identity & Access Management](0004-identity-and-access-management.md) | Geaccepteerd **als leverancieronafhankelijk model**; de definitieve keuze van de Identity Provider valt erbuiten | 2026-08-06 | hoog |
 | 0005 | `[Encryptie- en sleutelbeheerstrategie]` | **Te schrijven** | | hoog |
 | 0006 | [Dataresidency en opslaglocatie](0006-dataresidency-en-opslaglocatie.md) | Geaccepteerd | 2026-08-03 | midden |
 | 0007 | [Vergunningplicht en rol in de keten](0007-vergunningplicht-en-rol-in-de-keten.md) | Geaccepteerd **voor de bedrijfs- en keteninrichting**; wettelijke grondslag nog te valideren | 2026-08-05 | hoog |
 | 0008 | [Geld- en contractstroom](0008-geld-en-contractstroom.md) | Geaccepteerd **als functioneel ontwerp**; alleen uitvoerbaar met synthetische data en sandboxintegraties | 2026-08-05 | hoog |
 
-De resterende "te schrijven" ADR's (0004 identiteitsprovider, 0005 sleutelbeheer) zijn
-openstaande beslissingen uit de README; zij horen bij de eerste sprints. ADR-0004 valt samen
-met besluit 8. ADR-0006 loopt daarop vooruit: dataresidency is vastgesteld vóór de
+ADR-0005 (sleutelbeheer) is de laatste "te schrijven" ADR uit de openstaande beslissingen in
+de README en hoort bij de eerste sprints.
+
+**ADR-0004 legt besluit 8 vast als leverancieronafhankelijk model.** De definitieve keuze
+van de Identity Provider valt daar uitdrukkelijk **buiten** en blijft een later besluit;
+**Keycloak geldt uitsluitend als referentie-implementatie voor de MVP** en mag nergens als
+afhankelijkheid in architectuur of broncode terechtkomen.
+
+ADR-0006 loopt vooruit op ADR-0003: dataresidency is vastgesteld vóór de
 providerkeuze, zodat ADR-0003 binnen die randvoorwaarde moet passen in plaats van haar
 stilzwijgend te bepalen.
 

@@ -5,13 +5,28 @@ privilege**: minimale rechten, zo kort mogelijk, altijd controleerbaar.
 
 ## 1. Rollen in de applicatie
 
+Rollen vastgesteld in **besluit 8** ([ADR-0004](../architecture/adr/0004-identity-and-access-management.md)).
+
 | Rol | Mag | Mag niet | MFA | Auditing |
 |---|---|---|---|---|
-| **Gebruiker** | eigen gegevens zien en beheren, toestemming geven/intrekken, exporteren, account verwijderen | gegevens van anderen; systeeminstellingen | verplicht | inloggen, gevoelige acties |
-| **Supportmedewerker** | beperkte gegevens inzien **met aanleiding**, status van verzoeken | financiële details wijzigen; exporteren; bulkinzage | verplicht | elke inzage, met reden |
-| **Beheerder** | configuratie, gebruikersbeheer, uitrol | ongemotiveerde inzage in klantgegevens | verplicht + vier-ogen | alles |
+| **Investor** (klant) | eigen gegevens zien en beheren, toestemming geven/intrekken, exporteren, account verwijderen, eigen sessies en passkeys beheren | gegevens van anderen; systeeminstellingen | verplicht | inloggen, gevoelige acties |
+| **Support** | beperkte gegevens inzien **met aanleiding**, status van verzoeken | financiële details wijzigen; exporteren; bulkinzage; rollen wijzigen | verplicht | elke inzage, met reden |
+| **Compliance Analyst** | KYC-dossiers, klantacceptatie, risicobeoordeling, monitoring | boekingen wijzigen; rollen toekennen | verplicht | elke inzage en beoordeling |
+| **Operations** | operationele status, jobs, reconciliatiesignalen, incidentafhandeling | klantgegevens zonder aanleiding; boekingen wijzigen | verplicht | alles |
+| **Finance** | financiële rapportages, ledgerinzage, reconciliatie | boekingen wijzigen buiten tegenboekingen om; rollen toekennen | verplicht | alle inzage en correctievoorstellen |
+| **Administrator** | configuratie, gebruikersbeheer, uitrol | ongemotiveerde inzage in klantgegevens; **beveiligings- en auditconfiguratie** | verplicht + **maker-checker** | alles |
+| **Security Administrator** | beveiligingsinstellingen, MFA-resets, sessie-intrekking, auditconfiguratie | klantgegevens; functionele configuratie | verplicht + **maker-checker** | alles |
 | **Auditor** | alleen-lezen op bewijs en logs | wijzigen; klantgegevens | verplicht | alle inzage |
 | **Systeem/service** | precies wat de taak vereist | alles daarbuiten | n.v.t. (mTLS/OIDC) | alle acties |
+
+> **Er is geen algemene super administrator.** `Administrator` en `Security Administrator`
+> zijn bewust gescheiden: wie rechten uitdeelt, beheert niet de beveiligings- en
+> auditconfiguratie. **Rolwijzigingen en MFA-resets vereisen maker-checker** — dat zijn de
+> twee handelingen waarmee één persoon zichzelf toegang tot alles zou kunnen geven (T-31).
+>
+> Draagt in de praktijk één persoon meerdere rollen — realistisch bij een team van deze
+> omvang — dan is functiescheiding op papier geen functiescheiding. Maker-checker en
+> auditlogging moeten dat gat dan dekken; dat is een organisatorisch punt, geen technisch.
 
 **Regel:** support en beheer krijgen geen standaardtoegang tot klantgegevens. Toegang is
 just-in-time, tijdelijk (`[4]` uur), met vastgelegde aanleiding, en de gebruiker wordt
@@ -21,6 +36,10 @@ geïnformeerd wanneer dat passend is.
 
 * **RBAC** voor grofmazige rechten (welke functies) **plus** eigenaarschapscontrole per
   object (welke gegevens).
+* Autorisatie wordt **afgedwongen in de servicelaag** — **niet** in controllers en **niet
+  uitsluitend in de frontend** ([ADR-0004](../architecture/adr/0004-identity-and-access-management.md)).
+* **ABAC** kan in een latere fase worden toegevoegd **zonder de bestaande RBAC-rollen te
+  vervangen**: als extra voorwaardelijkheid bovenop RBAC, niet in plaats daarvan.
 * Elke autorisatiecontrole gebeurt **serverseitig**, bij **elk** verzoek.
 * Standaard weigeren; toegang is expliciet.
 * Rollen komen nooit uit clientgegevens of uit een aanpasbaar token-veld zonder validatie.
@@ -80,7 +99,8 @@ goedkeuring, met een tweede persoon en met vastlegging.
 
 | Onderwerp | Eigenaar | Status |
 |---|---|---|
-| Identiteitsprovider en MFA-methode | Security | ADR te schrijven |
+| ~~Identity & Access Management~~ | Security Architect + Tech lead | ✅ [ADR-0004](../architecture/adr/0004-identity-and-access-management.md) |
+| **Definitieve keuze van de Identity Provider** | Security Architect + Tech lead + Privacy | ADR-0004 vervolgactie 5 — **nog open** |
 | Just-in-time-toegangsoplossing | Security + Ops | open |
 | Duur van tijdelijke rechten (`[4]` uur is een aanname) | Security | te bevestigen |
 | Informeren van gebruikers bij inzage door support | Privacy + PO | **te valideren door bevoegde specialist** |

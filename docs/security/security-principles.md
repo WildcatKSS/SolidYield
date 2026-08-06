@@ -23,13 +23,19 @@ getoetst. Wie hiervan wil afwijken, doorloopt de procedure voor risicoacceptatie
 ### 2.1 Authenticatie
 * Wachtwoorden: minimaal 12 tekens, gecontroleerd tegen bekende gelekte wachtwoorden,
   geen verplichte periodieke wijziging, opgeslagen met een moderne, trage hashfunctie.
-  Voor SolidYield geldt ([ADR-0002](../architecture/adr/0002-technologiestack.md)):
-  **Argon2id is verplicht wanneer SolidYield zelf wachtwoorden beheert**; wordt
-  wachtwoordbeheer uitbesteed aan een identity-provider, dan moet die provider een
-  **aantoonbaar gelijkwaardig of sterker** wachtwoordopslag- en beveiligingsmechanisme
-  gebruiken. Welk van beide geldt, volgt uit **besluit 8**.
-* Passkeys/WebAuthn, TOTP, veilige sessiecookies en sterke MFA zijn **verplichte**
-  authenticatiemogelijkheden, ongeacht die keuze.
+  Voor SolidYield geldt ([ADR-0004](../architecture/adr/0004-identity-and-access-management.md)):
+  **Argon2id is verplicht wanneer SolidYield zelf wachtwoorden opslaat**; voert de Identity
+  Provider het wachtwoordbeheer uit, dan moet die provider **aantoonbaar minimaal een
+  gelijkwaardig beveiligingsniveau** bieden. Argon2id is dus **geen onvoorwaardelijke
+  implementatiekeuze**; welk geval geldt, volgt uit de nog openstaande leverancierskeuze.
+* **Passkeys (WebAuthn) zijn de primaire authenticatiemethode** voor klanten. Wachtwoord is
+  een **fallback zolang dat operationeel nodig is**, geen gelijkwaardig alternatief.
+  Passkeys/WebAuthn, TOTP, veilige sessiecookies en sterke MFA zijn **verplichte**
+  authenticatiemogelijkheden, ongeacht de leverancierskeuze.
+* **Niet toegestaan:** SMS-authenticatie · social login · gedeelde accounts · hardcoded
+  accounts · embedded secrets (ADR-0004).
+* Meerdere passkeys per account; gebruikers kunnen apparaten benoemen, verwijderen en
+  passkeys intrekken. **Privésleutels verlaten nooit het apparaat van de gebruiker.**
 * Snelheidsbeperking en progressieve vertraging op inlogpogingen; account nooit permanent
   blokkeren op basis van invoer van derden (dat is zelf een aanvalsmiddel).
 * Neutrale foutmeldingen: nooit onthullen of een account bestaat.
@@ -39,20 +45,35 @@ getoetst. Wie hiervan wil afwijken, doorloopt de procedure voor risicoacceptatie
 ### 2.2 Multifactor-authenticatie
 * **Verplicht** voor inloggen en voor gevoelige handelingen (gegevens koppelen, exporteren,
   account verwijderen, `[TRANSACTIE]`).
-* Voorkeursvolgorde: passkeys/WebAuthn → authenticator-app (TOTP) → sms als laatste optie.
+* Voorkeursvolgorde: **passkeys/WebAuthn → authenticator-app (TOTP)**. **SMS is geen
+  toegestane factor** (ADR-0004) — ook niet als laatste optie.
+* Medewerkers: **MFA verplicht**, individuele accounts, voorkeur voor passkeys en hardware
+  security keys; TOTP uitsluitend als fallback. Bij **verhoogde rechten** hebben hardware
+  security keys of hardware-backed passkeys de voorkeur.
 * Herstelcodes: eenmalig, veilig getoond, herbruikbaarheid uitgesloten.
-* MFA moet toegankelijk zijn: bied een alternatief voor wie geen smartphone heeft.
+* MFA moet toegankelijk zijn: bied een alternatief voor wie geen smartphone heeft. Omdat
+  SMS is uitgesloten, moet dat alternatief uit de toegestane middelen komen — bijvoorbeeld
+  een TOTP-app op desktop of een hardware security key. **Dit is een reëel
+  toegankelijkheidsrisico voor minder digitaal vaardige gebruikers** en een expliciet
+  aandachtspunt voor de usabilityvalidatie.
 
 ### 2.3 Sessies
 * Korte inactiviteitstime-out (`[15]` minuten), absolute maximale duur (`[8]` uur).
+* **Sessierotatie** en **centrale intrekking**; gebruikers kunnen **actieve sessies
+  bekijken**, **individuele sessies beëindigen** en **alle sessies beëindigen**
+  (ADR-0004).
 * Cookies: `Secure`, `HttpOnly`, `SameSite=Lax` of strikter; sessie-ID vernieuwen bij
   inloggen en rechtenwijziging.
 * Serverseitig intrekbaar; "log overal uit" beschikbaar voor de gebruiker.
 * Herauthenticatie vóór gevoelige handelingen, ook binnen een geldige sessie.
 
 ### 2.4 Autorisatie
-* Rolgebaseerd **plus** eigenaarschapscontrole per object bij élk verzoek (voorkomt IDOR).
+* **RBAC, afgedwongen in de servicelaag** — niet in controllers en niet uitsluitend in de
+  frontend (ADR-0004) — **plus** eigenaarschapscontrole per object bij élk verzoek
+  (voorkomt IDOR).
 * Autorisatie altijd serverseitig; de client verbergt hooguit, hij beslist nooit.
+* **Geen algemene super administrator.** `Administrator` en `Security Administrator` zijn
+  gescheiden rollen. ABAC kan later worden toegevoegd zonder RBAC te vervangen.
 * Standaard weigeren; toegang expliciet toekennen.
 * Support- en beheerrechten zijn tijdelijk, beperkt en volledig geaudit.
 

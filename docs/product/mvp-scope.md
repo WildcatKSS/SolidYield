@@ -81,7 +81,7 @@ Uitwerking per stap: [`customer-journey.md`](customer-journey.md).
 | # | Functionaliteit | Waarom noodzakelijk | Epic |
 |---|---|---|---|
 | M1 | Registratie met e-mailverificatie | zonder account geen persoonlijk inzicht | E1 |
-| M2 | Inloggen met sterke authenticatie en MFA | beschermt financiële gegevens | E1 |
+| M2 | Inloggen met **passkeys/WebAuthn als primaire methode** en MFA | beschermt financiële gegevens; phishing-bestendig ([ADR-0004](../architecture/adr/0004-identity-and-access-management.md)) | E1 |
 | M3 | Sessiebeheer met korte time-out en uitloggen | voorkomt misbruik op gedeelde apparaten | E1 |
 | M4 | Toestemmingsflow voor gegevensgebruik, intrekbaar | doelbinding en gebruikerscontrole | E3 |
 | M5 | Gegevens beschikbaar maken (`[koppeling of handmatige invoer]`) | grondstof voor het inzicht | E2 |
@@ -127,7 +127,7 @@ synthetische data in niet-productieomgevingen.
 | A6 | De walletfunctie kwalificeert niet als zelfstandige betaaldienst of als elektronisch geld (RD-17) | regulatoir | aanvullend vergunningtraject | **juridisch advies** |
 | A7 | De beoogde positie als concurrent schuldeiser is houdbaar en begrijpelijk uit te leggen (RD-20, RD-21) | regulatoir + zorgplicht | propositie moet worden herzien | **juridisch advies** + begripstoets |
 | A8 | Er is een vergunninghoudende betaalpartner te selecteren en te contracteren met een werkbare regulatoire rolverdeling (RD-22). Eerste implementatierichting: Mollie en bunq, nog niet geselecteerd of gecontracteerd | keten | integratiedetails en contracten wijzigen; het bedrijfsmodel niet | **juridisch advies** + leveranciersselectie en contractonderhandeling |
-| A9 | MFA is acceptabel voor de doelgroep | adoptie | drempel te hoog | usabilitytest |
+| A9 | **Passkeys en MFA zijn acceptabel en werkbaar voor de doelgroep**, ook zonder smartphone en bij lage digitale vaardigheid — SMS is als factor uitgesloten (besluit 8) | adoptie + toegankelijkheid | registratie loopt leeg of de wachtwoord-fallback wordt permanent, waarmee "passkeys primair" een intentie blijft | usabilitytest met minimaal 2 deelnemers met lage digitale vaardigheid |
 | ~~A10~~ | ~~Sprintduur van 2 weken past bij het team~~ | proces | — | ✅ **gesloten door besluit 6 (2026-08-05)**: sprints van twee weken zijn vastgelegd in [`../scrum/scrum-guide.md`](../scrum/scrum-guide.md) §2. Of de cadans blijft passen, is een terugkerend onderwerp in de retrospective — geen openstaande MVP-aanname |
 
 ## 8. Grootste risico's

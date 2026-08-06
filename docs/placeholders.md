@@ -40,7 +40,7 @@ De workflow `code-quality.yml` telt bij elke run hoeveel er nog openstaan.
 |---|---|---|
 | `[TECH STACK]` | technologiekeuze | ✅ **ingevuld 2026-08-05** — Kotlin/Spring Boot, React/TypeScript/Vite, PostgreSQL ([ADR-0002](architecture/adr/0002-technologiestack.md)) |
 | `[CLOUD]` | hostingprovider | ✅ **ingevuld 2026-08-05** — TransIP, twee VPS'en met Ubuntu Server LTS ([ADR-0003](architecture/adr/0003-cloudprovider.md)) |
-| `[IDP]` | identiteitsprovider | ADR-0004 |
+| `[IDP]` | identiteitsprovider | **model vastgesteld 2026-08-06** — externe OIDC-provider met passkeys/WebAuthn, RBAC en MFA ([ADR-0004](architecture/adr/0004-identity-and-access-management.md)). De **leverancier zelf is nog niet gekozen**; Keycloak is uitsluitend MVP-referentie |
 | `[KMS]` | sleutelbeheer | ADR-0005 |
 | `[PROVIDER]` | externe financiële gegevensbron | vergunninghoudende betaalpartner; eerste implementatierichting Mollie en bunq ([ADR-0007](architecture/adr/0007-vergunningplicht-en-rol-in-de-keten.md)) — **nog niet definitief geselecteerd of gecontracteerd** (RD-22) |
 | `[TOOL]` | secrets manager, monitoring | ADR |
@@ -93,8 +93,9 @@ bruikbaar zonder invulwerk.
 
 1. **Direct:** organisatie, repository, contactadressen, licentiejaar.
 2. **Sprint 1:** product, doelgroep, probleem, doel, type dienst, regio, stack, cloud.
-3. **Sprint 2:** IDP, provider. *(Sprintduur besloten: twee weken. Besloten testgroep
-   besloten: maximaal 10 deelnemers op uitnodiging.)*
+3. **Sprint 2:** definitieve keuze van de identity provider, financiële gegevensbron.
+   *(Sprintduur besloten: twee weken. Besloten testgroep besloten: maximaal 10 deelnemers op
+   uitnodiging. IAM-model besloten: ADR-0004.)*
 4. **Vóór bèta:** alle juridische punten, bewaartermijnen, SLO's, URL's.
 5. **Vóór productie:** alle overige waarden; de teller in `code-quality.yml` hoort dan
    richting nul te gaan.

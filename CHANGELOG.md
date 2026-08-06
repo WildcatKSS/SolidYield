@@ -20,6 +20,43 @@ security-impact worden expliciet gemarkeerd.
 ## [Unreleased]
 
 ### Toegevoegd
+- **Besluit 8 — Identity & Access Management.** **ADR-0004** toegevoegd: identiteit,
+  authenticatie, autorisatie, accountlevenscyclus, sessiebeheer, beveiliging, audit en de
+  koppeling met KYC. `identity` is een **zelfstandige module** die uitsluitend publieke
+  interfaces levert aan `customer`, `compliance`, `notification`, `administration` en
+  `audit`, en **nooit rechtstreeks communiceert met `ledger` of `reconciliation`** (#1)
+- **Leverancieronafhankelijk IAM.** Authenticatie loopt via een externe **OIDC**-provider
+  met OAuth 2.1, WebAuthn, MFA, RBAC, session- en device management, audit logging en
+  SCIM-provisioning. De koppeling loopt via **één adapter**; dat is de enige plek waar
+  leveranciersspecifieke code mag staan. **De leverancier is niet gekozen: Keycloak geldt
+  uitsluitend als referentie-implementatie voor de MVP** en mag geen afhankelijkheid worden
+  in architectuur of broncode (#1)
+- **Authenticatie:** **passkeys (WebAuthn) zijn de primaire methode** voor klanten;
+  e-mailadres, TOTP en wachtwoord als fallback zolang operationeel nodig. Meerdere passkeys
+  per account, met apparaatbeheer en intrekking; **privésleutels verlaten nooit het apparaat
+  van de gebruiker**. Voor medewerkers zijn MFA en individuele accounts verplicht, met
+  voorkeur voor passkeys en hardware security keys (#1)
+- **Niet toegestaan:** SMS-authenticatie · social login · gedeelde accounts · hardcoded
+  accounts · embedded secrets · autorisatie uitsluitend in de frontend · leveranciers-
+  specifieke IAM-code in domeinmodules. De eerdere voorkeursvolgorde met "sms als laatste
+  optie" is daarmee vervallen (#1)
+- **Autorisatie:** **RBAC, afgedwongen in de servicelaag** — niet in controllers en niet
+  uitsluitend in de frontend — plus eigenaarschapscontrole per object. **Geen algemene super
+  administrator:** `Administrator` en `Security Administrator` zijn gescheiden rollen naast
+  `Investor`, `Support`, `Compliance Analyst`, `Operations`, `Finance` en `Auditor`. ABAC
+  kan later worden toegevoegd zonder RBAC te vervangen (#1)
+- **Accountlevenscyclus** vastgelegd (Registered → EmailVerified → PendingKYC → Active →
+  Suspended → Blocked → Closed → Archived), met volledige audit op iedere statuswijziging;
+  **sessiebeheer** met sessierotatie, centrale intrekking en inzage en beëindiging van
+  sessies door de gebruiker; **recovery** dat nooit een lager beveiligingsniveau heeft dan
+  reguliere authenticatie (#1)
+- **Security:** dreigingen **T-30 t/m T-33** toegevoegd (recovery als omweg om MFA heen,
+  rechtentoekenning door een beheerder, uitval van de Identity Provider, en
+  leveranciersspecifieke IAM-code die de domeinmodules in lekt); controls **C-36**
+  (architectuurtest op leverancieronafhankelijkheid), **C-37** (IAM-productiegereedheid
+  inclusief penetratietest) en **C-38** (selectie van de Identity Provider) toegevoegd (#1)
+- **Compliance:** **RD-30** en **RD-31** toegevoegd voor eisen aan sterke
+  cliëntauthenticatie en aan uitbesteding van authenticatie aan een externe provider (#1)
 - **Besluit 7 — besloten testgroep.** Nieuw document
   [`docs/product/closed-test-group.md`](docs/product/closed-test-group.md): de eerste
   besloten testgroep telt **maximaal tien deelnemers** — oprichters, ontwikkelaars,
@@ -134,6 +171,22 @@ security-impact worden expliciet gemarkeerd.
   onder het rendement (#1)
 
 ### Gewijzigd
+- **`[IDP]` ingevuld op modelniveau** en rij 8 van de openstaande besluitentabel op
+  **besloten** gezet, met een nieuwe rij **8a** voor de nog openstaande definitieve
+  leverancierskeuze. Bijgewerkt in README, `architecture-overview.md`, `system-context.md`,
+  `access-control.md`, `security-principles.md`, `customer-journey.md`, `mvp-scope.md` en
+  `placeholders.md` (#1)
+- **Argon2id blijft conditioneel geformuleerd:** verplicht wanneer SolidYield zelf
+  wachtwoorden opslaat, en anders een aantoonbaar minimaal gelijkwaardig beveiligingsniveau
+  bij de Identity Provider. Het ankerpunt is verplaatst van ADR-0002 naar **ADR-0004** (#1)
+- **MVP-aanname A9 aangescherpt:** niet langer "MFA is acceptabel voor de doelgroep", maar
+  of **passkeys en MFA werkbaar zijn zonder smartphone en bij lage digitale vaardigheid** —
+  omdat SMS als factor is uitgesloten. Te toetsen met minimaal twee deelnemers met lage
+  digitale vaardigheid (#1)
+- **Systeemcontext:** dubbele aanname-ID's opgelost — de bij besluit 5 toegevoegde regel
+  over gescheiden productie- en testomgevingen botste met de bestaande SA-2 en is
+  hernummerd naar **SA-5**. De tabel "nog te beslissen" is bijgewerkt: technologiestack,
+  cloudprovider en IAM zijn gesloten (#1)
 - **"Testgroep" uit elkaar getrokken in twee begrippen.** De repository gebruikte één term
   voor twee verschillende activiteiten. Vastgelegd is nu het onderscheid tussen
   **onderzoekssessies** (testomgeving, uitsluitend synthetische data, representatieve

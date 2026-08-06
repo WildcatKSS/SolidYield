@@ -161,7 +161,7 @@ aflevergarantie is daarom **at-least-once**, niet exactly-once.
 | **Medewerkers** | **verplichte MFA** · **hardware security keys** waar mogelijk · **aparte rollen** · **auditlogging** |
 
 Dit besluit legt **uitsluitend de beveiligingseisen** vast. De identity provider en de
-implementatie ervan worden bepaald in **besluit 8**.
+implementatie ervan zijn bepaald in **besluit 8** — [ADR-0004](0004-identity-and-access-management.md); de definitieve leverancierskeuze blijft daar uitdrukkelijk buiten.
 
 > Passkeys/WebAuthn, TOTP, veilige sessiecookies en sterke MFA zijn verplichte
 > authenticatiemogelijkheden. Wanneer SolidYield zelf wachtwoorden beheert, is Argon2id
@@ -170,8 +170,9 @@ implementatie ervan worden bepaald in **besluit 8**.
 > beveiligingsmechanisme gebruiken.
 
 Argon2id is dus **geen onvoorwaardelijke implementatiekeuze**: welke van de twee gevallen
-geldt, volgt uit besluit 8. Zolang dat besluit openstaat, is de eis geformuleerd op
-beveiligingsniveau, niet op implementatieniveau.
+geldt, volgt uit de leverancierskeuze onder [ADR-0004](0004-identity-and-access-management.md).
+Zolang die keuze openstaat, is de eis geformuleerd op beveiligingsniveau, niet op
+implementatieniveau.
 
 ## Beheerinterface
 
@@ -259,7 +260,7 @@ reconstrueerbaar is, en of een fout in de applicatie schema of historie kan aant
 * Dataresidency: [ADR-0006](0006-dataresidency-en-opslaglocatie.md)
 * Bedrijfsmodel: [ADR-0007](0007-vergunningplicht-en-rol-in-de-keten.md) ·
   [ADR-0008](0008-geld-en-contractstroom.md)
-* Identity provider: besluit 8 (nog te nemen)
+* Identity & Access Management: besluit 8 — [ADR-0004](0004-identity-and-access-management.md). De **definitieve leverancierskeuze** valt daarbuiten en is nog open
 
 ## Herzieningsmoment
 

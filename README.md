@@ -101,6 +101,7 @@ privacyprincipes.
 | Landen/regio's · dataresidency | **Nederland** · opslag en reguliere verwerking binnen de **EER**, primaire productieomgeving in Nederland | zie [ADR-0006](docs/architecture/adr/0006-dataresidency-en-opslaglocatie.md) |
 | Technologiestack | **Kotlin/Spring Boot** · **React/TypeScript/Vite** · **PostgreSQL** · modulaire monoliet met Spring Modulith | zie [ADR-0002](docs/architecture/adr/0002-technologiestack.md) |
 | Hosting | **TransIP**, twee VPS'en met **Ubuntu Server LTS**; productie en test **volledig gescheiden**, test uitsluitend via **WireGuard** | zie [ADR-0003](docs/architecture/adr/0003-cloudprovider.md) |
+| Identity & Access Management | externe **OIDC**-provider, **passkeys/WebAuthn als primaire methode**, **RBAC** in de servicelaag, verplichte MFA voor medewerkers — **leverancieronafhankelijk**; Keycloak uitsluitend als **MVP-referentie**, geen afhankelijkheid in architectuur of code | zie [ADR-0004](docs/architecture/adr/0004-identity-and-access-management.md); de **definitieve providerkeuze is nog open** |
 | Sprintduur | **twee weken** (veertien kalenderdagen) | zie [Scrum](docs/scrum/scrum-guide.md) |
 | Besloten testgroep | **maximaal 10 deelnemers**, uitsluitend op uitnodiging — eerste gecontroleerde **productie**-uitrol, start **pas na bevestiging van de wettelijke grondslag** (besluit 4) | zie [besloten testgroep](docs/product/closed-test-group.md); onderzoekssessies met synthetische data staan in het [testgroepplan](docs/research/test-group-plan.md) |
 
@@ -246,7 +247,8 @@ Niet besloten — behandel deze niet als feit:
 | 5 | Technologiestack en cloudprovider | ✅ **besloten 2026-08-05** — Kotlin/Spring Boot, React/Vite, PostgreSQL, modulaire monoliet ([ADR-0002](docs/architecture/adr/0002-technologiestack.md)); TransIP met twee VPS'en ([ADR-0003](docs/architecture/adr/0003-cloudprovider.md)) | Tech lead |
 | 6 | Sprintduur | ✅ **besloten** — sprints van twee weken | Scrum Master |
 | 7 | Besloten testgroep (MVP-deelnemers) | ✅ **besloten** — maximaal 10 uitgenodigde deelnemers; eerste gecontroleerde productie-uitrol na bevestiging wettelijke grondslag | Product Owner |
-| 8 | Identiteitsprovider en MFA-methode | open besluit | Security + Tech lead |
+| 8 | Identity & Access Management (IAM) | ✅ **besloten** — leverancier-onafhankelijk IAM met OIDC, WebAuthn/passkeys, RBAC en MFA; Keycloak uitsluitend als MVP-referentie | Security Architect + Tech Lead |
+| 8a | **Definitieve keuze van de Identity Provider** — valt uitdrukkelijk buiten besluit 8 | open besluit | Security Architect + Tech Lead + Privacy |
 | 9 | Bewaartermijnen per gegevenscategorie | **te valideren door bevoegde specialist** | Privacy |
 | 10 | Licentiemodel (aanname: MIT) | aanname | Eigenaar repo |
 | 11 | Coveragedrempel (aanname: 70%, groeipad naar 80%) | aanname | Developers |

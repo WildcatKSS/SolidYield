@@ -43,7 +43,7 @@ graph TB
         CACHE[("Cache<br/>geen gevoelige gegevens")]
     end
     subgraph ext["Extern"]
-        IDP["[IDP]"]
+        IDP["Identity Provider<br/>OIDC · WebAuthn<br/><i>leverancier nog te kiezen</i>"]
         MOL["Betaalpartner iDEAL / SEPA<br/>richting: Mollie"]
         BUNQ["Betaalpartner IBAN, uitbetalingen<br/>richting: bunq"]
         KYCP["KYC/AML-partner<br/>(fase 2 — roadmap)"]
@@ -81,6 +81,13 @@ Modulaire monoliet met **Spring Modulith**; grenzen worden in tests afgedwongen.
 `administration` · `audit`. Elke module heeft een publieke API, eigen packagegrenzen, eigen
 tests, eigen migraties en expliciete domeinevents.
 
+**`identity` is een zelfstandige module** ([ADR-0004](adr/0004-identity-and-access-management.md)).
+Zij levert uitsluitend publieke interfaces aan `customer`, `compliance`, `notification`,
+`administration` en `audit`, en communiceert **nooit rechtstreeks met `ledger` of
+`reconciliation`**. Koppeling met de Identity Provider loopt via één **adapter**: dat is de
+enige plek waar leveranciersspecifieke code mag staan, zodat de provider vervangbaar blijft
+zonder wijziging aan de domeinlogica. Een architectuurtest bewaakt die grens (C-36).
+
 **Migraties per module zonder versieconflicten.** Elke module heeft een eigen
 Flyway-locatie (`classpath:db/migration/<module>`), maar er is **één gedeelde
 schemahistorie** per database. Versienummers zijn daarom **globaal uniek**, niet uniek per
@@ -116,18 +123,22 @@ ongeacht welke partij wordt geselecteerd.
 
 ## 3. Authenticatie en autorisatie
 
-| Onderwerp | Keuze (voorstel) | Status |
+Vastgesteld in **besluit 8** ([ADR-0004](adr/0004-identity-and-access-management.md)).
+
+| Onderwerp | Keuze | Status |
 |---|---|---|
-| Authenticatiemiddelen (klanten) | **passkeys/WebAuthn**, **TOTP**, veilige sessiecookies, **sterke MFA** | vastgesteld als **eis** ([ADR-0002](adr/0002-technologiestack.md)) |
-| Wachtwoordopslag (klanten) | **Argon2id** wanneer SolidYield zelf wachtwoorden beheert; bij uitbesteding aan een identity-provider een **aantoonbaar gelijkwaardig of sterker** mechanisme | afhankelijk van **besluit 8** |
-| Medewerkers | verplichte MFA, hardware security keys waar mogelijk, aparte rollen, auditlogging | vastgesteld |
-| Identiteitsprovider | OIDC via `[IDP]`, authorization code flow met PKCE | te besluiten — **besluit 8** |
-| MFA | verplicht voor inloggen en gevoelige handelingen | vast uitgangspunt |
-| Sessies | korte levensduur (`[15]` min inactiviteit), httpOnly + secure + SameSite cookies, herauthenticatie bij gevoelige acties | voorstel |
-| Autorisatie | rolgebaseerd (gebruiker, support, beheerder) **plus** eigenaarschapscontrole per object | vast uitgangspunt |
+| Authenticatiemiddelen (klanten) | **passkeys/WebAuthn als primaire methode**, e-mailadres, **TOTP**, veilige sessiecookies; wachtwoord uitsluitend als **fallback** zolang operationeel nodig | vastgesteld ([ADR-0004](adr/0004-identity-and-access-management.md)) |
+| Wachtwoordopslag (klanten) | **Argon2id** wanneer SolidYield zelf wachtwoorden opslaat; voert de Identity Provider het wachtwoordbeheer uit, dan moet die **aantoonbaar minimaal een gelijkwaardig beveiligingsniveau** bieden | vastgesteld als **voorwaardelijke eis** — geen onvoorwaardelijke implementatiekeuze |
+| Medewerkers | **MFA verplicht**, individuele accounts, voorkeur voor passkeys en hardware security keys; TOTP uitsluitend als fallback | vastgesteld |
+| Identiteitsprovider | externe **OIDC**-provider met OAuth 2.1, WebAuthn, MFA, RBAC, session- en device management, audit logging en SCIM-provisioning. **Leverancieronafhankelijk**: koppeling via een adapter, geen leveranciersspecifieke code in domeinmodules | model **vastgesteld**; **leverancierskeuze nog open** (Keycloak is uitsluitend MVP-referentie) |
+| MFA | verplicht voor inloggen en gevoelige handelingen; hardware security keys of hardware-backed passkeys bij verhoogde rechten | vastgesteld |
+| Sessies | korte levensduur (`[15]` min inactiviteit), httpOnly + secure + SameSite cookies, **sessierotatie**, **centrale intrekking**, herauthenticatie bij gevoelige acties; gebruikers kunnen actieve sessies inzien en beëindigen | vastgesteld |
+| Autorisatie | **RBAC, afgedwongen in de servicelaag** — niet in controllers, niet uitsluitend in de frontend — **plus** eigenaarschapscontrole per object. ABAC kan later worden toegevoegd zonder RBAC te vervangen | vastgesteld |
+| Niet toegestaan | **SMS als primaire MFA** · **social login** · **gedeelde accounts** · hardcoded accounts · embedded secrets · autorisatie uitsluitend in de frontend · leveranciersspecifieke IAM-code in domeinmodules | vastgesteld |
 | Machine-to-machine | OAuth client credentials of mTLS; geen gedeelde statische sleutels | voorstel |
 
-Uitwerking: [`../security/access-control.md`](../security/access-control.md).
+Uitwerking: [`../security/access-control.md`](../security/access-control.md) en
+[ADR-0004](adr/0004-identity-and-access-management.md).
 
 ## 4. Opslag
 
@@ -204,7 +215,8 @@ Optimaliseer pas op basis van meting, niet op verwachting.
 | 0 | **Wettelijke grondslag** om het besloten bedrijfsmodel uit te voeren — blokkeert echte klantgelden en productiegebruik | Compliance | RD-23 t/m RD-27; model zelf besloten in [ADR-0007](adr/0007-vergunningplicht-en-rol-in-de-keten.md) |
 | 1 | ~~Technologiestack en runtime~~ | Tech lead | ✅ [ADR-0002](adr/0002-technologiestack.md) |
 | 2 | ~~Cloudprovider en hosting~~ | Tech lead + Compliance | ✅ [ADR-0003](adr/0003-cloudprovider.md) |
-| 3 | Identiteitsprovider en MFA-methode | Security | ADR-0004 — **besluit 8** |
+| 3 | ~~Identity & Access Management~~ | Security Architect + Tech lead | ✅ [ADR-0004](adr/0004-identity-and-access-management.md) — leverancieronafhankelijk model |
+| 3a | **Definitieve keuze van de Identity Provider** — valt buiten besluit 8 | Security Architect + Tech lead + Privacy | ADR-0004 vervolgactie 5 |
 | 4 | Encryptie- en sleutelbeheerstrategie | Tech lead + Security | ADR-0005 |
 | 5 | ~~Monolith of opsplitsing~~ | Tech lead | ✅ modulaire monoliet, [ADR-0002](adr/0002-technologiestack.md) |
 | 6 | ~~Wachtrij-/taakmechanisme~~ | Tech lead | ✅ PostgreSQL job queue + outbox, [ADR-0002](adr/0002-technologiestack.md) |

@@ -71,8 +71,8 @@ een control stilvalt zonder dat iemand het merkt.
 | 9 | **Compliance- of juridische blokkades worden zichtbaar** als backlogitem, afhankelijkheid of releasevoorwaarde — nooit als stilzwijgend uitstel |
 | 10 | Een sprint is **geen toestemming** om echte klantgelden, bindende rendementcontracten of productiegebruik toe te staan zolang de wettelijke grondslag niet is bevestigd |
 
-**Buiten dit besluit vallen:** samenstelling of omvang van de testgroep, identiteitsprovider
-en MFA-implementatie (besluit 8), functionele requirements, sprintinhoud en concrete
+**Buiten dit besluit vallen:** samenstelling of omvang van de testgroep (besluit 7),
+Identity & Access Management (besluit 8), functionele requirements, sprintinhoud en concrete
 ontwikkelplanning, en een releasedatum. Dat blijven afzonderlijke besluiten of backlogwerk.
 
 ## 3. Rollen

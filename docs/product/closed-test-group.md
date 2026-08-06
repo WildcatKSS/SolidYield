@@ -247,3 +247,7 @@ zichtbaar als backlogitem, afhankelijkheid of releasevoorwaarde).
 
 Identiteitsprovider · authenticatie-implementatie · MFA-keuze · functionele requirements ·
 publieke bèta · algemene marktintroductie. Deze blijven onderwerp van latere besluiten.
+
+> *Inmiddels deels ingevuld:* het **IAM-model** is vastgesteld in besluit 8
+> ([ADR-0004](../architecture/adr/0004-identity-and-access-management.md)). De **definitieve
+> keuze van de Identity Provider** valt daar uitdrukkelijk buiten en blijft open.

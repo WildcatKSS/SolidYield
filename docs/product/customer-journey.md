@@ -54,11 +54,11 @@ compliancemomenten er spelen.
 ### 2. Registreren
 | Aspect | Invulling |
 |---|---|
-| Gebruiker doet | account aanmaken, wachtwoord kiezen, MFA instellen |
-| Pijnpunten | te veel gevraagde gegevens, onduidelijke wachtwoordeisen, MFA-drempel |
-| Security | sterke authenticatie, MFA, bescherming tegen geautomatiseerde registratie, rate limiting |
+| Gebruiker doet | account aanmaken, **passkey registreren** (primaire methode), MFA instellen; wachtwoord uitsluitend als fallback |
+| Pijnpunten | te veel gevraagde gegevens, onbekendheid met passkeys, MFA-drempel; **SMS is geen toegestane factor** ([ADR-0004](../architecture/adr/0004-identity-and-access-management.md)) |
+| Security | **passkeys/WebAuthn**, MFA, bescherming tegen geautomatiseerde registratie, rate limiting, credential stuffing-bescherming (ADR-0004) |
 | Privacy | gegevensminimalisatie: alleen wat nodig is; expliciete doelbinding |
-| Toegankelijkheid | foutmeldingen begrijpelijk, MFA ook zonder smartphone bruikbaar |
+| Toegankelijkheid | foutmeldingen begrijpelijk; MFA ook **zonder smartphone** bruikbaar — omdat SMS is uitgesloten moet dat via TOTP op desktop of een hardware security key. **Expliciet te valideren met de doelgroep** |
 | Meetpunt | voltooiingspercentage registratie; % dat MFA voltooit |
 | Bewijs | `[nog te verzamelen]` |
 
