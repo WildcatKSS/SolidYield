@@ -262,6 +262,10 @@ geldt bij **gevoelige recovery**:
 * **volledige audit**;
 * **wachttijd of handmatige beoordeling** wanneer passend.
 
+> **Dit is een eis, geen proces.** Het **operationele recoveryproces** — wie wat doet bij
+> welk scenario — moet vóór productie afzonderlijk worden uitgewerkt en vastgesteld. Zie
+> *Vervolgactie 8* hieronder voor de scenario's die daarin minimaal aan bod moeten komen.
+
 ## KYC
 
 **KYC blijft onderdeel van de `compliance`-module.**
@@ -399,8 +403,62 @@ MFA, ook al is het gemakkelijker uit te leggen.
 | 5 | **Definitieve selectie van de Identity Provider** — inclusief beschikbaarheid, exit, verwerkersovereenkomst en dataresidency (ADR-0006) | Security Architect + Tech lead + Privacy |
 | 6 | Sessiebeheerscherm bouwen: actieve sessies tonen, individueel en volledig beëindigen | Developers |
 | 7 | Productiegereedheid aantonen (zie hieronder), inclusief penetratietest | Security + Ops |
+| 8 | **Operationeel recoveryproces uitwerken en vaststellen vóór productie** (zie hieronder) | Security + Support + Ops |
+| 9 | **Toegankelijk alternatief vaststellen** voor gebruikers die geen passkeys kunnen gebruiken (zie hieronder) | Security + UX + PO |
+| 10 | **Functiescheidingsmatrix opstellen vóór productie** (zie hieronder) | Security + Compliance |
+
+### Vervolgactie 8 — operationeel recoveryproces
+
+Dit besluit legt de **eis** vast (recovery nooit zwakker dan reguliere authenticatie), niet
+de oplossing. **Vóór productie moet een operationeel recoveryproces bestaan.** Dat proces
+wordt afzonderlijk uitgewerkt en vastgesteld; het is **geen onderdeel van dit besluit**.
+
+Minimaal uit te werken scenario's:
+
+| # | Scenario |
+|---|---|
+| 1 | **verlies van alle passkeys** |
+| 2 | **verlies van TOTP** |
+| 3 | **verlies van e-mailadres** |
+| 4 | **verloren apparaat** |
+| 5 | **recovery van medewerkeraccounts** |
+| 6 | **recovery van accounts met verhoogde rechten** |
+
+> Hier staat bewust **geen** concrete oplossing. Per scenario moeten identiteitscontrole,
+> wachttijd, handmatige beoordeling en auditvastlegging worden bepaald — dat is
+> operationeel ontwerp, geen architectuurbesluit. Zolang dit proces er niet is, is de eis
+> "recovery nooit zwakker dan authenticatie" **ontworpen maar niet toetsbaar** (T-30).
+
+### Vervolgactie 9 — toegankelijk alternatief bij geen passkeys
+
+De keuze om **SMS niet te gebruiken** blijft ongewijzigd. Wel geldt: **vóór productie moet
+een toegankelijk alternatief zijn vastgesteld** voor gebruikers die geen passkeys kunnen
+gebruiken.
+
+> **Dit is een open ontwerpvraag.** Dit besluit neemt géén standpunt in over de oplossing;
+> het legt uitsluitend vast dát de vraag vóór productie beantwoord moet zijn. Zie ook het
+> toegankelijkheidsrisico onder *Negatieve gevolgen*, aanname A9 in
+> [`../../product/mvp-scope.md`](../../product/mvp-scope.md) en RD-30.
+
+### Vervolgactie 10 — functiescheidingsmatrix
+
+Alle rollen uit dit besluit blijven ongewijzigd. **Vóór productie moet een
+functiescheidingsmatrix worden opgesteld** waarin is vastgelegd:
+
+* welke rollen **gecombineerd mogen** worden;
+* welke combinaties **verboden** zijn;
+* hoe **maker-checker wordt toegepast in kleine teams**.
+
+> Dat laatste is de kern van het probleem: bij een team van deze omvang draagt één persoon
+> meerdere rollen, en dan is functiescheiding op papier geen functiescheiding in de
+> praktijk. De matrix maakt zichtbaar waar dat gebeurt en wat er dan compenseert. Dit
+> besluit voegt **geen rollen toe** en wijzigt er geen.
 
 ## Productiegereedheid
+
+> **Fase: Ontworpen.** De punten hieronder beschrijven wat vóór productie moet worden
+> **aangetoond**. Geen ervan is op dit moment geïmplementeerd of geverifieerd; verificatie
+> vindt plaats tijdens implementatie en acceptatie.
 
 Vóór productie moet **aantoonbaar** zijn dat:
 

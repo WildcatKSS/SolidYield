@@ -2,6 +2,14 @@
 
 > ### 👉 Nieuw hier? Begin bij **[START-HERE.md](START-HERE.md)** — 8 minuten lezen, dan weet je waar te beginnen.
 
+> ### ⚠️ Alles in deze repository is **ontwerp**, geen werkende dienst
+>
+> Er is nog **geen applicatiecode**. Elk besluit, elke ADR en elke control legt vast *wat de
+> bedoeling is* — niet dat er iets gebouwd, ingericht of aangetoond is. **Geen enkele
+> maatregel in deze repository is operationeel**, en verificatie vindt pas plaats tijdens
+> implementatie en acceptatie. De fasen zijn gedefinieerd in
+> [`docs/compliance/compliance-register.md`](docs/compliance/compliance-register.md).
+
 > **Status:** in opzet. Productnaam, doelgroep, probleem en productdoel zijn vastgesteld
 > (besluit 1 in §10); de [productvisie](docs/product/product-vision.md) is daarop
 > ingevuld. Ook het type financiële dienst (besluit 2), markt, taal, valuta en
@@ -10,9 +18,11 @@
 > [ADR-0002](docs/architecture/adr/0002-technologiestack.md),
 > [ADR-0003](docs/architecture/adr/0003-cloudprovider.md),
 > [ADR-0007](docs/architecture/adr/0007-vergunningplicht-en-rol-in-de-keten.md) en
-> [ADR-0008](docs/architecture/adr/0008-geld-en-contractstroom.md). De overige waarden
-> tussen vierkante haken (`[IDP]`, `[ORG]`, …) zijn nog **niet** ingevuld — zie
-> [`docs/placeholders.md`](docs/placeholders.md).
+> [ADR-0008](docs/architecture/adr/0008-geld-en-contractstroom.md). Verder zijn de
+> **sprintcadans** (besluit 6), de **besloten testgroep** (besluit 7) en het
+> **IAM-model** (besluit 8, [ADR-0004](docs/architecture/adr/0004-identity-and-access-management.md))
+> vastgesteld. De overige waarden tussen vierkante haken (`[ORG]`, `[PROVIDER]`, …) zijn nog
+> **niet** ingevuld — zie [`docs/placeholders.md`](docs/placeholders.md).
 >
 > **Blokkerend: de wettelijke grondslag, niet het bedrijfsmodel.** Het bedrijfs- en
 > ketenmodel staat vast. Wat nog niet vaststaat, is via welke wettelijke route dat model mag
@@ -256,6 +266,20 @@ Niet besloten — behandel deze niet als feit:
 
 Volledige lijst met volgorde van invullen: [`docs/placeholders.md`](docs/placeholders.md).
 Bewust nog niet ingebouwd: [`docs/optional-extensions.md`](docs/optional-extensions.md).
+
+### Openstaande vervolgacties bij deze besluiten
+
+Deze staan hier als **open vervolgactie**, niet als genomen besluit of bestaande maatregel:
+
+| # | Vervolgactie | Eigenaar | Waar uitgewerkt |
+|---|---|---|---|
+| V-1 | **Traceerbaar GitHub-issue aanmaken vóór merge** dat besluiten 1 t/m 8, de resterende open besluiten en de vervolgacties met deze pull request verbindt (DoD-criterium **U7**) | Product Owner + Scrum Master | — |
+| V-2 | **Operationeel recoveryproces** vaststellen vóór productie | Security + Support + Ops | [ADR-0004](docs/architecture/adr/0004-identity-and-access-management.md) vervolgactie 8 |
+| V-3 | **Toegankelijk alternatief** vaststellen voor gebruikers die geen passkeys kunnen gebruiken | Security + UX + PO | ADR-0004 vervolgactie 9 |
+| V-4 | **Functiescheidingsmatrix** opstellen vóór productie | Security + Compliance | ADR-0004 vervolgactie 10 |
+| V-5 | **Beschikbaarheidsdoelstelling** onderbouwen met herstel-, back-up- en DR-tests en operationele metingen | Ops + PO | [`service-level-objectives.md`](docs/operations/service-level-objectives.md) §7 |
+| V-6 | **Patchmanagementproces** vaststellen vóór productie | Ops + Security | [`platform-readiness-checklist.md`](docs/operations/platform-readiness-checklist.md) |
+| V-7 | **Operationele runbooks** opstellen vóór productie | Ops + Support | [`runbook.md`](docs/operations/runbook.md) §12 |
 
 ## 11. Handmatige repository-instellingen
 

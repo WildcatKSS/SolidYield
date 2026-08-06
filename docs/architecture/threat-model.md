@@ -40,7 +40,19 @@ snel uit te loggen).
 
 ## 3. Dreigingen volgens STRIDE
 
-| ID | STRIDE | Dreiging | Grens | Risico | Maatregelen | Verificatie |
+> [!IMPORTANT]
+> **De kolom *Maatregelen* beschrijft ontworpen maatregelen, geen bestaande.** Er is nog
+> geen applicatiecode; **geen enkele maatregel in deze tabel is geïmplementeerd of
+> geverifieerd**. De kolom *Verificatie* zegt **hoe** de werking straks wordt aangetoond,
+> niet dat dat al is gebeurd. Verificatie vindt plaats tijdens implementatie en acceptatie
+> (zie de fasen in
+> [`../compliance/compliance-register.md`](../compliance/compliance-register.md)).
+>
+> Een dreiging met een ingevulde maatregel is dus **niet afgedekt**; hij is *voorzien van
+> een plan*. Dat onderscheid is bij een financiële dienst het verschil tussen een
+> risicoanalyse en een schijnzekerheid.
+
+| ID | STRIDE | Dreiging | Grens | Risico | Maatregelen (**ontworpen**) | Verificatie (**nog uit te voeren**) |
 |---|---|---|---|---|---|---|
 | T-01 | Spoofing | Accountovername via gelekt wachtwoord | TB-1 | **Hoog** | MFA verplicht, controle tegen bekende gelekte wachtwoorden, snelheidsbeperking, melding bij nieuwe login | securitytest inlogbeperking |
 | T-02 | Spoofing | Phishing gericht op gebruikers | TB-1 | Hoog | duidelijke communicatie, nooit om wachtwoord vragen, domeinbescherming (SPF/DKIM/DMARC) | reviewcheck bij elke e-mail |

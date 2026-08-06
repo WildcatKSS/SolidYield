@@ -207,6 +207,27 @@ artifact gaat van test naar productie.
 **Docker** · **Kubernetes** · **Kafka** · **Redis** · **Temporal** · **OpenSearch** ·
 **microservices**.
 
+### Reikwijdte van deze uitsluiting
+
+> Deze uitsluiting geldt **uitsluitend** voor:
+>
+> * **productie**;
+> * **test** (de gedeelde testomgeving uit [ADR-0003](0003-cloudprovider.md));
+> * de **deploymentarchitectuur**.
+>
+> Zij zegt niets over **lokale ontwikkelhulpmiddelen**. Gereedschap dat alleen op de machine
+> van een ontwikkelaar of in een CI-job draait — bijvoorbeeld **Testcontainers** voor een
+> wegwerp-PostgreSQL in een integratietest — is hierdoor **niet automatisch uitgesloten**.
+>
+> Dit is een **verduidelijking van de reikwijdte, geen nieuw technisch besluit**: er wordt
+> hier niets toegestaan of gekozen. Wil het team zo'n hulpmiddel daadwerkelijk gebruiken,
+> dan is dat een gewone teamafspraak, mits het **geen** onderdeel wordt van het
+> productieartifact, de deployment of de draaiende test- of productieomgeving.
+
+De uitsluiting gaat dus over **wat er draait waar de dienst draait**, niet over wat een
+ontwikkelaar op zijn laptop start. Zonder dat onderscheid leest "geen Docker" al snel als
+een verbod op containergebaseerd testgereedschap, en dat is niet wat hier is besloten.
+
 ## Motivatie
 
 De stack is bewust smal: één taal aan de serverkant, één database, één artifact, en

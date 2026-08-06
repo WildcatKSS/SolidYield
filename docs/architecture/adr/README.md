@@ -7,6 +7,22 @@ mensen die het team verlaten — bij een financiële dienst is dat ook een audit
 Toetsingskader voor elke ADR: [`../architecture-principles.md`](../architecture-principles.md).
 Wijk je af van een principe, dan hoort dat expliciet in de ADR onder *Negatieve gevolgen*.
 
+> [!IMPORTANT]
+> **Een ADR is een ontwerpbesluit, geen implementatie en geen bewijs.** Status
+> *Geaccepteerd* betekent dat het team het eens is over de richting — niet dat er iets is
+> gebouwd, ingericht of aangetoond. Er is in deze repository nog **geen applicatiecode**;
+> elke ADR staat daarmee in de fase **Ontworpen**.
+>
+> | | Waar het staat | Wat het aantoont |
+> |---|---|---|
+> | **Ontwerp** | ADR | *waarom* een keuze is gemaakt en welke gevolgen zijn geaccepteerd |
+> | **Implementatie** | code, Ansible, configuratie | dat de maatregel bestaat |
+> | **Bewijs** | [`../../compliance/audit-evidence.md`](../../compliance/audit-evidence.md), testresultaten | dat de maatregel aantoonbaar werkt |
+>
+> **Verificatie vindt pas plaats tijdens implementatie en acceptatie.** De fasen zijn
+> gedefinieerd in
+> [`../../compliance/compliance-register.md`](../../compliance/compliance-register.md).
+
 ## Werkwijze
 
 1. Kopieer [`0001-architecture-decision-template.md`](0001-architecture-decision-template.md)
@@ -31,16 +47,19 @@ Wijk je af van een principe, dan hoort dat expliciet in de ADR onder *Negatieve 
 
 ## Register
 
-| Nr | Titel | Status | Datum | Security-impact |
-|---|---|---|---|---|
-| 0001 | Sjabloon voor architectuurbesluiten | Geaccepteerd | `[JJJJ-MM-DD]` | n.v.t. |
-| 0002 | [Technologiestack](0002-technologiestack.md) | Geaccepteerd | 2026-08-05 | hoog |
-| 0003 | [Cloudprovider en hostingarchitectuur](0003-cloudprovider.md) | Geaccepteerd | 2026-08-05 | hoog |
-| 0004 | [Identity & Access Management](0004-identity-and-access-management.md) | Geaccepteerd **als leverancieronafhankelijk model**; de definitieve keuze van de Identity Provider valt erbuiten | 2026-08-06 | hoog |
-| 0005 | `[Encryptie- en sleutelbeheerstrategie]` | **Te schrijven** | | hoog |
-| 0006 | [Dataresidency en opslaglocatie](0006-dataresidency-en-opslaglocatie.md) | Geaccepteerd | 2026-08-03 | midden |
-| 0007 | [Vergunningplicht en rol in de keten](0007-vergunningplicht-en-rol-in-de-keten.md) | Geaccepteerd **voor de bedrijfs- en keteninrichting**; wettelijke grondslag nog te valideren | 2026-08-05 | hoog |
-| 0008 | [Geld- en contractstroom](0008-geld-en-contractstroom.md) | Geaccepteerd **als functioneel ontwerp**; alleen uitvoerbaar met synthetische data en sandboxintegraties | 2026-08-05 | hoog |
+Alle geaccepteerde ADR's staan in de fase **Ontworpen**: het besluit ligt vast, de
+maatregel is nog niet gebouwd of aangetoond.
+
+| Nr | Titel | Status | Fase | Datum | Security-impact |
+|---|---|---|---|---|---|
+| 0001 | Sjabloon voor architectuurbesluiten | Geaccepteerd | n.v.t. (sjabloon) | `[JJJJ-MM-DD]` | n.v.t. |
+| 0002 | [Technologiestack](0002-technologiestack.md) | Geaccepteerd | Ontworpen | 2026-08-05 | hoog |
+| 0003 | [Cloudprovider en hostingarchitectuur](0003-cloudprovider.md) | Geaccepteerd | Ontworpen | 2026-08-05 | hoog |
+| 0004 | [Identity & Access Management](0004-identity-and-access-management.md) | Geaccepteerd **als leverancieronafhankelijk model**; de definitieve keuze van de Identity Provider valt erbuiten | Ontworpen | 2026-08-06 | hoog |
+| 0005 | `[Encryptie- en sleutelbeheerstrategie]` | **Te schrijven** | Nog te ontwerpen | | hoog |
+| 0006 | [Dataresidency en opslaglocatie](0006-dataresidency-en-opslaglocatie.md) | Geaccepteerd | Ontworpen | 2026-08-03 | midden |
+| 0007 | [Vergunningplicht en rol in de keten](0007-vergunningplicht-en-rol-in-de-keten.md) | Geaccepteerd **voor de bedrijfs- en keteninrichting**; wettelijke grondslag nog te valideren | Ontworpen | 2026-08-05 | hoog |
+| 0008 | [Geld- en contractstroom](0008-geld-en-contractstroom.md) | Geaccepteerd **als functioneel ontwerp**; alleen uitvoerbaar met synthetische data en sandboxintegraties | Ontworpen | 2026-08-05 | hoog |
 
 ADR-0005 (sleutelbeheer) is de laatste "te schrijven" ADR uit de openstaande beslissingen in
 de README en hoort bij de eerste sprints.

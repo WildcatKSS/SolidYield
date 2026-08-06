@@ -128,6 +128,20 @@ per omgeving; sleutelbeheer wordt uitgewerkt in ADR-0005.
 | **Vóór start van de besloten testgroep** | zie de Go/No-Go hieronder — dit is het eerste moment waarop er echte klantgegevens en echte geldstromen op het platform staan |
 | Regulated | alle relevante onderwerpen op *Bewijs aanwezig* |
 
+### Openstaande vervolgacties vóór productie
+
+Deze onderwerpen zijn **nog niet ingericht**. Zij staan hier als **open vervolgactie**, niet
+als beschreven proces of genomen besluit.
+
+| # | Vervolgactie | Eigenaar |
+|---|---|---|
+| 1 | **Operationeel patchmanagementproces vaststellen.** Minimaal uit te werken: reguliere updates · spoedpatches · onderhoudsvensters · rollback · testvolgorde. Zelf beheerde VPS'en betekent dat patchen terugkerend eigen werk is ([ADR-0003](../architecture/adr/0003-cloudprovider.md)) | Ops + Security |
+| 2 | **Operationele runbooks opstellen** voor onder andere: account recovery · providerstoringen · mislukte betalingen · reconciliation · dead letter jobs · KYC-herbeoordeling · incidentafhandeling. Zie [`runbook.md`](runbook.md) §12 | Ops + Support |
+| 3 | **Beschikbaarheidsdoelstelling onderbouwen** met hersteltests, back-uptests, disaster recovery-tests en operationele metingen ([`service-level-objectives.md`](service-level-objectives.md) §7) | Ops + PO |
+
+> Hier staan **geen procedures**. Het vaststellen ervan is werk dat nog moet gebeuren; dit
+> document legt uitsluitend vast **dát** het vóór productie moet bestaan.
+
 ### Go/No-Go vóór start van de besloten testgroep
 
 De besloten testgroep (besluit 7) is de **eerste gecontroleerde productie-uitrol**. Zij mag

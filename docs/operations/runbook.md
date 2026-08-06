@@ -110,3 +110,25 @@ Volg [`backup-and-recovery.md`](backup-and-recovery.md). Kern:
 
 Bijwerken na elk incident en minimaal elk kwartaal. Een instructie die niet klopt onder
 druk, is erger dan geen instructie.
+
+## 12. Nog te schrijven runbooks — open vervolgactie
+
+De scenario's hierboven dekken de generieke gevallen. **Vóór productie moeten daarnaast
+operationele runbooks bestaan** voor onder andere:
+
+| # | Onderwerp |
+|---|---|
+| 1 | **account recovery** — inclusief de scenario's uit [ADR-0004](../architecture/adr/0004-identity-and-access-management.md) vervolgactie 8 |
+| 2 | **providerstoringen** — betaalpartner, Identity Provider, hosting |
+| 3 | **mislukte betalingen** |
+| 4 | **reconciliation** |
+| 5 | **dead letter jobs** |
+| 6 | **KYC-herbeoordeling** |
+| 7 | **incidentafhandeling** |
+
+> **Dit is een open vervolgactie, geen beschrijving van bestaande procedures.** De
+> procedures zelf worden later uitgewerkt en vastgesteld; hier wordt uitsluitend vastgelegd
+> **dát** zij vóór productie moeten bestaan. Er wordt hiermee geen beheerbesluit genomen.
+>
+> **Eigenaar:** Ops + Support. Zie ook
+> [`platform-readiness-checklist.md`](platform-readiness-checklist.md).

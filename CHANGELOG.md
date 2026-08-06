@@ -171,6 +171,53 @@ security-impact worden expliciet gemarkeerd.
   onder het rendement (#1)
 
 ### Gewijzigd
+- **Ontwerp, implementatie en bewijs expliciet uit elkaar getrokken.** Vastgelegd dat een
+  ADR een **ontwerpbesluit** is en dat een control **niet** betekent dat de maatregel
+  bestaat; verificatie vindt pas plaats tijdens implementatie en acceptatie. Het
+  complianceregister heeft een kolom **Fase** gekregen (Nog te ontwerpen · Ontworpen · Nog
+  te implementeren · Nog te verifiëren · Operationeel) met een definitie per fase, het
+  ADR-register een kolom **Fase**, en README, ADR-register, complianceregister en threat
+  model een banner die vastlegt dat er nog **geen applicatiecode** is en **geen enkele
+  maatregel operationeel** is. De vijftien in deze PR toegevoegde controls (C-24 t/m C-38)
+  vermelden expliciet dat verificatie pas bij implementatie en acceptatie plaatsvindt (#1)
+- **Threat model:** de kolommen *Maatregelen* en *Verificatie* zijn geëxpliciteerd als
+  **ontworpen** respectievelijk **nog uit te voeren**; een dreiging met een ingevulde
+  maatregel is niet afgedekt maar voorzien van een plan (#1)
+- **IAM-recovery verduidelijkt** (geen nieuw besluit): vastgelegd dat vóór productie een
+  **operationeel recoveryproces** moet bestaan, met als vervolgactie de minimaal uit te
+  werken scenario's — verlies van alle passkeys, verlies van TOTP, verlies van
+  e-mailadres, verloren apparaat, recovery van medewerkeraccounts en recovery van accounts
+  met verhoogde rechten. Er wordt bewust **geen oplossing** beschreven (#1)
+- **Reikwijdte van de Docker-uitsluiting verduidelijkt:** de uitsluiting geldt uitsluitend
+  voor productie, test en de deploymentarchitectuur. Lokale ontwikkelhulpmiddelen zoals
+  Testcontainers zijn daardoor **niet automatisch uitgesloten**. Dit is een verduidelijking
+  van de reikwijdte, **geen nieuw technisch besluit** (#1)
+- **SLO's:** vastgelegd dat de beschikbaarheidsdoelstelling (SLO-1) en de RTO (SLO-8) pas
+  definitief kunnen worden vastgesteld nadat hersteltests, back-uptests, disaster
+  recovery-tests en operationele metingen beschikbaar zijn. Tot dan zijn `99,5%` en
+  `< 4 uur` **voorlopige waarden**. Opgenomen als vervolgactie; de gekozen architectuur
+  verandert niet (#1)
+- **Patchmanagement** als open vervolgactie opgenomen: vóór productie moet een operationeel
+  proces worden vastgesteld voor reguliere updates, spoedpatches, onderhoudsvensters,
+  rollback en testvolgorde (#1)
+- **Operationele runbooks** als open vervolgactie opgenomen voor onder andere account
+  recovery, providerstoringen, mislukte betalingen, reconciliation, dead letter jobs,
+  KYC-herbeoordeling en incidentafhandeling. Er worden **geen procedures beschreven** (#1)
+- **WhatsApp verduidelijkt** (besluit ongewijzigd): WhatsApp is **uitsluitend een eerste
+  contactkanaal**. Authenticatie, identiteitsvaststelling, rekeningwijzigingen, gevoelige
+  persoonsgegevens en andere beveiligingsgevoelige verzoeken worden **nooit uitsluitend via
+  WhatsApp** afgehandeld; alle verzoeken gaan naar het centrale ticketsysteem (#1)
+- **Toegankelijkheid bij recovery:** de keuze om SMS niet te gebruiken blijft ongewijzigd.
+  Vastgelegd dat vóór productie een **toegankelijk alternatief** moet worden vastgesteld
+  voor gebruikers die geen passkeys kunnen gebruiken. Dit blijft een **open ontwerpvraag**;
+  er wordt geen oplossing gekozen (#1)
+- **Functiescheiding:** alle rollen blijven ongewijzigd. Vastgelegd dat vóór productie een
+  **functiescheidingsmatrix** moet worden opgesteld met toegestane en verboden
+  rolcombinaties en de toepassing van maker-checker in kleine teams (#1)
+- **Traceerbaarheid:** als vervolgactie opgenomen dat vóór merge een traceerbaar
+  GitHub-issue wordt aangemaakt dat besluiten 1 t/m 8, de resterende open besluiten en de
+  vervolgacties met deze pull request verbindt (DoD-criterium U7). Alle vervolgacties staan
+  gebundeld als **V-1 t/m V-7** in `README.md` §10 (#1)
 - **`[IDP]` ingevuld op modelniveau** en rij 8 van de openstaande besluitentabel op
   **besloten** gezet, met een nieuwe rij **8a** voor de nog openstaande definitieve
   leverancierskeuze. Bijgewerkt in README, `architecture-overview.md`, `system-context.md`,

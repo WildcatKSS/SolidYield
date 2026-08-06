@@ -145,6 +145,28 @@ niet. Zie [`../../SUPPORT.md`](../../SUPPORT.md) en
 > persoonsgegevens via een derde partij. Grondslag, verwerkersrelatie, doorgifte en
 > bewaartermijn moeten vóór de start zijn beoordeeld en vastgelegd (C-33).
 
+### Reikwijdte van WhatsApp
+
+WhatsApp blijft een supportkanaal van de MVP — dat besluit staat. Wel geldt de volgende
+afbakening:
+
+> **WhatsApp is uitsluitend een eerste contactkanaal.** De volgende zaken mogen **nooit
+> uitsluitend via WhatsApp** worden afgehandeld:
+>
+> * **authenticatie**;
+> * **identiteitsvaststelling**;
+> * **rekeningwijzigingen**;
+> * **gevoelige persoonsgegevens**;
+> * andere **beveiligingsgevoelige verzoeken**.
+>
+> **Alle verzoeken worden geregistreerd in het centrale ticketsysteem.**
+
+Een chatbericht toont niet aan wie er typt. Bij een dienst waar rekeningwijzigingen en
+uitkeringen spelen, is een informeel kanaal precies het pad dat een aanvaller kiest — zeker
+in een groep waarin men elkaar persoonlijk kent en een verzoek daarom snel wordt vertrouwd.
+Het kanaal mag dus binnenkomend contact opvangen; de afhandeling loopt via de reguliere,
+geauthenticeerde en geauditeerde weg.
+
 ## 7. Vertrouwelijkheid
 
 Deelnemers accepteren vooraf minimaal de **privacyverklaring**.

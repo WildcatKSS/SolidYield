@@ -7,6 +7,29 @@ maken: is er ruimte voor nieuwe functionaliteit, of moeten we eerst stabiliseren
 > Owner en de opdrachtgever; bij een financiële dienst kunnen contractuele of regulatoire
 > eisen strenger zijn — **te valideren door een bevoegde specialist**.
 
+> [!IMPORTANT]
+> **De beschikbaarheidsdoelstelling is nog niet definitief vast te stellen.** De gekozen
+> architectuur draait op **één productie-VPS** ([ADR-0003](../architecture/adr/0003-cloudprovider.md)):
+> er is **geen automatische failover**, en uitval betekent dat de dienst uit de lucht is tot
+> herstel (dreiging **T-28**). Wat er dan feitelijk haalbaar is, hangt af van hersteltijden
+> die nog niet zijn gemeten.
+>
+> **SLO-1 en SLO-8 kunnen daarom pas definitief worden vastgesteld nadat beschikbaar zijn:**
+>
+> | # | Benodigd |
+> |---|---|
+> | 1 | **hersteltests** |
+> | 2 | **back-uptests** |
+> | 3 | **disaster recovery-tests** |
+> | 4 | **operationele metingen** |
+>
+> Tot die tijd zijn `99,5%` en `< 4 uur` **voorlopige waarden**, geen toezegging. Zie
+> *Vervolgacties* onderaan dit document.
+>
+> **Dit verandert de gekozen architectuur niet.** Eén productie-VPS blijft de keuze uit
+> ADR-0003; hier wordt alleen vastgelegd dat de bijbehorende doelstelling nog niet
+> onderbouwd is.
+
 > **Gerelateerd:** [`sre-principles.md`](sre-principles.md) · [`monitoring.md`](monitoring.md)
 
 ## 1. SLO's
@@ -69,3 +92,16 @@ betrouwbaarheid expliciet.
 | Definitieve waarden na de eerste maand meten | team + PO |
 | Contractuele of regulatoire eisen aan beschikbaarheid | Compliance |
 | Oproepregeling en dekking buiten kantoortijd | Ops |
+
+## 7. Vervolgacties
+
+| # | Actie | Eigenaar |
+|---|---|---|
+| 1 | **SLO-1 (beschikbaarheid) en SLO-8 (RTO) definitief vaststellen** op basis van hersteltests, back-uptests, disaster recovery-tests en operationele metingen. Tot dan zijn de huidige waarden voorlopig | Ops + PO |
+| 2 | Hersteltest en back-uptest uitvoeren en de uitkomst vastleggen (C-12, [`backup-and-recovery.md`](backup-and-recovery.md)) | Ops |
+| 3 | Disaster recovery-test op de geografisch gescheiden secundaire locatie uitvoeren ([ADR-0006](../architecture/adr/0006-dataresidency-en-opslaglocatie.md) vervolgactie 3) | Ops + Tech lead |
+| 4 | **Operationeel patchmanagementproces vaststellen vóór productie** — zie [`platform-readiness-checklist.md`](platform-readiness-checklist.md) | Ops + Security |
+| 5 | **Operationele runbooks opstellen vóór productie** — zie [`runbook.md`](runbook.md) §12 | Ops + Support |
+
+> Deze acties zijn **vervolgacties, geen besluiten**. Zij veranderen niets aan de gekozen
+> architectuur of aan eerder vastgestelde besluiten.

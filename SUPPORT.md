@@ -34,6 +34,11 @@ met echte gegevens en — na bevestiging van de wettelijke grondslag — echte g
 * Je gebruikt **wel** je echte gegevens en doorloopt de volledige KYC-procedure.
 * Support loopt via **e-mail**, **WhatsApp** of de **ingebouwde feedbackfunctie**. Alles
   komt in het centrale ticketsysteem; sociale media zijn geen supportkanaal.
+* **WhatsApp is uitsluitend een eerste contactkanaal.** Authenticatie,
+  identiteitsvaststelling, rekeningwijzigingen, gevoelige persoonsgegevens en andere
+  beveiligingsgevoelige verzoeken worden **nooit uitsluitend via WhatsApp** afgehandeld —
+  wij vragen je daarvoor altijd naar de reguliere, ingelogde weg. Deel dus geen
+  identiteitsbewijs, rekeningnummer of code via de chat.
 * Je accepteert vooraf de privacyverklaring en maakt zonder onze schriftelijke toestemming
   geen screenshots, video's of andere informatie over de besloten test openbaar. Dat geldt
   alleen voor niet-openbare informatie over de test en doet **geen** afbreuk aan je
