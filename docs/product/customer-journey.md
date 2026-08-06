@@ -9,9 +9,15 @@ compliancemomenten er spelen.
 
 > **Let op:** deze journey beschrijft het besloten bedrijfsmodel (besluit 4). Tot de
 > wettelijke grondslag is bevestigd wordt de reis uitsluitend doorlopen met
-> **sandboxbetalingen en synthetische data**, binnen een besloten testgroep — geen echte
-> klantgelden, geen bindende rendementcontracten, geen werkelijke rendementuitkeringen. Zie
+> **sandboxbetalingen en synthetische data** — geen echte klantgelden, geen bindende
+> rendementcontracten, geen werkelijke rendementuitkeringen. Zie
 > [ADR-0007](../architecture/adr/0007-vergunningplicht-en-rol-in-de-keten.md).
+>
+> **Ná** bevestiging van die grondslag wordt deze reis voor het eerst met **echte
+> gegevens, echte KYC en echte geldstromen** doorlopen, door de **besloten testgroep** van
+> maximaal tien uitgenodigde deelnemers (besluit 7,
+> [`closed-test-group.md`](closed-test-group.md)). Dat is geen wijziging van besluit 4: het
+> is de eerste gecontroleerde uitrol die besluit 4 pas ná bevestiging toelaat.
 >
 > Betalingen in deze reis lopen via een **vergunninghoudende betaalpartner**. De eerste
 > implementatierichting is Mollie (iDEAL/SEPA) en bunq (IBAN, uitbetalingen,
@@ -155,4 +161,9 @@ als volgt binnen deze journey:
 4. De **terugbetaling aan het einde van de looptijd**.
 5. Het moment dat de gebruiker wil stoppen.
 
-Deze vijf momenten worden **altijd** met de testgroep gevalideerd.
+Deze vijf momenten worden **altijd** gevalideerd: eerst in onderzoekssessies met
+synthetische data ([`../research/test-group-plan.md`](../research/test-group-plan.md)) en
+daarna, ná bevestiging van de wettelijke grondslag, in de besloten testgroep met echte
+geldstromen ([`closed-test-group.md`](closed-test-group.md)). Moment 2 en 4 — de eerste
+uitkering en de terugbetaling aan het einde van de looptijd — zijn pas in de besloten
+testgroep écht te valideren.

@@ -23,11 +23,11 @@ weggenomen. Alles na de huidige horizon is een intentie, geen belofte.
 
 | Doel | Los de vraag op: *werkt het in de praktijk, veilig en betrouwbaar?* |
 |---|---|
-| Increment | bèta → beperkte productie-uitrol |
+| Increment | bèta → **besloten testgroep** als eerste gecontroleerde productie-uitrol |
 | Onderwerpen | betrouwbaarheid van gegevens, meldingen, support, monitoring, pentest, DPIA afgerond |
-| Validatie | testgroep in een realistische omgeving, meting van terugkeergedrag |
-| Klaar wanneer | de succescriteria uit `mvp-scope.md` zijn gehaald en er geen kritieke of hoge kwetsbaarheden openstaan |
-| Voorwaarde | **regulatoire toets afgerond en bevestigd door een bevoegde specialist** |
+| Validatie | besloten testgroep van **maximaal tien uitgenodigde deelnemers** met echte gegevens en echte geldstromen ([`closed-test-group.md`](closed-test-group.md)) |
+| Klaar wanneer | de afrondingscriteria uit `closed-test-group.md` §9 zijn gehaald: MVP functioneel compleet, geen kritieke defects, alle functionaliteit gevalideerd, akkoord van Compliance en een Go-besluit van de Product Owner |
+| Voorwaarde | **regulatoire toets afgerond en bevestigd door een bevoegde specialist**, plus de volledige Go/No-Go-lijst uit `closed-test-group.md` §10 |
 
 ## Horizon 3 — Verbreden (sprint 9+)
 
@@ -52,7 +52,8 @@ weggenomen. Alles na de huidige horizon is een intentie, geen belofte.
 | Juridisch advies over het rendementproduct in Nederland (RD-01) | Horizon 2 | Compliance | open |
 | Contract en DPA met `[LEVERANCIER]` | Horizon 2 | Inkoop + Privacy | open |
 | Pentest gepland | vóór productie | Security | open |
-| Samenstelling testgroep compleet | sprint 1 | UX | open |
+| ~~Samenstelling besloten testgroep~~ | sprint 1 | Product Owner | ✅ **besloten 2026-08-05** — maximaal 10 uitgenodigde deelnemers ([`closed-test-group.md`](closed-test-group.md)) |
+| Werving en spreiding voor de **onderzoekssessies** (synthetische data) | sprint 1 | UX | open |
 
 ## Herziening
 

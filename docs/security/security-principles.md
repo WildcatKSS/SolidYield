@@ -153,6 +153,12 @@ en het wegvallen van auditlogging.
   accounts/projecten, aparte netwerken, aparte sleutels, aparte credentials.
 * **Geen productiedata buiten productie.** Testdata is synthetisch.
 * Toegang tot productie is beperkt, tijdelijk, met MFA en volledig geaudit.
+* **De besloten testgroep (besluit 7) draait in productie, niet in test.** Zij werkt met
+  echte persoonsgegevens, volledige KYC en — ná bevestiging van de wettelijke grondslag —
+  echte geldstromen. Dat verruimt de regel hierboven **niet**: er komen nooit echte
+  gegevens in `development`, `test`, `staging`, demo-omgevingen of securityonderzoek.
+  Sandboxgegevens blijven daar de norm. Zie
+  [`../product/closed-test-group.md`](../product/closed-test-group.md).
 
 ## 3. Toetsing
 
@@ -163,4 +169,5 @@ en het wegvallen van auditlogging.
 | CI | secret scan, SAST, dependency- en containerscan, SBOM, licenties |
 | Definition of Done | securitycontroles geslaagd, geen kritieke/hoge bevindingen |
 | Release | securitycheck; openstaande kritieke/hoge bevinding blokkeert de release |
+| **Start besloten testgroep** | alle kritieke en hoge bevindingen opgelost **of formeel geaccepteerd** volgens [`../../GOVERNANCE.md`](../../GOVERNANCE.md) §4, plus een geslaagde hersteltest van back-up en disaster recovery — Go/No-Go-voorwaarden 4 en 5 uit [`../product/closed-test-group.md`](../product/closed-test-group.md) §10 (C-34) |
 | Periodiek | threat model per epic en per kwartaal; pentest vóór productie |

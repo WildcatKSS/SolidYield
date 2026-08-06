@@ -53,7 +53,7 @@ De workflow `code-quality.yml` telt bij elke run hoeveel er nog openstaan.
 | Placeholder | Betekenis | Aanname in deze template, of vastgesteld besluit |
 |---|---|---|
 | `[SPRINTDUUR]` | lengte van de sprint | ✅ **ingevuld 2026-08-05** — twee weken, veertien kalenderdagen (besluit 6, [`scrum/scrum-guide.md`](scrum/scrum-guide.md) §2) |
-| `[TESTGROEP]` | samenstelling testgroep | 8–12 deelnemers |
+| `[TESTGROEP]` | samenstelling testgroep | ✅ **ingevuld 2026-08-05** (besluit 7) — **besloten testgroep:** maximaal 10 deelnemers, uitsluitend op uitnodiging ([`product/closed-test-group.md`](product/closed-test-group.md)). Voor de **onderzoekssessies** met synthetische data geldt nog de aanname van 8–12 deelnemers ([`research/test-group-plan.md`](research/test-group-plan.md)) |
 | `[VERGOEDING]`, `[KANAAL]` | vergoeding en wervingskanaal | — |
 | `[HULPINSTANTIE]` | verwijzing bij financiële nood | — |
 | `[AFGESCHERMDE LOCATIE]` | opslag buiten de repository | — |
@@ -93,7 +93,8 @@ bruikbaar zonder invulwerk.
 
 1. **Direct:** organisatie, repository, contactadressen, licentiejaar.
 2. **Sprint 1:** product, doelgroep, probleem, doel, type dienst, regio, stack, cloud.
-3. **Sprint 2:** IDP, provider, testgroep. *(Sprintduur is besloten: twee weken.)*
+3. **Sprint 2:** IDP, provider. *(Sprintduur besloten: twee weken. Besloten testgroep
+   besloten: maximaal 10 deelnemers op uitnodiging.)*
 4. **Vóór bèta:** alle juridische punten, bewaartermijnen, SLO's, URL's.
 5. **Vóór productie:** alle overige waarden; de teller in `code-quality.yml` hoort dan
    richting nul te gaan.

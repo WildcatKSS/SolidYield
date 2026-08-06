@@ -27,9 +27,9 @@ Versies vóór `1.0.0` zijn niet stabiel; dat mag, mits duidelijk gecommuniceerd
 | Kanaal | Voor wie | Data | Voorwaarden |
 |---|---|---|---|
 | **Intern prototype** | team | synthetisch | CI groen |
-| **Testgroepversie** | testgroep (`[8–12]` deelnemers) | synthetisch | DoD gehaald, geen kritieke/hoge kwetsbaarheden, toestemming geregeld |
+| **Testgroepversie** | deelnemers aan **onderzoekssessies** (`[8–12]`) | synthetisch | DoD gehaald, geen kritieke/hoge kwetsbaarheden, toestemming geregeld |
 | **Bèta** | `[grotere groep]` | synthetisch of beperkt echt — **te valideren** | DPIA afgerond, securitycheck, support geregeld. Draait op een **niet-productieomgeving**; wil je bèta wél in productie, richt daar dan een eigen environment voor in en neem het kanaal expliciet op in de productie-allowlist |
-| **Beperkte productie-uitrol** | `[X]%` van de gebruikers | echt | volledige releasechecklist, pentest, goedkeuringen én de afgeronde Regulated-readinesscriteria |
+| **Beperkte productie-uitrol** | **besloten testgroep**: maximaal 10 uitgenodigde deelnemers (besluit 7), daarna `[X]%` van de gebruikers | **echt** — echte persoonsgegevens, volledige KYC, echte geldstromen | volledige releasechecklist, pentest, goedkeuringen, de afgeronde Regulated-readinesscriteria **én de volledige Go/No-Go uit [`../product/closed-test-group.md`](../product/closed-test-group.md) §10** (C-34), waaronder bevestiging van de wettelijke grondslag |
 | **Algemene beschikbaarheid** | iedereen | echt | beperkte uitrol stabiel gedurende `[2]` weken |
 
 Overgang naar een volgend kanaal is een expliciet besluit van PO + Security + Compliance.

@@ -22,6 +22,7 @@ Niveaus: 🟢 **Core** (vanaf dag één) · 🔵 **Advanced** (groeiend product)
 | [Quick start](onboarding/product-owner-quick-start.md) | 🟢 |
 | [Productvisie](product/product-vision.md) · [productdoelen](product/product-goals.md) | 🟢 |
 | [MVP-scope](product/mvp-scope.md) | 🟢 |
+| [Besloten testgroep](product/closed-test-group.md) — eerste gecontroleerde productie-uitrol | 🟢 |
 | [Voorbeeldbacklog](product/example-backlog.md) · [sprintvoorstel](scrum/sprint-plan-example.md) | 🟢 |
 | [Feedbacklog en weegkader](research/feedback-log.md) | 🟢 |
 | [Sprint Planning](scrum/sprint-planning.md) · [Sprint Review](scrum/sprint-review.md) | 🟢 |
@@ -130,7 +131,7 @@ Niveaus: 🟢 **Core** (vanaf dag één) · 🔵 **Advanced** (groeiend product)
 
 | Map | Inhoud |
 |---|---|
-| [`product/`](product/) | visie, doelen, persona's, journey, MVP, roadmap, voorbeeldbacklog |
+| [`product/`](product/) | visie, doelen, persona's, journey, MVP, besloten testgroep, roadmap, voorbeeldbacklog |
 | [`scrum/`](scrum/) | werkwijze, rollen, board, DoR/DoD, events, labels, antipatronen |
 | [`onboarding/`](onboarding/) | quick starts per rol |
 | [`research/`](research/) | testgroep, interviews, usability, consent, feedback, experimenten |

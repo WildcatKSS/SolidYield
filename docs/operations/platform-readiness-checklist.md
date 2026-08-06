@@ -125,6 +125,28 @@ per omgeving; sleutelbeheer wordt uitgewerkt in ADR-0005.
 |---|---|
 | Vóór staging | alle onderwerpen minimaal *Te ontwerpen*, kernonderwerpen *Gereed voor test* |
 | Vóór productie | P1–P18 en P21–P25 op *Gereed voor productie* |
+| **Vóór start van de besloten testgroep** | zie de Go/No-Go hieronder — dit is het eerste moment waarop er echte klantgegevens en echte geldstromen op het platform staan |
 | Regulated | alle relevante onderwerpen op *Bewijs aanwezig* |
+
+### Go/No-Go vóór start van de besloten testgroep
+
+De besloten testgroep (besluit 7) is de **eerste gecontroleerde productie-uitrol**. Zij mag
+uitsluitend starten wanneer aan **alle** onderstaande voorwaarden is voldaan (C-34):
+
+| # | Voorwaarde | Bewijs |
+|---|---|---|
+| 1 | Besluiten 1 tot en met 8 zijn vastgesteld | besluitentabel in [`../../README.md`](../../README.md) §10 |
+| 2 | **De wettelijke grondslag uit besluit 4 is bevestigd** | RD-23 t/m RD-27; controls C-27 t/m C-31 |
+| 3 | De MVP voldoet aan de [Definition of Done](../scrum/definition-of-done.md) | groene CI, DoD-verantwoording per item |
+| 4 | Alle kritieke en hoge beveiligingsbevindingen zijn opgelost of formeel geaccepteerd | security-gate; [`../security/vulnerability-management.md`](../security/vulnerability-management.md); risicoacceptatie volgens [`../../GOVERNANCE.md`](../../GOVERNANCE.md) §4 |
+| 5 | Een **succesvolle hersteltest** van back-up en disaster recovery is uitgevoerd | C-12; [`backup-and-recovery.md`](backup-and-recovery.md) |
+
+> Dit is een **operationele vrijgavevoorwaarde**, geen wijziging van eerdere besluiten. Zij
+> voegt niets toe aan en haalt niets weg van de besluiten 1 t/m 6; zij bepaalt uitsluitend
+> wanneer de knop om mag. Volledige uitwerking:
+> [`../product/closed-test-group.md`](../product/closed-test-group.md) §10.
+>
+> **Let op bij voorwaarde 5:** met één productie-VPS is er **geen automatische failover**
+> (T-28). De hersteltest toont aan dat herstel wérkt, niet dat uitval wordt voorkomen.
 
 **Laatst doorgenomen:** `[JJJJ-MM-DD]` door `[NAAM]` · **Volgende:** `[DATUM]`

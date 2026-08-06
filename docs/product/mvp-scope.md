@@ -14,6 +14,10 @@
   **rechtspersonen**
 * Beperking voor de MVP: **uitsluitend een besloten testgroep**, alleen Nederland, alleen
   Nederlands, alleen EUR
+* **Besloten testgroep (besluit 7, vastgesteld 2026-08-05):** **maximaal tien deelnemers**
+  — oprichters, ontwikkelaars, familie, vrienden en persoonlijk uitgenodigde bekenden —
+  **uitsluitend op uitnodiging**. Open inschrijving maakt geen onderdeel uit van de MVP.
+  Volledige inrichting: [`closed-test-group.md`](closed-test-group.md)
 
 ### Harde beperkingen tot de wettelijke grondslag is bevestigd
 
@@ -33,6 +37,12 @@ Deze beperkingen kennen **geen uitzonderingsprocedure**. Zie
 [ADR-0007](../architecture/adr/0007-vergunningplicht-en-rol-in-de-keten.md) en risico A-7
 daarin.
 
+> **Besluit 7 wijzigt hier niets aan.** De besloten testgroep beschrijft de eerste
+> gecontroleerde uitrol **ná** bevestiging van de wettelijke grondslag; zij start
+> uitsluitend wanneer die bevestiging er is en aan de volledige Go/No-Go-lijst is voldaan
+> ([`closed-test-group.md`](closed-test-group.md) §10). Tot dat moment blijft de tabel
+> hierboven onverkort gelden.
+
 ### Betaalpartners
 
 De MVP is ontworpen voor integratie met **vergunninghoudende betaalpartners**. De eerste
@@ -40,8 +50,10 @@ implementatierichting richt zich op **Mollie** voor iDEAL/SEPA en **bunq** voor
 IBAN-functionaliteit, uitbetalingen en reconciliatie. De **definitieve selectie en
 rolverdeling worden contractueel en regulatoir vastgesteld** (RD-22): er is nog geen
 overeenkomst gesloten, en de integratie loopt in deze fase via **sandboxomgevingen**.
-* Aantal beoogde gebruikers in de eerste ronde: `[AANTAL]` (testgroep, zie
-  [`../research/test-group-plan.md`](../research/test-group-plan.md))
+* Aantal beoogde gebruikers in de eerste ronde: **maximaal 10** (besloten testgroep, zie
+  [`closed-test-group.md`](closed-test-group.md)). Onderzoekssessies met synthetische data
+  volgen een eigen opzet en spreiding:
+  [`../research/test-group-plan.md`](../research/test-group-plan.md)
 
 ## 2. Kernprobleem
 
@@ -152,6 +164,19 @@ De MVP is geslaagd als **alle** onderstaande punten waar zijn:
 * geen privacy- of compliance-blokkade die niet is opgelost of aantoonbaar geaccepteerd;
 * het team kan elke sprint — dus elke twee weken (besluit 6) — een werkend increment
   opleveren.
+
+### Afronding van de besloten testgroep
+
+De besloten testgroep (besluit 7) kent een **eigen** afrondingscriterium, naast de
+succescriteria hierboven: de MVP is functioneel compleet, er staan geen kritieke defects
+open, alle MVP-functionaliteit is gevalideerd, **Compliance geeft akkoord** voor de
+volgende fase, en de **Product Owner neemt een Go-besluit**. Uitwerking, inclusief wat er
+met de testaccounts gebeurt: [`closed-test-group.md`](closed-test-group.md) §9.
+
+> **Let op bij de percentages hierboven.** Met maximaal tien deelnemers, grotendeels uit de
+> eigen kring, is een percentage geen statistisch resultaat. De besloten testgroep toont
+> aan *dat het werkt*; of het ook *aanslaat*, blijft de vraag van de onderzoekssessies met
+> een representatieve doelgroep.
 
 ## 11. Stop-, wijzigings- en doorgaancriteria
 

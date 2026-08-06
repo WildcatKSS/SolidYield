@@ -18,7 +18,8 @@ Developers, onafhankelijke governancerollen en stakeholders.
 | **Privacy officer / operationele privacyfunctie** | governance of Developers | registers, transparantie, bewaartermijnen, privacyvereisten; operationele beoordelingen binnen mandaat | wettelijke toepasselijkheid vaststellen | DPO / `[BESTUUR]` |
 | **Compliance officer** | governance | complianceregister, controls, bewijsvoering; een blokkerende compliancevraag **blokkeert de release** | productprioriteit | `[BESTUUR]` |
 | **Verwerkingsverantwoordelijke / mandaathouder** | formeel mandaat | het uiteindelijke besluit; accepteert of weigert organisatorische risico's; beslist over doorgang na ontvangen DPO-advies | technische uitvoering | `[BESTUUR]` |
-| **Deelnemers testgroep** | onderzoeksdeelnemers | niets — zij leveren gedrag, ervaringen en feedback | scope of prioriteit | coördinator testgroep |
+| **Deelnemers onderzoekssessies** | onderzoeksdeelnemers | niets — zij leveren gedrag, ervaringen en feedback | scope of prioriteit | coördinator testgroep |
+| **Deelnemers besloten testgroep** (besluit 7) | **klanten**, geen onderzoeksdeelnemers — zij hebben een echte vordering op SolidYield | niets over het product; wel volledige klantrechten en rechten als betrokkene | scope of prioriteit | Product Owner |
 
 > **Done staat niet in deze tabel als beslissing van één persoon.** Of een item Done is,
 > volgt uit de [Definition of Done](docs/scrum/definition-of-done.md): objectief,

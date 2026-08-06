@@ -20,6 +20,38 @@ security-impact worden expliciet gemarkeerd.
 ## [Unreleased]
 
 ### Toegevoegd
+- **Besluit 7 — besloten testgroep.** Nieuw document
+  [`docs/product/closed-test-group.md`](docs/product/closed-test-group.md): de eerste
+  besloten testgroep telt **maximaal tien deelnemers** — oprichters, ontwikkelaars,
+  familie, vrienden en persoonlijk uitgenodigde bekenden — **uitsluitend op uitnodiging**.
+  Open inschrijving maakt geen onderdeel uit van de MVP (#1)
+- **De besloten testgroep is de eerste gecontroleerde productie-uitrol** en **start
+  uitsluitend nadat de wettelijke grondslag uit besluit 4 is bevestigd**. Tot dat moment
+  blijven de beperkingen uit besluit 4 onverkort van kracht; **besluit 4 zelf is inhoudelijk
+  ongewijzigd** (#1)
+- **Echte gegevens en echte geldstromen in de besloten testgroep:** echte
+  persoonsgegevens, de volledige KYC-procedure, echte identificatie en verificatie; na
+  bevestiging van de wettelijke grondslag ook echte stortingen, rendementcontracten,
+  maandelijkse uitkeringen en terugbetaling van de nominale inleg. Sandboxgegevens blijven
+  uitsluitend toegestaan voor interne ontwikkel- en acceptatietesten daarbuiten (#1)
+- **Go/No-Go voor start van de besloten testgroep** vastgelegd als operationele
+  vrijgavevoorwaarde (control **C-34**): besluiten 1 t/m 8 vastgesteld · wettelijke
+  grondslag bevestigd · MVP voldoet aan de Definition of Done · alle kritieke en hoge
+  beveiligingsbevindingen opgelost of formeel geaccepteerd · succesvolle hersteltest van
+  back-up en disaster recovery. Opgenomen in de
+  [platform-readinesschecklist](docs/operations/platform-readiness-checklist.md) (#1)
+- **Support, vertrouwelijkheid, beëindiging en afronding vastgelegd:** support via e-mail,
+  WhatsApp en de ingebouwde feedbackfunctie, met registratie in het centrale ticketsysteem;
+  geen support via sociale media. Deelnemers accepteren vooraf de privacyverklaring en maken
+  geen informatie over de besloten test openbaar zonder schriftelijke toestemming — die
+  vertrouwelijkheid ziet uitsluitend op niet-openbare informatie en doet **geen afbreuk aan
+  wettelijke rechten van deelnemers**. Na afloop kiest iedere deelnemer tussen omzetting naar
+  een productieaccount of beëindiging (#1)
+- **Compliance:** controls **C-33** (verwerking van echte persoonsgegevens en volledige KYC,
+  inclusief WhatsApp als supportkanaal), **C-34** (Go/No-Go) en **C-35** (deelnemersvoorwaarden
+  en vertrouwelijkheid) toegevoegd; **RD-28** en **RD-29** toegevoegd voor de informatie- en
+  zorgplichtverplichtingen richting deelnemers en de toelaatbaarheid van de
+  vertrouwelijkheidsafspraak. RD-14 aangevuld met de besloten testgroep (#1)
 - **Besluit 6 — sprintduur.** SolidYield werkt met sprints van **twee weken** (veertien
   kalenderdagen), met een vaste start- en einddag. Iedere sprint bevat minimaal sprint
   planning, dagelijkse afstemming, backlog refinement, sprint review en retrospective.
@@ -102,6 +134,20 @@ security-impact worden expliciet gemarkeerd.
   onder het rendement (#1)
 
 ### Gewijzigd
+- **"Testgroep" uit elkaar getrokken in twee begrippen.** De repository gebruikte één term
+  voor twee verschillende activiteiten. Vastgelegd is nu het onderscheid tussen
+  **onderzoekssessies** (testomgeving, uitsluitend synthetische data, representatieve
+  spreiding — [`docs/research/test-group-plan.md`](docs/research/test-group-plan.md)) en de
+  **besloten testgroep** (productieomgeving, echte gegevens, echte geldstromen — besluit 7).
+  Bijgewerkt in het testgroepplan, `SUPPORT.md`, `GOVERNANCE.md`,
+  `security-principles.md`, `release-process.md`, de customer journey en de MVP-scope (#1)
+- **Security:** expliciet vastgelegd dat besluit 7 de regel *geen productiedata buiten
+  productie* **niet** verruimt: de besloten testgroep draait in productie, en er komen nooit
+  echte gegevens in development, test, staging, demo-omgevingen of securityonderzoek
+  (#1)
+- **`[TESTGROEP]` ingevuld** en rij 7 van de openstaande besluitentabel op **besloten**
+  gezet; de roadmapafhankelijkheid "samenstelling testgroep" is gesloten en gesplitst in een
+  resterende actie voor de werving van onderzoeksdeelnemers (#1)
 - **`[SPRINTDUUR]` overal ingevuld.** README, `placeholders.md`, `project-board.md`,
   `scrum-guide.md`, `sprint-planning.md`, `sprint-review.md`, `retrospective.md`,
   `refinement.md`, `roadmap.md` en `mvp-scope.md` spreken nu consequent van twee weken; de

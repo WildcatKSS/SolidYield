@@ -65,7 +65,7 @@ tegelijk in te voeren. De technologiestack en hosting zijn inmiddels wél gekoze
 | **Product Owner** | [Quick start](docs/onboarding/product-owner-quick-start.md) |
 | **Developer** | [Developer onboarding](docs/onboarding/developer-onboarding.md) |
 | **Scrum Master** | [Scrum-werkwijze](docs/scrum/scrum-guide.md) · [antipatronen](docs/scrum/anti-patterns.md) |
-| **UX / onderzoek** | [Testgroepplan](docs/research/test-group-plan.md) |
+| **UX / onderzoek** | [Testgroepplan](docs/research/test-group-plan.md) · [besloten testgroep](docs/product/closed-test-group.md) |
 | **Security Champion** | [Security Champions](docs/security/security-champions.md) |
 | **Platform / operations** | [Platform-readiness](docs/operations/platform-readiness-checklist.md) · [SRE-principes](docs/operations/sre-principles.md) |
 | **Privacy / compliance** | [Privacy by design](docs/privacy/privacy-by-design.md) · [control matrix](docs/compliance/control-mapping.md) |
@@ -101,7 +101,8 @@ privacyprincipes.
 | Landen/regio's · dataresidency | **Nederland** · opslag en reguliere verwerking binnen de **EER**, primaire productieomgeving in Nederland | zie [ADR-0006](docs/architecture/adr/0006-dataresidency-en-opslaglocatie.md) |
 | Technologiestack | **Kotlin/Spring Boot** · **React/TypeScript/Vite** · **PostgreSQL** · modulaire monoliet met Spring Modulith | zie [ADR-0002](docs/architecture/adr/0002-technologiestack.md) |
 | Hosting | **TransIP**, twee VPS'en met **Ubuntu Server LTS**; productie en test **volledig gescheiden**, test uitsluitend via **WireGuard** | zie [ADR-0003](docs/architecture/adr/0003-cloudprovider.md) |
-| Sprintduur · testgroep | **twee weken** (veertien kalenderdagen) · `[TESTGROEP]` | zie [Scrum](docs/scrum/scrum-guide.md) en [testgroepplan](docs/research/test-group-plan.md) |
+| Sprintduur | **twee weken** (veertien kalenderdagen) | zie [Scrum](docs/scrum/scrum-guide.md) |
+| Besloten testgroep | **maximaal 10 deelnemers**, uitsluitend op uitnodiging — eerste gecontroleerde **productie**-uitrol, start **pas na bevestiging van de wettelijke grondslag** (besluit 4) | zie [besloten testgroep](docs/product/closed-test-group.md); onderzoekssessies met synthetische data staan in het [testgroepplan](docs/research/test-group-plan.md) |
 
 ### Installatie
 
@@ -205,6 +206,11 @@ Architectuurkaders: [`docs/architecture/architecture-principles.md`](docs/archit
 Semantic Versioning + [`CHANGELOG.md`](CHANGELOG.md). Kanalen: intern prototype →
 testgroepversie → bèta → beperkte productie → algemene beschikbaarheid.
 
+De **besloten testgroep** (besluit 7) valt onder *beperkte productie*: maximaal tien
+uitgenodigde deelnemers, met echte gegevens en echte geldstromen, en pas ná bevestiging van
+de wettelijke grondslag. De Go/No-Go-voorwaarden staan in
+[`docs/product/closed-test-group.md`](docs/product/closed-test-group.md) §10.
+
 De releaseworkflow is fail-closed: een handmatige run is altijd een **droogrun**;
 deployment vereist een tag-push op de hoofdbranch met de juiste variabelen, en productie
 bovendien een stabiele SemVer-versie, een kanaal uit de allowlist en environment approval.
@@ -239,7 +245,7 @@ Niet besloten — behandel deze niet als feit:
 | 4a | **Wettelijke grondslag** om dat model uit te voeren: vergunning, wettelijke uitzondering, vrijstelling, ontheffing of een andere juridisch bevestigde grondslag (RD-23 t/m RD-27) | **te valideren door bevoegde specialist** — blokkeert echte klantgelden, bindende rendementcontracten, werkelijke rendementuitkeringen en productiegebruik | Compliance |
 | 5 | Technologiestack en cloudprovider | ✅ **besloten 2026-08-05** — Kotlin/Spring Boot, React/Vite, PostgreSQL, modulaire monoliet ([ADR-0002](docs/architecture/adr/0002-technologiestack.md)); TransIP met twee VPS'en ([ADR-0003](docs/architecture/adr/0003-cloudprovider.md)) | Tech lead |
 | 6 | Sprintduur | ✅ **besloten** — sprints van twee weken | Scrum Master |
-| 7 | Samenstelling testgroep (aanname: 8–12 deelnemers) | aanname | UX-expertise |
+| 7 | Besloten testgroep (MVP-deelnemers) | ✅ **besloten** — maximaal 10 uitgenodigde deelnemers; eerste gecontroleerde productie-uitrol na bevestiging wettelijke grondslag | Product Owner |
 | 8 | Identiteitsprovider en MFA-methode | open besluit | Security + Tech lead |
 | 9 | Bewaartermijnen per gegevenscategorie | **te valideren door bevoegde specialist** | Privacy |
 | 10 | Licentiemodel (aanname: MIT) | aanname | Eigenaar repo |
