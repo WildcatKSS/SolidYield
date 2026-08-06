@@ -18,9 +18,10 @@ kortere RPO/RTO kost meer.
 
 | Onderdeel | Methode | Frequentie | Encryptie | Locatie |
 |---|---|---|---|---|
-| Primaire database | volledige back-up + continue transactielogs | dagelijks + continu | in rust, aparte sleutel | tweede zone in `[REGIO]` |
+| Primaire database | volledige back-up + continue transactielogs | dagelijks + continu | in rust, aparte sleutel | tweede zone in Nederland |
 | Auditlog | append-only met eigen back-up | dagelijks | in rust | gescheiden van de applicatieback-up |
-| Objectopslag (bestanden) | versiebeheer + replicatie | continu | in rust | `[REGIO]` |
+| Objectopslag (TransIP Object Store) | versioning + replicatie | continu | in rust, eigen sleutel per omgeving | Nederland; replicatie binnen de EER |
+| **Identity Provider (Keycloak)** — database, realms, clients, signing keys | volgt bij de inrichting; **nog te implementeren** | `[te bepalen]` | in rust, eigen sleutel per omgeving | Nederland; back-up onder de geografisch gescheiden EER-eis |
 | Configuratie en infrastructuur | infrastructure as code in Git | per wijziging | n.v.t. | repository |
 | Secrets | secrets manager met eigen back-up | volgens tool | ja | `[LOCATIE]` |
 
@@ -35,7 +36,57 @@ reproduceerbaar).
 * Onveranderlijkheid (immutability / object lock) waar mogelijk — beschermt tegen
   ransomware en tegen fouten.
 * Toegang tot back-ups wordt geaudit.
-* Back-ups liggen binnen `[REGIO]`; doorgifte buiten de regio is **te valideren**.
+* Back-ups liggen binnen de **EER**: primair Nederland, met disaster recovery op één
+  **geografisch gescheiden secundaire locatie binnen de EER** (ADR-0006). Die locatie hoeft
+  niet in een ander land te liggen, mits de scheiding aantoonbaar voldoende bescherming
+  biedt tegen uitval van de primaire locatie — onderbouwd vastgelegd en periodiek getest.
+  Opslag buiten de EER vindt niet plaats.
+* Back-ups van **productie en test zijn volledig gescheiden** en worden nooit gedeeld
+  (ADR-0003). Objectopslag loopt via **unieke buckets per omgeving** — generieke namen zijn
+  niet toegestaan:
+
+  | Omgeving | Back-upbucket | Overige buckets |
+  |---|---|---|
+  | Productie | `solidyield-production-backups` | `solidyield-production-documents` · `solidyield-production-exports` |
+  | Test | `solidyield-test-backups` | `solidyield-test-documents` · `solidyield-test-exports` |
+
+  Productie en test gebruiken **afzonderlijke** Object Store-credentials, access keys,
+  endpoints/accounts of IAM-principals, encryptiesleutels en
+  lifecycle-/retentieconfiguraties. Versioning, encryptie en lifecycle policies staan per
+  bucket aan.
+
+  > **Harde eis:** een verkeerde *productie*credential mag technisch **geen** toegang geven
+  > tot test, en omgekeerd. Voor back-ups weegt dit dubbel: een herstelactie die per
+  > ongeluk de testbucket raakt, of een testrestore die de productieback-ups overschrijft,
+  > mag op autorisatieniveau niet mogelijk zijn — niet alleen op basis van een correct
+  > ingevulde bucketnaam. Toetsbaar gemaakt in control **C-24** en dreiging **T-27**.
+* Herstelwerkzaamheden worden binnen de EER uitgevoerd. Toegang tot back-ups vanuit een
+  derde land is standaard uitgesloten en alleen mogelijk bij een vooraf goedgekeurde
+  uitzondering, die als internationale doorgifte wordt geregistreerd.
+
+### Wat de secundaire locatie wél en niet afdekt
+
+Productie, test, objectopslag én back-ups staan alle bij **TransIP**, de gekozen
+startprovider (ADR-0003). Drie risico's die vaak op één hoop worden gegooid, worden **niet**
+door dezelfde maatregel afgedekt:
+
+| Risicosoort | Wat het is | Wordt afgedekt door |
+|---|---|---|
+| **Locatiegebonden uitval** | uitval van één fysiek datacenter: stroom, koeling, brand, netwerk | geografisch gescheiden secundaire locatie (ADR-0006) |
+| **Concentratierisico** | alle omgevingen én de back-ups staan bij dezelfde provider | **niet afgedekt** — bewust geaccepteerd voor de MVP |
+| **Account-, control-plane-, contract- en providerbrede uitval** | compromittering of blokkade van het provideraccount, uitval van het beheerportaal of de API, contractbeëindiging, faillissement van de provider | **niet afgedekt** — bewust geaccepteerd voor de MVP |
+
+> Een geografisch gescheiden secundaire locatie bij dezelfde provider beperkt
+> locatiegebonden uitval, maar neemt providerbrede, accountgebonden en
+> control-plane-risico's niet weg. SolidYield accepteert dit concentratierisico voor de
+> MVP. Het risico wordt periodiek herbeoordeeld en vormt een herzieningstrigger voor
+> ADR-0003.
+
+Praktisch gevolg voor back-ups: een herstelscenario dat **uitgaat van een werkend
+TransIP-account** dekt de laatste rij niet. Vóór echte klantgelden wordt beoordeeld of een
+back-upkopie **buiten het TransIP-account** — of bij een andere partij — nodig is. Dit
+besluit verbiedt zo'n aanvullende locatie niet; TransIP is de gekozen startprovider, geen
+permanente uitsluiting van een tweede partij (ADR-0003, vervolgactie 4a).
 
 ## 4. Herstelscenario's
 
@@ -47,6 +98,7 @@ reproduceerbaar).
 | Zone-uitval | uitwijken naar tweede zone | < RTO |
 | Ransomware / compromittering | herstel uit onveranderlijke back-up in een schone omgeving | `[8]` uur |
 | Volledig verlies van de omgeving | infrastructuur opnieuw uitrollen (IaC) + restore | `[24]` uur |
+| Provideraccount of control plane niet beschikbaar | **nog niet afgedekt** — herstel veronderstelt een werkend TransIP-account; zie *Wat de secundaire locatie wél en niet afdekt* | **te bepalen** vóór echte klantgelden |
 
 ## 5. Hersteltest (elk kwartaal)
 

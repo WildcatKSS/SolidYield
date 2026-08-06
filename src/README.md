@@ -1,6 +1,6 @@
 # src/
 
-Applicatiecode. De indeling volgt uit de gekozen `[TECH STACK]` — leg die keuze vast als
+Applicatiecode. De stack is vastgesteld in ADR-0002: Kotlin/Spring Boot voor de backend en React/TypeScript voor de frontend. De oorspronkelijke instructie luidde: leg die keuze vast als
 ADR (zie [`../docs/architecture/adr/`](../docs/architecture/adr/)) voordat je hier begint.
 
 ## Voorgestelde indeling (aan te passen aan de stack)

@@ -4,6 +4,21 @@ Beschrijft welke gegevens waarheen stromen, met welk doel en met welke beschermi
 document is de basis voor het [threat model](threat-model.md), de
 [gegevensclassificatie](../privacy/data-classification.md) en de DPIA.
 
+> **Context.** Het bedrijfs- en ketenmodel is vastgesteld (besluit 4,
+> [`adr/0007-vergunningplicht-en-rol-in-de-keten.md`](adr/0007-vergunningplicht-en-rol-in-de-keten.md)):
+> SolidYield is contractspartij en houdt de wallet; betalingen verlopen via
+> **vergunninghoudende betaalpartners**. De eerste implementatierichting is Mollie
+> (iDEAL/SEPA) en bunq (IBAN, uitbetalingen, reconciliatie); die partijen zijn **nog niet
+> definitief geselecteerd en niet gecontracteerd** (RD-22). Een betaalpartner is **geen
+> productuitgever**. De geld- en contractstroom staat met sequencediagrammen in
+> [`adr/0008-geld-en-contractstroom.md`](adr/0008-geld-en-contractstroom.md).
+>
+> SolidYield gaat uit van een **vergunningplicht** (besluit 4A) en bouwt alsof een
+> vergunning vereist is; de exacte vergunning en grondslag worden vastgesteld tijdens het
+> vergunningstraject (RD-23 t/m RD-27). Tot die bevestiging lopen
+> deze stromen met **sandboxbetalingen en synthetische data**; er stromen geen echte
+> klantgelden.
+
 ## 1. Overzicht
 
 ```mermaid
@@ -14,7 +29,7 @@ sequenceDiagram
     participant A as API
     participant I as [IDP]
     participant D as Opslag
-    participant P as [PROVIDER]
+    participant P as Betaalpartner<br/>(richting: Mollie/bunq)
     participant L as Auditlog
 
     U->>W: opent applicatie (HTTPS)
@@ -35,6 +50,12 @@ sequenceDiagram
 | # | Stroom | Gegevens | Doel | Grondslag (voorlopig) | Bescherming |
 |---|---|---|---|---|---|
 | DF-1 | Gebruiker → applicatie | inloggegevens, MFA-code | authenticatie | uitvoering overeenkomst | TLS, geen logging van geheimen, rate limiting |
+> **Vrij walletsaldogeld:** de juridische positie is **niet vastgesteld** — rechthebbende,
+> tenaamstelling van de bankrekening, vermogensscheiding en faillissementspositie zijn open
+> (**RD-32**). Het rekening- en ledgerontwerp mag daar niet op vooruitlopen (C-39). Het
+> **vastgezette** bedrag valt hier niet onder: dat wordt een contractuele vordering en is
+> volgens besluit 4A gedurende de looptijd eigendom van SolidYield.
+
 | DF-2 | Applicatie → `[IDP]` | identiteitsclaims | authenticatie | uitvoering overeenkomst | OIDC, PKCE, korte tokenlevensduur |
 | DF-3 | Gebruiker → applicatie | profielgegevens | account beheren | uitvoering overeenkomst | validatie, minimalisatie |
 | DF-4 | Applicatie ↔ `[PROVIDER]` | financiële gegevens | het kerninzicht leveren | **toestemming** (intrekbaar) | scopebeperking, tokens in secrets manager, mTLS/OAuth |
@@ -54,7 +75,12 @@ sequenceDiagram
 * Geen financiële gegevens naar analytics of marketing.
 * Geen persoonsgegevens in applicatielogs, URL's, foutmeldingen of monitoring.
 * Geen productiedata in test-, demo- of testgroepomgevingen.
-* Geen doorgifte naar landen buiten `[REGIO]` zonder beoordeling — **te valideren**.
+* Geen **structurele** doorgifte naar derde landen (ADR-0006). Eventuele uitzonderingen
+  vereisen afzonderlijke beoordeling, passende juridische waarborgen en registratie als
+  internationale doorgifte.
+* Toegang vanuit een derde land is **standaard uitgesloten** en alleen mogelijk bij een
+  vooraf door Privacy en Compliance goedgekeurde uitzondering. Zo'n uitzondering geldt zelf
+  als internationale doorgifte.
 * Geen profilering met rechtsgevolg zonder aparte beoordeling.
 
 ## 4. Gegevens in rust
@@ -63,7 +89,7 @@ sequenceDiagram
 |---|---|---|---|---|
 | Primaire database | account- en financiële gegevens | in rust (`[KMS]`), gevoelige velden aanvullend | alleen de applicatie, least privilege | dagelijks, versleuteld, hersteltest per kwartaal |
 | Auditlog | gebeurtenissen | in rust | schrijven door app, lezen door security | conform bewaartermijn |
-| Back-ups | volledige dataset | in rust, aparte sleutel | strikt beperkt, MFA | offsite in `[REGIO]` |
+| Back-ups | volledige dataset | in rust, aparte sleutel | strikt beperkt, MFA | offsite op één geografisch gescheiden secundaire locatie binnen de EER (ADR-0006) |
 | Cache | tijdelijke gegevens | in rust waar mogelijk | alleen applicatie | geen |
 | Onderzoeksdata | interviewaantekeningen | buiten deze systemen | UX + privacy | volgens onderzoeksbeleid |
 

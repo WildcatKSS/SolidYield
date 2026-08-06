@@ -3,7 +3,7 @@
 **Doel:** het Scrum Team en de stakeholders inspecteren samen het resultaat, de context en
 de voortgang, en passen de Product Backlog aan op basis van wat is geleerd. Het is een
 **werksessie**, geen presentatie — en **geen goedkeurings- of sign-offmoment**.
-**Duur:** maximaal 2 uur bij een sprint van 2 weken.
+**Duur:** maximaal 2 uur — onze sprint duurt **twee weken** (besluit 6).
 **Deelnemers:** het Scrum Team en de stakeholders die ertoe doen voor dit increment.
 Deelnemers uit de testgroep zijn welkom wanneer er een concrete vraag voor hen ligt — niet
 als vaste verplichting bij elke review (zie

@@ -10,13 +10,13 @@ De workflow `code-quality.yml` telt bij elke run hoeveel er nog openstaan.
 
 | Placeholder | Betekenis | Eigenaar | Nodig vóór |
 |---|---|---|---|
-| `[PRODUCTNAAM]` | naam van de dienst | PO | sprint 1 |
-| `[DOELGROEP]` | primaire doelgroep | PO | sprint 1 |
-| `[PROBLEEM]` | kernprobleem | PO | sprint 1 |
-| `[PRODUCTDOEL]` | belangrijkste productdoel | PO | sprint 1 |
-| `[TYPE DIENST]` | budgetteren, betalen, lenen, investeren, financieel inzicht | PO + Compliance | sprint 1 |
-| `[LANDEN/REGIO]`, `[REGIO]` | markt en dataresidency | PO + Compliance | sprint 1 |
-| `[TALEN]`, `[VALUTA]` | taal- en valutaondersteuning | PO | sprint 2 |
+| `[PRODUCTNAAM]` | naam van de dienst | PO | ✅ **ingevuld 2026-08-03** — SolidYield |
+| `[DOELGROEP]` | primaire doelgroep | PO | ✅ **ingevuld 2026-08-03** |
+| `[PROBLEEM]` | kernprobleem | PO | ✅ **ingevuld 2026-08-03** |
+| `[PRODUCTDOEL]` | belangrijkste productdoel | PO | ✅ **ingevuld 2026-08-03** |
+| `[TYPE DIENST]` | type financiële dienst | PO + Compliance | ✅ **ingevuld 2026-08-03** — digitaal contractueel rendementproduct. Bedrijfsmodel besloten (besluit 4); de wettelijke grondslag voor uitvoering wordt afzonderlijk vastgesteld (RD-23 t/m RD-27) |
+| `[LANDEN/REGIO]`, `[REGIO]` | markt en dataresidency | PO + Compliance | ✅ **ingevuld 2026-08-03** — markt Nederland; opslag en reguliere verwerking binnen de EER, primaire productieomgeving in Nederland ([ADR-0006](architecture/adr/0006-dataresidency-en-opslaglocatie.md)) |
+| `[TALEN]`, `[VALUTA]` | taal- en valutaondersteuning | PO | ✅ Nederlands, EUR |
 | `[ORGANISATIE]`, `[ORG]` | organisatie- en GitHub-organisatienaam | eigenaar repo | direct |
 | `[REPOSITORY]` | repositorynaam | eigenaar repo | direct |
 | `[JAAR]` | copyrightjaar in LICENSE | eigenaar repo | direct |
@@ -38,22 +38,22 @@ De workflow `code-quality.yml` telt bij elke run hoeveel er nog openstaan.
 
 | Placeholder | Betekenis | Vastleggen als |
 |---|---|---|
-| `[TECH STACK]` | technologiekeuze | ADR-0002 |
-| `[CLOUD]` | AWS, Azure, GCP of anders | ADR-0003 |
-| `[IDP]` | identiteitsprovider | ADR-0004 |
+| `[TECH STACK]` | technologiekeuze | ✅ **ingevuld 2026-08-05** — Kotlin/Spring Boot, React/TypeScript/Vite, PostgreSQL ([ADR-0002](architecture/adr/0002-technologiestack.md)) |
+| `[CLOUD]` | hostingprovider | ✅ **ingevuld 2026-08-05** — TransIP, twee VPS'en met Ubuntu Server LTS ([ADR-0003](architecture/adr/0003-cloudprovider.md)) |
+| `[IDP]` | identiteitsprovider | ✅ **ingevuld 2026-08-06** — **Keycloak**, self-hosted en native onder systemd (besluit 8A, [ADR-0004](architecture/adr/0004-identity-and-access-management.md) §8A). Gekozen, **nog niet ingericht**; koppeling uitsluitend via OIDC en één adapter |
 | `[KMS]` | sleutelbeheer | ADR-0005 |
-| `[PROVIDER]` | externe financiële gegevensbron | ADR |
+| `[PROVIDER]` | externe financiële gegevensbron | vergunninghoudende betaalpartner; eerste implementatierichting Mollie en bunq ([ADR-0007](architecture/adr/0007-vergunningplicht-en-rol-in-de-keten.md)) — **nog niet definitief geselecteerd of gecontracteerd** (RD-22) |
 | `[TOOL]` | secrets manager, monitoring | ADR |
-| `[FRAMEWORK]` | front-endframework | ADR |
+| `[FRAMEWORK]` | front-endframework | ✅ **ingevuld 2026-08-05** — React met Vite ([ADR-0002](architecture/adr/0002-technologiestack.md)) |
 | `[STAGING-URL]`, `[PRODUCTIE-URL]` | omgevings-URL's | deployment |
-| `[TERRAFORM/BICEP/…]` | infrastructure as code | ADR |
+| `[TERRAFORM/BICEP/…]` | infrastructure as code | ✅ **ingevuld 2026-08-05** — Ansible ([ADR-0002](architecture/adr/0002-technologiestack.md)) |
 
 ## 4. Proces
 
-| Placeholder | Betekenis | Aanname in deze template |
+| Placeholder | Betekenis | Aanname in deze template, of vastgesteld besluit |
 |---|---|---|
-| `[SPRINTDUUR]` | lengte van de sprint | 2 weken |
-| `[TESTGROEP]` | samenstelling testgroep | 8–12 deelnemers |
+| `[SPRINTDUUR]` | lengte van de sprint | ✅ **ingevuld 2026-08-05** — twee weken, veertien kalenderdagen (besluit 6, [`scrum/scrum-guide.md`](scrum/scrum-guide.md) §2) |
+| `[TESTGROEP]` | samenstelling testgroep | ✅ **ingevuld 2026-08-05** (besluit 7) — **besloten testgroep:** maximaal 10 deelnemers, uitsluitend op uitnodiging ([`product/closed-test-group.md`](product/closed-test-group.md)). Voor de **onderzoekssessies** met synthetische data geldt nog de aanname van 8–12 deelnemers ([`research/test-group-plan.md`](research/test-group-plan.md)) |
 | `[VERGOEDING]`, `[KANAAL]` | vergoeding en wervingskanaal | — |
 | `[HULPINSTANTIE]` | verwijzing bij financiële nood | — |
 | `[AFGESCHERMDE LOCATIE]` | opslag buiten de repository | — |
@@ -93,7 +93,9 @@ bruikbaar zonder invulwerk.
 
 1. **Direct:** organisatie, repository, contactadressen, licentiejaar.
 2. **Sprint 1:** product, doelgroep, probleem, doel, type dienst, regio, stack, cloud.
-3. **Sprint 2:** IDP, provider, testgroep, sprintduur bevestigen.
+3. **Sprint 2:** financiële gegevensbron.
+   *(Sprintduur besloten: twee weken. Besloten testgroep besloten: maximaal 10 deelnemers op
+   uitnodiging. IAM-model én identity provider besloten: ADR-0004, Keycloak.)*
 4. **Vóór bèta:** alle juridische punten, bewaartermijnen, SLO's, URL's.
 5. **Vóór productie:** alle overige waarden; de teller in `code-quality.yml` hoort dan
    richting nul te gaan.

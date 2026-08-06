@@ -86,8 +86,46 @@ privacybeoordeling verplicht; migraties draaien nooit ongecontroleerd tijdens pi
 | Applicatiesecrets | secrets manager `[TOOL]` | `[90]` dagen of bij vermoeden |
 | Deploycredentials | OIDC-federatie (voorkeur) of environment secrets | OIDC: n.v.t.; anders `[90]` dagen |
 | Encryptiesleutels | KMS/HSM | volgens sleutelbeleid |
+| Object Store-credentials en access keys | secrets manager `[TOOL]`, **per omgeving apart** | `[90]` dagen of bij vermoeden |
 
 Nieuwe variabele? Voeg hem toe aan `.env.example` én aan dit document.
+
+### Identity Provider per omgeving
+
+De Identity Provider is **Keycloak**, self-hosted en native onder systemd op dezelfde
+VPS'en als de applicatie (besluit 8A,
+[ADR-0004](../architecture/adr/0004-identity-and-access-management.md) §8A). Productie en
+test draaien **afzonderlijke instanties** met eigen databases, databasegebruikers, realms,
+clients, signing keys, secrets, beheerdersaccounts, configuraties, e-mailconfiguraties,
+logging, monitoring en back-ups.
+
+> **Harde eis:** er worden **geen identitygegevens, accounts, credentials, sleutels of
+> sessies** tussen productie en test gedeeld, en **geen productie-identiteiten naar test
+> gekopieerd**. Dit valt onder dezelfde omgevingsscheiding als C-24 en T-27.
+>
+> **Fase: nog te implementeren.** Keycloak is gekozen, niet ingericht. Concrete
+> systemd-units, realm- en clientconfiguratie horen bij de implementatie en staan hier
+> bewust niet.
+
+### Object Store per omgeving
+
+Productie en test gebruiken **unieke bucketnamen** — generieke namen zijn niet toegestaan,
+omdat een verkeerd geconfigureerde omgeving dan stilzwijgend de verkeerde bucket raakt:
+
+| Omgeving | Buckets |
+|---|---|
+| Productie | `solidyield-production-documents` · `solidyield-production-exports` · `solidyield-production-backups` |
+| Test | `solidyield-test-documents` · `solidyield-test-exports` · `solidyield-test-backups` |
+
+Naast de bucketnamen zijn ook **afzonderlijk** per omgeving: Object Store-credentials,
+access keys, endpoints/accounts of IAM-principals, encryptiesleutels en
+lifecycle-/retentieconfiguraties.
+
+> **Harde eis bij deployment:** een verkeerde *productie*credential mag technisch **geen**
+> toegang geven tot test, en omgekeerd. De scheiding berust niet op een correct ingevulde
+> bucketnaam, maar is op autorisatieniveau afdwingbaar. Zie
+> [ADR-0003](../architecture/adr/0003-cloudprovider.md), control **C-24** en dreiging
+> **T-27**.
 
 ### Repository-variabelen die het gedrag van de pipeline sturen
 
@@ -170,8 +208,8 @@ Elke pull request bevat een rollbackplan. Geen plan = niet mergen.
 
 | Onderwerp | Eigenaar |
 |---|---|
-| Cloudprovider en regio (`[CLOUD]`, `[REGIO]`) | Tech lead + Compliance |
-| Infrastructure as code (`[TERRAFORM/BICEP/…]`) | Tech lead |
+| ~~Cloudprovider~~ — vastgesteld: **TransIP**, twee VPS'en, primair Nederland ([ADR-0003](../architecture/adr/0003-cloudprovider.md)) | ✅ besloten |
+| ~~Infrastructure as code~~ — vastgesteld: **Ansible**, Git en systemd; geen handmatige productieconfiguratie ([ADR-0002](../architecture/adr/0002-technologiestack.md)) | ✅ besloten |
 | Containerisatie en runtime | Tech lead |
 | Secrets manager | Security |
 | Deployvenster en changekalender | Ops |

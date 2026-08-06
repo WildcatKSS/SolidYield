@@ -15,10 +15,13 @@ minimaal één developer, en bij gegevens de privacyverantwoordelijke.
 
 | Onderwerp | Invulling |
 |---|---|
-| Systeem | `[PRODUCTNAAM]`, zie [`system-context.md`](system-context.md) |
+| Systeem | SolidYield, zie [`system-context.md`](system-context.md) |
 | Vertrouwensgrenzen | TB-1 t/m TB-5 uit de systeemcontext |
 | Belangrijkste bezittingen | gebruikersgegevens, financiële gegevens, geld(stromen), authenticatiemiddelen, auditlog, sleutels, broncode en pipeline |
-| Buiten scope | fysieke beveiliging van `[CLOUD]`, interne systemen van `[PROVIDER]` |
+| Buiten scope | fysieke beveiliging van de TransIP-datacenters, interne systemen van de betaalpartners |
+| Bedrijfsmodel | vastgesteld (besluit 4, [`adr/0007-vergunningplicht-en-rol-in-de-keten.md`](adr/0007-vergunningplicht-en-rol-in-de-keten.md)): SolidYield is contractspartij en houdt de wallet; betalingen lopen via vergunninghoudende betaalpartners |
+| Fase | tot verlening van de vereiste vergunning of een andere rechtsgeldige toestemming van de bevoegde toezichthouder (besluit 4A) draait de MVP met sandboxbetalingen en synthetische data — geen echte klantgelden |
+| Technische architectuur | twee zelf beheerde TransIP VPS'en (productie en test), Ubuntu Server LTS, Nginx, Kotlin/Spring Boot, PostgreSQL, WireGuard voor beheer ([ADR-0002](adr/0002-technologiestack.md), [ADR-0003](adr/0003-cloudprovider.md)) |
 
 ## 2. Aanvallers
 
@@ -37,7 +40,19 @@ snel uit te loggen).
 
 ## 3. Dreigingen volgens STRIDE
 
-| ID | STRIDE | Dreiging | Grens | Risico | Maatregelen | Verificatie |
+> [!IMPORTANT]
+> **De kolom *Maatregelen* beschrijft ontworpen maatregelen, geen bestaande.** Er is nog
+> geen applicatiecode; **geen enkele maatregel in deze tabel is geïmplementeerd of
+> geverifieerd**. De kolom *Verificatie* zegt **hoe** de werking straks wordt aangetoond,
+> niet dat dat al is gebeurd. Verificatie vindt plaats tijdens implementatie en acceptatie
+> (zie de fasen in
+> [`../compliance/compliance-register.md`](../compliance/compliance-register.md)).
+>
+> Een dreiging met een ingevulde maatregel is dus **niet afgedekt**; hij is *voorzien van
+> een plan*. Dat onderscheid is bij een financiële dienst het verschil tussen een
+> risicoanalyse en een schijnzekerheid.
+
+| ID | STRIDE | Dreiging | Grens | Risico | Maatregelen (**ontworpen**) | Verificatie (**nog uit te voeren**) |
 |---|---|---|---|---|---|---|
 | T-01 | Spoofing | Accountovername via gelekt wachtwoord | TB-1 | **Hoog** | MFA verplicht, controle tegen bekende gelekte wachtwoorden, snelheidsbeperking, melding bij nieuwe login | securitytest inlogbeperking |
 | T-02 | Spoofing | Phishing gericht op gebruikers | TB-1 | Hoog | duidelijke communicatie, nooit om wachtwoord vragen, domeinbescherming (SPF/DKIM/DMARC) | reviewcheck bij elke e-mail |
@@ -56,7 +71,23 @@ snel uit te loggen).
 | T-15 | Information disclosure | Sessie blijft actief op een gedeeld apparaat | TB-1 | Middel | korte time-out, expliciet uitloggen, herauthenticatie bij gevoelige acties | e2e-test |
 | T-16 | Tampering | Onbevoegde toegang tot back-ups | TB-2 | Hoog | aparte sleutels, strikte rechten, MFA, hersteltests | kwartaaltest |
 | T-17 | Information disclosure | Productiedata in een testomgeving | TB-5 | **Hoog** | technisch en organisatorisch verbod, uitsluitend synthetische data, controle in de pipeline | reviewcheck |
-| T-18 | Denial | Uitval van `[PROVIDER]` | TB-3 | Middel | circuit breaker, degradatie met tijdstempel, uitwijkleverancier onderzoeken | chaos-/faaltest |
+| T-18 | Denial | Uitval van een betaalpartner | TB-3 | Middel | circuit breaker, degradatie met tijdstempel, uitwijkleverancier onderzoeken; **geen** saldomutatie zonder bevestigde ontvangst | chaos-/faaltest |
+| T-19 | Tampering | Vastgezet bedrag of contractvoorwaarden worden na het sluiten gewijzigd | TB-1 | **Hoog** | contract onveranderlijk na bevestiging; elke mutatie append-only in de audittrail; serverseitige herberekening | domein- en auditlogtests |
+| T-20 | Tampering | Dubbele of gemiste rendementuitkering door een herhaalde verwerkingsronde | TB-4 | **Hoog** | idempotente verwerking per contract en periode; reconciliatie tegen bankmutaties | domeintests + reconciliatiecontrole |
+| T-21 | Fraude | Storting wordt bijgeschreven zonder bevestigde ontvangst | TB-3 | **Hoog** | vrij saldo pas bijschrijven na bevestigde reconciliatie, niet op een statusmelding | integratietests met sandbox |
+| T-22 | Repudiation | Onduidelijkheid over wat de gebruiker vóór het vastzetten te zien kreeg | TB-4 | Hoog | bevestigingsscherm en getoonde voorwaarden vastleggen in de audittrail | auditlogtest |
+| T-23 | Compliance | Echte klantgelden of bindende contracten vóór verlening van de vereiste vergunning of een andere rechtsgeldige toestemming van de bevoegde toezichthouder | TB-5 | **Hoog** | technische en organisatorische blokkade: sandboxbetalingen en synthetische data afgedwongen; productiedeployment uit (`PRODUCTION_DEPLOY_ENABLED`) | reviewcheck + pipelinecontrole |
+| T-24 | Elevation of privilege | Onbevoegde toegang tot een VPS via SSH of beheerinterface | TB-4 | **Hoog** | beheer uitsluitend via **WireGuard**; geen wachtwoordauthenticatie; firewall standaard dicht; aparte serviceaccounts per systemd-proces | configuratietest + toegangsreview |
+| T-25 | Tampering | Schemawijziging of datacorrectie buiten de applicatie om, rechtstreeks op de database | TB-4 | **Hoog** | vier gescheiden databasegebruikers; runtime mag geen schema wijzigen; **directe databasecorrecties zijn verboden**, correcties lopen via de beheerinterface met maker-checker en audittrail | rechtencontrole + auditlogtest |
+| T-26 | Information disclosure | Object-storagecredentials of langlevende URL's bereiken de client | TB-1 | Hoog | de frontend krijgt **nooit** credentials; uitsluitend korte presigned URL's vanuit de backend | securitytest |
+| T-27 | Information disclosure | Testomgeving of testback-up bevat of lekt productiegegevens; een credential van de ene omgeving geeft toegang tot de bucket van de andere | TB-5 | **Hoog** | productie en test delen niets (databases, gebruikers, accounts, secrets, buckets, monitoring, logging, back-ups); **unieke bucketnamen** (`solidyield-production-*` / `solidyield-test-*`) en **afzonderlijke** Object Store-credentials, access keys, endpoints/IAM-principals, encryptiesleutels en lifecycle-/retentieconfiguraties, zodat een productiecredential technisch geen toegang tot test geeft en omgekeerd; test uitsluitend via WireGuard en met synthetische data | configuratiecontrole + **negatieve toegangstest per omgeving** + reviewcheck |
+| T-28 | Denial | Uitval van de enige productie-VPS | TB-3 | Hoog | back-up en disaster recovery op een geografisch gescheiden secundaire locatie binnen de EER; herstelproef periodiek uitvoeren. **Er is geen automatische failover** | hersteltest |
+| T-29 | Denial | Verlies van of blokkade op het provideraccount, uitval van het control plane, of contractbeëindiging bij TransIP — alle omgevingen én de back-ups staan daar | TB-3 | **Hoog** | **niet afgedekt; bewust geaccepteerd voor de MVP.** Een geografisch gescheiden secundaire locatie bij dezelfde provider dekt dit niet. Periodieke herbeoordeling; vóór echte klantgelden beoordelen of een back-upkopie buiten het provideraccount nodig is ([ADR-0003](adr/0003-cloudprovider.md), vervolgactie 4a) | periodieke risicoherbeoordeling |
+| T-30 | Spoofing | **Recovery als omweg om passkeys en MFA heen** — accountovername via wachtwoord-, passkey- of MFA-herstel in plaats van via authenticatie | TB-1 | **Hoog** | recovery heeft **nooit** een lager beveiligingsniveau dan reguliere authenticatie; bij gevoelige recovery identiteitscontrole, volledige audit en wachttijd of handmatige beoordeling ([ADR-0004](adr/0004-identity-and-access-management.md)) | negatieve tests op elk herstelpad + auditlogtest |
+| T-31 | Elevation of privilege | **Beheerder kent zichzelf of een ander rechten toe**, of reset MFA om toegang te krijgen | TB-4 | **Hoog** | geen algemene super administrator; `Administrator` en `Security Administrator` gescheiden; **maker-checker verplicht** voor rolwijzigingen en MFA-resets; elke rolwijziging geaudit (C-26, ADR-0004) | rechtencontrole + auditlogtest |
+| T-32 | Denial | **Uitval van de Identity Provider** — niemand kan inloggen, ook beheerders niet. **Keycloak is self-hosted op dezelfde productie-VPS** (besluit 8A) en deelt daarmee het faalscenario van T-28: valt die VPS uit, dan is niet alleen de dienst weg maar ook de mogelijkheid om in te loggen | TB-3 | Hoog | Keycloak opgenomen in monitoring, back-upscope, patchmanagement en de restore-/DR-test; de adaptergrens houdt vervanging mogelijk zonder wijziging aan de domeinlogica. **Geen hoge beschikbaarheid**; bij strengere eisen een herziening naar een afzonderlijke VPS (ADR-0004 §8A.8) | hersteltest + DR-test |
+| T-33 | Tampering | **Keycloak-specifieke code lekt de domeinmodules in**, waardoor de provider feitelijk onvervangbaar wordt: imports, datamodellen, directe toegang tot de Keycloak-database, Keycloak-specifieke domeinregels, of autorisatie die uitsluitend op Keycloak-rollen steunt zonder controle in de SolidYield-servicelaag | TB-4 | Middel | koppeling uitsluitend via OIDC, gestandaardiseerde claims en de IdP-adapter; **architectuurtest** die imports buiten de adapter laat falen (C-36); Spring Modulith-modulegrenzen. Dat Keycloak nu vaststaat (besluit 8A) maakt dit risico **groter**, niet kleiner | architectuurtest in CI |
+| T-34 | Compliance | **Ledger- en rekeningontwerp loopt vooruit op de juridische uitkomst voor vrij walletsaldogeld.** Wordt de rekeningstructuur gebouwd op de aanname dat het vrije saldo eigendom van SolidYield is — of juist dat het dat niet is — dan is die aanname bij een andere uitkomst niet zonder migratie van echte klantgelden te corrigeren | TB-5 | **Hoog** | **RD-32** blijft open en **blokkeert echte walletgelden**; het ontwerp mag de uitkomst niet vooruitlopen (C-39). Administratieve vermogensscheiding wordt nergens als juridische scheiding of faillissementsbescherming gepresenteerd | reviewcheck op ontwerpbesluiten + compliancecontrole vóór de eerste echte walletgeldstroom |
 
 ## 4. Risicomatrix
 
@@ -82,6 +113,7 @@ Elke dreiging met risico *Hoog* of hoger krijgt:
 | # | Restrisico | Waarom aanvaard | Compenserende maatregel | Houdbaar tot | Geaccepteerd door |
 |---|---|---|---|---|---|
 | RR-1 | `[RESTRISICO]` | `[REDEN]` | `[MAATREGEL]` | `[DATUM]` | `[MANDAATHOUDER]` |
+| RR-2 | **Concentratierisico bij één provider** (T-29): productie, test, objectopslag en back-ups staan alle bij TransIP; account-, control-plane-, contract- en providerbrede uitval is niet afgedekt | bewust geaccepteerd voor de MVP; een tweede provider is voor de MVP niet ingericht | geografisch gescheiden secundaire locatie (dekt alleen locatiegebonden uitval), periodieke hersteltest, en **periodieke herbeoordeling** van dit risico — herzieningstrigger voor [ADR-0003](adr/0003-cloudprovider.md) | **vóór echte klantgelden** opnieuw te beoordelen | `[MANDAATHOUDER]` |
 
 Risicoacceptatie volgt de procedure uit [`../../GOVERNANCE.md`](../../GOVERNANCE.md).
 Kritieke en hoge risico's kan het team niet zelf accepteren.

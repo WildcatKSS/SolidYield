@@ -4,6 +4,11 @@ Deze roadmap is **op resultaat gericht**, niet op datums met vaste functionalite
 beschrijft welk probleem we wanneer willen oplossen en welke onzekerheid we dan hebben
 weggenomen. Alles na de huidige horizon is een intentie, geen belofte.
 
+> **Sprintnummers in dit document verwijzen naar sprints van twee weken** (besluit 6,
+> [`../scrum/scrum-guide.md`](../scrum/scrum-guide.md) §2). Een horizon van vier sprints
+> beslaat dus ongeveer acht weken. Dat is een **ordegrootte, geen toezegging**: de
+> roadmap blijft op resultaat gericht en er is geen releasedatum vastgelegd.
+
 ## Horizon 1 — Valideren (sprint 1–4)
 
 | Doel | Los de vraag op: *bestaat het probleem en vertrouwt de doelgroep ons?* |
@@ -18,17 +23,17 @@ weggenomen. Alles na de huidige horizon is een intentie, geen belofte.
 
 | Doel | Los de vraag op: *werkt het in de praktijk, veilig en betrouwbaar?* |
 |---|---|
-| Increment | bèta → beperkte productie-uitrol |
+| Increment | bèta → **besloten testgroep** als eerste gecontroleerde productie-uitrol |
 | Onderwerpen | betrouwbaarheid van gegevens, meldingen, support, monitoring, pentest, DPIA afgerond |
-| Validatie | testgroep in een realistische omgeving, meting van terugkeergedrag |
-| Klaar wanneer | de succescriteria uit `mvp-scope.md` zijn gehaald en er geen kritieke of hoge kwetsbaarheden openstaan |
-| Voorwaarde | **regulatoire toets afgerond en bevestigd door een bevoegde specialist** |
+| Validatie | besloten testgroep van **maximaal tien uitgenodigde deelnemers** met echte gegevens en echte geldstromen ([`closed-test-group.md`](closed-test-group.md)) |
+| Klaar wanneer | de afrondingscriteria uit `closed-test-group.md` §9 zijn gehaald: MVP functioneel compleet, geen kritieke defects, alle functionaliteit gevalideerd, akkoord van Compliance en een Go-besluit van de Product Owner |
+| Voorwaarde | **regulatoire toets afgerond en bevestigd door een bevoegde specialist**, plus de volledige Go/No-Go-lijst uit `closed-test-group.md` §10 |
 
 ## Horizon 3 — Verbreden (sprint 9+)
 
 | Doel | Los de vraag op: *kunnen we dit opschalen en verbreden?* |
 |---|---|
-| Kandidaten | `[TWEEDE PROBLEEM]`, extra `[KOPPELINGEN]`, mobiele app, meertaligheid, uitbreiding naar `[REGIO]` |
+| Kandidaten | `[TWEEDE PROBLEEM]`, extra `[KOPPELINGEN]`, mobiele app, meertaligheid, gefaseerde uitbreiding naar andere EER-landen |
 | Voorwaarde | Horizon 2 aantoonbaar geslaagd |
 | Status | intentie — expliciet **geen** toezegging |
 
@@ -42,16 +47,20 @@ weggenomen. Alles na de huidige horizon is een intentie, geen belofte.
 
 | Onderwerp | Nodig vóór | Eigenaar | Status |
 |---|---|---|---|
-| Keuze technologiestack en cloud | sprint 1 | Tech lead | open |
-| Juridisch advies over `[TYPE DIENST]` in `[LANDEN/REGIO]` | Horizon 2 | Compliance | open |
+| ~~Keuze technologiestack en cloud~~ | sprint 1 | Tech lead | ✅ **besloten 2026-08-05** — [ADR-0002](../architecture/adr/0002-technologiestack.md) en [ADR-0003](../architecture/adr/0003-cloudprovider.md) |
+| **Vergunningstraject** — de vereiste vergunning of een andere rechtsgeldige toestemming van de bevoegde toezichthouder (besluit 4A; RD-23 t/m RD-27) | vóór echte klantgelden en productiegebruik | PO + Compliance | **strategie besloten**, traject open — **blokkerend**. Het traject beoordeelt de juridische uitvoerbaarheid van het besloten model; noodzakelijke wijzigingen gaan via een **nieuw Product Owner-besluit**, niet stilzwijgend |
+| **RD-32** — juridische positie van vrij walletsaldogeld: rechthebbende, tenaamstelling van de bankrekening, vermogensscheiding, faillissementspositie en de rol van de betaalpartner | vóór **echte walletgelden** | Compliance + PO + Tech lead | open — **blokkerend, ook ná vergunningverlening** (C-39) |
+| Juridisch advies over het rendementproduct in Nederland (RD-01) | Horizon 2 | Compliance | open |
 | Contract en DPA met `[LEVERANCIER]` | Horizon 2 | Inkoop + Privacy | open |
 | Pentest gepland | vóór productie | Security | open |
-| Samenstelling testgroep compleet | sprint 1 | UX | open |
+| ~~Samenstelling besloten testgroep~~ | sprint 1 | Product Owner | ✅ **besloten 2026-08-05** — maximaal 10 uitgenodigde deelnemers ([`closed-test-group.md`](closed-test-group.md)) |
+| Werving en spreiding voor de **onderzoekssessies** (synthetische data) | sprint 1 | UX | open |
 
 ## Herziening
 
-De roadmap wordt elke `[2]` sprints herzien in de Sprint Review, op basis van bewijs uit de
-testgroep en van gewijzigde risico's. Wijzigingen worden hier met datum vastgelegd.
+De roadmap wordt elke **2 sprints** — dus ongeveer elke vier weken — herzien in de Sprint
+Review, op basis van bewijs uit de testgroep en van gewijzigde risico's. Wijzigingen worden
+hier met datum vastgelegd.
 
 | Datum | Wijziging | Reden | Door |
 |---|---|---|---|

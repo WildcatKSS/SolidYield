@@ -9,19 +9,60 @@
 
 ## 1. Doelgroep van de MVP
 
-* Primair: `[DOELGROEP]`
-* Beperking voor de MVP: `[BIJV. alleen [LAND], alleen web, alleen één rekeningtype]`
-* Aantal beoogde gebruikers in de eerste ronde: `[AANTAL]` (testgroep, zie
-  [`../research/test-group-plan.md`](../research/test-group-plan.md))
+* Primair: Nederlandse particuliere spaarders zonder financiële expertise
+* MVP-doelgroep (vastgesteld 2026-08-05): Nederlandse **consumenten**, **zzp'ers** en
+  **rechtspersonen**
+* Beperking voor de MVP: **uitsluitend een besloten testgroep**, alleen Nederland, alleen
+  Nederlands, alleen EUR
+* **Besloten testgroep (besluit 7, vastgesteld 2026-08-05):** **maximaal tien deelnemers**
+  — oprichters, ontwikkelaars, familie, vrienden en persoonlijk uitgenodigde bekenden —
+  **uitsluitend op uitnodiging**. Open inschrijving maakt geen onderdeel uit van de MVP.
+  Volledige inrichting: [`closed-test-group.md`](closed-test-group.md)
+
+### Harde beperkingen tot verlening van de vereiste vergunning of een andere rechtsgeldige toestemming van de bevoegde toezichthouder (besluit 4A)
+
+Het bedrijfsmodel is besloten (besluit 4); de wettelijke grondslag om het uit te voeren nog
+niet (RD-23 t/m RD-27). Tot die bevestiging geldt:
+
+| Toegestaan | Niet toegestaan |
+|---|---|
+| UX-ontwerp en -onderzoek | echte klantgelden |
+| werkende MVP | bindende rendementcontracten |
+| sandboxbetalingen | werkelijke rendementuitkeringen |
+| synthetische data | productiegebruik |
+| besloten demonstraties | |
+| technische integraties | |
+
+Deze beperkingen kennen **geen uitzonderingsprocedure**. Zie
+[ADR-0007](../architecture/adr/0007-vergunningplicht-en-rol-in-de-keten.md) en risico A-7
+daarin.
+
+> **Besluit 7 wijzigt hier niets aan.** De besloten testgroep beschrijft de eerste
+> gecontroleerde uitrol **ná** verlening van de vereiste vergunning of een andere rechtsgeldige toestemming van de bevoegde toezichthouder; zij start
+> uitsluitend wanneer die bevestiging er is en aan de volledige Go/No-Go-lijst is voldaan
+> ([`closed-test-group.md`](closed-test-group.md) §10). Tot dat moment blijft de tabel
+> hierboven onverkort gelden.
+
+### Betaalpartners
+
+De MVP is ontworpen voor integratie met **vergunninghoudende betaalpartners**. De eerste
+implementatierichting richt zich op **Mollie** voor iDEAL/SEPA en **bunq** voor
+IBAN-functionaliteit, uitbetalingen en reconciliatie. De **definitieve selectie en
+rolverdeling worden contractueel en regulatoir vastgesteld** (RD-22): er is nog geen
+overeenkomst gesloten, en de integratie loopt in deze fase via **sandboxomgevingen**.
+* Aantal beoogde gebruikers in de eerste ronde: **maximaal 10** (besloten testgroep, zie
+  [`closed-test-group.md`](closed-test-group.md)). Onderzoekssessies met synthetische data
+  volgen een eigen opzet en spreiding:
+  [`../research/test-group-plan.md`](../research/test-group-plan.md)
 
 ## 2. Kernprobleem
 
-`[PROBLEEM]` — één probleem, niet drie. Alles wat niet aan dit probleem bijdraagt, valt
+De doelgroep moet kiezen tussen laagrentend sparen en complex, volatiel beleggen, met onvoldoende transparantie over kosten, voorwaarden, risico's en hoe het rendement tot stand komt. Voor de MVP wordt hiervan **één** deelprobleem gekozen, niet alle drie. Alles wat niet aan dit probleem bijdraagt, valt
 buiten de MVP.
 
 ## 3. Waardepropositie
 
-> Met `[PRODUCTNAAM]` kan `[DOELGROEP]` binnen `[TIJD]` `[RESULTAAT]`, zonder
+> Met SolidYield kan een Nederlandse particuliere spaarder binnen `[TIJD]` `[RESULTAAT]`, zonder
 > `[HUIDIGE MOEITE]`.
 
 ## 4. Belangrijkste gebruikersreis
@@ -40,7 +81,7 @@ Uitwerking per stap: [`customer-journey.md`](customer-journey.md).
 | # | Functionaliteit | Waarom noodzakelijk | Epic |
 |---|---|---|---|
 | M1 | Registratie met e-mailverificatie | zonder account geen persoonlijk inzicht | E1 |
-| M2 | Inloggen met sterke authenticatie en MFA | beschermt financiële gegevens | E1 |
+| M2 | Inloggen met **passkeys/WebAuthn als primaire methode** en MFA | beschermt financiële gegevens; phishing-bestendig ([ADR-0004](../architecture/adr/0004-identity-and-access-management.md)) | E1 |
 | M3 | Sessiebeheer met korte time-out en uitloggen | voorkomt misbruik op gedeelde apparaten | E1 |
 | M4 | Toestemmingsflow voor gegevensgebruik, intrekbaar | doelbinding en gebruikerscontrole | E3 |
 | M5 | Gegevens beschikbaar maken (`[koppeling of handmatige invoer]`) | grondstof voor het inzicht | E2 |
@@ -64,22 +105,31 @@ synthetische data in niet-productieomgevingen.
 | `[BIJV. betalingen initiëren]` | zwaarder regulatoir regime en hoger risico | na juridisch advies en bewezen kernwaarde |
 | `[BIJV. meerdere rekeningen koppelen]` | complexiteit zonder extra leerwaarde | na validatie van M6 |
 | Mobiele apps (native) | web volstaat om te leren | bij bewezen retentie |
-| Meertaligheid | testgroep is `[TAAL]`-talig | bij uitbreiding naar `[REGIO]` |
+| Meertaligheid | testgroep is Nederlandstalig | bij uitbreiding naar een ander EER-land |
 | Geavanceerde analyses of AI-advies | risico op misleidend financieel advies | na juridische toets |
 | Sociale of deelfuncties | leidt af van het kernprobleem | mogelijk nooit |
 | Integratie met `[PARTNER]` | afhankelijkheid van derden | na contract en DPIA |
+| P2P-betalingen tussen gebruikers | valt buiten de walletrol; zwaarder regulatoir regime | mogelijk nooit — zie RD-17 |
+| **Verwerking van echte walletgelden** | de **juridische positie van vrij walletsaldogeld** is nog niet vastgesteld (**RD-32**): rechthebbende, tenaamstelling van de bankrekening, vermogensscheiding en faillissementspositie zijn open | pas ná verlening van de vereiste vergunning of andere rechtsgeldige toestemming **én** nadat RD-32 is opgelost en de rekening-/safeguardingstructuur juridisch en contractueel is vastgelegd |
+| Betalingen aan derden vanuit de wallet | idem; de wallet is geen betaalrekening | mogelijk nooit — zie RD-17 |
+| Tussentijds opnemen van een vastgezet bedrag | vastzetten is onomkeerbaar tot de einddatum | niet voorzien |
+| Zeggenschap van de gebruiker over investeringen | SolidYield investeert voor eigen rekening en risico | niet voorzien |
+| KYC/AML via een externe partner | fase 2 op de roadmap; fase 1 wordt intern uitgevoerd | zie RD-05 |
 
 ## 7. Aannames
 
 | # | Aanname | Type | Consequentie als deze onjuist is | Toetsen via |
 |---|---|---|---|---|
-| A1 | `[DOELGROEP]` ervaart `[PROBLEEM]` als urgent genoeg | probleem | product heeft geen bestaansrecht | interviews (sprint 1–2) |
+| A1 | Nederlandse particuliere spaarders ervaren de keuze tussen laagrentend sparen en complex beleggen als urgent genoeg | probleem | product heeft geen bestaansrecht | interviews (sprint 1–2) |
 | A2 | Gebruikers vertrouwen ons met financiële gegevens | vertrouwen | registratie loopt leeg | usabilitytest + interviews |
 | A3 | Het kerninzicht M6 is begrijpelijk zonder uitleg | oplossing | inzicht wordt niet gebruikt | usabilitytest sprint 3 |
 | A4 | Gegevens zijn technisch betrouwbaar beschikbaar te maken | techniek | fundament ontbreekt | spike sprint 1 |
-| A5 | Wij mogen `[TYPE DIENST]` aanbieden in `[LANDEN/REGIO]` | regulatoir | lancering onmogelijk | **juridisch advies** |
-| A6 | MFA is acceptabel voor de doelgroep | adoptie | drempel te hoog | usabilitytest |
-| A7 | Sprintduur van 2 weken past bij het team | proces | ritme klopt niet | retrospective |
+| A5 | Er is een wettelijke route om het besloten bedrijfsmodel uit te voeren (RD-23 t/m RD-27) | regulatoir | het model kan niet met echte gebruikers worden uitgevoerd | **juridisch advies** |
+| A6 | De walletfunctie kwalificeert niet als zelfstandige betaaldienst of als elektronisch geld (RD-17) | regulatoir | aanvullend vergunningtraject | **juridisch advies** |
+| A7 | De beoogde positie als concurrent schuldeiser is houdbaar en begrijpelijk uit te leggen (RD-20, RD-21) | regulatoir + zorgplicht | propositie moet worden herzien | **juridisch advies** + begripstoets |
+| A8 | Er is een vergunninghoudende betaalpartner te selecteren en te contracteren met een werkbare regulatoire rolverdeling (RD-22). Eerste implementatierichting: Mollie en bunq, nog niet geselecteerd of gecontracteerd | keten | integratiedetails en contracten wijzigen; het bedrijfsmodel niet | **juridisch advies** + leveranciersselectie en contractonderhandeling |
+| A9 | **Passkeys en MFA zijn acceptabel en werkbaar voor de doelgroep**, ook zonder smartphone en bij lage digitale vaardigheid — SMS is als factor uitgesloten (besluit 8) | adoptie + toegankelijkheid | registratie loopt leeg of de wachtwoord-fallback wordt permanent, waarmee "passkeys primair" een intentie blijft | usabilitytest met minimaal 2 deelnemers met lage digitale vaardigheid |
+| ~~A10~~ | ~~Sprintduur van 2 weken past bij het team~~ | proces | — | ✅ **gesloten door besluit 6 (2026-08-05)**: sprints van twee weken zijn vastgelegd in [`../scrum/scrum-guide.md`](../scrum/scrum-guide.md) §2. Of de cadans blijft passen, is een terugkerend onderwerp in de retrospective — geen openstaande MVP-aanname |
 
 ## 8. Grootste risico's
 
@@ -97,7 +147,7 @@ synthetische data in niet-productieomgevingen.
 
 | # | Hypothese | Methode | Meting | Succescriterium | Sprint |
 |---|---|---|---|---|---|
-| E1 | `[DOELGROEP]` herkent `[PROBLEEM]` | 8 interviews | % dat het probleem spontaan noemt | ≥ 6 van 8 | 1–2 |
+| E1 | De doelgroep herkent het probleem spontaan | 8 interviews | % dat het probleem spontaan noemt | ≥ 6 van 8 | 1–2 |
 | E2 | Gebruikers voltooien registratie met MFA zonder hulp | usabilitytest, 6 deelnemers | taaksucces | ≥ 5 van 6 | 3 |
 | E3 | Het kerninzicht is binnen 60 seconden begrijpelijk | usabilitytest | tijd + hardop-denken | ≥ 80% correct uitgelegd | 4 |
 | E4 | Gebruikers komen binnen een week terug | meting in testomgeving | terugkeer binnen 7 dagen | ≥ 50% | 5–6 |
@@ -113,7 +163,21 @@ De MVP is geslaagd als **alle** onderstaande punten waar zijn:
 * ≥ `[50]%` keert binnen een week uit zichzelf terug;
 * geen kritieke of hoge openstaande kwetsbaarheden;
 * geen privacy- of compliance-blokkade die niet is opgelost of aantoonbaar geaccepteerd;
-* het team kan minimaal elke twee weken een werkend increment opleveren.
+* het team kan elke sprint — dus elke twee weken (besluit 6) — een werkend increment
+  opleveren.
+
+### Afronding van de besloten testgroep
+
+De besloten testgroep (besluit 7) kent een **eigen** afrondingscriterium, naast de
+succescriteria hierboven: de MVP is functioneel compleet, er staan geen kritieke defects
+open, alle MVP-functionaliteit is gevalideerd, **Compliance geeft akkoord** voor de
+volgende fase, en de **Product Owner neemt een Go-besluit**. Uitwerking, inclusief wat er
+met de testaccounts gebeurt: [`closed-test-group.md`](closed-test-group.md) §9.
+
+> **Let op bij de percentages hierboven.** Met maximaal tien deelnemers, grotendeels uit de
+> eigen kring, is een percentage geen statistisch resultaat. De besloten testgroep toont
+> aan *dat het werkt*; of het ook *aanslaat*, blijft de vraag van de onderzoekssessies met
+> een representatieve doelgroep.
 
 ## 11. Stop-, wijzigings- en doorgaancriteria
 

@@ -7,6 +7,22 @@ mensen die het team verlaten — bij een financiële dienst is dat ook een audit
 Toetsingskader voor elke ADR: [`../architecture-principles.md`](../architecture-principles.md).
 Wijk je af van een principe, dan hoort dat expliciet in de ADR onder *Negatieve gevolgen*.
 
+> [!IMPORTANT]
+> **Een ADR is een ontwerpbesluit, geen implementatie en geen bewijs.** Status
+> *Geaccepteerd* betekent dat het team het eens is over de richting — niet dat er iets is
+> gebouwd, ingericht of aangetoond. Er is in deze repository nog **geen applicatiecode**;
+> elke ADR staat daarmee in de fase **Ontworpen**.
+>
+> | | Waar het staat | Wat het aantoont |
+> |---|---|---|
+> | **Ontwerp** | ADR | *waarom* een keuze is gemaakt en welke gevolgen zijn geaccepteerd |
+> | **Implementatie** | code, Ansible, configuratie | dat de maatregel bestaat |
+> | **Bewijs** | [`../../compliance/audit-evidence.md`](../../compliance/audit-evidence.md), testresultaten | dat de maatregel aantoonbaar werkt |
+>
+> **Verificatie vindt pas plaats tijdens implementatie en acceptatie.** De fasen zijn
+> gedefinieerd in
+> [`../../compliance/compliance-register.md`](../../compliance/compliance-register.md).
+
 ## Werkwijze
 
 1. Kopieer [`0001-architecture-decision-template.md`](0001-architecture-decision-template.md)
@@ -31,13 +47,52 @@ Wijk je af van een principe, dan hoort dat expliciet in de ADR onder *Negatieve 
 
 ## Register
 
-| Nr | Titel | Status | Datum | Security-impact |
-|---|---|---|---|---|
-| 0001 | Sjabloon voor architectuurbesluiten | Geaccepteerd | `[JJJJ-MM-DD]` | n.v.t. |
-| 0002 | `[Keuze technologiestack]` | **Te schrijven** | | hoog |
-| 0003 | `[Keuze cloudprovider en regio]` | **Te schrijven** | | hoog |
-| 0004 | `[Keuze identiteitsprovider en MFA]` | **Te schrijven** | | hoog |
-| 0005 | `[Encryptie- en sleutelbeheerstrategie]` | **Te schrijven** | | hoog |
+Alle geaccepteerde ADR's staan in de fase **Ontworpen**: het besluit ligt vast, de
+maatregel is nog niet gebouwd of aangetoond.
 
-De vier "te schrijven" ADR's zijn openstaande beslissingen uit de README; zij horen bij de
-eerste sprints.
+| Nr | Titel | Status | Fase | Datum | Security-impact |
+|---|---|---|---|---|---|
+| 0001 | Sjabloon voor architectuurbesluiten | Geaccepteerd | n.v.t. (sjabloon) | `[JJJJ-MM-DD]` | n.v.t. |
+| 0002 | [Technologiestack](0002-technologiestack.md) | Geaccepteerd | Ontworpen | 2026-08-05 | hoog |
+| 0003 | [Cloudprovider en hostingarchitectuur](0003-cloudprovider.md) | Geaccepteerd | Ontworpen | 2026-08-05 | hoog |
+| 0004 | [Identity & Access Management](0004-identity-and-access-management.md) | Geaccepteerd — **leverancieronafhankelijk model** (besluit 8) én **gekozen provider: Keycloak, self-hosted** (besluit 8A) | Ontworpen | 2026-08-06 | hoog |
+| 0005 | `[Encryptie- en sleutelbeheerstrategie]` | **Te schrijven** | Nog te ontwerpen | | hoog |
+| 0006 | [Dataresidency en opslaglocatie](0006-dataresidency-en-opslaglocatie.md) | Geaccepteerd | Ontworpen | 2026-08-03 | midden |
+| 0007 | [Vergunningplicht en rol in de keten](0007-vergunningplicht-en-rol-in-de-keten.md) | Geaccepteerd **voor de bedrijfs- en keteninrichting** (besluit 4) én **vergunningstrategie besloten** (besluit 4A): uitgaan van vergunningplicht; exacte vergunning nog vast te stellen | Ontworpen | 2026-08-05 | hoog |
+| 0008 | [Geld- en contractstroom](0008-geld-en-contractstroom.md) | Geaccepteerd **als functioneel ontwerp**; alleen uitvoerbaar met synthetische data en sandboxintegraties | Ontworpen | 2026-08-05 | hoog |
+
+ADR-0005 (sleutelbeheer) is de laatste "te schrijven" ADR uit de openstaande beslissingen in
+de README en hoort bij de eerste sprints.
+
+**ADR-0004 bevat twee besluiten.** Besluit 8 legt het **leverancieronafhankelijke
+IAM-model** vast; besluit 8A kiest **Keycloak** als Identity Provider voor de MVP,
+self-hosted en native onder systemd. Die keuze verandert niets aan de adaptergrens:
+Keycloak-specifieke code mag **uitsluitend** binnen de IdP-adapter of de
+infrastructuurconfiguratie voorkomen, zodat een andere OIDC-conforme provider bruikbaar
+blijft zonder wijziging aan de domeinlogica (control **C-36**, dreiging **T-33**).
+
+**Keycloak is gekozen, niet ingericht.** Installatie, realms, clients, authenticatieflows,
+back-ups, monitoring en de adaptertest staan alle in de fase *nog te implementeren* of *nog
+te verifiëren* — zie ADR-0004 §8A.9.
+
+ADR-0006 loopt vooruit op ADR-0003: dataresidency is vastgesteld vóór de
+providerkeuze, zodat ADR-0003 binnen die randvoorwaarde moet passen in plaats van haar
+stilzwijgend te bepalen.
+
+ADR-0007 en ADR-0008 leggen het **bedrijfs- en ketenmodel** vast (besluit 4) en houden dat
+scherp gescheiden van de **wettelijke grondslag** om dat model uit te voeren. Het model is
+**bestuurlijk besloten, niet onaantastbaar**: acht een jurist of toezichthouder een wijziging
+noodzakelijk, dan gaat dat via een **nieuw Product Owner-besluit** en een nieuwe of gewijzigde
+ADR — niet stilzwijgend (ADR-0007, *Vier dingen die uit elkaar moeten blijven*). Die grondslag
+staat nog open (RD-23 t/m RD-27): SolidYield gaat uit van een **vergunningplicht** (besluit 4A) en
+bouwt alsof een vergunning vereist is; de exacte vergunning en grondslag worden vastgesteld
+tijdens het vergunningstraject.
+
+**"Geaccepteerd" betekent hier niet dat productiegebruik of echte geldstromen juridisch
+zijn toegestaan.** ADR-0007 is geaccepteerd voor de product- en keteninrichting; ADR-0008
+als functioneel doelmodel dat uitsluitend met synthetische data en sandboxintegraties mag
+worden uitgevoerd. De Definition of Done in ADR-0007 benoemt wat er moet gebeuren voordat
+het model met echte gebruikers mag worden uitgevoerd.
+
+De **betaalpartners zijn nog niet definitief geselecteerd of gecontracteerd**; Mollie en
+bunq vormen de eerste implementatierichting (RD-22).

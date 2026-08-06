@@ -368,17 +368,18 @@ jobs:
         with:
           name: release-artifact-${{ needs.release-candidate.outputs.version }}
 
-      # ⬇️ VERVANG DEZE STAP door de echte uitrol voor [CLOUD]. Zolang dat niet is
+      # ⬇️ VERVANG DEZE STAP door de echte uitrol naar de test-VPS. Zolang dat niet is
       # gebeurd, faalt de job bewust: STAGING_DEPLOY_ENABLED=true betekent "hier wordt
       # echt uitgerold", en die belofte moet waar zijn.
-      #   AWS   : aws-actions/configure-aws-credentials (OIDC) + aws ecs update-service / aws s3 sync
-      #   Azure : azure/login (OIDC) + azure/webapps-deploy
-      #   GCP   : google-github-actions/auth (workload identity) + gcloud run deploy
-      #   K8s   : kubectl set image / helm upgrade --install
-      # Gebruik OIDC in plaats van langlevende sleutels; zie docs/security/access-control.md.
+      # Architectuur: TransIP VPS met Ubuntu Server LTS, Ansible en systemd — zie
+      # docs/architecture/adr/0003-cloudprovider.md. Uitrol via een release directory met
+      # een atomische symlink; productie bouwt nooit opnieuw, hetzelfde artifact gaat van
+      # test naar productie.
+      # Gebruik kortlevende credentials in plaats van langlevende sleutels; zie
+      # docs/security/access-control.md.
       - name: Deployen naar staging
         run: |
-          echo "::error::Er is nog geen deploystap ingericht voor [CLOUD], terwijl STAGING_DEPLOY_ENABLED op 'true' staat. Vervang deze stap in .github/workflows/release.yml door de echte uitrol, of zet de variabele uit. Er is niets uitgerold."
+          echo "::error::Er is nog geen deploystap ingericht voor de test-VPS, terwijl STAGING_DEPLOY_ENABLED op 'true' staat. Vervang deze stap in .github/workflows/release.yml door de echte uitrol, of zet de variabele uit. Er is niets uitgerold."
           exit 1
 
       # ⬇️ VERVANG DEZE STAP door een echte rooktest, bijvoorbeeld:
@@ -457,12 +458,13 @@ jobs:
         with:
           name: release-artifact-${{ needs.release-candidate.outputs.version }}
 
-      # ⬇️ VERVANG DEZE STAP door de echte, gefaseerde uitrol voor [CLOUD].
+      # ⬇️ VERVANG DEZE STAP door de echte, gefaseerde uitrol naar de productie-VPS.
+      # Zie docs/architecture/adr/0003-cloudprovider.md.
       # Advies: canary 5% → 25% → 100% met automatische terugval bij een stijgende
       # foutratio. Zie docs/operations/deployment.md.
       - name: Gecontroleerde uitrol
         run: |
-          echo "::error::Er is nog geen productie-uitrol ingericht voor [CLOUD], terwijl PRODUCTION_DEPLOY_ENABLED op 'true' staat. Vervang deze stap in .github/workflows/release.yml door de echte uitrol, of zet de variabele uit. Er is niets uitgerold."
+          echo "::error::Er is nog geen productie-uitrol ingericht voor de productie-VPS, terwijl PRODUCTION_DEPLOY_ENABLED op 'true' staat. Vervang deze stap in .github/workflows/release.yml door de echte uitrol, of zet de variabele uit. Er is niets uitgerold."
           exit 1
 
       # ⬇️ VERVANG DEZE STAP door echte verificatie na uitrol: bewaak minimaal 30

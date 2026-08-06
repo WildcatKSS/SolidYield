@@ -1,10 +1,49 @@
-# [PRODUCTNAAM] — Scrum-template voor een online financiële dienst
+# SolidYield — een online financiële dienst
 
 > ### 👉 Nieuw hier? Begin bij **[START-HERE.md](START-HERE.md)** — 8 minuten lezen, dan weet je waar te beginnen.
 
-> **Status:** herbruikbare **GitHub-template**. Alle waarden tussen vierkante haken
-> (`[PRODUCTNAAM]`, `[DOELGROEP]`, `[TECH STACK]`, …) zijn nog niet ingevuld —
-> zie [`docs/placeholders.md`](docs/placeholders.md).
+> ### ⚠️ Alles in deze repository is **ontwerp**, geen werkende dienst
+>
+> Er is nog **geen applicatiecode**. Elk besluit, elke ADR en elke control legt vast *wat de
+> bedoeling is* — niet dat er iets gebouwd, ingericht of aangetoond is. **Geen enkele
+> maatregel in deze repository is operationeel**, en verificatie vindt pas plaats tijdens
+> implementatie en acceptatie. De fasen zijn gedefinieerd in
+> [`docs/compliance/compliance-register.md`](docs/compliance/compliance-register.md).
+
+> **Status:** in opzet. Productnaam, doelgroep, probleem en productdoel zijn vastgesteld
+> (besluit 1 in §10); de [productvisie](docs/product/product-vision.md) is daarop
+> ingevuld. Ook het type financiële dienst (besluit 2), markt, taal, valuta en
+> dataresidency (besluit 3), het **bedrijfs- en ketenmodel** (besluit 4) en de
+> **technologiestack en hosting** (besluit 5) zijn vastgesteld; zie
+> [ADR-0002](docs/architecture/adr/0002-technologiestack.md),
+> [ADR-0003](docs/architecture/adr/0003-cloudprovider.md),
+> [ADR-0007](docs/architecture/adr/0007-vergunningplicht-en-rol-in-de-keten.md) en
+> [ADR-0008](docs/architecture/adr/0008-geld-en-contractstroom.md). Verder zijn de
+> **sprintcadans** (besluit 6), de **besloten testgroep** (besluit 7) en het
+> **IAM-model** (besluit 8) en de **Identity Provider** (besluit 8A — **Keycloak**,
+> self-hosted) vastgesteld; zie
+> [ADR-0004](docs/architecture/adr/0004-identity-and-access-management.md). De overige waarden tussen vierkante haken (`[ORG]`, `[PROVIDER]`, …) zijn nog
+> **niet** ingevuld — zie [`docs/placeholders.md`](docs/placeholders.md).
+>
+> **Blokkerend: de vergunning, niet het bedrijfsmodel.** Het bedrijfs- en ketenmodel is
+> **bestuurlijk vastgesteld** en blijft het uitgangspunt voor het vergunningstraject. Dat
+> traject beoordeelt de **juridische uitvoerbaarheid**; acht een gespecialiseerde jurist of
+> bevoegde toezichthouder wijzigingen noodzakelijk, dan worden die **niet stilzwijgend
+> doorgevoerd** maar als expliciet wijzigingsvoorstel aan de Product Owner voorgelegd en via
+> een **nieuw besluit** en zo nodig een gewijzigde ADR verwerkt. **SolidYield gaat uit van
+> een vergunningplicht** (besluit 4A) en ontwikkelt het
+> platform alsof een vergunning vereist is. De **exacte vergunning, de wettelijke grondslag
+> en de voorwaarden** worden vastgesteld tijdens het vergunningstraject (RD-23 t/m RD-27);
+> deze repository wijst geen vergunningcategorie en geen toezichthouder aan.
+>
+> **Zolang de vereiste vergunning of een andere rechtsgeldige toestemming van de bevoegde
+> toezichthouder niet is verleend:** mag productie niet starten, mag de besloten testgroep
+> met echte klantgelden niet starten en mogen geen klantgelden worden geaccepteerd.
+> **Voor echte walletgelden geldt een tweede voorwaarde:** die worden pas verwerkt nadat
+> **RD-32** is opgelost en de gekozen rekening- en safeguardingstructuur juridisch en
+> contractueel is vastgelegd. Vergunningverlening alleen is dus niet voldoende.
+> **Toegestaan** zijn UX, een werkende MVP, sandboxbetalingen, synthetische data, besloten
+> demonstraties en technische integraties.
 
 > [!IMPORTANT]
 > Deze template levert **proces, structuur en controlemomenten**. Zij levert géén
@@ -23,8 +62,9 @@ schaalbare en gebruiksvriendelijke online financiële dienst bouwt.
 Scrum-werkwijze die niet omzeilbaar is · documentatie voor security, privacy, compliance
 en operations · een fictieve voorbeeldbacklog om mee te starten.
 
-**Niet:** geen applicatiecode, geen gekozen technologiestack, geen juridisch advies, en
-geen verplichting om alles tegelijk in te voeren.
+**Niet:** nog geen applicatiecode, geen juridisch advies, en geen verplichting om alles
+tegelijk in te voeren. De technologiestack en hosting zijn inmiddels wél gekozen
+(besluit 5).
 
 | Doel | Waar geregeld |
 |---|---|
@@ -44,7 +84,7 @@ geen verplichting om alles tegelijk in te voeren.
 | **Product Owner** | [Quick start](docs/onboarding/product-owner-quick-start.md) |
 | **Developer** | [Developer onboarding](docs/onboarding/developer-onboarding.md) |
 | **Scrum Master** | [Scrum-werkwijze](docs/scrum/scrum-guide.md) · [antipatronen](docs/scrum/anti-patterns.md) |
-| **UX / onderzoek** | [Testgroepplan](docs/research/test-group-plan.md) |
+| **UX / onderzoek** | [Testgroepplan](docs/research/test-group-plan.md) · [besloten testgroep](docs/product/closed-test-group.md) |
 | **Security Champion** | [Security Champions](docs/security/security-champions.md) |
 | **Platform / operations** | [Platform-readiness](docs/operations/platform-readiness-checklist.md) · [SRE-principes](docs/operations/sre-principles.md) |
 | **Privacy / compliance** | [Privacy by design](docs/privacy/privacy-by-design.md) · [control matrix](docs/compliance/control-mapping.md) |
@@ -71,11 +111,19 @@ privacyprincipes.
 
 | Onderwerp | Waarde | Consequentie |
 |---|---|---|
-| Productnaam · doelgroep · probleem · productdoel | `[PRODUCTNAAM]` · `[DOELGROEP]` · `[PROBLEEM]` · `[PRODUCTDOEL]` | zie [productvisie](docs/product/product-vision.md) |
-| Type financiële dienst | `[TYPE DIENST]` | **bepaalt het regulatoire regime** |
-| Landen/regio's | `[LANDEN/REGIO]` | bepaalt toezichthouder en dataresidency |
-| Technologiestack · cloud | `[TECH STACK]` · `[CLOUD]` | vastleggen als [ADR](docs/architecture/adr/) |
-| Sprintduur · testgroep | `[SPRINTDUUR]` · `[TESTGROEP]` | zie [Scrum](docs/scrum/scrum-guide.md) en [testgroepplan](docs/research/test-group-plan.md) |
+| Productnaam · doelgroep · probleem · productdoel | **SolidYield** · Nederlandse particuliere spaarders · de keuze tussen laagrentend sparen en complex beleggen · een inleg die binnen vijftien minuten zelfstandig af te ronden is, en die de gebruiker daarna aantoonbaar begrijpt — uitkering én risico | zie [productvisie](docs/product/product-vision.md) |
+| Type financiële dienst | **digitaal contractueel rendementproduct** | bedrijfsmodel besloten (besluit 4); de **wettelijke grondslag** voor uitvoering wordt afzonderlijk vastgesteld (RD-23 t/m RD-27) |
+| Product | looptijden 3/6/12/24/36/60 maanden · minimum inleg € 50 · geen vastgesteld maximum · **vast rendement**, maandelijks · volledige inleg terug aan het einde | zie [ADR-0008](docs/architecture/adr/0008-geld-en-contractstroom.md) |
+| Wallet — **vrij saldo** | onderdeel van SolidYield: storten, opnemen naar de eigen tegenrekening, vastzetten — geen P2P, geen betalingen aan derden | **juridische positie van het vrije saldo is open**: rechthebbende, tenaamstelling van de bankrekening, vermogensscheiding en faillissementspositie — **RD-32**, blokkerend voor echte walletgelden. Kwalificatie als betaaldienst of elektronisch geld: **open**, RD-17 |
+| Wallet — **vastgezet bedrag** | verdwijnt uit het walletsaldo en wordt een **contractuele vordering** op SolidYield; het bedrag wordt gedurende de looptijd eigendom van SolidYield (besluit 4A) | debiteurenrisico; beoogde positie als concurrent schuldeiser — RD-20, RD-21 |
+| Doelgroep MVP | Nederlandse consumenten, zzp'ers en rechtspersonen — start in een **besloten testgroep** | zie [MVP-scope](docs/product/mvp-scope.md) |
+| Betaalpartners | ontworpen voor **vergunninghoudende betaalpartners**; eerste implementatierichting: Mollie (iDEAL/SEPA) en bunq (IBAN, uitbetalingen, reconciliatie) — betaalpartner, **geen productuitgever** | **nog niet definitief geselecteerd en niet gecontracteerd**; selectie en regulatoire rolverdeling worden contractueel vastgesteld (RD-22) |
+| Landen/regio's · dataresidency | **Nederland** · opslag en reguliere verwerking binnen de **EER**, primaire productieomgeving in Nederland | zie [ADR-0006](docs/architecture/adr/0006-dataresidency-en-opslaglocatie.md) |
+| Technologiestack | **Kotlin/Spring Boot** · **React/TypeScript/Vite** · **PostgreSQL** · modulaire monoliet met Spring Modulith | zie [ADR-0002](docs/architecture/adr/0002-technologiestack.md) |
+| Hosting | **TransIP**, twee VPS'en met **Ubuntu Server LTS**; productie en test **volledig gescheiden**, test uitsluitend via **WireGuard** | zie [ADR-0003](docs/architecture/adr/0003-cloudprovider.md) |
+| Identity & Access Management | **Keycloak**, self-hosted en native onder systemd (besluit 8A) · **passkeys/WebAuthn als primaire methode** · **RBAC** in de servicelaag · verplichte MFA voor medewerkers. Koppeling uitsluitend via **OIDC en één adapter**: geen Keycloak-code in de domeinmodules | zie [ADR-0004](docs/architecture/adr/0004-identity-and-access-management.md); **gekozen, nog niet ingericht** |
+| Sprintduur | **twee weken** (veertien kalenderdagen) | zie [Scrum](docs/scrum/scrum-guide.md) |
+| Besloten testgroep | **maximaal 10 deelnemers**, uitsluitend op uitnodiging — eerste gecontroleerde **productie**-uitrol, start **pas na verlening van de vereiste vergunning of een andere rechtsgeldige toestemming van de bevoegde toezichthouder** (besluit 4) | zie [besloten testgroep](docs/product/closed-test-group.md); onderzoekssessies met synthetische data staan in het [testgroepplan](docs/research/test-group-plan.md) |
 
 ### Installatie
 
@@ -87,8 +135,10 @@ cp .env.example .env          # lokale, niet-productie waarden
 ./scripts/verify-template.sh  # controleert de repository zelf
 ```
 
-`bootstrap.sh` is stack-agnostisch: het herkent Node.js, Python, Go, Java en .NET. Zolang
-`[TECH STACK]` niet is gekozen, meldt het dat er nog niets te installeren is.
+`bootstrap.sh` is stack-agnostisch: het herkent Node.js, Python, Go, Java en .NET. De
+gekozen stack is Kotlin/Gradle en Node ([ADR-0002](docs/architecture/adr/0002-technologiestack.md));
+zolang de manifesten nog niet in de repository staan, meldt het script dat er niets te
+installeren is.
 
 ### Configuratie
 
@@ -107,7 +157,7 @@ De repository-variabelen die het gedrag van de pipeline sturen (`TEMPLATE_STRICT
 ```
 .github/        Issue Forms, PR-template, CODEOWNERS, labels, Dependabot, workflows
 docs/           procesdocumentatie — begin bij docs/README.md
-src/            applicatiecode (structuur volgt uit [TECH STACK])
+src/            applicatiecode — Kotlin/Spring Boot (backend), React/TypeScript (frontend)
 tests/          unit · integration · security · accessibility · end-to-end
 scripts/        bootstrap + de CI-scripts die de workflows aanroepen
 ```
@@ -118,8 +168,13 @@ scripts/        bootstrap + de CI-scripts die de workflows aanroepen
   multidisciplinair (UX, onderzoek, test, security, privacy, compliance, operations).
   Governancerollen en de deelnemers aan de testgroep staan bewust **buiten** het Scrum
   Team — [`docs/scrum/roles.md`](docs/scrum/roles.md).
-* **Sprintduur:** `[SPRINTDUUR]` (advies 2 weken). Elke sprint levert een bruikbaar,
-  getest en potentieel releasbaar increment.
+* **Sprintduur:** **twee weken** — veertien kalenderdagen, vaste start- en einddag
+  (besluit 6). Elke sprint levert een bruikbaar, getest en potentieel releasbaar increment,
+  en bevat minimaal sprint planning, dagelijkse afstemming, backlog refinement, sprint
+  review en retrospective.
+* **Eén backlog:** architectuur-, security-, privacy-, compliance-, operations- en
+  documentatiewerk staat in dezelfde geprioriteerde productbacklog als functionele
+  ontwikkeling — niet in een parallel traject.
 * **Board:** 12 statussen en 14 velden — [`docs/scrum/project-board.md`](docs/scrum/project-board.md).
 * **Backlog:** Productdoel → Epic → Feature → User story → taken. Labels in
   [`.github/labels.yml`](.github/labels.yml); fictief voorbeeld in
@@ -172,6 +227,11 @@ Architectuurkaders: [`docs/architecture/architecture-principles.md`](docs/archit
 Semantic Versioning + [`CHANGELOG.md`](CHANGELOG.md). Kanalen: intern prototype →
 testgroepversie → bèta → beperkte productie → algemene beschikbaarheid.
 
+De **besloten testgroep** (besluit 7) valt onder *beperkte productie*: maximaal tien
+uitgenodigde deelnemers, met echte gegevens en echte geldstromen, en pas ná bevestiging van
+de wettelijke grondslag. De Go/No-Go-voorwaarden staan in
+[`docs/product/closed-test-group.md`](docs/product/closed-test-group.md) §10.
+
 De releaseworkflow is fail-closed: een handmatige run is altijd een **droogrun**;
 deployment vereist een tag-push op de hoofdbranch met de juiste variabelen, en productie
 bovendien een stabiele SemVer-versie, een kanaal uit de allowlist en environment approval.
@@ -199,14 +259,16 @@ Niet besloten — behandel deze niet als feit:
 
 | # | Onderwerp | Type | Eigenaar |
 |---|---|---|---|
-| 1 | Productnaam, doelgroep, probleem, productdoel | open besluit | Product Owner |
-| 2 | Type financiële dienst (bepaalt het regulatoire regime) | open besluit | PO + Compliance |
-| 3 | Landen/regio's, dataresidency, taal | open besluit | PO + Compliance |
-| 4 | Vergunningplicht en rol in de keten | **te valideren door bevoegde specialist** | Compliance |
-| 5 | Technologiestack en cloudprovider | open besluit | Tech lead |
-| 6 | Sprintduur (aanname: 2 weken) | aanname | Scrum Master |
-| 7 | Samenstelling testgroep (aanname: 8–12 deelnemers) | aanname | UX-expertise |
-| 8 | Identiteitsprovider en MFA-methode | open besluit | Security + Tech lead |
+| 1 | Productnaam, doelgroep, probleem, productdoel | ✅ **besloten 2026-08-03** — [productvisie](docs/product/product-vision.md) | Product Owner |
+| 2 | Type financiële dienst | ✅ **besloten 2026-08-03** — digitaal contractueel rendementproduct; het **regulatoire regime** is daarmee níét bepaald, zie 4 | PO + Compliance |
+| 3 | Landen/regio's, dataresidency, taal | ✅ **besloten 2026-08-03** — markt Nederland, taal Nederlands, valuta EUR; opslag en reguliere verwerking binnen de EER met de primaire productieomgeving in Nederland, één geografisch gescheiden secundaire locatie binnen de EER voor back-up en DR, toegang vanuit derde landen standaard uitgesloten ([ADR-0006](docs/architecture/adr/0006-dataresidency-en-opslaglocatie.md)) | PO + Compliance |
+| 4 | Vergunningplicht en rol in de keten | ✅ **besloten 2026-08-05** — bedrijfs- en ketenmodel vastgesteld in [ADR-0007](docs/architecture/adr/0007-vergunningplicht-en-rol-in-de-keten.md) en [ADR-0008](docs/architecture/adr/0008-geld-en-contractstroom.md) | Product Owner |
+| 4a | Vergunningstrategie | ✅ **besloten** — SolidYield ontwikkelt het platform uitgaande van een vergunningplicht; productie en klantgelden pas na verlening van de vereiste vergunning of andere rechtsgeldige toestemming | Product Owner + Compliance |
+| 5 | Technologiestack en cloudprovider | ✅ **besloten 2026-08-05** — Kotlin/Spring Boot, React/Vite, PostgreSQL, modulaire monoliet ([ADR-0002](docs/architecture/adr/0002-technologiestack.md)); TransIP met twee VPS'en ([ADR-0003](docs/architecture/adr/0003-cloudprovider.md)) | Tech lead |
+| 6 | Sprintduur | ✅ **besloten** — sprints van twee weken | Scrum Master |
+| 7 | Besloten testgroep (MVP-deelnemers) | ✅ **besloten** — maximaal 10 uitgenodigde deelnemers; eerste gecontroleerde productie-uitrol na bevestiging wettelijke grondslag | Product Owner |
+| 8 | Identity & Access Management (IAM) | ✅ **besloten** — leverancier-onafhankelijk IAM met OIDC, WebAuthn/passkeys, RBAC en MFA | Security Architect + Tech Lead |
+| 8a | Definitieve keuze van de Identity Provider | ✅ **besloten** — Keycloak, self-hosted en gekoppeld via OIDC en een leverancieronafhankelijke adapter | Security Architect + Tech Lead + Privacy |
 | 9 | Bewaartermijnen per gegevenscategorie | **te valideren door bevoegde specialist** | Privacy |
 | 10 | Licentiemodel (aanname: MIT) | aanname | Eigenaar repo |
 | 11 | Coveragedrempel (aanname: 70%, groeipad naar 80%) | aanname | Developers |
@@ -214,6 +276,20 @@ Niet besloten — behandel deze niet als feit:
 
 Volledige lijst met volgorde van invullen: [`docs/placeholders.md`](docs/placeholders.md).
 Bewust nog niet ingebouwd: [`docs/optional-extensions.md`](docs/optional-extensions.md).
+
+### Openstaande vervolgacties bij deze besluiten
+
+Deze staan hier als **open vervolgactie**, niet als genomen besluit of bestaande maatregel:
+
+| # | Vervolgactie | Eigenaar | Waar uitgewerkt |
+|---|---|---|---|
+| V-1 | **Traceerbaar GitHub-issue aanmaken vóór merge** dat besluiten 1 t/m 8, de resterende open besluiten en de vervolgacties met deze pull request verbindt (DoD-criterium **U7**) | Product Owner + Scrum Master | — |
+| V-2 | **Operationeel recoveryproces** vaststellen vóór productie | Security + Support + Ops | [ADR-0004](docs/architecture/adr/0004-identity-and-access-management.md) vervolgactie 8 |
+| V-3 | **Toegankelijk alternatief** vaststellen voor gebruikers die geen passkeys kunnen gebruiken | Security + UX + PO | ADR-0004 vervolgactie 9 |
+| V-4 | **Functiescheidingsmatrix** opstellen vóór productie | Security + Compliance | ADR-0004 vervolgactie 10 |
+| V-5 | **Beschikbaarheidsdoelstelling** onderbouwen met herstel-, back-up- en DR-tests en operationele metingen | Ops + PO | [`service-level-objectives.md`](docs/operations/service-level-objectives.md) §7 |
+| V-6 | **Patchmanagementproces** vaststellen vóór productie | Ops + Security | [`platform-readiness-checklist.md`](docs/operations/platform-readiness-checklist.md) |
+| V-7 | **Operationele runbooks** opstellen vóór productie | Ops + Support | [`runbook.md`](docs/operations/runbook.md) §12 |
 
 ## 11. Handmatige repository-instellingen
 

@@ -22,8 +22,22 @@ getoetst. Wie hiervan wil afwijken, doorloopt de procedure voor risicoacceptatie
 
 ### 2.1 Authenticatie
 * Wachtwoorden: minimaal 12 tekens, gecontroleerd tegen bekende gelekte wachtwoorden,
-  geen verplichte periodieke wijziging, opgeslagen met een moderne, trage hashfunctie
-  (bijvoorbeeld Argon2id of bcrypt met passende parameters).
+  geen verplichte periodieke wijziging, opgeslagen met een moderne, trage hashfunctie.
+  Voor SolidYield geldt ([ADR-0004](../architecture/adr/0004-identity-and-access-management.md)):
+  **Argon2id is verplicht wanneer SolidYield zelf wachtwoorden opslaat**; voert de Identity
+  Provider het wachtwoordbeheer uit, dan moet die provider **aantoonbaar minimaal een
+  gelijkwaardig beveiligingsniveau** bieden. Argon2id is dus **geen onvoorwaardelijke
+  implementatiekeuze**. Met **Keycloak** als gekozen provider (besluit 8A) beheert de
+  Identity Provider de wachtwoorden; dat het geboden niveau aantoonbaar gelijkwaardig of
+  sterker is, moet vóór productie worden **geverifieerd** — het is nu ontwerp, geen bewijs.
+* **Passkeys (WebAuthn) zijn de primaire authenticatiemethode** voor klanten. Wachtwoord is
+  een **fallback zolang dat operationeel nodig is**, geen gelijkwaardig alternatief.
+  Passkeys/WebAuthn, TOTP, veilige sessiecookies en sterke MFA zijn **verplichte**
+  authenticatiemogelijkheden, ongeacht de leverancier.
+* **Niet toegestaan:** SMS-authenticatie · social login · gedeelde accounts · hardcoded
+  accounts · embedded secrets (ADR-0004).
+* Meerdere passkeys per account; gebruikers kunnen apparaten benoemen, verwijderen en
+  passkeys intrekken. **Privésleutels verlaten nooit het apparaat van de gebruiker.**
 * Snelheidsbeperking en progressieve vertraging op inlogpogingen; account nooit permanent
   blokkeren op basis van invoer van derden (dat is zelf een aanvalsmiddel).
 * Neutrale foutmeldingen: nooit onthullen of een account bestaat.
@@ -33,20 +47,35 @@ getoetst. Wie hiervan wil afwijken, doorloopt de procedure voor risicoacceptatie
 ### 2.2 Multifactor-authenticatie
 * **Verplicht** voor inloggen en voor gevoelige handelingen (gegevens koppelen, exporteren,
   account verwijderen, `[TRANSACTIE]`).
-* Voorkeursvolgorde: passkeys/WebAuthn → authenticator-app (TOTP) → sms als laatste optie.
+* Voorkeursvolgorde: **passkeys/WebAuthn → authenticator-app (TOTP)**. **SMS is geen
+  toegestane factor** (ADR-0004) — ook niet als laatste optie.
+* Medewerkers: **MFA verplicht**, individuele accounts, voorkeur voor passkeys en hardware
+  security keys; TOTP uitsluitend als fallback. Bij **verhoogde rechten** hebben hardware
+  security keys of hardware-backed passkeys de voorkeur.
 * Herstelcodes: eenmalig, veilig getoond, herbruikbaarheid uitgesloten.
-* MFA moet toegankelijk zijn: bied een alternatief voor wie geen smartphone heeft.
+* MFA moet toegankelijk zijn: bied een alternatief voor wie geen smartphone heeft. Omdat
+  SMS is uitgesloten, moet dat alternatief uit de toegestane middelen komen — bijvoorbeeld
+  een TOTP-app op desktop of een hardware security key. **Dit is een reëel
+  toegankelijkheidsrisico voor minder digitaal vaardige gebruikers** en een expliciet
+  aandachtspunt voor de usabilityvalidatie.
 
 ### 2.3 Sessies
 * Korte inactiviteitstime-out (`[15]` minuten), absolute maximale duur (`[8]` uur).
+* **Sessierotatie** en **centrale intrekking**; gebruikers kunnen **actieve sessies
+  bekijken**, **individuele sessies beëindigen** en **alle sessies beëindigen**
+  (ADR-0004).
 * Cookies: `Secure`, `HttpOnly`, `SameSite=Lax` of strikter; sessie-ID vernieuwen bij
   inloggen en rechtenwijziging.
 * Serverseitig intrekbaar; "log overal uit" beschikbaar voor de gebruiker.
 * Herauthenticatie vóór gevoelige handelingen, ook binnen een geldige sessie.
 
 ### 2.4 Autorisatie
-* Rolgebaseerd **plus** eigenaarschapscontrole per object bij élk verzoek (voorkomt IDOR).
+* **RBAC, afgedwongen in de servicelaag** — niet in controllers en niet uitsluitend in de
+  frontend (ADR-0004) — **plus** eigenaarschapscontrole per object bij élk verzoek
+  (voorkomt IDOR).
 * Autorisatie altijd serverseitig; de client verbergt hooguit, hij beslist nooit.
+* **Geen algemene super administrator.** `Administrator` en `Security Administrator` zijn
+  gescheiden rollen. ABAC kan later worden toegevoegd zonder RBAC te vervangen.
 * Standaard weigeren; toegang expliciet toekennen.
 * Support- en beheerrechten zijn tijdelijk, beperkt en volledig geaudit.
 
@@ -147,6 +176,19 @@ en het wegvallen van auditlogging.
   accounts/projecten, aparte netwerken, aparte sleutels, aparte credentials.
 * **Geen productiedata buiten productie.** Testdata is synthetisch.
 * Toegang tot productie is beperkt, tijdelijk, met MFA en volledig geaudit.
+* **De Identity Provider is self-hosted** (Keycloak, besluit 8A) en draait op dezelfde
+  VPS'en. Productie en test gebruiken **afzonderlijke Keycloak-instanties, databases,
+  realms, clients, signing keys, secrets, beheerdersaccounts, configuraties, logging,
+  monitoring en back-ups**; er worden **geen identitygegevens, credentials, sleutels of
+  sessies** tussen omgevingen gedeeld, en **geen productie-identiteiten naar test
+  gekopieerd** ([ADR-0004](../architecture/adr/0004-identity-and-access-management.md) §8A.1).
+  **Nog te implementeren en nog te verifiëren.**
+* **De besloten testgroep (besluit 7) draait in productie, niet in test.** Zij werkt met
+  echte persoonsgegevens, volledige KYC en — ná verlening van de vereiste vergunning of een andere rechtsgeldige toestemming van de bevoegde toezichthouder —
+  echte geldstromen. Dat verruimt de regel hierboven **niet**: er komen nooit echte
+  gegevens in `development`, `test`, `staging`, demo-omgevingen of securityonderzoek.
+  Sandboxgegevens blijven daar de norm. Zie
+  [`../product/closed-test-group.md`](../product/closed-test-group.md).
 
 ## 3. Toetsing
 
@@ -157,4 +199,5 @@ en het wegvallen van auditlogging.
 | CI | secret scan, SAST, dependency- en containerscan, SBOM, licenties |
 | Definition of Done | securitycontroles geslaagd, geen kritieke/hoge bevindingen |
 | Release | securitycheck; openstaande kritieke/hoge bevinding blokkeert de release |
+| **Start besloten testgroep** | alle kritieke en hoge bevindingen opgelost **of formeel geaccepteerd** volgens [`../../GOVERNANCE.md`](../../GOVERNANCE.md) §4, plus een geslaagde hersteltest van back-up en disaster recovery — Go/No-Go-voorwaarden 4 en 5 uit [`../product/closed-test-group.md`](../product/closed-test-group.md) §10 (C-34) |
 | Periodiek | threat model per epic en per kwartaal; pentest vóór productie |

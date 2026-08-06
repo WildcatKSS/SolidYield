@@ -69,7 +69,7 @@ Volgorde per blok: van "meestal snel de moeite waard" naar "alleen bij aantoonba
 
 | Uitbreiding | Wat het oplevert | Wanneer |
 |---|---|---|
-| Devcontainer / Nix / Docker Compose voor lokale omgeving | iedereen start identiek | zodra de stack vaststaat |
+| Reproduceerbare lokale omgeving (bijvoorbeeld Nix of een gescripte setup) | iedereen start identiek | Docker valt buiten de MVP — zie [ADR-0002](architecture/adr/0002-technologiestack.md) |
 | Pre-commit hooks (lint, format, secret scan) | fouten vóór de push | direct na stackkeuze |
 | `Makefile` of `just` als eenduidige taakrunner | één ingang voor alle commando's | bij meer dan 10 scripts |
 | Automatische changeloggeneratie uit Conventional Commits | minder handwerk bij releases | zodra releases regelmatig zijn |
@@ -79,10 +79,10 @@ Volgorde per blok: van "meestal snel de moeite waard" naar "alleen bij aantoonba
 
 | Niet opgenomen | Waarom |
 |---|---|
-| Microservices-opzet vanaf dag één | lost een organisatieprobleem op dat dit team nog niet heeft; verhoogt security- en operationele complexiteit |
+| Microservices-opzet vanaf dag één | lost een organisatieprobleem op dat dit team nog niet heeft; verhoogt security- en operationele complexiteit. [ADR-0002](architecture/adr/0002-technologiestack.md) kiest een modulaire monoliet met Spring Modulith |
 | Zware compliance-automatisering vóór de eerste regel code | je weet nog niet welk regime geldt (RD-01 staat open) |
 | Uitgebreide analytics en experimentplatform | verleidt tot meten van het verkeerde; begin met usabilitytests |
-| Kubernetes vanaf de MVP | vaak zwaarder dan nodig; kies op basis van een aangetoonde behoefte |
+| Kubernetes, Docker, Kafka, Redis, Temporal en OpenSearch in de MVP | expliciet uitgesloten in [ADR-0002](architecture/adr/0002-technologiestack.md); zwaarder dan nodig op twee VPS'en |
 | Meertaligheid vanaf de start | verdubbelt contentwerk vóór productmarktfit |
 | Eigen authenticatie-implementatie | onnodig risico; besteed uit tenzij er een dwingende reden is |
 

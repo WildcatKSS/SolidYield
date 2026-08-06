@@ -14,12 +14,36 @@
 | Vraag over scope of prioriteit | Product Owner, `[PO-CONTACT]` |
 | Vraag over deze template | GitHub Discussions of `[TEAM-CONTACT-EMAIL]` |
 
-## Voor deelnemers aan de testgroep
+## Voor deelnemers aan een onderzoekssessie
+
+Interviews, prototypetests en usabilitytests — in een **testomgeving**.
 
 * Je doet vrijwillig mee en kunt op elk moment stoppen zonder opgaaf van reden.
 * Gebruik **nooit** je echte bankgegevens, echte betaalgegevens of echte inloggegevens in
   een testomgeving. Je krijgt een testaccount met synthetische data.
 * Wat we met je feedback doen, lees je in [`docs/research/test-group-plan.md`](docs/research/test-group-plan.md).
+* Vragen over jouw gegevens: `[PRIVACY-CONTACT-EMAIL]`.
+
+## Voor deelnemers aan de besloten testgroep
+
+Dit is iets anders dan een onderzoekssessie: de besloten testgroep draait in **productie**,
+met echte gegevens en — na verlening van de vereiste vergunning of een andere rechtsgeldige toestemming van de bevoegde toezichthouder — echte geldstromen
+(besluit 7, [`docs/product/closed-test-group.md`](docs/product/closed-test-group.md)).
+
+* Deelname is **uitsluitend op uitnodiging**; de groep telt maximaal tien deelnemers.
+* Je gebruikt **wel** je echte gegevens en doorloopt de volledige KYC-procedure.
+* Support loopt via **e-mail**, **WhatsApp** of de **ingebouwde feedbackfunctie**. Alles
+  komt in het centrale ticketsysteem; sociale media zijn geen supportkanaal.
+* **WhatsApp is uitsluitend een eerste contactkanaal.** Authenticatie,
+  identiteitsvaststelling, rekeningwijzigingen, gevoelige persoonsgegevens en andere
+  beveiligingsgevoelige verzoeken worden **nooit uitsluitend via WhatsApp** afgehandeld —
+  wij vragen je daarvoor altijd naar de reguliere, ingelogde weg. Deel dus geen
+  identiteitsbewijs, rekeningnummer of code via de chat.
+* Je accepteert vooraf de privacyverklaring en maakt zonder onze schriftelijke toestemming
+  geen screenshots, video's of andere informatie over de besloten test openbaar. Dat geldt
+  alleen voor niet-openbare informatie over de test en doet **geen** afbreuk aan je
+  wettelijke rechten.
+* Je kunt op eigen verzoek stoppen met deelname.
 * Vragen over jouw gegevens: `[PRIVACY-CONTACT-EMAIL]`.
 
 ## Reactietijden (streefwaarden)

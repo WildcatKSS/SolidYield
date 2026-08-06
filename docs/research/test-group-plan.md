@@ -11,6 +11,22 @@ De testgroep is geen eenmalige toets aan het einde, maar een **vast onderdeel va
 sprintcyclus**. Zonder contact met echte gebruikers bouwen we op aannames — bij een
 financiële dienst is dat een risico voor de gebruiker, niet alleen voor het project.
 
+> [!IMPORTANT]
+> **Dit document gaat over onderzoekssessies, niet over de besloten testgroep uit
+> besluit 7.** Twee verschillende activiteiten dragen dezelfde naam:
+>
+> | | **Onderzoekssessies** (dit document) | **Besloten testgroep** ([`../product/closed-test-group.md`](../product/closed-test-group.md)) |
+> |---|---|---|
+> | Wat | interviews, prototypetests, usabilitytests | eerste gecontroleerde **productie**-uitrol |
+> | Omgeving | testomgeving | productieomgeving |
+> | Data | **uitsluitend synthetisch** | **echte persoonsgegevens**, echte KYC |
+> | Geldstromen | geen | echt, ná verlening van de vereiste vergunning of een andere rechtsgeldige toestemming van de bevoegde toezichthouder |
+> | Deelnemers | representatieve spreiding, zie §1 | maximaal tien uitgenodigde bekenden |
+> | Start | doorlopend vanaf sprint 1 | pas na de Go/No-Go uit besluit 7 |
+>
+> De randvoorwaarden in §5 — waaronder **"geen echte gegevens"** — gelden onverkort voor de
+> onderzoekssessies in dit document. Besluit 7 verandert daar niets aan.
+
 ## 0. Vier soorten risico — en dus vier soorten onderzoek
 
 De testgroep beantwoordt niet elke vraag. Bepaal eerst **welk risico** je toetst:
@@ -33,7 +49,7 @@ Sjabloon per experiment: [`experiment-template.md`](experiment-template.md).
 
 | Onderwerp | Invulling | Status |
 |---|---|---|
-| Omschrijving | `[TESTGROEP]` | te bepalen |
+| Omschrijving | deelnemers uit de doelgroep voor **onderzoekssessies met synthetische data** — niet dezelfde groep als de besloten testgroep uit besluit 7 | vastgesteld |
 | Omvang | `[8–12]` deelnemers (aanname) | te bevestigen |
 | Per usabilityronde | richtlijn: ± 5 deelnemers **per relevant gebruikerssegment**, in meerdere iteraties | richtlijn |
 | Spreiding | leeftijd, digitale vaardigheid, financiële situatie, taalniveau, toegankelijkheidsbehoeften | te bepalen |
@@ -154,7 +170,10 @@ Per stap:
 
 1. **Geen echte gegevens.** Deelnemers krijgen een testaccount met synthetische data.
    Nooit echte bankgegevens, betaalgegevens, BSN-achtige identificatoren of echte
-   inloggegevens.
+   inloggegevens. *Dit geldt voor de onderzoekssessies in dit document. De besloten
+   testgroep uit besluit 7 draait in **productie** met echte gegevens en valt onder een
+   eigen regime — zie [`../product/closed-test-group.md`](../product/closed-test-group.md).
+   De twee mogen nooit door elkaar lopen: er komen geen echte gegevens in de testomgeving.*
 2. **Toestemming vooraf**, schriftelijk, per sessie —
    [`consent-and-privacy-check.md`](consent-and-privacy-check.md).
 3. **Geanonimiseerde vastlegging.** Deelnemers heten P1, P2, …; namen en contactgegevens
